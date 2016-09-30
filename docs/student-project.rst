@@ -19,10 +19,10 @@ The goal of this project will be to build a new GUI interface for the PRAGMA Clo
 When the users navigate to the new GUI, they will see a map view (similar to the one that you 
 created during during the student hackathon). From this interface, they will
 be able to reserve, create and manage virtual clusters.  The features of this new GUI interface
-are ::
+are:
 
-  * inuitive and user friendly 
-  * modular and extensible  
++ inuitive and user friendly 
++ modular and extensible  
   
 We envision this interface being used to display other types of resources for other projects (e.g., sensor sites).
 
