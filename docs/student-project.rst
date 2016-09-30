@@ -6,14 +6,14 @@ Student Project Ideas
 
 The PRAGMA Cloud scheduler is a lightweight scheduling solution which is designed 
 to provide automated reservation and sharing of resources to PRAGMA community members. 
-It currently  enables users to create singe virtual clusters at individual PRAGMA sites 
-with a future developemnt to create single virtual clusters that span multiple sites.
-The software base for the Cloud Sheduler is an existing scheduling solutions for a room reservation 
-called `Booked`_.  It had a lot of useable features and was extensible with the custom fields.  
+It currently  enables users to create single virtual clusters at individual PRAGMA sites 
+with a future development to create single virtual clusters that span multiple sites.
+The software base for the Cloud Sheduler is an existing scheduling solution for managing room reservations 
+called `Booked`_.  It had a lot of useable features and was extensible with custom fields.  
 However, when more involved changes to the code were needed, we found the code
-was overly complex and even the small changes required a lot of code rewrite.
-In addition, while the Booked GUI was the cleanest comapre to all other tools we looked at, 
-it is not very intuitive or extensible for the purposes  of scheudlgin cloud resources. 
+was overly complex and even small changes required a lot of code rewrite.
+In addition, while the Booked GUI was the cleanest compared to all other tools we looked at, 
+it is not very intuitive or extensible for the purposes  of scheduling cloud resources. 
 
 The goal of this project will be to build a new GUI interface for the PRAGMA Cloud scheduler. 
 When the users navigate to the new GUI, they will see a map view (similar to the one that you 
@@ -46,8 +46,8 @@ Create virtual cluster reservation
      that there are 64 nodes available now. The user clicks on a "Reserve now" button and 
      gets a form that allows to select 32 cores, 64 GB of memory, and the BioLinux virtual cluster image.  
      The user hits the "Submit" button and the status (window popup or a portion of the original screen) 
-     indicates that virtual cluster is booting. The status s updated (every 1-2 minutes) until the virtual 
-     cluster is booted and is available for the user to login. At any point the user can close the status 
+     indicates that virtual cluster is booting. The status is updated (every 1-2 minutes) until the virtual 
+     cluster is booted and is available for the user to login. At any point, the user can close the status 
      window, logout, and then login back and should be able to view the reservation and their status.
 
    + *Example 2:* Same as above except that when the user clicks on the AIST site, there are 
