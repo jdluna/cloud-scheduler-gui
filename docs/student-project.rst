@@ -33,9 +33,9 @@ available cloud resourcs on the map.
 Create virtual cluster reservation
 -----------------------------------
 
-#. Single cluster reservation on a single site
+#. **Single cluster reservation on a single site**
 
-   + Example 1: The user wants to create a single 32-core BioLinux virtual cluster on a particular site.  
+   + *Example 1:* The user wants to create a single 32-core BioLinux virtual cluster on a particular site.  
      They click on the icon for the AIST site in Japan and see 
      that there are 64 nodes available now. They click on a "Reserve now" button and get a form that allows
      them to select 32 cores, 64 GB of memory, and the BioLinux virtual cluster image.  The user hits the 
@@ -44,15 +44,15 @@ Create virtual cluster reservation
      At any point the user can close the status window, logout, and then log back in and should be able to
      view their reservations and view the status.
 
-   + Example 2: Same as above except that when the user clicks on the AIST site, there are 
+   + *Example 2:* Same as above except that when the user clicks on the AIST site, there are 
      no cores currently available.  The GUI displays that there will be 8 cores will be available 
-	 tomorrow starting at 8:00AM and asks if the user needs more cores than 8.  The user fills in 
-	 a text box with 32 cores clicks on a button.  The GUI returns that 32 cores will be avaible 
-	 in 2 days or the user can go to the UCSD resource and reserve 32 cores tomorrow at 7:00AM.
+     tomorrow starting at 8:00AM and asks if the user needs more cores than 8.  The user fills in 
+     a text box with 32 cores clicks on a button.  The GUI returns that 32 cores will be avaible 
+     in 2 days or the user can go to the UCSD resource and reserve 32 cores tomorrow at 7:00AM.
 
-#. Single virtual cluster spanning multiple sites
+#. **Single virtual cluster spanning multiple sites**
 
-   + Example  3: The user wants to create a multi-site BioLinux virtual cluster on two sites.  As in (1), 
+   + *Example 3:* The user wants to create a multi-site BioLinux virtual cluster on two sites.  As in (1), 
      the user clicks on the AIST icon and reserves 32-cores.  Before hit the submit button, they click on the 
      UCSD resource see that there are 128-cores currrently available and use the same process to select
      32-cores, 64 GB of memory, and the BioLinux virtual cluster image.  They also click an PRAGMA-ENT checkbox
@@ -60,11 +60,11 @@ Create virtual cluster reservation
      submit button and can view the status of the virtual cluster as it boots at both sites.
 
 
-#. Multiple clusters or servers on multiple sites
+#. **Multiple clusters or servers on multiple sites**
 
    The user can specify sites on which to run mutiple virtual images. 
 
-#. Reservation options 
+#. **Reservation options**
 
    #. Have a flexible filter for the options and the ability to relax them.
    #. Have the ability to find an reservation (time, sites) with respect to 
