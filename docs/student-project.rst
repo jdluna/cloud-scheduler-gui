@@ -29,7 +29,7 @@ The user click on a Login button and successfully authenticates themselves to th
 
 
 #. The user wants to create a single 32-core BioLinux virtual cluster on a particular site.  
-They click on the icon for the AIST site in Japan (e.g., AIST in Japan) and see 
+They click on the icon for the AIST site in Japan and see 
 that there are 64 nodes available now. They click on a "Reserve now" button and get a form that allows
 them to select 32 cores, 64 GB of memory, and the BioLinux virtual cluster image.  The user hits the 
 submit button and the a status window pops up indicating that virtual cluster is being booted and 
@@ -37,11 +37,21 @@ updates itself every minute until the virtual cluster is booted and available fo
 At any point the user can close the status window, logout, and then log back in and should be able to
 view their reservations and view the status.
 
-#. some text
+#.  Same as (2) above except that when the user clicks on the AIST site, there are no cores currently available.
+The GUI displays that there will be 8 cores will be available tomorrow starting at 8:00AM and 
+asks if the user needs more cores than 8.  The user fills in a text box with 32 cores clicks on a button.  The 
+GUI returns that 32 cores will be avaible in 2 days or the user can go to the UCSD resource and reserve 32 cores tomorrow at 7:00AM.
 
-	reserve a single virtual cluster on a single site
-	single virtual cluser spannibg multiple sites
-	multiple clusters or servers on multiple sites
+#. The user wants to create a multi-site BioLinux virtual cluster on two sites.  As in (1), 
+they click on the AIST icon and reserve 32-cores.  Before they hit the submit button, they click on the 
+UCSD resource see that there are 128-cores currrently available and use the same process to select
+32-cores, 64 GB of memory, and the BioLinux virtual cluster image.  They also click an PRAGMA-ENT checkbox
+indicating they want the two clusters to be on the same PRAGMA-ENT private network.  Then they hit the 
+submit button and can view the status of the virtual cluster as it boots at both sites.
+
+
+
+multiple clusters or servers on multiple sites
 	can specify options for a reservation such as:
 		number of cpus,
 		memory, 
