@@ -20,10 +20,25 @@ virtual clusters plus view and manage their virtual clusters.  The goals of the 
 are that it be more inuitive and user friendly and also modular and extensible.  We could also 
 envision this interface being used to display other types of resources for other projects (e.g., sensor sites).
 
-Ussage patterns or interactions:
+Below are some usage patterns that we would like the new GUI to support:
 
-The interface should be used for answering questions similar to the following:
-1. Make a reservation for the resources
+Create virtual cluster reservations:
+--------------------------------
+A user comes to the new GUI interface and sees all of the available cloud resourcs on the map. 
+The user click on a Login button and successfully authenticates themselves to the GUI interface.
+
+
+#. The user wants to create a single 32-core BioLinux virtual cluster on a particular site.  
+They click on the icon for the AIST site in Japan (e.g., AIST in Japan) and see 
+that there are 64 nodes available now. They click on a "Reserve now" button and get a form that allows
+them to select 32 cores, 64 GB of memory, and the BioLinux virtual cluster image.  The user hits the 
+submit button and the a status window pops up indicating that virtual cluster is being booted and 
+updates itself every minute until the virtual cluster is booted and available for the user to login.
+At any point the user can close the status window, logout, and then log back in and should be able to
+view their reservations and view the status.
+
+#. some text
+
 	reserve a single virtual cluster on a single site
 	single virtual cluser spannibg multiple sites
 	multiple clusters or servers on multiple sites
