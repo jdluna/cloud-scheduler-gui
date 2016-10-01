@@ -122,12 +122,12 @@ A user without administrative priviledges should be able to see only its own res
 
   + **booting** during the booting stage when the reservation was just made,
     give updates about the booting status. May be downloading image, updating
-	image, start image boot, start compute nodes, etc.  A completion of each
-	consequitive stage fills in status bar (whatever representation it might
-	be) till all si done.
+    image, start image boot, start compute nodes, etc.  A completion of each
+    consequitive stage fills in status bar (whatever representation it might
+    be) till all si done.
   * **available**  during this stage a user who reequested a virtual cluster can
     login and use the cluster. The availability should also show remaiining
-	cluster reservation  time (days, or at the "end of life"  hours).
+    cluster reservation  time (days, or at the "end of life"  hours).
   * **down**  suring this stage thevirtual cluster is shutdown either because
     the reservation has expired or because the site had to shut  down (rare but possible). 
 
