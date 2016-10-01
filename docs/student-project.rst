@@ -90,17 +90,60 @@ Create virtual cluster reservation
 View existing reservations
 ---------------------------
 
-+ by site (admin interface)
-+ by user (user interface)
-+ map and list of reservations
-+ status of each reservation 
-+ time remaining for a reservation
+A user with administrative priviledges should be able to see all users' reservations.
+A user without administrative priviledges should be able to see only its own reservations.
+
++ **Global view** 
+
+  All reservations can be shown as symbols on the map indicating sites
+  involded  and listed (by name or reservation ID) in the sidebar or a popup window. 
+  From  the "Global View" there shoudl be an easy way to get to:
+  + Sie View
+  * User View
+  * Status View
+
+
++ **Site View**  (admin interface)
+
+  A click on a site symbol on the global view map will show all the existing reservations
+  for the site (can be a list or a popup window). If a user has admin priviledges, 
+  reservatons for all users will be shown, otherwise only user's own reservationa will be shown.
+
++ **User View** 
+
+  All reservations for a particular user are shown. For an admin user, reservations for any
+  user  can be shown. Can see details such as cluster name and link to a status view. 
+ 
++ **Status View** 
+
+  This view should provide details about the reservation status. 
+  Each stage can be represented by a differnt color (as on the dial) or in some
+  other way like a status bar.  
+
+  + **booting** during the booting stage when the reservation was just made,
+    give updates about the booting status. May be downloading image, updating
+	image, start image boot, start compute nodes, etc.  A completion of each
+	consequitive stage fills in status bar (whatever representation it might
+	be) till all si done.
+  * **available**  during this stage a user who reequested a virtual cluster can
+    login and use the cluster. The availability should also show remaiining
+	cluster reservation  time (days, or at the "end of life"  hours).
+  * **down**  suring this stage thevirtual cluster is shutdown either because
+    the reservation has expired or because the site had to shut  down (rare but possible). 
+
 
 Admin interface (low priority)
 ----------------------------------
 
 + manage users, groups, access control
+
+  + Add new users and groups, 
+  + Change user or group access control (give or
+    delete admin privileges form the users and groups).
+
 + manage sites, filters, options
  
+  + Add a new site 
+  + Update filters (for example CPU filter range from 2-32 to 2-128)
 
 .. _Booked: http://www.bookedscheduler.com
