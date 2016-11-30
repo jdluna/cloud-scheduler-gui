@@ -44,6 +44,8 @@ updates in place.
 
    #. /var/www/html/cloud-scheduler/testbed-map
 
+      Can be viewed as http://FQDN/cloud-scheduler/testbed-map
+
      
 MySQL database
 ------------------
