@@ -41,6 +41,9 @@ class Database:
     def execute(self,sql):
         return self.__cur.execute(sql)
         
+    def commit(self):
+        return self.__conn.commit()
+        
     def fetchone(self):
         return self.__cur.fetchone()
         
