@@ -1,4 +1,4 @@
-#!/opt/python/bin/python
+#!/Python27/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 09 21:52:22 2017
@@ -37,22 +37,32 @@ for s in sites:
     jsonStr += '"site_hostname" : "'+str(s.getSiteHostname())+'",'
     jsonStr += '"latitude" : "'+str(s.getLatitude())+'",'
     jsonStr += '"longitude" : "'+str(s.getLongitude())+'",'
-    
+
+    #get site's image type
     jsonStr += '"image_type" : ['
     for img in s.getImageType():
         jsonStr += '{"name" : "'+str(img)+'"},'
-    jsonStr = jsonStr[:-1]
+        
+    if len(s.getImageType()) != 0:
+        jsonStr = jsonStr[:-1]        
     jsonStr += '],'
     
+    
+    #get site's connection type
     jsonStr += '"connection_type" : ['
     for con in s.getConnectionType():
         jsonStr += '{"name" : "'+str(con)+'"},'
     
-    jsonStr = jsonStr[:-1]
+    if len(s.getConnectionType()) != 0:
+        jsonStr = jsonStr[:-1]
     jsonStr += '],'
     
+    
+    #get site's resources    
     for r in s.getResources():
-        jsonStr += '"total_'+str(r.getType())+'" : "'+str(r.getTotal())+'",'
+        jsonStr += '"'+ str(r.getType()) + '" : {'
+        jsonStr += '"total" : "'+str(r.getTotal())+'",'
+        jsonStr += '"available" : "'+str(r.getAvailableAmount())+'"},'
         
         
     jsonStr = jsonStr[:-1]

@@ -1,4 +1,4 @@
-#!/opt/python/bin/python
+#!/Python27/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 09 01:52:36 2017
@@ -12,6 +12,7 @@ cgitb.enable()
 
 
 from Database import Database
+from Resource import CPU, Memory
 
 
 class Site:
@@ -29,13 +30,11 @@ class Site:
     __site_hostname = None
     __latitude = None
     __longitude = None
-    __image_type_id = None
-    __connection_id = None
     __image_types = []
     __connection_types = []
     __resources = []
     
-    def __init__(self, site_id, name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path,temp_dir, username, deployment_type, site_hostname, latitude, longitude, image_type_id, connection_id):
+    def __init__(self, site_id, name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path,temp_dir, username, deployment_type, site_hostname, latitude, longitude):
         self.__site_id = site_id
         self.__name = name
         self.__description = description
@@ -50,11 +49,11 @@ class Site:
         self.__site_hostname = site_hostname
         self.__latitude = latitude
         self.__longitude = longitude
-        self.__image_type_id = image_type_id
-        self.__connection_id = connection_id
         self.__image_types = []
         self.__connection_types = []
         self.__resources = []
+        self.__setConnectionType()
+        self.__setImageType()
             
         
     def getSiteId(self):
@@ -102,52 +101,42 @@ class Site:
     def getImageTypeId(self):
         return self.__image_type_id   
 
-    def getImageType(self):
-        imgBinary =  "{0:b}".format(int(self.__image_type_id))
-        imgBinaryReverse = imgBinary[::-1]
+    def __setImageType(self):
         
-        i=1
         db = Database()
-        
         if db.connect() :
-        
-            for c in imgBinaryReverse:
-                if int(c) != 0:
-                    sql = "SELECT `name` FROM `image_type` WHERE `id` = "+str(i)+";"
-                    if db.execute(sql) :
-                        imageType = db.fetchone()[0]
-                        if imageType!=None:
-                            self.__image_types.append(imageType)
-                    
-                i=i+1
+            sql = "SELECT `image_type` FROM `test_image_type_name` WHERE `site_id` = '"+str(self.__site_id)+"';"
             
-        db.close()
-        
+            if db.execute(sql) :
+                data = db.fetchall()
+                
+                for d in data:
+                    self.__image_types.append(d[0])
+                       
+            db.close()
+    
+    def getImageType(self):
         return self.__image_types
         
         
     def getConnectionId(self):
         return self.__connection_id  
         
-    def getConnectionType(self):        
-        conBinary = "{0:b}".format(int(self.__connection_id))
-        conBinaryReverse = conBinary[::-1]
-        
-        i=1
+    def __setConnectionType(self):        
         db = Database()
         if db.connect() :
-        
-            for c in conBinaryReverse:
-                if int(c) != 0:
-                    sql = "SELECT `name` FROM `connection_type` WHERE `id` = "+str(i)+";"
-                    if db.execute(sql):
-                        connType = db.fetchone()[0]
-                        if connType!=None:
-                            self.__connection_types.append(connType)
-                    
-                i=i+1
-        
-        db.close()
+            sql = "SELECT `connection_type` FROM `test_connection_type_name` WHERE `site_id` = '"+str(self.__site_id)+"';"
+            
+            if db.execute(sql) :
+                data = db.fetchall()
+                
+                for d in data:
+                    self.__connection_types.append(d[0])
+                       
+            db.close()
+
+
+    def getConnectionType(self):        
         return self.__connection_types
         
         

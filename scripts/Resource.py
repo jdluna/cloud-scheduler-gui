@@ -1,4 +1,4 @@
-#!/opt/python/bin/python
+#!/Python27/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 09 16:44:00 2017
@@ -36,20 +36,26 @@ class Resource:
 
 class CPU(Resource,object):
     
-    def __init__(self):
+    def __init__(self,total=None,availAmount=None):
         super(CPU,self).setType("CPU")
+        super(CPU,self).setTotal(total)
         
     def getAvailableAmount(self):
-        #calculate and return
+        #calculate available amount
+        self.__availableAmount = int(self.getTotal())-10
+    
         return self.__availableAmount  
 
 
 
 class Memory(Resource,object):
 
-    def __init__(self):
+    def __init__(self,total=None,availAmount=None):
         super(Memory,self).setType("memory")
+        super(Memory,self).setTotal(total)
 
     def getAvailableAmount(self):
-        #calculate and return
+        #calculate available amount
+        self.__availableAmount = int(self.getTotal())-10
+    
         return self.__availableAmount  
