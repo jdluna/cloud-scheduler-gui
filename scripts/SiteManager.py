@@ -52,16 +52,19 @@ class SiteManager:
             res = s.getResources()
             status = False
             
+            
             #check CPU
-            if int(res[0].getAvailableAmount()) >= int(cpu):
+            if int(res[0].getAvailableAmount(begin,end)) >= int(cpu):
                 status = True
                 
+                
             #check memory
-            if status != False and int(res[1].getAvailableAmount()) >= int(memory):
+            if status != False and int(res[1].getAvailableAmount(begin,end)) >= int(memory):
                 status = True
             else:
                 status = False
                 
+
             #check connection type
             if status != False and (connectionType == None or connectionType in s.getConnectionType()) :
                 status = True

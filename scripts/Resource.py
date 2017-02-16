@@ -9,6 +9,8 @@ Created on Thu Feb 09 16:44:00 2017
 import cgitb
 cgitb.enable()
 
+from datetime import datetime
+
 
 class Resource:
     __total = None
@@ -40,7 +42,7 @@ class CPU(Resource,object):
         super(CPU,self).setType("CPU")
         super(CPU,self).setTotal(total)
         
-    def getAvailableAmount(self):
+    def getAvailableAmount(self,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
         #calculate available amount
         self.__availableAmount = int(self.getTotal())-10
     
@@ -54,7 +56,7 @@ class Memory(Resource,object):
         super(Memory,self).setType("memory")
         super(Memory,self).setTotal(total)
 
-    def getAvailableAmount(self):
+    def getAvailableAmount(self,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
         #calculate available amount
         self.__availableAmount = int(self.getTotal())-10
     

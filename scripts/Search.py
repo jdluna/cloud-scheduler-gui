@@ -14,9 +14,9 @@ print
 
 
 ###variable from front end###
-CPU = 30
+CPU = 0
 MEMORY = 0
-CONNECTION_TYPE = 'ENT'
+CONNECTION_TYPE = None
 IMAGE_TYPE = 'Any'
 #############################
 
