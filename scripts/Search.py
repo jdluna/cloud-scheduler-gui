@@ -14,17 +14,18 @@ print
 
 
 ###variable from front end###
-CPU = 50
-MEMORY = 50
+CPU = 0
+MEMORY = 0
 CONNECTION_TYPE = None
 IMAGE_TYPE = 'Any'
+BEGIN = '2017-02-19 23:00:00'
 #############################
 
 
 from SiteManager import SiteManager
 
 siteManager = SiteManager()
-sites = siteManager.getSites(cpu=CPU,memory=MEMORY,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE)
+sites = siteManager.getSites(cpu=CPU,memory=MEMORY,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN)
 
 
 jsonStr = '{ "amount" : "'+str(len(sites))+'"'

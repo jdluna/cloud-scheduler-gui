@@ -33,8 +33,9 @@ class SiteManager:
             for d in data:
                 site = Site(d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],d[12],d[13])
                 
-                site.addResource(CPU(d[14]))
-                site.addResource(Memory(d[15]))
+                site.addResource(CPU(siteId=d[0], total=d[14]))
+                site.addResource(Memory(siteId=d[0], total=d[15]))
+                
                                 
                 self.__sites.append(site)
                 
@@ -42,7 +43,7 @@ class SiteManager:
         else:
             return None
 
-    def getSites(self,cpu=0,memory=0,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=None,allPeriod=True,days=None,hours=None,connectionType=None, imageType='Any'):
+    def getSites(self,cpu=0,memory=0,begin=None,end=None,allPeriod=True,days=None,hours=None,connectionType=None, imageType='Any'):
         
         self.__sites = self.getAllSites()
         result = []
@@ -52,14 +53,15 @@ class SiteManager:
             res = s.getResources()
             status = False
             
-            
             #check CPU
-            if int(res[0].getAvailableAmount(begin,end)) >= int(cpu):
+            res[0].setAvailableAmount(begin,end)
+            if int(res[0].getAvailableAmount()) >= int(cpu):
                 status = True
                 
                 
             #check memory
-            if status != False and int(res[1].getAvailableAmount(begin,end)) >= int(memory):
+            res[1].setAvailableAmount(begin,end)
+            if status != False and int(res[1].getAvailableAmount()) >= int(memory):
                 status = True
             else:
                 status = False

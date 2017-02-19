@@ -140,6 +140,7 @@ class Site:
         
         
     def addResource(self,res):
+        res.setAvailableAmount()
         self.__resources.append(res)
         
         
