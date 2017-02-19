@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2017 at 09:53 AM
+-- Generation Time: Feb 19, 2017 at 10:03 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -156,16 +156,12 @@ INSERT INTO `image_type` (`site_id`, `image_type`) VALUES
 CREATE TABLE `reservation` (
   `reservation_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `site_id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(16) DEFAULT NULL,
   `description` varchar(64) DEFAULT NULL,
   `start` datetime NOT NULL,
   `end` datetime NOT NULL,
-  `cpu` int(11) NOT NULL,
-  `memory` int(11) NOT NULL,
   `reference_number` varchar(32) NOT NULL,
-  `image_type` varchar(16) NOT NULL,
-  `status` varchar(8) NOT NULL
+  `image_type` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32;
 
 -- --------------------------------------------------------
@@ -253,6 +249,20 @@ INSERT INTO `site` (`site_id`, `name`, `description`, `contact`, `location`, `pr
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `site_reserved`
+--
+
+CREATE TABLE `site_reserved` (
+  `reservation_id` bigint(20) UNSIGNED NOT NULL,
+  `site_id` bigint(20) UNSIGNED NOT NULL,
+  `cpu` int(11) NOT NULL,
+  `memory` int(11) NOT NULL,
+  `status` varchar(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -303,8 +313,7 @@ ALTER TABLE `reservation`
   ADD PRIMARY KEY (`reservation_id`),
   ADD UNIQUE KEY `reference_number` (`reference_number`),
   ADD UNIQUE KEY `reservation_id` (`reservation_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `site_id` (`site_id`);
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `schedule`
@@ -329,6 +338,14 @@ ALTER TABLE `site`
   ADD UNIQUE KEY `site_id` (`site_id`);
 
 --
+-- Indexes for table `site_reserved`
+--
+ALTER TABLE `site_reserved`
+  ADD PRIMARY KEY (`reservation_id`),
+  ADD UNIQUE KEY `reservation_id` (`reservation_id`),
+  ADD KEY `site_id` (`site_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -350,6 +367,11 @@ ALTER TABLE `reservation`
 --
 ALTER TABLE `site`
   MODIFY `site_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT for table `site_reserved`
+--
+ALTER TABLE `site_reserved`
+  MODIFY `reservation_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -375,8 +397,7 @@ ALTER TABLE `image_type`
 -- Constraints for table `reservation`
 --
 ALTER TABLE `reservation`
-  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`site_id`) REFERENCES `site` (`site_id`);
+  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
 
 --
 -- Constraints for table `schedule`
@@ -389,6 +410,13 @@ ALTER TABLE `schedule`
 --
 ALTER TABLE `session`
   ADD CONSTRAINT `session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Constraints for table `site_reserved`
+--
+ALTER TABLE `site_reserved`
+  ADD CONSTRAINT `site_reserved_ibfk_1` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`),
+  ADD CONSTRAINT `site_reserved_ibfk_2` FOREIGN KEY (`site_id`) REFERENCES `site` (`site_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
