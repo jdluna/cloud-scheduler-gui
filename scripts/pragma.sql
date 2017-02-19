@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2017 at 10:03 AM
+-- Generation Time: Feb 19, 2017 at 04:37 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `connection_type` (
   `site_id` bigint(20) UNSIGNED NOT NULL,
-  `connection_type` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+  `connection_type` varchar(16) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `connection_type`
@@ -88,8 +88,8 @@ INSERT INTO `connection_type` (`site_id`, `connection_type`) VALUES
 
 CREATE TABLE `image_type` (
   `site_id` bigint(20) UNSIGNED NOT NULL,
-  `image_type` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+  `image_type` varchar(16) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `image_type`
@@ -156,13 +156,13 @@ INSERT INTO `image_type` (`site_id`, `image_type`) VALUES
 CREATE TABLE `reservation` (
   `reservation_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(16) DEFAULT NULL,
-  `description` varchar(64) DEFAULT NULL,
+  `title` varchar(16) CHARACTER SET utf8 DEFAULT NULL,
+  `description` varchar(64) CHARACTER SET utf8 DEFAULT NULL,
   `start` datetime NOT NULL,
   `end` datetime NOT NULL,
-  `reference_number` varchar(32) NOT NULL,
-  `image_type` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+  `reference_number` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `image_type` varchar(16) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -177,7 +177,7 @@ CREATE TABLE `schedule` (
   `end` datetime NOT NULL,
   `cpu` int(11) NOT NULL,
   `memory` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `schedule`
@@ -194,9 +194,9 @@ INSERT INTO `schedule` (`id`, `site_id`, `start`, `end`, `cpu`, `memory`) VALUES
 
 CREATE TABLE `session` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `session_id` varchar(16) NOT NULL,
+  `session_id` varchar(16) CHARACTER SET utf8 NOT NULL,
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `session`
@@ -213,22 +213,22 @@ INSERT INTO `session` (`user_id`, `session_id`, `last_login`) VALUES
 
 CREATE TABLE `site` (
   `site_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(16) NOT NULL,
-  `description` varchar(64) NOT NULL,
-  `contact` varchar(32) NOT NULL,
-  `location` varchar(64) NOT NULL,
-  `pragma_boot_path` varchar(64) NOT NULL,
+  `name` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `description` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `contact` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `location` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `pragma_boot_path` varchar(64) CHARACTER SET utf8 NOT NULL,
   `pragma_boot_version` int(11) NOT NULL,
-  `python_path` varchar(64) NOT NULL,
-  `temp_dir` varchar(64) NOT NULL,
-  `username` varchar(16) NOT NULL,
-  `deployment_type` varchar(16) NOT NULL,
-  `site_hostname` varchar(32) NOT NULL,
+  `python_path` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `temp_dir` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `username` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `deployment_type` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `site_hostname` varchar(32) CHARACTER SET utf8 NOT NULL,
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `total_cpu` int(11) NOT NULL,
   `total_memory` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `site`
@@ -257,8 +257,8 @@ CREATE TABLE `site_reserved` (
   `site_id` bigint(20) UNSIGNED NOT NULL,
   `cpu` int(11) NOT NULL,
   `memory` int(11) NOT NULL,
-  `status` varchar(8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+  `status` varchar(8) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -268,18 +268,18 @@ CREATE TABLE `site_reserved` (
 
 CREATE TABLE `user` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `username` varchar(16) NOT NULL,
-  `password` varchar(128) NOT NULL,
-  `firstname` varchar(32) NOT NULL,
-  `lastname` varchar(32) NOT NULL,
-  `email` varchar(64) NOT NULL,
-  `phone` varchar(24) DEFAULT NULL,
-  `status` varchar(5) NOT NULL,
-  `organization` varchar(16) NOT NULL,
-  `position` varchar(16) NOT NULL,
-  `language` varchar(3) NOT NULL,
-  `timezone` varchar(16) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf32;
+  `username` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `password` varchar(128) CHARACTER SET utf8 NOT NULL,
+  `firstname` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `lastname` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `email` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `phone` varchar(24) CHARACTER SET utf8 DEFAULT NULL,
+  `status` varchar(5) CHARACTER SET utf8 NOT NULL,
+  `organization` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `position` varchar(16) CHARACTER SET utf8 NOT NULL,
+  `language` varchar(3) CHARACTER SET utf8 NOT NULL,
+  `timezone` varchar(16) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
