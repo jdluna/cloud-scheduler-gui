@@ -12,7 +12,6 @@ cgitb.enable()
 
 
 from Database import Database
-from Resource import CPU, Memory
 
 
 class Site:
@@ -105,7 +104,7 @@ class Site:
         
         db = Database()
         if db.connect() :
-            sql = "SELECT `image_type` FROM `test_image_type_name` WHERE `site_id` = '"+str(self.__site_id)+"';"
+            sql = "SELECT `image_type` FROM `image_type` WHERE `site_id` = '"+str(self.__site_id)+"';"
             
             if db.execute(sql) :
                 data = db.fetchall()
@@ -125,7 +124,7 @@ class Site:
     def __setConnectionType(self):        
         db = Database()
         if db.connect() :
-            sql = "SELECT `connection_type` FROM `test_connection_type_name` WHERE `site_id` = '"+str(self.__site_id)+"';"
+            sql = "SELECT `connection_type` FROM `connection_type` WHERE `site_id` = '"+str(self.__site_id)+"';"
             
             if db.execute(sql) :
                 data = db.fetchall()

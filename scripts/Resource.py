@@ -9,8 +9,9 @@ Created on Thu Feb 09 16:44:00 2017
 import cgitb
 cgitb.enable()
 
-from datetime import datetime
 
+from datetime import datetime
+from Database import Database
 
 class Resource:
     __total = None
@@ -45,6 +46,18 @@ class CPU(Resource,object):
     def getAvailableAmount(self,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
         #calculate available amount
         self.__availableAmount = int(self.getTotal())-10
+        '''db = Database()
+        if db.connect() :
+            sql = "SELECT `image_type` FROM `test_image_type_name` WHERE `site_id` = '"+str(self.__site_id)+"';"
+            
+            if db.execute(sql) :
+                data = db.fetchall()
+                
+                for d in data:
+                    self.__image_types.append(d[0])
+                       
+            db.close()'''
+        
     
         return self.__availableAmount  
 

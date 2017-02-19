@@ -28,7 +28,7 @@ class SiteManager:
 
         db = Database()
         if db.connect():
-            db.execute("SELECT * FROM `test_site`;")
+            db.execute("SELECT * FROM `site`;")
             data = db.getCursor().fetchall()
             for d in data:
                 site = Site(d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],d[12],d[13])
