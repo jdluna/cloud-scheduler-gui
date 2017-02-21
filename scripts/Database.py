@@ -9,6 +9,9 @@ Created on Tue Feb 07 22:26:22 2017
 import cgitb
 cgitb.enable()
 
+import os
+os.environ['PYTHON_EGG_CACHE'] = '/tmp'
+
 import MySQLdb as db
 
 ###### variable for database #######
