@@ -9,7 +9,8 @@ Created on Thu Feb 09 21:52:22 2017
 import cgitb
 cgitb.enable()
 
-print "Content-Type: text/html"     
+print "Content-Type: text/html"   
+print "Access-Control-Allow-Origin: *"  
 print
 
 
