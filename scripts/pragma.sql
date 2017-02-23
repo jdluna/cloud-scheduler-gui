@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2017 at 04:37 PM
+-- Generation Time: Feb 23, 2017 at 06:15 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -97,51 +97,51 @@ CREATE TABLE `image_type` (
 
 INSERT INTO `image_type` (`site_id`, `image_type`) VALUES
 (1, 'a'),
-(1, 'b'),
+(1, 'centOS7'),
 (1, 'c'),
 (1, 'd'),
 (1, 'e'),
-(2, 'b'),
+(2, 'centOS7'),
 (2, 'f'),
 (2, 'g'),
 (2, 'h'),
 (2, 'i'),
-(3, 'b'),
+(3, 'centOS7'),
 (3, 'j'),
 (3, 'k'),
 (3, 'l'),
 (3, 'm'),
-(4, 'b'),
+(4, 'centOS7'),
 (4, 'n'),
 (4, 'o'),
 (4, 'p'),
 (4, 'q'),
-(5, 'b'),
+(5, 'centOS7'),
 (5, 'r'),
 (5, 's'),
 (5, 't'),
 (5, 'u'),
-(6, 'b'),
+(6, 'centOS7'),
 (6, 'v'),
 (6, 'w'),
 (6, 'x'),
 (6, 'y'),
-(7, 'b'),
+(7, 'centOS7'),
 (7, 'z'),
 (7, 'aa'),
 (7, 'bb'),
 (7, 'cc'),
-(8, 'b'),
+(8, 'centOS7'),
 (8, 'dd'),
 (8, 'ee'),
 (8, 'ff'),
 (8, 'gg'),
-(9, 'b'),
+(9, 'centOS7'),
 (9, 'hh'),
 (9, 'ii'),
 (9, 'jj'),
 (9, 'kk'),
-(10, 'b'),
+(10, 'centOS7'),
 (10, 'll'),
 (10, 'mm'),
 (10, 'nn'),
@@ -164,6 +164,14 @@ CREATE TABLE `reservation` (
   `image_type` varchar(16) CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`reservation_id`, `user_id`, `title`, `description`, `start`, `end`, `reference_number`, `image_type`) VALUES
+(3, 1, 'reservation1', 'description..', '2017-02-24 09:00:00', '2017-02-25 02:00:00', 'ABCDEFG', 'centOS7'),
+(4, 1, 'reservation2', 'desc', '2017-02-24 09:00:00', '2017-02-24 13:00:00', 'JHKIJHS', 'centOS7');
+
 -- --------------------------------------------------------
 
 --
@@ -171,7 +179,6 @@ CREATE TABLE `reservation` (
 --
 
 CREATE TABLE `schedule` (
-  `id` int(11) NOT NULL,
   `site_id` bigint(20) UNSIGNED NOT NULL,
   `start` datetime NOT NULL,
   `end` datetime NOT NULL,
@@ -183,8 +190,24 @@ CREATE TABLE `schedule` (
 -- Dumping data for table `schedule`
 --
 
-INSERT INTO `schedule` (`id`, `site_id`, `start`, `end`, `cpu`, `memory`) VALUES
-(21, 2, '2017-02-09 00:00:00', '2017-02-09 01:00:00', 8, 4);
+INSERT INTO `schedule` (`site_id`, `start`, `end`, `cpu`, `memory`) VALUES
+(1, '2017-02-24 09:00:00', '2017-02-24 10:00:00', 10, 6),
+(1, '2017-02-24 10:00:00', '2017-02-24 11:00:00', 10, 6),
+(1, '2017-02-24 11:00:00', '2017-02-24 12:00:00', 10, 6),
+(1, '2017-02-24 12:00:00', '2017-02-24 13:00:00', 10, 6),
+(1, '2017-02-24 13:00:00', '2017-02-24 14:00:00', 8, 4),
+(1, '2017-02-24 14:00:00', '2017-02-24 15:00:00', 8, 4),
+(1, '2017-02-24 15:00:00', '2017-02-24 16:00:00', 8, 4),
+(1, '2017-02-24 16:00:00', '2017-02-24 17:00:00', 8, 4),
+(1, '2017-02-24 17:00:00', '2017-02-24 18:00:00', 8, 4),
+(1, '2017-02-24 18:00:00', '2017-02-24 19:00:00', 8, 4),
+(1, '2017-02-24 19:00:00', '2017-02-24 20:00:00', 8, 4),
+(1, '2017-02-24 20:00:00', '2017-02-24 21:00:00', 8, 4),
+(1, '2017-02-24 21:00:00', '2017-02-24 22:00:00', 8, 4),
+(1, '2017-02-24 22:00:00', '2017-02-24 23:00:00', 8, 4),
+(1, '2017-02-24 23:00:00', '2017-02-25 00:00:00', 8, 4),
+(1, '2017-02-25 00:00:00', '2017-02-25 01:00:00', 8, 4),
+(1, '2017-02-25 01:00:00', '2017-02-25 02:00:00', 8, 4);
 
 -- --------------------------------------------------------
 
@@ -235,16 +258,16 @@ CREATE TABLE `site` (
 --
 
 INSERT INTO `site` (`site_id`, `name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory`) VALUES
-(1, 'NCHC cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 16, 32),
+(1, 'NCHC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 16, 32),
 (2, 'AIST Cloud', 'Cloudstack. Hosting Virtual clusters and virtual machines.', 'jh.haga@aist.go.jp', 'Cloudstack. Hosting Virtual clusters and virtual machines.', '/home/ssmallen/pragma_boot', 2, '-', '/home/ssmallen/pcc', 'ssmallen', 'Rocks KVM', '163.220.54.102', 36.060839, 140.137303, 32, 64),
-(3, 'ABCD cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 128, 32),
-(4, 'A1 cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 64, 64),
-(5, 'TU cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 64, 32),
-(6, 'CU cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 32, 64),
-(7, 'UCSD cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 64, 128),
-(8, 'KU cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 64, 64),
-(9, 'NC cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 32, 32),
-(10, 'HC cloud', 'Rocks. \r\nHosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 16, 16);
+(3, 'ABCD cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 128, 32),
+(4, 'A1 cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 64, 64),
+(5, 'TU cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 64, 32),
+(6, 'CU cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 32, 64),
+(7, 'UCSD cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 64, 128),
+(8, 'KU cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 64, 64),
+(9, 'NC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 32, 32),
+(10, 'HC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 16, 16);
 
 -- --------------------------------------------------------
 
@@ -259,6 +282,14 @@ CREATE TABLE `site_reserved` (
   `memory` int(11) NOT NULL,
   `status` varchar(8) CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `site_reserved`
+--
+
+INSERT INTO `site_reserved` (`reservation_id`, `site_id`, `cpu`, `memory`, `status`) VALUES
+(3, 1, 8, 4, 'running'),
+(4, 1, 2, 2, 'running');
 
 -- --------------------------------------------------------
 
@@ -319,8 +350,8 @@ ALTER TABLE `reservation`
 -- Indexes for table `schedule`
 --
 ALTER TABLE `schedule`
-  ADD UNIQUE KEY `id` (`id`,`site_id`),
-  ADD KEY `site_id` (`site_id`);
+  ADD KEY `site_id` (`site_id`),
+  ADD KEY `start` (`start`);
 
 --
 -- Indexes for table `session`
@@ -361,7 +392,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `reservation_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `site`
 --
@@ -371,7 +402,7 @@ ALTER TABLE `site`
 -- AUTO_INCREMENT for table `site_reserved`
 --
 ALTER TABLE `site_reserved`
-  MODIFY `reservation_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `reservation_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `user`
 --
