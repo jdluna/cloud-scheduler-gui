@@ -60,6 +60,7 @@ class SiteManager:
                 
                 
             #check memory
+
             res[1].setAvailableAmount(begin,end)
             if status != False and int(res[1].getAvailableAmount()) >= int(memory):
                 status = True

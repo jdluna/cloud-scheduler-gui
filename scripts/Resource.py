@@ -14,6 +14,10 @@ from datetime import datetime
 from Database import Database
 import re
 
+MONTH29DAYS = [2]
+MONTH30DAYS = [4,6,9,11]
+MONTH31DAYS = [1,3,5,7,8,10,12]
+
 class Resource:
     __total = None
     __type = None
@@ -42,43 +46,164 @@ class Resource:
     
     def getSiteId(self):
         return self.__siteId  
+    
+    def setAvailableAmount(self,typ=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+        siteId = self.__siteId
+        
+        #calculate available amount of resource
+        db = Database()
+        if db.connect() :
+            sql = "SELECT `total_"+str(typ).lower()+"` FROM `site` WHERE `site_id` = '"+str(siteId)+"';"
+            if db.execute(sql) :
+                total = db.fetchone()[0]
+            
+            
+            #calculate begin id from sum of digit
+            spl = re.split(' |-|:',begin)
+            
+            yBegin = spl[0]
+            mBegin = spl[1]
+            dBegin = spl[2]
+            hhBegin = spl[3]
+            
+            #calculate end id from sum of digit
+            spl2 = re.split(' |-|:',end)
+            
+            yEnd = spl2[0]
+            mEnd = spl2[1]
+            dEnd = spl2[2]
+            hhEnd = spl2[3]
+            
+            
+            maxUsed = 0
+            
+            if begin == end:
+                #get dashboard => get only one hour
+                spl = ["%02d" % int(x) for x in spl]
+                beginStr = str(spl[0])+'-'+str(spl[1])+'-'+str(spl[2])+' '+str(spl[3])+':00:00'
+            
+                sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(beginStr)+"';"
+                print sql2+'</br>'
+                if db.execute(sql2) :
+                    used = db.fetchone()[0]
+                    if used > maxUsed:
+                        maxUsed = used
+                else:
+                    used = 0
+            
+            else:
+                #function 'search' which has specific begin and end datetime
+                for l in range(int(yBegin),int(yEnd)+1):
+                    """ one round = one year """ 
+                    
+                    #first year     -> begin month will use value from user specify (real mBegin)
+                    #               -> end month have to check first: is that the end year? 
+                    #                                               true => use value from user specify
+                    #                                               false => fix value to last month of the year
+                
+                    if l == int(yEnd):
+                        #do while begin and end in same year OR this round is the last year from begin to end
+                        mEnd = spl2[1]
+                    else:
+                        #do while this is not last year from begin to end
+                        mEnd = str(12)
+                
+                    for k in range(int(mBegin),int(mEnd)+1):
+                        """ one round = one month """ 
+                        
+                        #first month    -> begin day will use value from user specify (real dBegin)
+                        #               -> end day have to check first: is that the end month? 
+                        #                                               true => use value from user specify
+                        #                                               false => fix value to last day of the month
+                        
+                        
+                        if k == int(mEnd):
+                            #do while begin and end in same month OR this round is the last month from begin to end
+                            dEnd = spl2[2]
+                        else:
+                            #do while this is not last month from begin to end
+                            if k in MONTH29DAYS:
+                                #February
+                                dEnd = str(29)
+                            elif k in MONTH30DAYS:
+                                dEnd = str(30)
+                            else:
+                                dEnd = str(31)
+                
+                        for j in range(int(dBegin),int(dEnd)+1):
+                            """ one round = one day """ 
+                            
+                            #first day  -> begin hour will use value from user specify
+                            #           -> end hour have to check first:    is that the end day? 
+                            #                                               true => use value from user specify
+                            #                                               false => fix value to 24 (because it will work to 23)
+                            
+                    
+                            if j == int(dEnd):
+                                #do while begin and end in same day OR this round is the last day from begin to end
+                                hhEnd = spl2[3]
+                            else:
+                                #do while this is not last day from begin to end
+                                hhEnd = str(24)
+                            
+                            for i in range(int(hhBegin),int(hhEnd)):
+                                """ one round = one hour """        
+                                
+                                spl = ["%02d" % int(x) for x in spl]
+                                beginStr = str(spl[0])+'-'+str(spl[1])+'-'+str(spl[2])+' '+str(spl[3])+':00:00'
+                            
+                                sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(beginStr)+"';"
+                                print sql2 + '</br>'                                
+                                if db.execute(sql2) :
+                                    used = db.fetchone()[0]
+                                    if used > maxUsed:
+                                        maxUsed = used
+                                else:
+                                    used = 0
+                                    
+                                #update hour to next hour    
+                                spl[3] = str(int(spl[3])+1) 
+                                
+                                
+                            #update day to next day    
+                            spl[2] = str(int(spl[2])+1) 
+                            #update hour to begin of the day
+                            hhBegin = 0
+                            spl[3] = str(hhBegin)
+                            
+                        #update month to next month    
+                        spl[1] = str(int(spl[1])+1) 
+                        #update day to begin of the month
+                        dBegin = 1
+                        spl[2] = str(dBegin)  
+                        
+                    #update year to next year    
+                    spl[0] = str(int(spl[0])+1) 
+                    #update day to begin of the month
+                    mBegin = 1
+                    spl[1] = str(mBegin) 
+                
+        
+        self.__availableAmount = int(total)-int(maxUsed)
+        
+    def getAvailableAmount(self) :
+        return self.__availableAmount  
+        
 
 
 
 class CPU(Resource,object):
     
     def __init__(self,siteId=None,total=None,availAmount=None):
+        
         super(CPU,self).setType("CPU")
         super(CPU,self).setTotal(total)
         super(CPU,self).setSiteId(siteId)
         
+    
     def setAvailableAmount(self,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
-        siteId = super(CPU,self).getSiteId()        
+        self.__availableAmount = super(CPU,self).setAvailableAmount(typ='CPU',begin=begin,end=end)
         
-        #calculate available amount of CPU
-        db = Database()
-        if db.connect() :
-            db.execute("START TRANSACTION;")
-            sql = "SELECT `total_cpu` FROM `site` WHERE `site_id` = '"+str(siteId)+"';"
-            if db.execute(sql) :
-                total = db.fetchone()[0]
-                
-            #calculate id from sum of digit
-            digit = ''.join(re.split(' |-|:',begin))
-            number = sum(int(x) for x in digit if x.isdigit())
-            
-            
-            sql2 = "SELECT `cpu` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `id` = '"+str(number)+"';"
-                        
-            if db.execute(sql2) :
-                used = db.fetchone()[0]
-            else:
-                used = 0
-        
-        self.__availableAmount = int(total)-int(used)
-
-    def getAvailableAmount(self) :
-        return self.__availableAmount  
 
 
 
@@ -90,29 +215,6 @@ class Memory(Resource,object):
         super(Memory,self).setSiteId(siteId)
 
     def setAvailableAmount(self,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
-        #calculate available amount of CPU
-        siteId = super(Memory,self).getSiteId()
-        db = Database()
-        if db.connect() :
-            db.execute("START TRANSACTION;")
-            sql = "SELECT `total_memory` FROM `site` WHERE `site_id` = '"+str(siteId)+"';"
-            if db.execute(sql) :
-                total = db.fetchone()[0]
-                
-            #calculate id from sum of digit
-            digit = ''.join(re.split(' |-|:',begin))
-            number = sum(int(x) for x in digit if x.isdigit())
-            
-            sql2 = "SELECT `memory` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `id` = '"+str(number)+"';"
-                        
-            if db.execute(sql2) :
-                used = db.fetchone()[0]
-            else:
-                used = 0
-            
-            db.close()
+        self.__availableAmount = super(Memory,self).setAvailableAmount(typ='Memory',begin=begin,end=end)
         
-        self.__availableAmount = int(total)-int(used)
-        
-    def getAvailableAmount(self) :
-        return self.__availableAmount  
+    

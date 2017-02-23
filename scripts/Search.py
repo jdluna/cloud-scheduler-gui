@@ -10,22 +10,24 @@ import cgitb
 cgitb.enable()
 
 print "Content-Type: text/html"     
+print "Access-Control-Allow-Origin: *"  
 print
 
 
-###variable from front end###
+###variable from front-end###
 CPU = 0
 MEMORY = 0
 CONNECTION_TYPE = None
 IMAGE_TYPE = 'Any'
-BEGIN = '2017-02-19 23:00:00'
+BEGIN = '2017-02-23 20:00:00'
+END = '2017-02-23 23:00:00'
 #############################
 
 
 from SiteManager import SiteManager
 
 siteManager = SiteManager()
-sites = siteManager.getSites(cpu=CPU,memory=MEMORY,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN)
+sites = siteManager.getSites(cpu=CPU,memory=MEMORY,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END)
 
 
 jsonStr = '{ "amount" : "'+str(len(sites))+'"'
