@@ -1,0 +1,60 @@
+@import '../../sass/_colors.scss';
+@import '../../sass/_fonts.scss';
+
+#map{
+    position: fixed;
+    background-color: $text-color-secondary;
+    height: 100%;
+    width: calc(100% - 210px);
+    .timezone{
+        position: absolute;
+        display: flex;
+        z-index: 2;
+        top: 10px;
+        left: 13px;
+        color: #739AAF;
+        border: 1px solid #739AAF;
+        opacity: 0.7;
+        font-weight: bold;
+        border-radius: 5px;
+        height: 50px;
+        padding: 3px;
+        width: 185px;
+        font-family: $font-primary;
+        .text{
+            padding-left: 5px;
+            .time{
+                margin-top: 10px;
+                font-size: 14px;
+            }
+            .utc{
+                font-size: 9px;
+            }
+        }
+    }
+    .search{
+        display: flex;
+        position: absolute;
+        z-index: 2;
+        top: 10px;
+        right: 10px;
+        background-color: #3D4358;
+        border-radius: 2px;
+        border: 1px solid #242939;
+        .input{
+            padding: 4px;
+            padding-left: 10px;
+            border-radius: 2px;
+            border: none;
+            outline: none;
+            background-color: #3D4358;
+            color: $text-color-secondary;
+            font: $font-primary;
+            width: 110px;
+        }
+    }
+    .display{
+        width: 100%;
+        height: 100%;
+    }
+}
