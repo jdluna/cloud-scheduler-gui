@@ -32,6 +32,8 @@ class Site:
     __image_types = []
     __connection_types = []
     __resources = []
+    __beginAvailable = None
+    __endAvailable = None
     
     def __init__(self, site_id, name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path,temp_dir, username, deployment_type, site_hostname, latitude, longitude):
         self.__site_id = site_id
@@ -53,6 +55,8 @@ class Site:
         self.__resources = []
         self.__setConnectionType()
         self.__setImageType()
+        self.__beginAvailable = None
+        self.__endAvailable = None
             
         
     def getSiteId(self):
@@ -151,5 +155,18 @@ class Site:
         
     def getResources(self):
         return self.__resources 
+
+
+    def setBeginAvailable(self,d):
+        self.__beginAvailable = d   
+        
+    def getBeginAvailable(self):
+        return self.__beginAvailable
+        
+    def setEndAvailable(self,d):
+        self.__endAvailable = d
     
+    def getEndAvailable(self):
+        return self.__endAvailable     
+        
         

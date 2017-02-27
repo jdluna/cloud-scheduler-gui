@@ -17,12 +17,15 @@ print
 
 
 ###variable from front-end###
-CPU_AMT = 33
+CPU_AMT = 10
 MEMORY_AMT = 2
 CONNECTION_TYPE = None
 IMAGE_TYPE = 'Any'
 BEGIN = '2017-02-24 09:00:00'
 END = '2017-02-26 10:00:00'
+ALL_PERIOD = True
+DAYS = 1
+HOURS = 0
 #############################
 
 
@@ -37,7 +40,7 @@ resourcesAmt = [CPU_AMT,MEMORY_AMT]
 
 from SiteManager import SiteManager
 siteManager = SiteManager()
-sites = siteManager.getSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END)
+sites = siteManager.getSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS)
 
 
 jsonStr = '{ "amount" : "'+str(len(sites))+'"'
@@ -84,10 +87,21 @@ for s in sites:
         jsonStr += '"'+ str(r.getType()) + '" : {'
         jsonStr += '"total" : "'+str(r.getTotal())+'",'
         jsonStr += '"available" : "'+str(r.getAvailableAmount())+'"},'
+    
+     
+    if ALL_PERIOD == False:
+        jsonStr += '"time" : {'
+        jsonStr += '"begin" : "'+ str(s.getBeginAvailable())+'",'
+        jsonStr += '"end" : "'+str(s.getEndAvailable())+'"},'
+    else:
+        jsonStr += '"time" : "None",'
+        
         
         
     jsonStr = jsonStr[:-1]
     jsonStr += '},'
+    
+    
     
 if len(sites) !=0:
     jsonStr = jsonStr[:-1]    

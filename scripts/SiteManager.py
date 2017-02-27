@@ -23,7 +23,7 @@ class SiteManager:
     
     def __init__(self):
         self.__sites = []
-    
+        
     def getAllSites(self):
 
         db = Database()
@@ -63,26 +63,37 @@ class SiteManager:
             
         
                 #check resources available
-                for i in range(0,len(res)):
-                    res[i].setAvailableAmount(db,begin,end,allPeriod,days,hours)
-                    if allPeriod:
-                        #all period -> calculate only once
+                if allPeriod:
+                    #all period -> calculate only one time per resource of that site
+                    for i in range(0,len(res)):
+                        res[i].setAvailableAmount(db,begin,end,allPeriod,days,hours)
+                
                         if int(res[i].getAvailableAmount()) >= int(resAmount[i]):
                             resStatus[i] = True
-                            
-                    else:
-                        #not all period -> should calculate until found
-                        tmpBegin = begin
-                        beginToEnd = datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")-datetime.strptime(end, "%Y-%m-%d %H:00:00")
-                        duration = timedelta(hours=hours,days=days)             
-                        while resStatus[i] == False and int(res[i].getAvailableAmount()) < int(resAmount[i]) and beginToEnd>=duration:
-                            tmpBegin = (datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")+timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
+                        
+                else:
+                    #not all period -> should calculate until found
+                    tmpBegin = begin
+                    beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
+                    duration = timedelta(hours=hours,days=days)       
+                    """print beginToEnd
+                    print duration
+                    print beginToEnd>duration
+                    print '</br>' """
+                    
+                    while False in resStatus and beginToEnd>=duration:
+                        
+                        for i in range(0,len(res)):
                             res[i].setAvailableAmount(db,tmpBegin,end,allPeriod,days,hours)
                             if int(res[i].getAvailableAmount()) >= int(resAmount[i]):
                                 resStatus[i] = True
-                    
-                    
-                
+                                s.setBeginAvailable(tmpBegin)
+                                s.setEndAvailable((datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")+timedelta(days=days,hours=hours)).strftime("%Y-%m-%d %H:00:00"))
+                            
+                        tmpBegin = (datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")+timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
+                        beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")                            
+                            
+                            
             
                 #close database connection (end transaction)
                 db.close()
@@ -111,4 +122,5 @@ class SiteManager:
                 
                 
         return result
+        
         
