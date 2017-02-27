@@ -9,25 +9,35 @@ Created on Thu Feb 16 22:17:23 2017
 import cgitb
 cgitb.enable()
 
+
+
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
 print
 
 
 ###variable from front-end###
-CPU = 0
-MEMORY = 0
+CPU_AMT = 33
+MEMORY_AMT = 2
 CONNECTION_TYPE = None
 IMAGE_TYPE = 'Any'
-BEGIN = '2017-02-23 20:00:00'
-END = '2017-02-23 23:00:00'
+BEGIN = '2017-02-24 09:00:00'
+END = '2017-02-26 10:00:00'
 #############################
 
 
-from SiteManager import SiteManager
 
+#prepare criteria about resources
+if CPU_AMT == None:
+    CPU_AMT = 0
+if MEMORY_AMT == None:
+    MEMORY_AMT = 0
+resourcesAmt = [CPU_AMT,MEMORY_AMT]
+
+
+from SiteManager import SiteManager
 siteManager = SiteManager()
-sites = siteManager.getSites(cpu=CPU,memory=MEMORY,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END)
+sites = siteManager.getSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END)
 
 
 jsonStr = '{ "amount" : "'+str(len(sites))+'"'

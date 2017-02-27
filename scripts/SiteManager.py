@@ -14,7 +14,7 @@ from Database import Database
 
 from Site import Site
 from Resource import CPU, Memory
-from datetime import datetime
+from datetime import datetime,timedelta
 
 
 class SiteManager:
@@ -43,7 +43,7 @@ class SiteManager:
         else:
             return None
 
-    def getSites(self,cpu=0,memory=0,begin=None,end=None,allPeriod=True,days=None,hours=None,connectionType=None, imageType='Any'):
+    def getSites(self,resAmount=None,begin=None,end=None,allPeriod=True,days=None,hours=None,connectionType=None, imageType='Any'):
         
         self.__sites = self.getAllSites()
         result = []
@@ -51,37 +51,63 @@ class SiteManager:
         for s in self.__sites:
             
             res = s.getResources()
-            status = False
             
-            #check CPU
-            res[0].setAvailableAmount(begin,end)
-            if int(res[0].getAvailableAmount()) >= int(cpu):
-                status = True
-                
-                
-            #check memory
-
-            res[1].setAvailableAmount(begin,end)
-            if status != False and int(res[1].getAvailableAmount()) >= int(memory):
-                status = True
-            else:
-                status = False
-                
-
-            #check connection type
-            if status != False and (connectionType == None or connectionType in s.getConnectionType()) :
-                status = True
-            else:
-                status = False
-                
-            #check image type
-            if status != False and (imageType == 'Any' or imageType in s.getImageType()) :
-                status = True
-            else:
-                status = False
+            #initial criteria status
+            resStatus = [False] * len(res) #create an array of False value with size = res size.
+            conStatus = False
+            imgStatus = False
             
-            if status:
-                result.append(s)
+            db = Database()
+            if db.connect() :
+                db.execute("START TRANSACTION;")
+            
+        
+                #check resources available
+                for i in range(0,len(res)):
+                    res[i].setAvailableAmount(db,begin,end,allPeriod,days,hours)
+                    if allPeriod:
+                        #all period -> calculate only once
+                        if int(res[i].getAvailableAmount()) >= int(resAmount[i]):
+                            resStatus[i] = True
+                            
+                    else:
+                        #not all period -> should calculate until found
+                        tmpBegin = begin
+                        beginToEnd = datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")-datetime.strptime(end, "%Y-%m-%d %H:00:00")
+                        duration = timedelta(hours=hours,days=days)             
+                        while resStatus[i] == False and int(res[i].getAvailableAmount()) < int(resAmount[i]) and beginToEnd>=duration:
+                            tmpBegin = (datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")+timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
+                            res[i].setAvailableAmount(db,tmpBegin,end,allPeriod,days,hours)
+                            if int(res[i].getAvailableAmount()) >= int(resAmount[i]):
+                                resStatus[i] = True
+                    
+                    
+                
+            
+                #close database connection (end transaction)
+                db.close()
+                    
+    
+                #check connection type
+                if connectionType == None or connectionType in s.getConnectionType() :
+                    conStatus = True
+                else:
+                    conStatus = False
+                    
+                #check image type
+                if imageType == 'Any' or imageType in s.getImageType() :
+                    imgStatus = True
+                else:
+                    imgStatus = False
+                
+                
+                if False in resStatus:
+                    resAllStatus = False
+                else:
+                    resAllStatus = True
+                    
+                if resAllStatus and conStatus and imgStatus:
+                    result.append(s)
                 
                 
         return result

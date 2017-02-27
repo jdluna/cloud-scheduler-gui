@@ -140,7 +140,12 @@ class Site:
         
         
     def addResource(self,res):
-        res.setAvailableAmount()
+        db = Database()
+        if db.connect() :
+            db.execute("START TRANSACTION;")
+            res.setAvailableAmount(db=db)
+            db.close()
+            
         self.__resources.append(res)
         
         
