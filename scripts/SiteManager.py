@@ -33,7 +33,7 @@ class SiteManager:
             db.execute("SELECT * FROM `site`;")
             data = db.getCursor().fetchall()
             for d in data:
-                site = self.__createSite(d)              
+                site = self.createSite(d)              
                 self.__sites.append(site)
                 
             return self.__sites
@@ -176,7 +176,7 @@ class SiteManager:
         if db.connect() and siteId != None:
             db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
             data = db.getCursor().fetchone()
-            site = self.__createSite(data)
+            site = self.createSite(data)
             
             res = site.getResources()
             
@@ -192,7 +192,7 @@ class SiteManager:
         else:
             return None
             
-    def __createSite(self, d):
+    def createSite(self, d):
         site = Site(d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],d[12],d[13])
         
         db = Database()

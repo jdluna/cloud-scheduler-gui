@@ -30,6 +30,7 @@ class Database:
     def connect(self):        
         self.__conn = db.connect(HOST,USER,PWD,DBNAME)
         if self.__conn :
+            self.__conn.autocommit(False)
             self.__cur = self.__conn.cursor()
             return True
         else:
@@ -47,6 +48,9 @@ class Database:
     def commit(self):
         return self.__conn.commit()
         
+    def rollback(self):
+        return self.__conn.rollback()
+        
     def fetchone(self):
         return self.__cur.fetchone()
         
@@ -56,6 +60,6 @@ class Database:
     def close(self):
         self.__conn.close()
         
-
+        
         
         
