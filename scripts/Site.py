@@ -143,13 +143,8 @@ class Site:
         return self.__connection_types
         
         
-    def addResource(self,res):
-        db = Database()
-        if db.connect() :
-            db.execute("START TRANSACTION;")
-            res.setAvailableAmount(db=db)
-            db.close()
-            
+    def addResource(self,db,res):
+        res.setAvailableAmount(db=db)
         self.__resources.append(res)
         
         

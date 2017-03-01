@@ -70,17 +70,10 @@ class Resource:
         
         if begin == end:
             #get dashboard => get only one hour
-            spl = ["%02d" % int(x) for x in spl]
-            beginStr = str(spl[0])+'-'+str(spl[1])+'-'+str(spl[2])+' '+str(spl[3])+':00:00'
-        
-            sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(beginStr)+"';"
+            sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(begin)+"';"
 
             if db.execute(sql2) :
-                used = db.fetchone()[0]
-                if used > maxUsed:
-                    maxUsed = used
-            else:
-                used = 0
+                maxUsed = db.fetchone()[0]
         
         elif allPeriod == True:
             #function 'search' which has specific begin and end datetime

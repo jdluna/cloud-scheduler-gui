@@ -17,17 +17,21 @@ print
 
 
 ###variable from front-end###
-CPU_AMT = 10
+CPU_AMT = 2
 MEMORY_AMT = 2
-CONNECTION_TYPE = None
-IMAGE_TYPE = 'Any'
-BEGIN = '2017-02-24 09:00:00'
-END = '2017-02-26 10:00:00'
+CONNECTION_TYPE = "None"
+IMAGE_TYPE = 'centOS7'
+BEGIN = '2017-03-01 09:00:00'
+END = '2017-03-01 10:00:00'
 ALL_PERIOD = True
-DAYS = 1
-HOURS = 0
+DAYS = 0
+HOURS = 1
 #############################
 
+
+#prepare connection criteria
+if "None" in CONNECTION_TYPE:
+    CONNECTION_TYPE = None
 
 
 #prepare criteria about resources
@@ -43,7 +47,9 @@ siteManager = SiteManager()
 sites = siteManager.getSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS)
 
 
-jsonStr = '{ "amount" : "'+str(len(sites))+'"'
+jsonStr = '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
+
+jsonStr += '"amount" : "'+str(len(sites))+'"'
 
 jsonStr += ', "sites" : ['
 for s in sites:
@@ -88,15 +94,12 @@ for s in sites:
         jsonStr += '"total" : "'+str(r.getTotal())+'",'
         jsonStr += '"available" : "'+str(r.getAvailableAmount())+'"},'
     
-     
-    if ALL_PERIOD == False:
-        jsonStr += '"time" : {'
-        jsonStr += '"begin" : "'+ str(s.getBeginAvailable())+'",'
-        jsonStr += '"end" : "'+str(s.getEndAvailable())+'"},'
-    else:
-        jsonStr += '"time" : "None",'
-        
-        
+
+    #get available time
+    jsonStr += '"time" : {'
+    jsonStr += '"begin" : "'+ str(s.getBeginAvailable())+'",'
+    jsonStr += '"end" : "'+str(s.getEndAvailable())+'"},'
+    
         
     jsonStr = jsonStr[:-1]
     jsonStr += '},'
