@@ -40,7 +40,7 @@ class SiteManager:
         else:
             return None
 
-    def getSites(self,resAmount=None,begin=None,end=None,allPeriod=True,days=None,hours=None,connectionType=None, imageType='Any'):
+    def getSites(self,resAmount=None,begin=None,end=None,allPeriod=True,days=0,hours=0,connectionType=None, imageType='Any'):
         #for search with criteria
     
         self.__sites = self.getAllSites()
