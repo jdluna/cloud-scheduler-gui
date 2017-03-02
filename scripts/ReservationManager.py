@@ -35,7 +35,7 @@ class ReservationManager:
         self.__reservationID = []
     
     def createReservation(self, userId, begin, end, sitesId, resources, imgType):
-        self.__db = Database();        
+        self.__db = Database()        
         
         #check available resources in sites
         if self.__db.connect():
@@ -192,6 +192,16 @@ class ReservationManager:
 
     def getReservationID(self):
         return self.__reservationID
+        
+    def addDescription(self, reservationId, title, description):
+        self.__db = Database()
+        if self.__db.connect():
+            sql = 'UPDATE `reservation` SET `title` = "'+str(title)+'", `description` = "'+str(description)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'
+            if self.__db.execute(sql):
+                self.__db.commit()
+                return 'success'
+        
+        return 'fail'
 
     def idGenerator(self, size=32, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for self._ in range(size))
