@@ -21,8 +21,8 @@ print
 USER_ID = 1
 BEGIN = '2017-03-01 09:00:00'
 END = '2017-03-02 10:00:00'
-SITES_ID = '3'
-RESOURCES = '2,4|8,6'
+SITES_ID = '4,3'
+RESOURCES = '180,16|0,1'
 IMG_TYPE = 'centOS7'
 #############################
 
@@ -36,6 +36,7 @@ for s in spl:
 SITES_ID = list(SITES_ID)
     
 #RESOURCES will be a 2D list of resources
+#example format: RESOURCES = '12,16|4,6'
 #->RESOURCES[0] = resources of SITES_ID[0]
 #->RESOURCES[0][0] = amount of resource type 1st (CPU) of SITE_ID[0]
 spl = RESOURCES.split('|')
@@ -52,5 +53,33 @@ RESOURCES = list(RESOURCES)
 
 from ReservationManager import ReservationManager
 reservationManager = ReservationManager()
+
 s = reservationManager.createReservation(USER_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
-print reservationManager.getReservationStatus()
+result = reservationManager.getReservationStatus()
+
+jsonStr = '{ "result" : "' +str(result)+ '", '
+
+if result == 'fail':
+    imgTypeStatus = reservationManager.isImgTypeError() 
+    jsonStr += ' "isImgTypeError" : "' + str(imgTypeStatus) + '"'
+    
+    if not imgTypeStatus:
+        resError = reservationManager.getResourceError()
+        resErrorStatus = len(resError) > 0
+        siteError = reservationManager.getSiteError()
+        jsonStr += ', "isResourceError" : "' + str(resErrorStatus) + '"'
+        
+        if resErrorStatus == True:
+            jsonStr += ', "site_error" : ['
+            for i in range(0,len(resError)):
+                jsonStr += '{"site_id" : "' + str(SITES_ID[siteError[i]]) + '" , "resource_index" : "' + str(resError[i]) + '"},'
+            
+            
+            jsonStr = jsonStr[:-1]
+            jsonStr += ']'
+else:
+    jsonStr += ' "reserve_id" : "'+str(reservationManager.getReservationID()) + '"'
+
+jsonStr += '}'
+
+print jsonStr

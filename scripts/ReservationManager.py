@@ -18,13 +18,21 @@ from datetime import datetime,timedelta
 
 class ReservationManager:
     __isComplete = False
+    __imgTypeError = False
     __siteManager = None
     __db = None
+    __siteError = []
+    __resError = []
+    __reservationID = None
     
     def __init__(self):
         self.__isComplete = False
+        self.__imgTypeError = False
         self.__siteManager = SiteManager()
         self.__db = None
+        self.__siteError = []
+        self.__resError = []
+        self.__reservationID = []
     
     def createReservation(self, userId, begin, end, sitesId, resources, imgType):
         self.__db = Database();        
@@ -52,36 +60,48 @@ class ReservationManager:
                         res = site.getResources()
                         resStatus = [False]*len(res)
                         
-                     
+                        
+                        #-> check available resources in site from begin to end
                         for j in range(0,len(res)):
                             res[j].setAvailableAmount(db=self.__db,begin=begin,end=end)
                             if int(res[j].getAvailableAmount()) >= int(resources[i][j]):
                                 resStatus[j] = True
+                            else:
+                                self.__addSiteError(i)
+                                self.__addResourceError(j)
                                 
                         if not False in resStatus:
                             #resources of this site are available enough
                             siteStatus[i] = True
+                    else:
+                        self.__setImgTypeError()
+                        
                     
                             
                 if not False in siteStatus:
-                    #all conditions are okay, this reservation can be created
+                #all conditions are okay, this reservation can be created
                 
-                    #UPDATE `reservation` table
-                    ref = self.idGenerator()
-                    sql = 'INSERT INTO `reservation`(`user_id`, `start`, `end`, `reference_number`, `image_type`) VALUES ("'+str(userId)+'","'+str(begin)+'","'+str(end)+'","'+str(ref)+'","'+str(imgType)+'");'
-                    while not self.__db.execute(sql):
-                        #reference number is duplicated
+                    ### UPDATE `reservation` table
+                    while True:
                         ref = self.idGenerator()
-                        sql = 'INSERT INTO `reservation`(`user_id`, `start`, `end`, `reference_number`, `image_type`) VALUES ("'+str(userId)+'","'+str(begin)+'","'+str(end)+'","'+str(ref)+'","'+str(imgType)+'");'
+                    
+                        self.__db.execute('SELECT * FROM `reservation` WHERE `reference_number` = "'+str(ref)+'";')
+                        data = self.__db.getCursor().fetchone()
                         
-                    reservationID = self.__db.getCursor().lastrowid
+                        if data == None:
+                            break
+                    
+                    sql = 'INSERT INTO `reservation`(`user_id`, `start`, `end`, `reference_number`, `image_type`) VALUES ("'+str(userId)+'","'+str(begin)+'","'+str(end)+'","'+str(ref)+'","'+str(imgType)+'");'
+                    self.__db.execute(sql)
+                    
+                    self.__reservationID = self.__db.getCursor().lastrowid
                     
                     
                     
-                    #UPDATE `site_reserved` table
+                    ### UPDATE `site_reserved` table
                     for i in range(0,len(sitesId)):
                         sql = 'INSERT INTO `site_reserved` VALUES ('
-                        sql += '"'+str(reservationID)+'","'+str(sitesId[i])+'","'
+                        sql += '"'+str(self.__reservationID)+'","'+str(sitesId[i])+'","'
                         
                         for j in range(0,len(res)):
                             sql += str(resources[i][j])+'","'
@@ -91,7 +111,7 @@ class ReservationManager:
                         self.__db.execute(sql)
                         
                     
-                    #UPDATE `schedule` table
+                    ### UPDATE `schedule` table
                     tmpBegin = begin
                     beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                         
@@ -146,9 +166,32 @@ class ReservationManager:
             self.__isComplete = False
             
     def getReservationStatus(self):
-        return self.__isComplete
+        if self.__isComplete:
+            return 'success'
+        else:
+            return 'fail'
+        
+        
+    def __setImgTypeError(self):
+        self.__imgTypeError = True
+        
+    def isImgTypeError(self):
+        return self.__imgTypeError  
+        
+    def __addSiteError(self,siteIndex):
+        self.__siteError.append(siteIndex)
             
+    def getSiteError(self):
+        return self.__siteError
+        
+    def __addResourceError(self,resTypeIndex):
+        self.__resError.append(resTypeIndex)
+        
+    def getResourceError(self):
+        return self.__resError
 
+    def getReservationID(self):
+        return self.__reservationID
 
     def idGenerator(self, size=32, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for self._ in range(size))
