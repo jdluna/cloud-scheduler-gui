@@ -19,15 +19,17 @@ print
 
 ###variable from front-end###
 SITE_ID = 7
-DATE_REQUIRE = '2017-03-03 09:00:00'
+DATE_REQUIRE = '2017-03-07 09:00:00'
 #############################
 
 
 
 from SiteManager import SiteManager
 siteManager = SiteManager()
-s = siteManager.getSite(siteId = SITE_ID, dateReq = DATE_REQUIRE)
-
+if DATE_REQUIRE == None:
+    s = siteManager.getSite(siteId = SITE_ID)
+else:
+    s = siteManager.getSite(siteId = SITE_ID, dateReq = DATE_REQUIRE)
 
 jsonStr = '{ "site" :' 
 jsonStr += '{"id" : "'+str(s.getSiteId())+'",'
