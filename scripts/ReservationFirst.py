@@ -19,10 +19,10 @@ print
 
 ###variable from front-end###
 USER_ID = 1
-BEGIN = '2017-03-01 09:00:00'
-END = '2017-03-02 10:00:00'
-SITES_ID = '4,3'
-RESOURCES = '180,16|0,1'
+BEGIN = '2017-03-07 09:00:00'
+END = '2017-03-09 09:00:00'
+SITES_ID = '1,4'
+RESOURCES = '8,32|16,4'
 IMG_TYPE = 'centOS7'
 #############################
 
@@ -57,26 +57,23 @@ reservationManager = ReservationManager()
 s = reservationManager.createReservation(USER_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
 result = reservationManager.getReservationStatus()
 
-jsonStr = '{ "result" : "' +str(result)+ '", '
+jsonStr = '{ "result" : "' +str(result)+ '",'
 
 if result == 'fail':
-    imgTypeStatus = reservationManager.isImgTypeError() 
-    jsonStr += ' "isImgTypeError" : "' + str(imgTypeStatus) + '"'
+    resError = reservationManager.getResourceError()
+    resErrorStatus = len(resError) > 0
+    siteError = reservationManager.getSiteError()
+    jsonStr += ' "isResourceError" : "' + str(resErrorStatus) + '"'
     
-    if not imgTypeStatus:
-        resError = reservationManager.getResourceError()
-        resErrorStatus = len(resError) > 0
-        siteError = reservationManager.getSiteError()
-        jsonStr += ', "isResourceError" : "' + str(resErrorStatus) + '"'
+    if resErrorStatus == True:
+        jsonStr += ', "site_error" : ['
+        for i in range(0,len(resError)):
+            jsonStr += '{"site_id" : "' + str(SITES_ID[siteError[i]]) + '" , "resource_index" : "' + str(resError[i]) + '"},'
         
-        if resErrorStatus == True:
-            jsonStr += ', "site_error" : ['
-            for i in range(0,len(resError)):
-                jsonStr += '{"site_id" : "' + str(SITES_ID[siteError[i]]) + '" , "resource_index" : "' + str(resError[i]) + '"},'
-            
-            
-            jsonStr = jsonStr[:-1]
-            jsonStr += ']'
+        
+        jsonStr = jsonStr[:-1]
+        jsonStr += ']'
+        
 else:
     jsonStr += ' "reserve_id" : "'+str(reservationManager.getReservationID()) + '"'
 

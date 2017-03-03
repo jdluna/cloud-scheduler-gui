@@ -51,30 +51,24 @@ class ReservationManager:
                     self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(sitesId[i])+'";')
                     data = self.__db.getCursor().fetchone()
                     site = self.__siteManager.createSite(data)
+                                     
+
+                        
+                    #-> check available resources in site from begin to end
+                    res = site.getResources()
+                    resStatus = [False]*len(res)
                     
-                    
-                    #check image type
-                    if imgType in site.getImageType():
-                        
-                        #True -> check available resources in site from begin to end
-                        res = site.getResources()
-                        resStatus = [False]*len(res)
-                        
-                        
-                        #-> check available resources in site from begin to end
-                        for j in range(0,len(res)):
-                            res[j].setAvailableAmount(db=self.__db,begin=begin,end=end)
-                            if int(res[j].getAvailableAmount()) >= int(resources[i][j]):
-                                resStatus[j] = True
-                            else:
-                                self.__addSiteError(i)
-                                self.__addResourceError(j)
-                                
-                        if not False in resStatus:
-                            #resources of this site are available enough
-                            siteStatus[i] = True
-                    else:
-                        self.__setImgTypeError()
+                    for j in range(0,len(res)):
+                        res[j].setAvailableAmount(db=self.__db,begin=begin,end=end)
+                        if int(res[j].getAvailableAmount()) >= int(resources[i][j]):
+                            resStatus[j] = True
+                        else:
+                            self.__addSiteError(i)
+                            self.__addResourceError(j)
+                            
+                    if not False in resStatus:
+                        #resources of this site are available enough
+                        siteStatus[i] = True
                         
                     
                             
@@ -110,7 +104,7 @@ class ReservationManager:
                         sql += ');'
                         self.__db.execute(sql)
                         
-                    
+
                     ### UPDATE `schedule` table
                     tmpBegin = begin
                     beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
@@ -156,7 +150,7 @@ class ReservationManager:
                             
                         tmpBegin = tmpEnd
                         beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
-    
+                    
                     self.__db.commit()
                     self.__isComplete = True
             except:
@@ -171,12 +165,7 @@ class ReservationManager:
         else:
             return 'fail'
         
-        
-    def __setImgTypeError(self):
-        self.__imgTypeError = True
-        
-    def isImgTypeError(self):
-        return self.__imgTypeError  
+    
         
     def __addSiteError(self,siteIndex):
         self.__siteError.append(siteIndex)
