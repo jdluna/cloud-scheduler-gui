@@ -73,7 +73,7 @@ export default class card extends Component {
                     <span className={style.text}>Number of running cluster : 0</span>
                 </section>
                 <section>
-                    <button className='btn--info'>MORE INFO</button>
+                    <button className='btn--info' onClick={this.props.cardContainer.onMoreInfoClick}>MORE INFO</button>
                 </section>
             </section>
         )

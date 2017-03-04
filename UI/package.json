@@ -14,7 +14,13 @@
     "type": "git",
     "url": "git+https://github.com/pragmagrid/cloud-scheduler-gui.git"
   },
-  "author": "Prapansak Kaewlamul",
+  "contributors":[{
+      "name": "Nannapas Banluesombatkul",
+      "email": "bamboojfc@gmail.com"
+    },{  
+      "name": "Prapansak Kaewlamul",
+      "email": "prapansak_kaew@hotmail.com"
+  }],
   "license": "",
   "devDependencies": {
     "babel-core": "^6.23.1",

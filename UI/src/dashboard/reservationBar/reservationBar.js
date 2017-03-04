@@ -18,7 +18,7 @@ export default class reservationBar extends Component {
                             <input type='radio' name='type'/>
                             <span className={style.text}>Single cluster spaning multiple sites</span>
                         </div>
-                        <div><span className={style.select}>Selected : 0</span></div>
+                        <span className={style.select}>Selected : 0</span>
                         <button className='btn'>RESERVE</button>
                     </form>
                 </section>

@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import Dashboard from './dashboard'
 import CardContainer from './reservationBar/cardContainer'
+import CardDescriptionContainer from './reservationBar/cardDescriptionContainer'
 
 export default class DashboardContainer extends Component {
     constructor(props){
@@ -13,10 +14,16 @@ export default class DashboardContainer extends Component {
             },
             cardPanel: {
                 notfound: {display:'block'}
+            },
+            cardDetail : {
+                panel: [],
+                data: {}
             }
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
+        this.onViewMoreInfo = this.onViewMoreInfo.bind(this)
+        this.onCloseMoreInfo = this.onCloseMoreInfo.bind(this)
         // this.setMapData = this.setMapData.bind(this)
     }
     
@@ -28,6 +35,25 @@ export default class DashboardContainer extends Component {
     //         }
     //     })
     // }
+    onCloseMoreInfo(){
+        this.setState({
+            cardDetail : {
+                panel: [],
+                data: {}
+            }
+        })
+    }
+
+    onViewMoreInfo(data){
+        let panel = []
+        panel.push(<CardDescriptionContainer dashBoardContainer={this} key={0}/>)
+        this.setState({
+            cardDetail : {
+                panel: panel,
+                data: data
+            }
+        })
+    }
 
     onSelectMarker(id){
         let marker = this.state.map.chooseSite

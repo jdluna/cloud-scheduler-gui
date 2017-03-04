@@ -36,6 +36,7 @@ export default class cardContainer extends Component {
         this.setChartNode = this.setChartNode.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
         this.onCheckBoxChange = this.onCheckBoxChange.bind(this)
+        this.onMoreInfoClick = this.onMoreInfoClick.bind(this)
     }
 
     drawDoughnutChart(node,available,used,color='#EFA430'){
@@ -170,6 +171,10 @@ export default class cardContainer extends Component {
             })
             this.querySiteByDate()
         }
+    }
+
+    onMoreInfoClick(){
+        this.props.dashBoardContainer.onViewMoreInfo(this.state.site.allData)
     }
 
     render() {
