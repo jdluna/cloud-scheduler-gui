@@ -2,35 +2,27 @@ import React,{Component} from 'react'
 import axios from 'axios'
 import Map from './map'
 import {MAP_ENDPOINT} from '../../config/endpoints'
+import DateTime from '../../lib/dateTime'
 
+const date = new DateTime()
 export default class mapContainer extends Component {
     constructor(props){
         super(props)
         this.state = {
-            date: this.getDateTime()
+            date: date.getDateTime()
         }
-    }
-
-    getDateTime(){
-        const month = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
-        let date = new Date()
-        let dateHourse = (date.getHours()<10) ? '0'+date.getHours() : date.getHours()
-        let dateMinnutes = (date.getMinutes()<10) ? '0'+date.getMinutes() : date.getMinutes()
-        let time = dateHourse+':'+dateMinnutes
-        let dateTime = date.getDate()+'-'+month[date.getMonth()]+'-'+date.getFullYear()+' '+time
-        return dateTime
     }
 
     setDateThick(){
         setInterval(()=>{
             this.setState({
-                date: this.getDateTime()
+                date: date.getDateTime()
             })
         },10000)
     }
 
-    onMouseClick(){
-
+    onMouseClick(id){
+        this.props.dashBoardContainer.onSelectMarker(id)
     }
 
     onMouseOver(){
@@ -44,8 +36,9 @@ export default class mapContainer extends Component {
     setMarker(data){
         let marker = []
         let {amount,sites} = data
+        // this.props.dashBoardContainer.setMapData(sites)
         sites.map((data,key)=>{
-            let {connection_type} = data
+            let {id,connection_type} = data
             let ent = false
             connection_type.map((data,key)=>{
                 if((data.name).toUpperCase()=='ENT'){
@@ -67,7 +60,7 @@ export default class mapContainer extends Component {
             })
             google.maps.event.addListener(marker[key], 'mouseover', this.onMouseOver)
             google.maps.event.addListener(marker[key], 'mouseout', this.onMouseOut)
-            
+            google.maps.event.addListener(marker[key], 'click', ()=>this.onMouseClick(id))
         })
         this.markerCluster = new MarkerClusterer(this.map, marker, {imagePath: 'img/marker_cluster'})
     }

@@ -8,8 +8,8 @@ export default class Dashboard extends Component {
         return (
             <section>
                 <MenuBarContainer/>
-                <MapContainer/>
-                <ReservationBarContainer/>
+                <MapContainer dashBoardContainer={this.props.dashBoardContainer}/>
+                <ReservationBarContainer dashBoardContainer={this.props.dashBoardContainer}/>
             </section>
         )
     }

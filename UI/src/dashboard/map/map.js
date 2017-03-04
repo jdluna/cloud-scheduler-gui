@@ -7,6 +7,7 @@ const OPTIONS = {
         lng: 2.295038
     },
     zoom: 2,
+    minZoom: 2,  
     backgroundColor: '#191E2C',
     disableDefaultUI: true,
     mapTypeControl: false,
@@ -54,7 +55,7 @@ export default class map extends Component {
                     </div>
                 </div>
                 <div className={style.search}>
-                    <input type='text' placeholder='Search sites' className={style.input}/>
+                    <input type='text' placeholder='Search by name' className={style.input}/>
                     <img src='img/ic_search_input.svg'/>
                 </div>
                 <div className={style.display} ref="map"></div>

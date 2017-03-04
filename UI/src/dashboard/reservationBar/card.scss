@@ -1,0 +1,169 @@
+@import '../../sass/_colors.scss';
+@import '../../sass/_fonts.scss';
+@keyframes card_animate {
+    from {
+        margin-top: -25px;
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.card{
+    position: relative;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    width: calc(100% - 19px);
+    border: 1px solid #3D4153;    
+    background-color: #3D4153;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    color: #fff;
+    animation-name: card_animate;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+    .article{
+        border-radius: 3px 3px 0px 0px;
+        background-color: #55596A;
+        height: 28px;
+        width: 100%;
+        .checkbox{
+            float: left;
+            margin-left: 10px;
+            margin-top: 8px;
+        }
+        .title{
+            float: left;
+            font-size: 9pt;
+            padding-left: 5px;
+            margin-top: 7px;
+        }
+        .close{
+            position: absolute;
+            right: 5px;
+            top: 5px;
+        }
+    }
+    .data{
+        padding-left: 5px;
+        padding-right: 5px;
+        font-size: 7pt;
+        .calendar{
+            display: flex;
+            justify-content: center;
+            margin: auto;
+            margin-top: 5px;
+            .icon:hover{
+                cursor: pointer;
+            }
+            .date{
+                padding-top: 7px;
+            }
+        }
+        .chart{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            .padding{
+                padding-bottom: 5px;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            .innerlabel{
+                position: absolute;
+                width: 50px;
+                margin-top: 19px;
+                margin-left: 20px;
+                .label{
+                     font-size: 13pt;
+                     margin: auto;
+                     text-align: center;
+                }
+                 .minilabel{
+                     font-size: 7pt;
+                     margin: auto;
+                     text-align: center;
+                }
+            }
+            .label{
+                margin: auto;
+                text-align: center;
+            }
+        }
+        .resource{
+            .cpu, .mem{
+                width: 10px;
+                height: 10px;
+                border-radius: 2px;
+                position: absolute;
+            }
+            .cpu{
+                background-color: #EFA430;
+            }
+            .mem{
+                background-color: #9CCBE5;
+            }
+            .detail{
+                display: inline-block;
+                width: 85px;
+                margin-left: 18px;
+            }
+            .space{
+                margin-top: 5px;
+            }
+        }
+    }
+    .section{
+        display: flex;
+        font-size: 8pt;
+        height: 20px;
+        width: 100%;
+        background-color: #464A5F;
+        margin-top: 9px;
+        .text{
+            float: left;
+            margin-left: 5px;
+            margin-top: 4px;
+        }
+        .type{
+            width: 50%;
+            border-left: 1px solid rgba(0, 0, 0, 0.16);
+            .name{
+                float: left;
+                margin-left: 5px;
+                margin-top: 4px;
+            }
+            .deactive{
+                width: 8px;
+                height: 8px;
+                border-radius: 4px;
+                background-color: #929294;
+                float: right;
+                margin-right: 10px;
+                margin-top: 6px;
+            }
+            .active{
+                width: 8px;
+                height: 8px;
+                border-radius: 4px;
+                background-color: #76FF03;
+                float: right;
+                margin-right: 10px;
+                margin-top: 6px;
+            }
+        }
+    }
+    .desc{
+        padding-left: 5px;
+        padding-right: 5px;
+        .title{
+            font-size: 8pt;
+        }
+        .detail{
+            font-size: 7pt;
+            color: #929294;
+        }
+    }
+}

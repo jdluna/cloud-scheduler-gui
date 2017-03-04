@@ -4,7 +4,7 @@ import ReservationBar from './reservationBar'
 export default class reservationBarContainer extends Component {
     render() {
         return (
-            <ReservationBar/>
+            <ReservationBar dashBoardContainer={this.props.dashBoardContainer}/>
         )
     }
 }

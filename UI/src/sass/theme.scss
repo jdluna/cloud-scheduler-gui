@@ -4,6 +4,30 @@
 :global{
     body{
         margin: 0px;
+        .btn, .btn--info{
+            border-radius: 3px;
+            font-size: 9pt;
+            padding: 4px;
+            outline: none;
+            border: none;
+            margin-left: 5px;
+            margin-top: 5px;
+            color: #FFFFFF;
+            width: 95%;
+        }
+        .btn{
+            background-color: #739AAF;
+        }
+        .btn:hover{
+             background-color: $bg-color-primary;
+        }
+        .btn--info{
+            background-color: #EFA430;
+            margin-bottom: 5px;
+        }
+        .btn--info:hover{
+            background-color: $bg-color-primary;
+        }
     }  
 }
  

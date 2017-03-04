@@ -8,7 +8,11 @@
     "copy": "mkdir dist & copy src\\index.html dist & mkdir dist\\img & copy src\\img dist\\img",
     "prebuild": "npm run clean & npm run copy",
     "build": "webpack --display-error-details",
-    "start": "webpack-dev-server --hot --inline --content-base dist"
+    "start": "webpack-dev-server --hot --inline --content-base src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pragmagrid/cloud-scheduler-gui.git"
   },
   "author": "Prapansak Kaewlamul",
   "license": "",
@@ -26,7 +30,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "google-maps-react": "^1.0.19",
+    "chart.js": "^2.5.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^3.0.2"

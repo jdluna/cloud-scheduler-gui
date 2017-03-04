@@ -1,0 +1,182 @@
+import React,{Component} from 'react'
+import Card from './card'
+import DateTime from '../../lib/dateTime'
+import axios from 'axios'
+import {CARD_ENDPOINT} from '../../config/endpoints'
+
+const date = new DateTime()
+export default class cardContainer extends Component {
+    constructor(props){
+        super(props)
+        this.currentDateStamp = new Date()
+        this.querySite()
+        this.state = {
+            nodeCPU: {},
+            nodeMem: {},
+            date: date.getDate(),
+            site: {
+                allData: {},
+                cpuAll: 0,
+                cpuUsed: 0,
+                memAll: 0,
+                memUsed: 0,
+                desc: ''
+            },
+            style:{
+                ent: {backgroundColor:'#929294'},
+                ipop: {backgroundColor:'#929294'},
+                card: {},
+                cardTitle: {}
+            },
+            select: false
+        }
+        this.onNextDate = this.onNextDate.bind(this)
+        this.onPreviousDate = this.onPreviousDate.bind(this)
+        this.querySite = this.querySite.bind(this)
+        this.setChartNode = this.setChartNode.bind(this)
+        this.onCloseCard = this.onCloseCard.bind(this)
+        this.onCheckBoxChange = this.onCheckBoxChange.bind(this)
+    }
+
+    drawDoughnutChart(node,available,used,color='#EFA430'){
+        let myChart = new Chart(node,{
+            type: 'doughnut',
+            data: {
+                labels: ['Used','Available'],
+                datasets: [{
+                    data: [used, available],
+                    backgroundColor: [
+                        color,
+                        '#464A5F'
+                    ],
+                    borderColor: [
+                        color,
+                        '#464A5F'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                cutoutPercentage: 80,
+                responsive: false,
+                legend: {
+                    display: false
+                }
+            }
+        })
+    }
+
+    querySite(){
+        axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId).then(response =>{
+            if(response.status==200){
+                let {site} = response.data
+                site.connection_type.map((data,key)=>{
+                    switch(data.name.toUpperCase()){
+                        case 'ENT' : this.setState({style:{ent:{backgroundColor:'#76FF03'}}}) ;break
+                        case 'IPOP' : this.setState({style:{ipop:{backgroundColor:'#76FF03'}}}) ;break
+                    }
+                })
+                this.setState({
+                    site: {
+                        allData: site,
+                        name: site.name,
+                        cpuAll: site.CPU.total,
+                        cpuUsed: ((site.CPU.total)-(site.CPU.available)),
+                        memAll: site.memory.total,
+                        memUsed: ((site.memory.total)-(site.memory.available)),
+                        desc: site.description
+                    }
+                })
+                this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAll,this.state.site.cpuUsed,'#EFA430')
+                this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAll,this.state.site.memUsed,'#9CCBE5')
+                
+            }else{
+                console.warn('query card failed!')
+            }
+        })
+    }
+
+    querySiteByDate(){
+        let dateTime = date.getDateTimeForRequest(this.currentDateStamp)
+        axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId+'&date_req='+dateTime).then(response =>{
+            if(response.status==200){
+                let {site} = response.data
+                this.setState({
+                    site: {
+                        allData: site,
+                        name: site.name,
+                        cpuAll: site.CPU.total,
+                        cpuUsed: ((site.CPU.total)-(site.CPU.available)),
+                        memAll: site.memory.total,
+                        memUsed: ((site.memory.total)-(site.memory.available)),
+                        desc: site.description
+                    }
+                })
+                this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAll,this.state.site.cpuUsed,'#EFA430')
+                this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAll,this.state.site.memUsed,'#9CCBE5')              
+            }else{
+                console.warn('query site on next date failed!')
+            }
+        })
+    }
+
+    setChartNode(CPU,mem){
+        this.setState({
+            nodeCPU: CPU,
+            nodeMem: mem
+        })
+    }
+
+    onCheckBoxChange(){
+        if(this.state.select==false){
+            this.setState({
+                style:{
+                    card: {
+                        border:'1px solid #191E2C'
+                    },
+                    cardTitle: {backgroundColor: '#191E2C'}
+                },
+                select: true
+            })
+        }else{
+            this.setState({
+                style:{
+                    card: {}
+                },
+                select: false
+            })
+        } 
+    }
+
+    onCloseCard(){
+        this.props.dashBoardContainer.onCloseCard(this.props.siteId)
+    }
+
+    onNextDate(){
+        this.currentDateStamp = date.getNextDateTimeStamp(this.currentDateStamp)
+        this.setState({
+            date: date.getDate(this.currentDateStamp)
+        })
+        this.querySiteByDate()
+    }
+
+    onPreviousDate(){
+        let tempPreviousTimeStamp = date.getPreviousDateTimeStamp(this.currentDateStamp)
+        let temp = date.getDate(tempPreviousTimeStamp)
+        if(date.convertDateToTimeStamp(tempPreviousTimeStamp)>=date.getNowTimeStamp()||temp==date.getDate()){
+            this.currentDateStamp = tempPreviousTimeStamp
+            this.setState({
+                date: date.getDate(this.currentDateStamp)
+            })
+            this.querySiteByDate()
+        }
+    }
+
+    render() {
+        return (
+            <section>
+                <Card cardContainer={this}/>
+            </section>
+        )
+    }
+}
