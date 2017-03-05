@@ -21,8 +21,13 @@ export default class mapContainer extends Component {
         },10000)
     }
 
-    onMouseClick(id){
-        this.props.dashBoardContainer.onSelectMarker(id)
+    onMouseClick(id,marker){
+        this.props.dashBoardContainer.onSelectMarker(id,marker)
+        if(marker.icon=='img/marker.png'){
+            marker.node.setIcon('img/marker_select.png')
+        }else{
+            marker.node.setIcon('img/marker_ent_select.png')
+        }
     }
 
     onMouseOver(){
@@ -60,7 +65,7 @@ export default class mapContainer extends Component {
             })
             google.maps.event.addListener(marker[key], 'mouseover', this.onMouseOver)
             google.maps.event.addListener(marker[key], 'mouseout', this.onMouseOut)
-            google.maps.event.addListener(marker[key], 'click', ()=>this.onMouseClick(id))
+            google.maps.event.addListener(marker[key], 'click', ()=>this.onMouseClick(id,{node:marker[key],icon:markerIcon}))
         })
         this.markerCluster = new MarkerClusterer(this.map, marker, {imagePath: 'img/marker_cluster'})
     }

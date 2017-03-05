@@ -9,7 +9,7 @@ export default class DateTime{
     }
     getDateTimeForRequest(date=(new Date())){
         let dateNumber = (date.getDate()<10) ? '0'+date.getDate() : date.getDate()
-        let monthNumber = (date.getMonth()<10) ? '0'+date.getMonth() : date.getMonth()
+        let monthNumber = ((date.getMonth()+1)<10) ? '0'+(date.getMonth()+1) : (date.getMonth()+1)
         let dateTime = date.getFullYear()+'-'+monthNumber+'-'+dateNumber
         return dateTime+''+this.getFullTime()
     }
@@ -22,10 +22,8 @@ export default class DateTime{
         return dateHourse+':'+dateMinnutes
     }
     getFullTime(date=(new Date())){
-        let dateHourse = (date.getHours()<10) ? '0'+date.getHours() : date.getHours()
-        let dateMinnutes = (date.getMinutes()<10) ? '0'+date.getMinutes() : date.getMinutes()
-        let seconds = (date.getSeconds()<10) ? '0'+date.getSeconds() : date.getSeconds()
-        return dateHourse+':'+dateMinnutes+':'+seconds
+        let dateHourse = ((date.getHours())<10) ? '0'+(date.getHours()) : (date.getHours())
+        return dateHourse+':00:00'
     }
     getNextDateTimeStamp(now=(new Date())){
         let date = new Date(now.getTime()+(24 * 60 * 60 * 1000))

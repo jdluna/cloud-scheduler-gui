@@ -9,6 +9,7 @@ export default class DashboardContainer extends Component {
         this.state = {
             map: {
                 // sites: [],
+                marker: [],
                 chooseSite: [],
                 card: []
             },
@@ -55,17 +56,19 @@ export default class DashboardContainer extends Component {
         })
     }
 
-    onSelectMarker(id){
-        let marker = this.state.map.chooseSite
-        if(marker.indexOf(parseInt(id))==-1){
-            marker.push(parseInt(id))
+    onSelectMarker(id,markerNode){
+        let {marker,chooseSite} = this.state.map
+        if(chooseSite.indexOf(parseInt(id))==-1){
+            marker.push(markerNode)
+            chooseSite.push(parseInt(id))
             let card = []
-            marker.map((data,key)=>{
+            chooseSite.map((data,key)=>{
                 card.unshift(<CardContainer dashBoardContainer={this} siteId={data} key={data}/>)
             })
             this.setState({
                 map:{
-                    chooseSite: marker,
+                    marker: marker,
+                    chooseSite: chooseSite,
                     card: card
                 },
                 cardPanel: {
@@ -76,12 +79,21 @@ export default class DashboardContainer extends Component {
     }
 
    onCloseCard(id){
-        let {chooseSite,card} = this.state.map
+        let {marker,chooseSite,card} = this.state.map
         let index = chooseSite.indexOf(parseInt(id))
+
+        if(marker[index].icon=='img/marker.png'){
+            marker[index].node.setIcon('img/marker.png')
+        }else{
+            marker[index].node.setIcon('img/marker_ent.png')
+        }
+
+        marker.splice(index,1)
         chooseSite.splice(index,1)
         card.splice(((card.length-1)-index),1)
         this.setState({
             map:{
+                marker: marker,
                 chooseSite: chooseSite,
                 card: card
             }

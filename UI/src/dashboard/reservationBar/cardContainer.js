@@ -16,11 +16,12 @@ export default class cardContainer extends Component {
             date: date.getDate(),
             site: {
                 allData: {},
-                cpuAll: 0,
-                cpuUsed: 0,
-                memAll: 0,
-                memUsed: 0,
-                desc: ''
+                cpuTotal: 0,
+                cpuAvailable: 0,
+                memTotal: 0,
+                memAvailable: 0,
+                desc: '',
+                running: 0
             },
             style:{
                 ent: {backgroundColor:'#929294'},
@@ -43,9 +44,9 @@ export default class cardContainer extends Component {
         let myChart = new Chart(node,{
             type: 'doughnut',
             data: {
-                labels: ['Used','Available'],
+                labels: ['Available','Used'],
                 datasets: [{
-                    data: [used, available],
+                    data: [available,used],
                     backgroundColor: [
                         color,
                         '#464A5F'
@@ -54,7 +55,7 @@ export default class cardContainer extends Component {
                         color,
                         '#464A5F'
                     ],
-                    borderWidth: 1
+                    borderWidth: 0
                 }]
             },
             options: {
@@ -70,7 +71,7 @@ export default class cardContainer extends Component {
     querySite(){
         axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId).then(response =>{
             if(response.status==200){
-                let {site} = response.data
+                let {running,site} = response.data
                 site.connection_type.map((data,key)=>{
                     switch(data.name.toUpperCase()){
                         case 'ENT' : this.setState({style:{ent:{backgroundColor:'#76FF03'}}}) ;break
@@ -81,15 +82,18 @@ export default class cardContainer extends Component {
                     site: {
                         allData: site,
                         name: site.name,
-                        cpuAll: site.CPU.total,
-                        cpuUsed: ((site.CPU.total)-(site.CPU.available)),
-                        memAll: site.memory.total,
-                        memUsed: ((site.memory.total)-(site.memory.available)),
-                        desc: site.description
+                        cpuTotal: site.CPU.total,
+                        cpuAvailable: site.CPU.available,
+                        memTotal: site.memory.total,
+                        memAvailable: site.memory.available,
+                        desc: site.description,
+                        running: running
                     }
                 })
-                this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAll,this.state.site.cpuUsed,'#EFA430')
-                this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAll,this.state.site.memUsed,'#9CCBE5')
+                let cpuUsedeData = (this.state.site.cpuTotal-this.state.site.cpuAvailable)
+                let memUsedData = (this.state.site.memTotal-this.state.site.memAvailable)
+                this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAvailable,cpuUsedeData,'#EFA430')
+                this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAvailable,memUsedData,'#9CCBE5')
                 
             }else{
                 console.warn('query card failed!')
@@ -101,20 +105,23 @@ export default class cardContainer extends Component {
         let dateTime = date.getDateTimeForRequest(this.currentDateStamp)
         axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId+'&date_req='+dateTime).then(response =>{
             if(response.status==200){
-                let {site} = response.data
+                let {running,site} = response.data
                 this.setState({
                     site: {
                         allData: site,
                         name: site.name,
-                        cpuAll: site.CPU.total,
-                        cpuUsed: ((site.CPU.total)-(site.CPU.available)),
-                        memAll: site.memory.total,
-                        memUsed: ((site.memory.total)-(site.memory.available)),
-                        desc: site.description
+                        cpuTotal: site.CPU.total,
+                        cpuAvailable: site.CPU.available,
+                        memTotal: site.memory.total,
+                        memAvailable: site.memory.available,
+                        desc: site.description,
+                        running: running
                     }
                 })
-                this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAll,this.state.site.cpuUsed,'#EFA430')
-                this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAll,this.state.site.memUsed,'#9CCBE5')              
+                let cpuUsedeData = (this.state.site.cpuTotal-this.state.site.cpuAvailable)
+                let memUsedData = (this.state.site.memTotal-this.state.site.memAvailable)
+                this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAvailable,cpuUsedeData,'#EFA430')
+                this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAvailable,memUsedData,'#9CCBE5')             
             }else{
                 console.warn('query site on next date failed!')
             }
@@ -129,9 +136,13 @@ export default class cardContainer extends Component {
     }
 
     onCheckBoxChange(){
+        let entStyle = this.state.style.ent
+        let ipoptyle = this.state.style.ipop
         if(this.state.select==false){
             this.setState({
                 style:{
+                    ent: entStyle,
+                    ipop: ipoptyle,
                     card: {
                         border:'1px solid #191E2C'
                     },
@@ -142,6 +153,8 @@ export default class cardContainer extends Component {
         }else{
             this.setState({
                 style:{
+                    ent: entStyle,
+                    ipop: ipoptyle,
                     card: {}
                 },
                 select: false

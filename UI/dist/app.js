@@ -13623,11 +13623,12 @@ var cardContainer = function (_Component) {
             date: date.getDate(),
             site: {
                 allData: {},
-                cpuAll: 0,
-                cpuUsed: 0,
-                memAll: 0,
-                memUsed: 0,
-                desc: ''
+                cpuTotal: 0,
+                cpuAvailable: 0,
+                memTotal: 0,
+                memAvailable: 0,
+                desc: '',
+                running: 0
             },
             style: {
                 ent: { backgroundColor: '#929294' },
@@ -13655,12 +13656,12 @@ var cardContainer = function (_Component) {
             var myChart = new Chart(node, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Used', 'Available'],
+                    labels: ['Available', 'Used'],
                     datasets: [{
-                        data: [used, available],
+                        data: [available, used],
                         backgroundColor: [color, '#464A5F'],
                         borderColor: [color, '#464A5F'],
-                        borderWidth: 1
+                        borderWidth: 0
                     }]
                 },
                 options: {
@@ -13679,7 +13680,9 @@ var cardContainer = function (_Component) {
 
             _axios2.default.get(_endpoints.CARD_ENDPOINT + '?site_id=' + this.props.siteId).then(function (response) {
                 if (response.status == 200) {
-                    var site = response.data.site;
+                    var _response$data = response.data,
+                        running = _response$data.running,
+                        site = _response$data.site;
 
                     site.connection_type.map(function (data, key) {
                         switch (data.name.toUpperCase()) {
@@ -13693,15 +13696,18 @@ var cardContainer = function (_Component) {
                         site: {
                             allData: site,
                             name: site.name,
-                            cpuAll: site.CPU.total,
-                            cpuUsed: site.CPU.total - site.CPU.available,
-                            memAll: site.memory.total,
-                            memUsed: site.memory.total - site.memory.available,
-                            desc: site.description
+                            cpuTotal: site.CPU.total,
+                            cpuAvailable: site.CPU.available,
+                            memTotal: site.memory.total,
+                            memAvailable: site.memory.available,
+                            desc: site.description,
+                            running: running
                         }
                     });
-                    _this2.drawDoughnutChart(_this2.state.nodeCPU, _this2.state.site.cpuAll, _this2.state.site.cpuUsed, '#EFA430');
-                    _this2.drawDoughnutChart(_this2.state.nodeMem, _this2.state.site.memAll, _this2.state.site.memUsed, '#9CCBE5');
+                    var cpuUsedeData = _this2.state.site.cpuTotal - _this2.state.site.cpuAvailable;
+                    var memUsedData = _this2.state.site.memTotal - _this2.state.site.memAvailable;
+                    _this2.drawDoughnutChart(_this2.state.nodeCPU, _this2.state.site.cpuAvailable, cpuUsedeData, '#EFA430');
+                    _this2.drawDoughnutChart(_this2.state.nodeMem, _this2.state.site.memAvailable, memUsedData, '#9CCBE5');
                 } else {
                     console.warn('query card failed!');
                 }
@@ -13715,21 +13721,26 @@ var cardContainer = function (_Component) {
             var dateTime = date.getDateTimeForRequest(this.currentDateStamp);
             _axios2.default.get(_endpoints.CARD_ENDPOINT + '?site_id=' + this.props.siteId + '&date_req=' + dateTime).then(function (response) {
                 if (response.status == 200) {
-                    var site = response.data.site;
+                    var _response$data2 = response.data,
+                        running = _response$data2.running,
+                        site = _response$data2.site;
 
                     _this3.setState({
                         site: {
                             allData: site,
                             name: site.name,
-                            cpuAll: site.CPU.total,
-                            cpuUsed: site.CPU.total - site.CPU.available,
-                            memAll: site.memory.total,
-                            memUsed: site.memory.total - site.memory.available,
-                            desc: site.description
+                            cpuTotal: site.CPU.total,
+                            cpuAvailable: site.CPU.available,
+                            memTotal: site.memory.total,
+                            memAvailable: site.memory.available,
+                            desc: site.description,
+                            running: running
                         }
                     });
-                    _this3.drawDoughnutChart(_this3.state.nodeCPU, _this3.state.site.cpuAll, _this3.state.site.cpuUsed, '#EFA430');
-                    _this3.drawDoughnutChart(_this3.state.nodeMem, _this3.state.site.memAll, _this3.state.site.memUsed, '#9CCBE5');
+                    var cpuUsedeData = _this3.state.site.cpuTotal - _this3.state.site.cpuAvailable;
+                    var memUsedData = _this3.state.site.memTotal - _this3.state.site.memAvailable;
+                    _this3.drawDoughnutChart(_this3.state.nodeCPU, _this3.state.site.cpuAvailable, cpuUsedeData, '#EFA430');
+                    _this3.drawDoughnutChart(_this3.state.nodeMem, _this3.state.site.memAvailable, memUsedData, '#9CCBE5');
                 } else {
                     console.warn('query site on next date failed!');
                 }
@@ -13746,9 +13757,13 @@ var cardContainer = function (_Component) {
     }, {
         key: 'onCheckBoxChange',
         value: function onCheckBoxChange() {
+            var entStyle = this.state.style.ent;
+            var ipoptyle = this.state.style.ipop;
             if (this.state.select == false) {
                 this.setState({
                     style: {
+                        ent: entStyle,
+                        ipop: ipoptyle,
                         card: {
                             border: '1px solid #191E2C'
                         },
@@ -13759,6 +13774,8 @@ var cardContainer = function (_Component) {
             } else {
                 this.setState({
                     style: {
+                        ent: entStyle,
+                        ipop: ipoptyle,
                         card: {}
                     },
                     select: false
@@ -13905,7 +13922,7 @@ var DateTime = function () {
             var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
 
             var dateNumber = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-            var monthNumber = date.getMonth() < 10 ? '0' + date.getMonth() : date.getMonth();
+            var monthNumber = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
             var dateTime = date.getFullYear() + '-' + monthNumber + '-' + dateNumber;
             return dateTime + '' + this.getFullTime();
         }
@@ -13931,9 +13948,7 @@ var DateTime = function () {
             var date = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Date();
 
             var dateHourse = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-            var dateMinnutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-            var seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-            return dateHourse + ':' + dateMinnutes + ':' + seconds;
+            return dateHourse + ':00:00';
         }
     }, {
         key: 'getNextDateTimeStamp',
@@ -30263,6 +30278,7 @@ var DashboardContainer = function (_Component) {
         _this.state = {
             map: {
                 // sites: [],
+                marker: [],
                 chooseSite: [],
                 card: []
             },
@@ -30316,19 +30332,24 @@ var DashboardContainer = function (_Component) {
         }
     }, {
         key: 'onSelectMarker',
-        value: function onSelectMarker(id) {
+        value: function onSelectMarker(id, markerNode) {
             var _this2 = this;
 
-            var marker = this.state.map.chooseSite;
-            if (marker.indexOf(parseInt(id)) == -1) {
-                marker.push(parseInt(id));
+            var _state$map = this.state.map,
+                marker = _state$map.marker,
+                chooseSite = _state$map.chooseSite;
+
+            if (chooseSite.indexOf(parseInt(id)) == -1) {
+                marker.push(markerNode);
+                chooseSite.push(parseInt(id));
                 var card = [];
-                marker.map(function (data, key) {
+                chooseSite.map(function (data, key) {
                     card.unshift(_react2.default.createElement(_cardContainer2.default, { dashBoardContainer: _this2, siteId: data, key: data }));
                 });
                 this.setState({
                     map: {
-                        chooseSite: marker,
+                        marker: marker,
+                        chooseSite: chooseSite,
                         card: card
                     },
                     cardPanel: {
@@ -30340,15 +30361,25 @@ var DashboardContainer = function (_Component) {
     }, {
         key: 'onCloseCard',
         value: function onCloseCard(id) {
-            var _state$map = this.state.map,
-                chooseSite = _state$map.chooseSite,
-                card = _state$map.card;
+            var _state$map2 = this.state.map,
+                marker = _state$map2.marker,
+                chooseSite = _state$map2.chooseSite,
+                card = _state$map2.card;
 
             var index = chooseSite.indexOf(parseInt(id));
+
+            if (marker[index].icon == 'img/marker.png') {
+                marker[index].node.setIcon('img/marker.png');
+            } else {
+                marker[index].node.setIcon('img/marker_ent.png');
+            }
+
+            marker.splice(index, 1);
             chooseSite.splice(index, 1);
             card.splice(card.length - 1 - index, 1);
             this.setState({
                 map: {
+                    marker: marker,
                     chooseSite: chooseSite,
                     card: card
                 }
@@ -30567,8 +30598,13 @@ var mapContainer = function (_Component) {
         }
     }, {
         key: 'onMouseClick',
-        value: function onMouseClick(id) {
-            this.props.dashBoardContainer.onSelectMarker(id);
+        value: function onMouseClick(id, marker) {
+            this.props.dashBoardContainer.onSelectMarker(id, marker);
+            if (marker.icon == 'img/marker.png') {
+                marker.node.setIcon('img/marker_select.png');
+            } else {
+                marker.node.setIcon('img/marker_ent_select.png');
+            }
         }
     }, {
         key: 'onMouseOver',
@@ -30616,7 +30652,7 @@ var mapContainer = function (_Component) {
                 google.maps.event.addListener(marker[key], 'mouseover', _this3.onMouseOver);
                 google.maps.event.addListener(marker[key], 'mouseout', _this3.onMouseOut);
                 google.maps.event.addListener(marker[key], 'click', function () {
-                    return _this3.onMouseClick(id);
+                    return _this3.onMouseClick(id, { node: marker[key], icon: markerIcon });
                 });
             });
             this.markerCluster = new MarkerClusterer(this.map, marker, { imagePath: 'img/marker_cluster' });
@@ -30939,7 +30975,7 @@ var card = function (_Component) {
                 { style: this.props.cardContainer.state.style.card, className: _card2.default.card },
                 _react2.default.createElement(
                     'article',
-                    { style: this.props.cardContainer.state.style.cardTitle, className: _card2.default.article },
+                    { style: this.props.cardContainer.state.style.cardTitle, className: _card2.default.article, onClick: this.props.cardContainer.onCheckBoxChange },
                     _react2.default.createElement('input', { className: _card2.default.checkbox, type: 'checkbox', onChange: this.props.cardContainer.onCheckBoxChange, checked: this.props.cardContainer.state.select }),
                     _react2.default.createElement(
                         'span',
@@ -30974,7 +31010,7 @@ var card = function (_Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: _card2.default.label },
-                                    this.props.cardContainer.state.site.cpuUsed
+                                    this.props.cardContainer.state.site.cpuAvailable
                                 ),
                                 _react2.default.createElement(
                                     'div',
@@ -30998,7 +31034,7 @@ var card = function (_Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: _card2.default.label },
-                                    this.props.cardContainer.state.site.memUsed
+                                    this.props.cardContainer.state.site.memAvailable
                                 ),
                                 _react2.default.createElement(
                                     'div',
@@ -31030,7 +31066,7 @@ var card = function (_Component) {
                                 'span',
                                 null,
                                 ' : ',
-                                this.props.cardContainer.state.site.cpuUsed + '/' + this.props.cardContainer.state.site.cpuAll
+                                this.props.cardContainer.state.site.cpuAvailable + '/' + this.props.cardContainer.state.site.cpuTotal
                             )
                         ),
                         _react2.default.createElement('div', { className: _card2.default.space }),
@@ -31047,7 +31083,7 @@ var card = function (_Component) {
                                 'span',
                                 null,
                                 ' : ',
-                                this.props.cardContainer.state.site.memUsed + '/' + this.props.cardContainer.state.site.memAll
+                                this.props.cardContainer.state.site.memAvailable + '/' + this.props.cardContainer.state.site.memTotal
                             )
                         )
                     )
@@ -31096,7 +31132,8 @@ var card = function (_Component) {
                     _react2.default.createElement(
                         'span',
                         { className: _card2.default.text },
-                        'Number of running cluster : 0'
+                        'Number of running cluster : ',
+                        this.props.cardContainer.state.site.running
                     )
                 ),
                 _react2.default.createElement(
@@ -44205,7 +44242,7 @@ exports = module.exports = __webpack_require__(21)();
 
 
 // module
-exports.push([module.i, "@keyframes _2YYE4-TeNLwF8tTbsn1usK {\n  from {\n    margin-top: -25px;\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n._3vQFQH3BfeG9wroKfB16Lu {\n  position: relative;\n  margin-left: 10px;\n  margin-bottom: 10px;\n  border-radius: 3px;\n  width: calc(100% - 19px);\n  border: 1px solid #3D4153;\n  background-color: #3D4153;\n  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);\n  color: #fff;\n  animation-name: _2YYE4-TeNLwF8tTbsn1usK;\n  animation-duration: 0.25s;\n  animation-timing-function: ease-out; }\n  ._3vQFQH3BfeG9wroKfB16Lu ._106fTlls3VronxFOloKajl {\n    border-radius: 3px 3px 0px 0px;\n    background-color: #55596A;\n    height: 28px;\n    width: 100%; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._106fTlls3VronxFOloKajl ._3Bfw5P3ZbGfPQGmohweO7P {\n      float: left;\n      margin-left: 10px;\n      margin-top: 8px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._106fTlls3VronxFOloKajl ._1mjdlketiKAwC1A8DkX-f0 {\n      float: left;\n      font-size: 9pt;\n      padding-left: 5px;\n      margin-top: 7px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._106fTlls3VronxFOloKajl .JFPHTkxjFfpXsOBd6n15m {\n      position: absolute;\n      right: 5px;\n      top: 5px; }\n  ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw {\n    padding-left: 5px;\n    padding-right: 5px;\n    font-size: 7pt; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3c7bfHJ9-Uc63KfC5BiGqw {\n      display: flex;\n      justify-content: center;\n      margin: auto;\n      margin-top: 5px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3c7bfHJ9-Uc63KfC5BiGqw .daGtquiFASJEOIJGL14Cx:hover {\n        cursor: pointer; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3c7bfHJ9-Uc63KfC5BiGqw ._3GnhX-WNL7D4jt6QDsCtYa {\n        padding-top: 7px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf {\n      display: flex;\n      flex-direction: row;\n      justify-content: center;\n      margin-top: 5px;\n      margin-bottom: 10px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._2OX6pfF3QGhEuvqToU1Y98 {\n        padding-bottom: 5px;\n        padding-left: 10px;\n        padding-right: 10px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._3qO0Z7VqgM1swBzDIr9hWH {\n        position: absolute;\n        width: 50px;\n        margin-top: 19px;\n        margin-left: 20px; }\n        ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._3qO0Z7VqgM1swBzDIr9hWH ._1ccweRlBQSadLFG7oXG-3_ {\n          font-size: 13pt;\n          margin: auto;\n          text-align: center; }\n        ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._3qO0Z7VqgM1swBzDIr9hWH ._1ZMat7tOiL_AVz2FZJtPMO {\n          font-size: 7pt;\n          margin: auto;\n          text-align: center; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._1ccweRlBQSadLFG7oXG-3_ {\n        margin: auto;\n        text-align: center; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN ._1v_9x6kgJC1kSHwhHRI7Xq, ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN .qFssgP28U2SbX-QydoOcV {\n      width: 10px;\n      height: 10px;\n      border-radius: 2px;\n      position: absolute; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN ._1v_9x6kgJC1kSHwhHRI7Xq {\n      background-color: #EFA430; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN .qFssgP28U2SbX-QydoOcV {\n      background-color: #9CCBE5; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN .raaOk_rQ75TrPyPndVTge {\n      display: inline-block;\n      width: 85px;\n      margin-left: 18px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN ._2T8F3s-rf5QXyICo-3pTE7 {\n      margin-top: 5px; }\n  ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 {\n    display: flex;\n    font-size: 8pt;\n    height: 20px;\n    width: 100%;\n    background-color: #464A5F;\n    margin-top: 9px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 ._1YNVVoflPVv_-kfsuc-8-C {\n      float: left;\n      margin-left: 5px;\n      margin-top: 4px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 .iuujj9ablDcscTW7JzvqY {\n      width: 50%;\n      border-left: 1px solid rgba(0, 0, 0, 0.16); }\n      ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 .iuujj9ablDcscTW7JzvqY ._1K0Q8nNogvVy3TrEwOQT5g {\n        float: left;\n        margin-left: 5px;\n        margin-top: 4px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 .iuujj9ablDcscTW7JzvqY .IBpKEQslkZyBkXmZiQOeh {\n        width: 8px;\n        height: 8px;\n        border-radius: 4px;\n        background-color: #929294;\n        float: right;\n        margin-right: 10px;\n        margin-top: 6px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 .iuujj9ablDcscTW7JzvqY ._1I7mlEcgoEyZTq67tyYjIT {\n        width: 8px;\n        height: 8px;\n        border-radius: 4px;\n        background-color: #76FF03;\n        float: right;\n        margin-right: 10px;\n        margin-top: 6px; }\n  ._3vQFQH3BfeG9wroKfB16Lu ._34x0qEzg5-F0mfyd56eEoY {\n    padding-left: 5px;\n    padding-right: 5px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._34x0qEzg5-F0mfyd56eEoY ._1mjdlketiKAwC1A8DkX-f0 {\n      font-size: 8pt; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._34x0qEzg5-F0mfyd56eEoY .raaOk_rQ75TrPyPndVTge {\n      font-size: 7pt;\n      color: #929294; }\n", ""]);
+exports.push([module.i, "@keyframes _2YYE4-TeNLwF8tTbsn1usK {\n  from {\n    margin-top: -25px;\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n._3vQFQH3BfeG9wroKfB16Lu {\n  position: relative;\n  margin-left: 10px;\n  margin-bottom: 10px;\n  border-radius: 3px;\n  width: calc(100% - 19px);\n  border: 1px solid #3D4153;\n  background-color: #3D4153;\n  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);\n  color: #fff;\n  animation-name: _2YYE4-TeNLwF8tTbsn1usK;\n  animation-duration: 0.25s;\n  animation-timing-function: ease-out; }\n  ._3vQFQH3BfeG9wroKfB16Lu ._106fTlls3VronxFOloKajl {\n    border-radius: 3px 3px 0px 0px;\n    background-color: #55596A;\n    height: 28px;\n    width: 100%;\n    cursor: default; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._106fTlls3VronxFOloKajl ._3Bfw5P3ZbGfPQGmohweO7P {\n      float: left;\n      margin-left: 10px;\n      margin-top: 8px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._106fTlls3VronxFOloKajl ._1mjdlketiKAwC1A8DkX-f0 {\n      float: left;\n      font-size: 9pt;\n      padding-left: 5px;\n      margin-top: 7px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._106fTlls3VronxFOloKajl .JFPHTkxjFfpXsOBd6n15m {\n      position: absolute;\n      right: 5px;\n      top: 5px; }\n  ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw {\n    padding-left: 5px;\n    padding-right: 5px;\n    font-size: 7pt; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3c7bfHJ9-Uc63KfC5BiGqw {\n      display: flex;\n      justify-content: center;\n      margin: auto;\n      margin-top: 5px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3c7bfHJ9-Uc63KfC5BiGqw .daGtquiFASJEOIJGL14Cx:hover {\n        cursor: pointer; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3c7bfHJ9-Uc63KfC5BiGqw ._3GnhX-WNL7D4jt6QDsCtYa {\n        padding-top: 7px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf {\n      display: flex;\n      flex-direction: row;\n      justify-content: center;\n      margin-top: 5px;\n      margin-bottom: 10px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._2OX6pfF3QGhEuvqToU1Y98 {\n        padding-bottom: 5px;\n        padding-left: 10px;\n        padding-right: 10px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._3qO0Z7VqgM1swBzDIr9hWH {\n        position: absolute;\n        width: 50px;\n        margin-top: 19px;\n        margin-left: 20px; }\n        ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._3qO0Z7VqgM1swBzDIr9hWH ._1ccweRlBQSadLFG7oXG-3_ {\n          font-size: 13pt;\n          margin: auto;\n          text-align: center; }\n        ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._3qO0Z7VqgM1swBzDIr9hWH ._1ZMat7tOiL_AVz2FZJtPMO {\n          font-size: 7pt;\n          margin: auto;\n          text-align: center; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._3qV2s0DxPkUju7Oxv95Ydf ._1ccweRlBQSadLFG7oXG-3_ {\n        margin: auto;\n        text-align: center; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN ._1v_9x6kgJC1kSHwhHRI7Xq, ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN .qFssgP28U2SbX-QydoOcV {\n      width: 10px;\n      height: 10px;\n      border-radius: 2px;\n      position: absolute; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN ._1v_9x6kgJC1kSHwhHRI7Xq {\n      background-color: #EFA430; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN .qFssgP28U2SbX-QydoOcV {\n      background-color: #9CCBE5; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN .raaOk_rQ75TrPyPndVTge {\n      display: inline-block;\n      width: 85px;\n      margin-left: 18px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._39-lBya-9b61JpmfcTjMqw ._1qAGAttMhhm9nsJtdy91AN ._2T8F3s-rf5QXyICo-3pTE7 {\n      margin-top: 5px; }\n  ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 {\n    display: flex;\n    font-size: 8pt;\n    height: 20px;\n    width: 100%;\n    background-color: #464A5F;\n    margin-top: 9px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 ._1YNVVoflPVv_-kfsuc-8-C {\n      float: left;\n      margin-left: 5px;\n      margin-top: 4px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 .iuujj9ablDcscTW7JzvqY {\n      width: 50%;\n      border-left: 1px solid rgba(0, 0, 0, 0.16); }\n      ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 .iuujj9ablDcscTW7JzvqY ._1K0Q8nNogvVy3TrEwOQT5g {\n        float: left;\n        margin-left: 5px;\n        margin-top: 4px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 .iuujj9ablDcscTW7JzvqY .IBpKEQslkZyBkXmZiQOeh {\n        width: 8px;\n        height: 8px;\n        border-radius: 4px;\n        background-color: #929294;\n        float: right;\n        margin-right: 10px;\n        margin-top: 6px; }\n      ._3vQFQH3BfeG9wroKfB16Lu ._3YqcyvHQOPUZ0VEa6Vt546 .iuujj9ablDcscTW7JzvqY ._1I7mlEcgoEyZTq67tyYjIT {\n        width: 8px;\n        height: 8px;\n        border-radius: 4px;\n        background-color: #76FF03;\n        float: right;\n        margin-right: 10px;\n        margin-top: 6px; }\n  ._3vQFQH3BfeG9wroKfB16Lu ._34x0qEzg5-F0mfyd56eEoY {\n    padding-left: 5px;\n    padding-right: 5px; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._34x0qEzg5-F0mfyd56eEoY ._1mjdlketiKAwC1A8DkX-f0 {\n      font-size: 8pt; }\n    ._3vQFQH3BfeG9wroKfB16Lu ._34x0qEzg5-F0mfyd56eEoY .raaOk_rQ75TrPyPndVTge {\n      font-size: 7pt;\n      color: #929294; }\n", ""]);
 
 // exports
 exports.locals = {
