@@ -17,15 +17,15 @@ print
 
 
 ###variable from front-end###
-CPU_AMT = 2
-MEMORY_AMT = 2
+CPU_AMT = 64
+MEMORY_AMT = 128
 CONNECTION_TYPE = "None"
 IMAGE_TYPE = 'centOS7'
-BEGIN = '2017-03-01 09:00:00'
-END = '2017-03-01 10:00:00'
-ALL_PERIOD = True
+BEGIN = '2017-03-07 09:00:00'
+END = '2017-03-10 09:00:00'
+ALL_PERIOD = False
 DAYS = 0
-HOURS = 1
+HOURS = 4
 #############################
 
 
@@ -40,6 +40,14 @@ if CPU_AMT == None:
 if MEMORY_AMT == None:
     MEMORY_AMT = 0
 resourcesAmt = [CPU_AMT,MEMORY_AMT]
+
+
+#prepare criteria about days and hours
+if ALL_PERIOD:
+    if DAYS == None:
+        DAYS = 0
+    if HOURS == None:
+        HOURS = 0
 
 
 from SiteManager import SiteManager
