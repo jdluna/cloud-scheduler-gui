@@ -187,6 +187,7 @@ class SiteManager:
                 for i in range(0,len(res)):
                     res[i].setAvailableAmount(db=db,begin=dateReq,end=dateReq)
             
+            site.setRunningAmount(db,begin=dateReq)   
                 
             return site
         else:
