@@ -30324,7 +30324,7 @@ var DashboardContainer = function (_Component) {
                 marker.push(parseInt(id));
                 var card = [];
                 marker.map(function (data, key) {
-                    card.unshift(_react2.default.createElement(_cardContainer2.default, { dashBoardContainer: _this2, siteId: data, key: key }));
+                    card.unshift(_react2.default.createElement(_cardContainer2.default, { dashBoardContainer: _this2, siteId: data, key: data }));
                 });
                 this.setState({
                     map: {

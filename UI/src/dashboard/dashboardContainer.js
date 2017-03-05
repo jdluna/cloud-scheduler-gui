@@ -61,7 +61,7 @@ export default class DashboardContainer extends Component {
             marker.push(parseInt(id))
             let card = []
             marker.map((data,key)=>{
-                card.unshift(<CardContainer dashBoardContainer={this} siteId={data} key={key}/>)
+                card.unshift(<CardContainer dashBoardContainer={this} siteId={data} key={data}/>)
             })
             this.setState({
                 map:{
