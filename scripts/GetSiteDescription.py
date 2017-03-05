@@ -18,7 +18,7 @@ print
 
 
 ###variable from front-end###
-SITE_ID = 7
+SITE_ID = 1
 DATE_REQUIRE = '2017-03-07 09:00:00'
 #############################
 
@@ -76,11 +76,10 @@ for r in s.getResources():
     
 jsonStr = jsonStr[:-1]
 jsonStr += '},'
-    
-    
-    
-if s != None :
-    jsonStr = jsonStr[:-1]    
+
+
+#get amount of running clusters
+jsonStr += '"running" : "'+str(s.getRunningAmount())+'" '
 jsonStr += '}'
 
 print jsonStr

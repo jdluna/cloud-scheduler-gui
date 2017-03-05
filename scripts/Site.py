@@ -34,6 +34,7 @@ class Site:
     __resources = []
     __beginAvailable = None
     __endAvailable = None
+    __running = None
     
     def __init__(self, site_id, name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path,temp_dir, username, deployment_type, site_hostname, latitude, longitude):
         self.__site_id = site_id
@@ -57,6 +58,7 @@ class Site:
         self.__setImageType()
         self.__beginAvailable = None
         self.__endAvailable = None
+        self.__running = None
             
         
     def getSiteId(self):
@@ -164,4 +166,14 @@ class Site:
     def getEndAvailable(self):
         return self.__endAvailable     
         
+    def setRunningAmount(self,db,begin):
+        sql = "SELECT `start` FROM `reservation` JOIN `site_reserved` ON `reservation`.`reservation_id` = `site_reserved`.`reservation_id` WHERE `site_reserved`.`site_id` = '"+str(self.__site_id)+"' AND `start` = '"+str(begin)+"';"
+            
+        if db.execute(sql) :
+            self.__running = db.fetchall()
+        
+    def getRunningAmount(self):  
+        if self.__running == None:
+            self.__running = []
+        return len(self.__running)
         

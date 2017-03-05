@@ -18,9 +18,9 @@ print
 
 
 ###variable from front-end###
-RESERVATION_ID = 67
+RESERVATION_ID = 7
 TITLE = 'title'
-DESCRIPTION = 'dsecription'
+DESCRIPTION = 'this is a description'
 #############################
 
 

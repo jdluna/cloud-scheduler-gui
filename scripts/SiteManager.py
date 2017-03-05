@@ -75,7 +75,7 @@ class SiteManager:
                 if allPeriod:
                     #all period -> calculate only one time per resource of that site
                     for i in range(0,len(res)):
-                        res[i].setAvailableAmount(db,begin,end,allPeriod,days,hours)
+                        res[i].setAvailableAmount(db,begin,end)
                 
                         if int(res[i].getAvailableAmount()) >= int(resAmount[i]):
                             resStatus[i] = True
@@ -93,7 +93,7 @@ class SiteManager:
                     while False in resStatus and beginToEnd>=duration:
                         
                         for i in range(0,len(res)):
-                            res[i].setAvailableAmount(db,tmpBegin,end,allPeriod,days,hours)
+                            res[i].setAvailableAmount(db,tmpBegin,end)
                             if int(res[i].getAvailableAmount()) >= int(resAmount[i]):
                                 resStatus[i] = True
                                 s.setBeginAvailable(tmpBegin)
@@ -148,7 +148,7 @@ class SiteManager:
                             #will do until get available time of this site
                             
                             for i in range(0,len(res)):
-                                res[i].setAvailableAmount(db,tmpBegin,tmpEnd,allPeriod=True)
+                                res[i].setAvailableAmount(db,tmpBegin,tmpEnd)
                                 if int(res[i].getAvailableAmount()) >= int(resAmount[i]):
                                     resStatus[i] = True
                                     s.setBeginAvailable(tmpBegin)
@@ -187,6 +187,7 @@ class SiteManager:
                 for i in range(0,len(res)):
                     res[i].setAvailableAmount(db=db,begin=dateReq,end=dateReq)
             
+            site.setRunningAmount(db,begin=dateReq)   
                 
             return site
         else:
