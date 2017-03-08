@@ -36,7 +36,7 @@ class Site:
     __endAvailable = None
     __running = None
     
-    def __init__(self, site_id, name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path,temp_dir, username, deployment_type, site_hostname, latitude, longitude):
+    def __init__(self, site_id, name=None, description=None, contact=None, location=None, pragma_boot_path=None, pragma_boot_version=None, python_path=None,temp_dir=None, username=None, deployment_type=None, site_hostname=None, latitude=None, longitude=None):
         self.__site_id = site_id
         self.__name = name
         self.__description = description
@@ -62,7 +62,10 @@ class Site:
             
         
     def getSiteId(self):
-        return self.__site_id        
+        return self.__site_id    
+        
+    def setName(self,name):
+        self.__name = name
     
     def getName(self):
         return self.__name   
@@ -176,4 +179,10 @@ class Site:
         if self.__running == None:
             self.__running = []
         return len(self.__running)
+        
+    def setStatus(self,status):
+        self.__status = status
+        
+    def getStatus(self):
+        return self.__status
         

@@ -15,6 +15,8 @@ from Database import Database
 import string
 import random
 from datetime import datetime,timedelta
+from Reservation import Reservation
+
 
 class ReservationManager:
     __isComplete = False
@@ -98,7 +100,8 @@ class ReservationManager:
                 if not False in siteStatus:
                 #all conditions are okay, this reservation can be created
                     return True
-                
+           
+           
                 
         return False
                 
@@ -226,3 +229,34 @@ class ReservationManager:
 
     def idGenerator(self, size=32, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for self._ in range(size))
+        
+        
+    def getMyReservations(self, sessionId):
+        self.__db = Database()        
+        self.__sessionId = sessionId
+        self.__myReservations = []
+        
+        if self.__db.connect():
+            #check session id and get user id
+            sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
+            self.__db.execute(sql)
+            uid = self.__db.getCursor().fetchone()
+            if uid != None:
+                self.__userId = uid[0]
+                sql = 'SELECT `reservation_id`,`title`,`end` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'"'
+                self.__db.execute(sql)
+                data = self.__db.getCursor().fetchall()
+
+                for d in data:
+                    r = Reservation()
+                    r.setReservationId(d[0])
+                    r.setTitle(d[1])
+                    r.setEnd(d[2])
+                    
+                    r.setReservationStatus()                    
+                    self.__myReservations.append(r)
+                    
+        return self.__myReservations
+                
+                
+                
