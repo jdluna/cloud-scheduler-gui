@@ -1,0 +1,253 @@
+[{"code":
+    "BD","name": "Dhaka"},{"code":
+    "BE","name": "Brussels"},{"code":
+    "BF","name": "Ouagadougou"},{"code":
+    "BG","name": "Sofia"},{"code":
+    "BA","name": "Sarajevo"},{"code":
+    "BB","name": "Bridgetown"},{"code":
+    "WF","name": "Mata Utu"},{"code":
+    "BL","name": "Gustavia"},{"code":
+    "BM","name": "Hamilton"},{"code":
+    "BN","name": "Bandar Seri Begawan"},{"code":
+    "BO","name": "Sucre"},{"code":
+    "BH","name": "Manama"},{"code":
+    "BI","name": "Bujumbura"},{"code":
+    "BJ","name": "Porto-Novo"},{"code":
+    "BT","name": "Thimphu"},{"code":
+    "JM","name": "Kingston"},{"code":
+    "BV","name": ""},{"code":
+    "BW","name": "Gaborone"},{"code":
+    "WS","name": "Apia"},{"code":
+    "BQ","name": ""},{"code":
+    "BR","name": "Brasilia"},{"code":
+    "BS","name": "Nassau"},{"code":
+    "JE","name": "Saint Helier"},{"code":
+    "BY","name": "Minsk"},{"code":
+    "BZ","name": "Belmopan"},{"code":
+    "RU","name": "Moscow"},{"code":
+    "RW","name": "Kigali"},{"code":
+    "RS","name": "Belgrade"},{"code":
+    "TL","name": "Dili"},{"code":
+    "RE","name": "Saint-Denis"},{"code":
+    "TM","name": "Ashgabat"},{"code":
+    "TJ","name": "Dushanbe"},{"code":
+    "RO","name": "Bucharest"},{"code":
+    "TK","name": ""},{"code":
+    "GW","name": "Bissau"},{"code":
+    "GU","name": "Hagatna"},{"code":
+    "GT","name": "Guatemala City"},{"code":
+    "GS","name": "Grytviken"},{"code":
+    "GR","name": "Athens"},{"code":
+    "GQ","name": "Malabo"},{"code":
+    "GP","name": "Basse-Terre"},{"code":
+    "JP","name": "Tokyo"},{"code":
+    "GY","name": "Georgetown"},{"code":
+    "GG","name": "St Peter Port"},{"code":
+    "GF","name": "Cayenne"},{"code":
+    "GE","name": "Tbilisi"},{"code":
+    "GD","name": "St. George's"},{"code":
+    "GB","name": "London"},{"code":
+    "GA","name": "Libreville"},{"code":
+    "SV","name": "San Salvador"},{"code":
+    "GN","name": "Conakry"},{"code":
+    "GM","name": "Banjul"},{"code":
+    "GL","name": "Nuuk"},{"code":
+    "GI","name": "Gibraltar"},{"code":
+    "GH","name": "Accra"},{"code":
+    "OM","name": "Muscat"},{"code":
+    "TN","name": "Tunis"},{"code":
+    "JO","name": "Amman"},{"code":
+    "HR","name": "Zagreb"},{"code":
+    "HT","name": "Port-au-Prince"},{"code":
+    "HU","name": "Budapest"},{"code":
+    "HK","name": "Hong Kong"},{"code":
+    "HN","name": "Tegucigalpa"},{"code":
+    "HM","name": ""},{"code":
+    "VE","name": "Caracas"},{"code":
+    "PR","name": "San Juan"},{"code":
+    "PS","name": "East Jerusalem"},{"code":
+    "PW","name": "Melekeok"},{"code":
+    "PT","name": "Lisbon"},{"code":
+    "SJ","name": "Longyearbyen"},{"code":
+    "PY","name": "Asuncion"},{"code":
+    "IQ","name": "Baghdad"},{"code":
+    "PA","name": "Panama City"},{"code":
+    "PF","name": "Papeete"},{"code":
+    "PG","name": "Port Moresby"},{"code":
+    "PE","name": "Lima"},{"code":
+    "PK","name": "Islamabad"},{"code":
+    "PH","name": "Manila"},{"code":
+    "PN","name": "Adamstown"},{"code":
+    "PL","name": "Warsaw"},{"code":
+    "PM","name": "Saint-Pierre"},{"code":
+    "ZM","name": "Lusaka"},{"code":
+    "EH","name": "El-Aaiun"},{"code":
+    "EE","name": "Tallinn"},{"code":
+    "EG","name": "Cairo"},{"code":
+    "ZA","name": "Pretoria"},{"code":
+    "EC","name": "Quito"},{"code":
+    "IT","name": "Rome"},{"code":
+    "VN","name": "Hanoi"},{"code":
+    "SB","name": "Honiara"},{"code":
+    "ET","name": "Addis Ababa"},{"code":
+    "SO","name": "Mogadishu"},{"code":
+    "ZW","name": "Harare"},{"code":
+    "SA","name": "Riyadh"},{"code":
+    "ES","name": "Madrid"},{"code":
+    "ER","name": "Asmara"},{"code":
+    "ME","name": "Podgorica"},{"code":
+    "MD","name": "Chisinau"},{"code":
+    "MG","name": "Antananarivo"},{"code":
+    "MF","name": "Marigot"},{"code":
+    "MA","name": "Rabat"},{"code":
+    "MC","name": "Monaco"},{"code":
+    "UZ","name": "Tashkent"},{"code":
+    "MM","name": "Nay Pyi Taw"},{"code":
+    "ML","name": "Bamako"},{"code":
+    "MO","name": "Macao"},{"code":
+    "MN","name": "Ulan Bator"},{"code":
+    "MH","name": "Majuro"},{"code":
+    "MK","name": "Skopje"},{"code":
+    "MU","name": "Port Louis"},{"code":
+    "MT","name": "Valletta"},{"code":
+    "MW","name": "Lilongwe"},{"code":
+    "MV","name": "Male"},{"code":
+    "MQ","name": "Fort-de-France"},{"code":
+    "MP","name": "Saipan"},{"code":
+    "MS","name": "Plymouth"},{"code":
+    "MR","name": "Nouakchott"},{"code":
+    "IM","name": "Douglas"},{"code":
+    "IM","name": "Douglas, Isle of Man"},{"code":
+    "UG","name": "Kampala"},{"code":
+    "TZ","name": "Dodoma"},{"code":
+    "MY","name": "Kuala Lumpur"},{"code":
+    "MX","name": "Mexico City"},{"code":
+    "IL","name": "Jerusalem"},{"code":
+    "FR","name": "Paris"},{"code":
+    "IO","name": "Diego Garcia"},{"code":
+    "SH","name": "Jamestown"},{"code":
+    "FI","name": "Helsinki"},{"code":
+    "FJ","name": "Suva"},{"code":
+    "FK","name": "Stanley"},{"code":
+    "FM","name": "Palikir"},{"code":
+    "FO","name": "Torshavn"},{"code":
+    "NI","name": "Managua"},{"code":
+    "NL","name": "Amsterdam"},{"code":
+    "NO","name": "Oslo"},{"code":
+    "NA","name": "Windhoek"},{"code":
+    "VU","name": "Port Vila"},{"code":
+    "NC","name": "Noumea"},{"code":
+    "NE","name": "Niamey"},{"code":
+    "NF","name": "Kingston"},{"code":
+    "NG","name": "Abuja"},{"code":
+    "NZ","name": "Wellington"},{"code":
+    "NP","name": "Kathmandu"},{"code":
+    "NR","name": "Yaren"},{"code":
+    "NU","name": "Alofi"},{"code":
+    "CK","name": "Avarua"},{"code":
+    "XK","name": "Pristina"},{"code":
+    "CI","name": "Yamoussoukro"},{"code":
+    "CH","name": "Berne"},{"code":
+    "CO","name": "Bogota"},{"code":
+    "CN","name": "Beijing"},{"code":
+    "CM","name": "Yaounde"},{"code":
+    "CL","name": "Santiago"},{"code":
+    "CC","name": "West Island"},{"code":
+    "CA","name": "Ottawa"},{"code":
+    "CG","name": "Brazzaville"},{"code":
+    "CF","name": "Bangui"},{"code":
+    "CD","name": "Kinshasa"},{"code":
+    "CZ","name": "Prague"},{"code":
+    "CY","name": "Nicosia"},{"code":
+    "CX","name": "Flying Fish Cove"},{"code":
+    "CR","name": "San Jose"},{"code":
+    "CW","name": " Willemstad"},{"code":
+    "CV","name": "Praia"},{"code":
+    "CU","name": "Havana"},{"code":
+    "SZ","name": "Mbabane"},{"code":
+    "SY","name": "Damascus"},{"code":
+    "SX","name": "Philipsburg"},{"code":
+    "KG","name": "Bishkek"},{"code":
+    "KE","name": "Nairobi"},{"code":
+    "SS","name": "Juba"},{"code":
+    "SR","name": "Paramaribo"},{"code":
+    "KI","name": "Tarawa"},{"code":
+    "KH","name": "Phnom Penh"},{"code":
+    "KN","name": "Basseterre"},{"code":
+    "KM","name": "Moroni"},{"code":
+    "ST","name": "Sao Tome"},{"code":
+    "SK","name": "Bratislava"},{"code":
+    "KR","name": "Seoul"},{"code":
+    "SI","name": "Ljubljana"},{"code":
+    "KP","name": "Pyongyang"},{"code":
+    "KW","name": "Kuwait City"},{"code":
+    "SN","name": "Dakar"},{"code":
+    "SM","name": "San Marino"},{"code":
+    "SL","name": "Freetown"},{"code":
+    "SC","name": "Victoria"},{"code":
+    "KZ","name": "Astana"},{"code":
+    "KY","name": "George Town"},{"code":
+    "SG","name": "Singapur"},{"code":
+    "SE","name": "Stockholm"},{"code":
+    "SD","name": "Khartoum"},{"code":
+    "DO","name": "Santo Domingo"},{"code":
+    "DM","name": "Roseau"},{"code":
+    "DJ","name": "Djibouti"},{"code":
+    "DK","name": "Copenhagen"},{"code":
+    "VG","name": "Road Town"},{"code":
+    "DE","name": "Berlin"},{"code":
+    "YE","name": "Sanaa"},{"code":
+    "DZ","name": "Algiers"},{"code":
+    "US","name": "Washington"},{"code":
+    "UY","name": "Montevideo"},{"code":
+    "YT","name": "Mamoudzou"},{"code":
+    "UM","name": ""},{"code":
+    "LB","name": "Beirut"},{"code":
+    "LC","name": "Castries"},{"code":
+    "LA","name": "Vientiane"},{"code":
+    "TV","name": "Funafuti"},{"code":
+    "TW","name": "Taipei"},{"code":
+    "TT","name": "Port of Spain"},{"code":
+    "TR","name": "Ankara"},{"code":
+    "LK","name": "Colombo"},{"code":
+    "LI","name": "Vaduz"},{"code":
+    "LV","name": "Riga"},{"code":
+    "TO","name": "Nuku'alofa"},{"code":
+    "LT","name": "Vilnius"},{"code":
+    "LU","name": "Luxembourg"},{"code":
+    "LR","name": "Monrovia"},{"code":
+    "LS","name": "Maseru"},{"code":
+    "TH","name": "Bangkok"},{"code":
+    "TF","name": "Port-aux-Francais"},{"code":
+    "TG","name": "Lome"},{"code":
+    "TD","name": "N'Djamena"},{"code":
+    "TC","name": "Cockburn Town"},{"code":
+    "LY","name": "Tripolis"},{"code":
+    "VA","name": "Vatican City"},{"code":
+    "VC","name": "Kingstown"},{"code":
+    "AE","name": "Abu Dhabi"},{"code":
+    "AD","name": "Andorra la Vella"},{"code":
+    "AG","name": "St. John's"},{"code":
+    "AF","name": "Kabul"},{"code":
+    "AI","name": "The Valley"},{"code":
+    "VI","name": "Charlotte Amalie"},{"code":
+    "IS","name": "Reykjavik"},{"code":
+    "IR","name": "Tehran"},{"code":
+    "AM","name": "Yerevan"},{"code":
+    "AL","name": "Tirana"},{"code":
+    "AO","name": "Luanda"},{"code":
+    "AQ","name": ""},{"code":
+    "AS","name": "Pago Pago"},{"code":
+    "AR","name": "Buenos Aires"},{"code":
+    "AU","name": "Canberra"},{"code":
+    "AT","name": "Vienna"},{"code":
+    "AW","name": "Oranjestad"},{"code":
+    "IN","name": "New Delhi"},{"code":
+    "AX","name": "Mariehamn"},{"code":
+    "AZ","name": "Baku"},{"code":
+    "IE","name": "Dublin"},{"code":
+    "ID","name": "Jakarta"},{"code":
+    "UA","name": "Kiev"},{"code":
+    "QA","name": "Doha"},{"code":
+    "MZ","name": "Maputo"
+}]

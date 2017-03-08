@@ -14,13 +14,16 @@
     "type": "git",
     "url": "git+https://github.com/pragmagrid/cloud-scheduler-gui.git"
   },
-  "contributors":[{
+  "contributors": [
+    {
       "name": "Nannapas Banluesombatkul",
       "email": "bamboojfc@gmail.com"
-    },{  
+    },
+    {
       "name": "Prapansak Kaewlamul",
       "email": "prapansak_kaew@hotmail.com"
-  }],
+    }
+  ],
   "license": "",
   "devDependencies": {
     "babel-core": "^6.23.1",
@@ -37,6 +40,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "chart.js": "^2.5.0",
+    "moment-timezone": "^0.5.11",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^3.0.2"

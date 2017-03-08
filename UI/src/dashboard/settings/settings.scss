@@ -1,0 +1,48 @@
+@import '../../sass/_colors.scss';
+@import '../../sass/_fonts.scss';
+
+.panel{
+    width: 540px;
+    height: 300px;
+    font-family: $font-primary;
+    border-radius: 3px;
+    border: 1px solid #929296;
+    header{
+        border-radius: 3px 3px 0px 0px;
+        border-bottom: 1px solid #929296;
+        font-size: 9pt; 
+        text-align: center;
+        height: 28px;
+        background-color: rgba(18, 18, 19,0.76);
+        div{
+            color: #FFFFFF;
+            padding-top: 7px;
+        }
+    }
+    nav{
+        float: left;
+        width: 20%;
+        height: calc(100% - 29px);
+        background-color: rgba(85,89,106,0.69);
+        // background-color: rgba(20,22,25,0.76);
+        .menu{
+            display: block;
+            height: 90px;
+            width: 100%;
+            background-color: rgba(85,85,106,0.69);
+            // background-color: rgba(31,33,39,0.77);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .text{
+                font-size: 8pt;
+                color: #FFFFFF;
+            }
+        }
+    }
+    .content{
+        float: left;
+        width: 80%;
+        height: calc(100% - 29px);
+    }
+}

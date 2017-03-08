@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import Dashboard from './dashboard'
 import CardContainer from './reservationBar/cardContainer'
 import CardDescriptionContainer from './reservationBar/cardDescriptionContainer'
+import SettingsContainer from './settings/settingsContainer'
 
 export default class DashboardContainer extends Component {
     constructor(props){
@@ -19,12 +20,15 @@ export default class DashboardContainer extends Component {
             cardDetail : {
                 panel: [],
                 data: {}
-            }
+            },
+            modal: []
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
         this.onViewMoreInfo = this.onViewMoreInfo.bind(this)
         this.onCloseMoreInfo = this.onCloseMoreInfo.bind(this)
+        this.onSelectMenu = this.onSelectMenu.bind(this)
+        this.onCloseModal = this.onCloseModal.bind(this)
         // this.setMapData = this.setMapData.bind(this)
     }
     
@@ -36,6 +40,21 @@ export default class DashboardContainer extends Component {
     //         }
     //     })
     // }
+    onSelectMenu(menu){
+        switch(menu){
+            case 'Search'       : break
+            case 'Reservations' : break
+            case 'History'      : break
+            case 'Settings'     : this.setState({modal: <SettingsContainer dashBoardContainer={this}/>});break
+        }
+    }
+
+    onCloseModal(){
+        this.setState({
+            modal: []
+        })
+    }
+
     onCloseMoreInfo(){
         this.setState({
             cardDetail : {

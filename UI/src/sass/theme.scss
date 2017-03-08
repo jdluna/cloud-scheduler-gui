@@ -28,6 +28,17 @@
         .btn--info:hover{
             background-color: $bg-color-primary;
         }
+        .modal{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(18, 18, 19, 0.74);
+            width: 100%;
+            height: calc(100% - 49px);
+            z-index: 4;
+        }
     }  
 }
  

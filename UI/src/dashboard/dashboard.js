@@ -7,9 +7,10 @@ export default class Dashboard extends Component {
     render() {
         return (
             <section>
-                <MenuBarContainer/>
+                <MenuBarContainer dashBoardContainer={this.props.dashBoardContainer}/>
                 <MapContainer dashBoardContainer={this.props.dashBoardContainer}/>
                 <ReservationBarContainer dashBoardContainer={this.props.dashBoardContainer}/>
+                {this.props.dashBoardContainer.state.modal}
             </section>
         )
     }
