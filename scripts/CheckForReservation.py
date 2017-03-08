@@ -18,11 +18,11 @@ print
 
 
 ###variable from front-end###
-USER_ID = 1
-BEGIN = '2017-03-07 09:00:00'
-END = '2017-03-09 09:00:00'
-SITES_ID = '1,4'
-RESOURCES = '8,32|16,4'
+SESSION_ID = 'WWX9KX'
+BEGIN = '2017-03-10 09:00:00'
+END = '2017-03-11 09:00:00'
+SITES_ID = '7,8'
+RESOURCES = '128,2|4,64'
 IMG_TYPE = 'centOS7'
 #############################
 
@@ -54,12 +54,11 @@ RESOURCES = list(RESOURCES)
 from ReservationManager import ReservationManager
 reservationManager = ReservationManager()
 
-s = reservationManager.createReservation(USER_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
-result = reservationManager.getReservationStatus()
+result = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
 
 jsonStr = '{ "result" : "' +str(result)+ '",'
 
-if result == 'fail':
+if result == False:
     resError = reservationManager.getResourceError()
     resErrorStatus = len(resError) > 0
     siteError = reservationManager.getSiteError()
@@ -75,7 +74,7 @@ if result == 'fail':
         jsonStr += ']'
         
 else:
-    jsonStr += ' "reserve_id" : "'+str(reservationManager.getReservationID()) + '"'
+    jsonStr = jsonStr[:-1]
 
 jsonStr += '}'
 
