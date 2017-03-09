@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import HeaderContainer from '../header/headerContainer'
 import DashboardContainer from '../dashboard/dashboardContainer'
 import LoginContainer from '../dashboard/login/loginContainer'
+import moment from 'moment-timezone'
 
 export default class App extends Component {
     constructor(props){
@@ -17,12 +18,22 @@ export default class App extends Component {
                 data: {},
                 name: '',
                 session: '',
-                timezone: 'A'
+                timezone: moment.tz.guess()
             }
         }
         this.authentication = this.authentication.bind(this)
         this.onLogin = this.onLogin.bind(this)
         this.onLogout = this.onLogout.bind(this)
+    }
+
+    setDateTimeZone(){
+        this.setState({
+           timezone:{
+                date: this.getDateTimeZone(),
+                timezone: this.getNameTimeZone()
+           } 
+        })
+        console.log(this.state.timezone.time)
     }
 
     authentication(){
@@ -42,7 +53,6 @@ export default class App extends Component {
     }
 
     onLogin(data){
-        console.log(data)
         let firstname = data.firstname.toLowerCase()
         let lastname = data.lastName.toLowerCase()
         firstname = firstname.charAt(0).toUpperCase()+firstname.slice(1)
@@ -80,7 +90,19 @@ export default class App extends Component {
                 data: {},
                 name: '',
                 session: '',
-                timezone: ''
+                timezone: moment.tz.guess()
+            }
+        })
+    }
+
+    setTimeZone(timezone){
+        this.setState({
+            authen:{
+                isLogedIn: this.state.authen.isLogedIn,
+                data: this.state.authen.data,
+                name: this.state.authen.name,
+                session: this.state.authen.session,
+                timezone: timezone
             }
         })
     }

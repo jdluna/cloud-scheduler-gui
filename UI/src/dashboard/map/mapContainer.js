@@ -3,22 +3,38 @@ import axios from 'axios'
 import Map from './map'
 import {MAP_ENDPOINT} from '../../config/endpoints'
 import DateTime from '../../lib/dateTime'
+import moment from 'moment-timezone'
 
 const date = new DateTime()
 export default class mapContainer extends Component {
     constructor(props){
         super(props)
         this.state = {
-            date: date.getDateTime()
+            date: this.getDateTimeZone(),
+            timezone: this.getNameTimeZone()
         }
+    }
+
+    getDateTimeZone(){
+        let zone = moment.tz(this.props.dashBoardContainer.getUserTimeZone())
+        let zoneDate = zone.format('DD-MMM-YYYY').toUpperCase()
+        let zoneTime = zone.format().slice(11,16)
+        return zoneDate+' '+zoneTime
+    }
+
+    getNameTimeZone(){
+        let timezone = this.props.dashBoardContainer.getUserTimeZone()
+        let zone = moment.tz(timezone)
+        return timezone.toUpperCase()+' '+zone.format('Z z')
     }
 
     setDateThick(){
         setInterval(()=>{
             this.setState({
-                date: date.getDateTime()
+                date: this.getDateTimeZone(),
+                timezone: this.getNameTimeZone()
             })
-        },10000)
+        },2000)
     }
 
     onMouseClick(id,marker){

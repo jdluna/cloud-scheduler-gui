@@ -51,7 +51,7 @@ export default class map extends Component {
                     <img src='img/ic_access_time.svg'/>
                     <div className={style.text}>
                         <div className={style.time}>{this.props.container.state.date}</div>
-                        <div className={style.utc}>BANGKOK/HANOI UTC +07:00</div>
+                        <div className={style.utc}>{this.props.container.state.timezone}</div>
                     </div>
                 </div>
                 <div className={style.search}>

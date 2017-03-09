@@ -48,7 +48,7 @@ export default class DashboardContainer extends Component {
             case 'Search'       : break
             case 'Reservations' : break
             case 'History'      : break
-            case 'Settings'     : this.setState({modal: <SettingsContainer dashBoardContainer={this}/>});break
+            case 'Settings'     : this.setState({modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>});break
         }
     }
 

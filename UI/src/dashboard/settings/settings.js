@@ -17,7 +17,7 @@ export default class Settings extends Component {
                             </div>
                         </nav>
                         <div className={Style.content}>
-                            <TimezoneContainer dashBoardContainer={this.props.dashBoardContainer}/>
+                            <TimezoneContainer dashBoardContainer={this.props.dashBoardContainer} app={this.props.app}/>
                         </div>
                     </section>
             </section>

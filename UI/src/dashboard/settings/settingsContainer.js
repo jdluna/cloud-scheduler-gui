@@ -5,7 +5,7 @@ export default class SettingsContainer extends Component {
     render() {
         return (
             <section>
-                <Settings dashBoardContainer={this.props.dashBoardContainer}/>
+                <Settings dashBoardContainer={this.props.dashBoardContainer} app={this.props.app}/>
             </section>
         )
     }
