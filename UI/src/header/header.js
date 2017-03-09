@@ -7,7 +7,8 @@ export default class Header extends Component {
             <header id={style.titlebar}>
                 <div className={style.title}>
                     <span>PRAGMA Cloud Testbed services</span>
-                    <span className={style.signin}>Sign in</span>
+                    <span className={style.name}>{this.props.app.state.authen.name}</span> 
+                    <span className={style.signin} onClick={this.props.app.authentication}>{this.props.app.state.loginDialog.header}</span>
                 </div>
             </header>
         )

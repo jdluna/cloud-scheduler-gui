@@ -1,0 +1,80 @@
+@import '../../sass/_colors.scss';
+@import '../../sass/_fonts.scss';
+
+.panel{
+    width: 330px;
+    height: 175px;
+    font-family: $font-primary;
+    border-radius: 3px;
+    border: 1px solid #929296;
+    header{
+        border-radius: 3px 3px 0px 0px;
+        border-bottom: 1px solid #929296;
+        font-size: 9pt; 
+        text-align: center;
+        height: 28px;
+        background-color: rgba(18, 18, 19,0.76);
+        div{
+            color: #FFFFFF;
+            padding-top: 7px;
+        }
+    }
+    .content{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .icon{
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            margin-left: 2px;
+        }
+        .input{
+            padding-left: 22px;
+            background-color: #464a5f;
+            border-radius: 3px;
+            outline: none;
+            width: 155px;
+            border: none;
+            height: 20px;
+        }
+        .input::-webkit-input-placeholder{
+            color: #000000;
+        }
+        .input::-moz-placeholder{
+            color: #000000;
+        }
+        .user{
+            margin-top: 25px;
+        }
+        .pass{
+            margin-top: 10px;
+        }
+        .btn{
+                width: 180px;
+                margin-top: 20px;
+                .cancel,.ok{
+                    border-radius: 3px;
+                    font-size: 9pt;
+                    padding: 4px;
+                    outline: none;
+                    border: none;
+                    color: #FFFFFF;
+                    width: 80px;
+                }
+                .cancel{
+                    float: right;
+                    background-color: #ef303e;
+                }
+                .ok{
+                    float: left;
+                    background-color: #739aaf;
+                }
+                .cancel:hover,.ok:hover{
+                    background-color: $bg-color-primary;
+                }
+        }
+    }
+}

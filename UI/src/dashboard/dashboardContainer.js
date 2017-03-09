@@ -3,6 +3,7 @@ import Dashboard from './dashboard'
 import CardContainer from './reservationBar/cardContainer'
 import CardDescriptionContainer from './reservationBar/cardDescriptionContainer'
 import SettingsContainer from './settings/settingsContainer'
+import LoginContainer from './login/loginContainer'
 
 export default class DashboardContainer extends Component {
     constructor(props){
@@ -29,6 +30,7 @@ export default class DashboardContainer extends Component {
         this.onCloseMoreInfo = this.onCloseMoreInfo.bind(this)
         this.onSelectMenu = this.onSelectMenu.bind(this)
         this.onCloseModal = this.onCloseModal.bind(this)
+        this.getUserTimeZone = this.getUserTimeZone.bind(this)
         // this.setMapData = this.setMapData.bind(this)
     }
     
@@ -40,6 +42,7 @@ export default class DashboardContainer extends Component {
     //         }
     //     })
     // }
+
     onSelectMenu(menu){
         switch(menu){
             case 'Search'       : break
@@ -126,10 +129,14 @@ export default class DashboardContainer extends Component {
         }
     }
 
+    getUserTimeZone(){
+        return this.props.app.state.authen.timezone
+    }
+
     render() {
         return (
             <section>
-                <Dashboard dashBoardContainer={this}/>
+                <Dashboard dashBoardContainer={this} app={this.props.app}/>
             </section>
         )
     }

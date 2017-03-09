@@ -11,6 +11,7 @@ export default class Dashboard extends Component {
                 <MapContainer dashBoardContainer={this.props.dashBoardContainer}/>
                 <ReservationBarContainer dashBoardContainer={this.props.dashBoardContainer}/>
                 {this.props.dashBoardContainer.state.modal}
+                {this.props.app.state.loginDialog.modal}
             </section>
         )
     }
