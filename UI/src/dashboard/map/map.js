@@ -9,7 +9,8 @@ const OPTIONS = {
     zoom: 2,
     minZoom: 2,  
     backgroundColor: '#191E2C',
-    disableDefaultUI: true,
+    disableDefaultUI: false,
+    streetViewControl: false,
     mapTypeControl: false,
         styles: [{
             featureType: 'water',

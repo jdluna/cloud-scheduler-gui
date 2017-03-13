@@ -22,7 +22,7 @@ export default class reservationBar extends Component {
                         <button className='btn'>RESERVE</button>
                     </form>
                 </section>
-                <p style={this.props.dashBoardContainer.state.cardPanel.notfound} className={style.status}>No selected resource</p>
+                <p style={this.props.dashBoardContainer.state.cardPanel.notfound} className={style.status}>Click on the marker to view Info.</p>
                 <section className={style.cardpanel}>
                     {this.props.dashBoardContainer.state.map.card}
                 </section>

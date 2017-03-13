@@ -10,7 +10,7 @@
     border-left: solid 1px #3D4153;
     z-index: 1;
     box-sizing: border-box;
-    height: 100%;
+    height: calc(100% - 49px);
     font-family:$font-primary;
     color: $text-color-secondary;
         .reserve{
@@ -21,6 +21,7 @@
             border-radius: 5px;
             padding-top: 5px;
             padding-bottom: 5px;
+            height: 107px;
             width: calc(100% - 20px);
                 .title{
                     display: block;
@@ -51,7 +52,7 @@
         color: #4d546c;
     }
     .cardpanel{
-        height: 73%;
+        height: calc(100% - 129px);
         overflow: auto;
         margin-top: 10px;
     }

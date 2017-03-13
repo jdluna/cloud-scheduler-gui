@@ -16,6 +16,7 @@ export default class cardContainer extends Component {
             date: date.getDate(),
             site: {
                 allData: {},
+                name: 'N/A',
                 cpuTotal: 0,
                 cpuAvailable: 0,
                 memTotal: 0,

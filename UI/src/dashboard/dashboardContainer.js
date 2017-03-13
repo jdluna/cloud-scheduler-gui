@@ -97,6 +97,26 @@ export default class DashboardContainer extends Component {
                     notfound: {display:'none'}
                 }
             })
+        }else{
+            let {card} = this.state.map
+            let index = chooseSite.indexOf(parseInt(id))
+            marker.splice(index,1)
+            chooseSite.splice(index,1)
+            card.splice(((card.length-1)-index),1)
+
+            marker.push(markerNode)
+            chooseSite.push(parseInt(id))
+            let cardTemp = []
+            chooseSite.map((data,key)=>{
+                cardTemp.unshift(<CardContainer dashBoardContainer={this} siteId={data} key={data}/>)
+            })
+            this.setState({
+                map:{
+                    marker: marker,
+                    chooseSite: chooseSite,
+                    card: cardTemp
+                }
+            })
         }
     }
 

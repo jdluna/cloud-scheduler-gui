@@ -14,10 +14,11 @@ export default class card extends Component {
             <section style={this.props.cardContainer.state.style.card} className={style.card}>
                 <article style={this.props.cardContainer.state.style.cardTitle} className={style.article} onClick={this.props.cardContainer.onCheckBoxChange}>
                     <input className={style.checkbox} type='checkbox' onChange={this.props.cardContainer.onCheckBoxChange} checked={this.props.cardContainer.state.select}/>
-                    <span className={style.title}>{this.props.cardContainer.state.site.name}</span>
+                    <span className={style.title}>Select for reservation</span>
                     <img width='18' className={style.close} src='img/ic_close.svg' onClick={this.props.cardContainer.onCloseCard}/>
                 </article>
                 <section className={style.data}>
+                    <div className={style.cardname}>{this.props.cardContainer.state.site.name}</div>
                     <div className={style.calendar}>
                         <img className={style.icon} src='img/ic_navigate_before.svg' onClick={this.props.cardContainer.onPreviousDate}/>
                         <span className={style.date}>{this.props.cardContainer.state.date}</span>
@@ -45,13 +46,13 @@ export default class card extends Component {
                         <div>
                             <span className={style.cpu}></span>
                             <span className={style.detail}>CPU Available</span>
-                            <span> : {this.props.cardContainer.state.site.cpuAvailable+'/'+this.props.cardContainer.state.site.cpuTotal}</span>
+                            <span className={style.cpudetail}> : {this.props.cardContainer.state.site.cpuAvailable}</span><span>{' /'+this.props.cardContainer.state.site.cpuTotal}</span>
                         </div>
                         <div className={style.space}></div>
                         <div>
                             <span className={style.mem}></span>
                             <span className={style.detail}>Memory Available</span>
-                            <span> : {this.props.cardContainer.state.site.memAvailable+'/'+this.props.cardContainer.state.site.memTotal}</span>
+                            <span className={style.memdetail}> : {this.props.cardContainer.state.site.memAvailable}</span><span>{' /'+this.props.cardContainer.state.site.memTotal}</span>
                         </div>
                     </div>
                 </section>
@@ -66,8 +67,8 @@ export default class card extends Component {
                     </div >
                 </section>
                 <section className={style.desc}>
-                    <p className={style.title}>Description</p>
-                    <p className={style.detail}>{this.props.cardContainer.state.site.desc}</p>
+                    <div className={style.title}>Description</div>
+                    <div className={style.detail}>{this.props.cardContainer.state.site.desc}</div>
                 </section>
                 <section className={style.section}>
                     <span className={style.text}>Number of running cluster : {this.props.cardContainer.state.site.running}</span>

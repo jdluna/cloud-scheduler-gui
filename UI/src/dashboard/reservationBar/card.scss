@@ -25,40 +25,46 @@
     .article{
         border-radius: 3px 3px 0px 0px;
         background-color: #55596A;
-        height: 28px;
+        height: 25px;
         width: 100%;
         cursor: default;
         .checkbox{
             float: left;
             margin-left: 10px;
-            margin-top: 8px;
+            margin-top: 6px;
         }
         .title{
             float: left;
-            font-size: 9pt;
+            font-size: 8pt;
             padding-left: 5px;
-            margin-top: 7px;
+            margin-top: 6px;
         }
         .close{
             position: absolute;
             right: 5px;
-            top: 5px;
+            top: 3px;
         }
     }
     .data{
         padding-left: 5px;
         padding-right: 5px;
         font-size: 7pt;
+        .cardname{
+            font-size: 12pt;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
         .calendar{
             display: flex;
             justify-content: center;
             margin: auto;
-            margin-top: 5px;
             .icon:hover{
                 cursor: pointer;
             }
             .date{
                 padding-top: 7px;
+                opacity: 0.5;
             }
         }
         .chart{
@@ -105,6 +111,12 @@
             }
             .mem{
                 background-color: #9CCBE5;
+            }   
+            .cpudetail{
+                color: #EFA430;
+            }
+            .memdetail{
+                color: #9CCBE5;
             }
             .detail{
                 display: inline-block;
@@ -119,14 +131,14 @@
     .section{
         display: flex;
         font-size: 8pt;
-        height: 20px;
+        height: 19px;
         width: 100%;
         background-color: #464A5F;
         margin-top: 9px;
         .text{
             float: left;
             margin-left: 5px;
-            margin-top: 4px;
+            margin-top: 3px;
         }
         .type{
             width: 50%;
@@ -134,7 +146,7 @@
             .name{
                 float: left;
                 margin-left: 5px;
-                margin-top: 4px;
+                margin-top: 3px;
             }
             .deactive{
                 width: 8px;
@@ -143,7 +155,7 @@
                 background-color: #929294;
                 float: right;
                 margin-right: 10px;
-                margin-top: 6px;
+                margin-top: 5px;
             }
             .active{
                 width: 8px;
@@ -152,15 +164,17 @@
                 background-color: #76FF03;
                 float: right;
                 margin-right: 10px;
-                margin-top: 6px;
+                margin-top: 5px;
             }
         }
     }
     .desc{
         padding-left: 5px;
         padding-right: 5px;
+        padding-top: 9px;
         .title{
             font-size: 8pt;
+            padding-bottom: 5px;
         }
         .detail{
             font-size: 7pt;
