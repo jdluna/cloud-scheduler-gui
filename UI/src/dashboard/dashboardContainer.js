@@ -4,6 +4,7 @@ import CardContainer from './reservationBar/cardContainer'
 import CardDescriptionContainer from './reservationBar/cardDescriptionContainer'
 import SettingsContainer from './settings/settingsContainer'
 import LoginContainer from './login/loginContainer'
+import SearchContainer from './search/searchContainer'
 
 export default class DashboardContainer extends Component {
     constructor(props){
@@ -45,7 +46,7 @@ export default class DashboardContainer extends Component {
 
     onSelectMenu(menu){
         switch(menu){
-            case 'Search'       : break
+            case 'Search'       : this.setState({modal: <SearchContainer dashBoardContainer={this}/>});break
             case 'Reservations' : break
             case 'History'      : break
             case 'Settings'     : this.setState({modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>});break

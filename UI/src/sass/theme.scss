@@ -40,6 +40,17 @@
             height: calc(100% - 49px);
             z-index: 4;
         }
+        .halfmodal{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(18, 18, 19, 0.74);
+            width: calc(100% - 220px);
+            height: calc(100% - 49px);
+            z-index: 4;
+        }
     }  
 }
  
