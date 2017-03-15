@@ -18,7 +18,7 @@ print
 
 
 ###variable from front-end###
-SESSION_ID = 'CUIQC5'
+SESSION_ID = 'ACB123'
 BEGIN = '2017-03-16 09:00:00'
 END = '2017-03-16 12:00:00'
 SITES_ID = '1,2'

@@ -22,7 +22,7 @@ print
 from ReservationManager import ReservationManager
 
 resManager = ReservationManager()
-reservations = resManager.getMyReservations(SESSION_ID)
+reservations = resManager.getReservations(SESSION_ID)
 jsonStr = '{ "result" : [' 
 
 for r in reservations:

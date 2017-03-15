@@ -16,7 +16,6 @@ import string
 import random
 from datetime import datetime,timedelta
 from Reservation import Reservation
-from Site import Site
 
 
 class ReservationManager:
@@ -232,10 +231,53 @@ class ReservationManager:
         return ''.join(random.choice(chars) for self._ in range(size))
         
         
-    def getMyReservations(self, sessionId):
+    def getReservations(self, sessionId = None, userId = None):
+        
+        if sessionId == None and userId == None:
+            return None
+               
         self.__db = Database()        
         self.__sessionId = sessionId
-        self.__myReservations = []
+        self.__reservations = []
+        
+        if self.__db.connect():
+            
+            if userId == None:
+                #check session id and get user id
+                sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
+                self.__db.execute(sql)
+                uid = self.__db.getCursor().fetchone()
+                if uid != None:
+                    self.__userId = uid[0]
+            else:
+                self.__userId = userId
+                
+            
+            sql = 'SELECT `username` FROM `user` WHERE `user_id`="'+str(self.__userId)+'";'
+            self.__db.execute(sql)
+            username = self.__db.getCursor().fetchone()[0]
+                
+                
+            sql = 'SELECT `reservation_id`,`title`,`end` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
+            self.__db.execute(sql)
+            data = self.__db.getCursor().fetchall()
+
+            for d in data:
+                r = Reservation()
+                r.setReservationId(d[0])
+                r.setTitle(d[1])
+                r.setEnd(d[2])
+                r.setOwner(username)
+                
+                r.setReservationStatus()                    
+                self.__reservations.append(r)
+                    
+        return self.__reservations
+    
+    def getAllReservations(self, sessionId):
+        self.__db = Database()        
+        self.__sessionId = sessionId
+        self.__allReservations = []
         
         if self.__db.connect():
             #check session id and get user id
@@ -244,21 +286,25 @@ class ReservationManager:
             uid = self.__db.getCursor().fetchone()
             if uid != None:
                 self.__userId = uid[0]
-                sql = 'SELECT `reservation_id`,`title`,`end` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'"'
+                sql = 'SELECT `status` FROM `user` WHERE `user_id` = "'+str(self.__userId)+'";'
                 self.__db.execute(sql)
-                data = self.__db.getCursor().fetchall()
-
-                for d in data:
-                    r = Reservation()
-                    r.setReservationId(d[0])
-                    r.setTitle(d[1])
-                    r.setEnd(d[2])
+                status = self.__db.getCursor().fetchone()[0]
+                
+                if str(status).lower() != 'admin':
+                    return False
+                else:
+                    #get all reservations in the system
+                    sql = 'SELECT `user_id` FROM `user`;'
+                    self.__db.execute(sql)
+                    data = self.__db.getCursor().fetchall()
                     
-                    r.setReservationStatus()                    
-                    self.__myReservations.append(r)
-                    
-        return self.__myReservations
-        
+                    for d in data:
+                        self.__allReservations.append(self.getReservations(userId=d[0]))
+                        
+            self.__db.close()
+              
+        return self.__allReservations
+            
         
     def extend(self, sessionId, end, reservationId):
 
