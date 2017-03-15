@@ -19,7 +19,7 @@ print
 
 ###variable from front-end###
 SITE_ID = 1
-DATE_REQUIRE = '2017-03-07 09:00:00'
+DATE_REQUIRE = '2017-03-20 09:00:00'
 #############################
 
 
