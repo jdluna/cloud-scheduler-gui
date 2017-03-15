@@ -21,7 +21,7 @@ export default class NotFoundTable extends Component {
                     <div className={Style.itemlist}>
                         {this.props.data.sites.map((data,key)=>{
                             return(
-                                <div className={Style.item} key={key}>
+                                <div className={Style.item} key={key} onClick={()=>this.props.searchContainer.onSelectItem(data.name)}>
                                     <div className={Style.text}>{data.name}</div>
                                     <div className={Style.text}>{data.CPU.available}</div>
                                     <div className={Style.text}>{data.memory.available}</div>

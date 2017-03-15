@@ -33,6 +33,7 @@ export default class SearchContainer extends Component {
             resultTable: []
         }
         this.appContainer = this.props.dashBoardContainer.props.app
+        this.dashboardContainer = this.props.dashBoardContainer
 
         this.onClose = this.onClose.bind(this)
         this.onResourceChange = this.onResourceChange.bind(this)
@@ -44,6 +45,7 @@ export default class SearchContainer extends Component {
         this.onAdditionNetwordChange = this.onAdditionNetwordChange.bind(this)
         this.onReserveLengthDataChange = this.onReserveLengthDataChange.bind(this)
         this.onSearchSubmit = this.onSearchSubmit.bind(this)
+        this.onSelectItem = this.onSelectItem.bind(this)
     }
 
     onClose() {
@@ -139,11 +141,27 @@ export default class SearchContainer extends Component {
         })
     }
 
+    onSelectItem(name){
+        let markerNode = this.dashboardContainer.state.markerNode
+        for(let i=0;i<markerNode.length;i++){
+            if(markerNode[i].name.toLowerCase()==name.toLowerCase()){
+                let id = markerNode[i].id
+                let icon = (markerNode[i].icon.url) ? markerNode[i].icon.url : markerNode[i].icon
+                this.props.dashBoardContainer.onSelectMarker(id,{node:markerNode[i],icon:icon})
+                if(icon=='img/marker.png'){
+                    markerNode[i].setIcon('img/marker_select.png')
+                }else if(icon=='img/marker_ent.png'){
+                    markerNode[i].setIcon('img/marker_ent_select.png')
+                }
+                break
+            }
+        }
+    }
+
     queryResource(params){
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result_type){
-                console.log(data)
                 if(data.result_type=='result'){
                     this.setState({
                         dataResult: data,

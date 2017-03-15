@@ -69,6 +69,8 @@ export default class mapContainer extends Component {
             let markerIcon = (ent) ? 'img/marker_ent.png' : 'img/marker.png'
 
             marker[key] = new google.maps.Marker({
+                id: id,
+                name: data.name,
                 position: { 
                     lat: parseFloat(data.latitude),
                     lng: parseFloat(data.longitude)
@@ -84,6 +86,7 @@ export default class mapContainer extends Component {
             google.maps.event.addListener(marker[key], 'click', ()=>this.onMouseClick(id,{node:marker[key],icon:markerIcon}))
         })
         this.markerCluster = new MarkerClusterer(this.map, marker, {imagePath: 'img/marker_cluster'})
+        this.props.dashBoardContainer.setMarkerNode(marker)
     }
 
     showMap(node,options){

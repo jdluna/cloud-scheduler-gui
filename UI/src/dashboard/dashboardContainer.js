@@ -23,7 +23,8 @@ export default class DashboardContainer extends Component {
                 panel: [],
                 data: {}
             },
-            modal: []
+            modal: [],
+            markerNode: []
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -32,6 +33,7 @@ export default class DashboardContainer extends Component {
         this.onSelectMenu = this.onSelectMenu.bind(this)
         this.onCloseModal = this.onCloseModal.bind(this)
         this.getUserTimeZone = this.getUserTimeZone.bind(this)
+        this.setMarkerNode = this.setMarkerNode.bind(this)
         // this.setMapData = this.setMapData.bind(this)
     }
     
@@ -79,6 +81,12 @@ export default class DashboardContainer extends Component {
         })
     }
 
+    setMarkerNode(marker){
+        this.setState({
+            markerNode: marker
+        })
+    }
+    
     onSelectMarker(id,markerNode){
         let {marker,chooseSite} = this.state.map
         if(chooseSite.indexOf(parseInt(id))==-1){
@@ -124,9 +132,13 @@ export default class DashboardContainer extends Component {
    onCloseCard(id){
         let {marker,chooseSite,card} = this.state.map
         let index = chooseSite.indexOf(parseInt(id))
-
+         
         if(marker[index].icon=='img/marker.png'){
             marker[index].node.setIcon('img/marker.png')
+        }else if(marker[index].icon=='img/marker_select.png'){
+            marker[index].node.setIcon('img/marker.png')
+        }else if(marker[index].icon=='img/marker_ent_select.png'){
+            marker[index].node.setIcon('img/marker_ent.png')
         }else{
             marker[index].node.setIcon('img/marker_ent.png')
         }
