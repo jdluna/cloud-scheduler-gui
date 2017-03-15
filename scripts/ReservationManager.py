@@ -16,6 +16,7 @@ import string
 import random
 from datetime import datetime,timedelta
 from Reservation import Reservation
+from Site import Site
 
 
 class ReservationManager:
@@ -266,48 +267,164 @@ class ReservationManager:
         
         if self.__db.connect():
             
+            sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(sessionId)+'";'
+            self.__db.execute(sql)
+            uid = self.__db.getCursor().fetchone()
+            if uid != None:
+                
+                try:
+                    sql = 'SELECT `end` FROM `reservation` WHERE `reservation_id`="'+str(reservationId)+'";'
+                    self.__db.execute(sql)
+                    data = self.__db.getCursor().fetchone()            
+                    endOld = str(data[0])
+                    
+                    if endOld != end:
+                    
+                        sql = 'SELECT * FROM `site_reserved` WHERE `reservation_id` = "'+str(reservationId)+'";'
+                        self.__db.execute(sql)
+                        data = self.__db.getCursor().fetchall()   
+            
+                        siteManager = SiteManager()
+                        
+                        for d in data:
+                            
+                            #one round = one site
+                            siteId = d[1]
+                            site = siteManager.getSite(siteId=siteId,dateReq=endOld,end=end)
+                            
+                            #check resource available from end of this reservation to end of new reservation
+                            r = site.getResources()
+                            for i in range(0,len(site.getResources())):
+                                #d[2] = CPU, d[3] = Memory
+                                if int(r[i].getAvailableAmount()) <= int(d[2+i]):
+                                    return False
+                                r[i].setAmount(d[2+i])
+                            
+                            sites.append(site)
+                                
+                            
+            
+                        #----the resources are available----#
+                        #reservation table
+                        sql = 'UPDATE `reservation` SET `end` = "'+str(end)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'
+                        self.__db.execute(sql)  
+    
+                        
+                        #site_reserved table no nedd to be updated
+                        
+                        #schedule table
+                        tmpBegin = str(endOld)
+                        beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
+                            
+                        while beginToEnd>=timedelta(hours=1):
+                            
+                            tmpEnd = (datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")+timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
+                                
+                            for i in range(0,len(sites)):
+                                
+                                siteId = sites[i].getSiteId()
+                                r = sites[i].getResources()
+                                
+                                self.__db.execute('SELECT * FROM `schedule` WHERE `site_id` = "'+str(siteId)+'" and `start` = "'+str(tmpBegin)+'";')
+                                data = self.__db.getCursor().fetchone()
+                                
+                                if data == None:
+                                    #still not have this time slot of this site
+                                
+                                    sql = 'INSERT INTO `schedule` VALUES ('
+                                    sql += '"'+str(siteId)+'","'+str(tmpBegin)+'","'+str(tmpEnd)+'","'
+                                    
+                                    for j in range(0,len(r)):
+                                        sql += str(r[j].getAmount())+'","'
+                                     
+                                    sql = sql[:-2]
+                                    sql += ');'
+                                
+                                else:
+                                    #already have this time slot of this site
+                                
+                                    self.__db.execute("SELECT * FROM `schedule` LIMIT 0;")
+                                    tableDesc = self.__db.getCursor().description
+                                    
+                                    sql = 'UPDATE `schedule` SET'
+                                    
+                                    for j in range(0,len(r)):
+                                        #note : data[3] is CPU
+                                        sql += ' `'+str(tableDesc[3+j][0]) + '` = "' + str(int(r[j].getAmount())+int(data[3+j]))+'",'
+                                     
+                                    sql = sql[:-1]
+                                    sql += ' WHERE `site_id` = "'+str(siteId)+'" AND `start` = "'+str(tmpBegin)+'";'
+                                    
+                                self.__db.execute(sql)
+                                    
+                                
+                            tmpBegin = tmpEnd
+                            beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
+                    
+                    
+                        self.__db.commit()
+                        self.__db.close() 
+                        return True
+               
+                except:
+                    self.__db.rollback()
+                    self.__db.close() 
+                    return False
+          
+            self.__db.close() 
+            
+        return False
+         
+         
+    def cancel(self, sessionId, reservationId):
+        self.__db = Database() 
+        
+        if self.__db.connect():
+            
             try:
-                sql = 'SELECT `end` FROM `reservation` WHERE `reservation_id`="'+str(reservationId)+'";'
+                sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(sessionId)+'";'
                 self.__db.execute(sql)
-                data = self.__db.getCursor().fetchone()            
-                endOld = str(data[0])
-                
-                if endOld != end:
-                
+                uid = self.__db.getCursor().fetchone()
+                if uid != None:
+                    
+                    #---get start and end time of reservation---
+                    sql = 'SELECT `start`, `end` FROM `reservation` WHERE `reservation_id` = "'+str(reservationId)+'";'
+                    self.__db.execute(sql)
+                    data = self.__db.getCursor().fetchone()    
+                    begin = str(data[0])
+                    end = str(data[1])
+                    
+                    #---get list of site in the reservation---
                     sql = 'SELECT * FROM `site_reserved` WHERE `reservation_id` = "'+str(reservationId)+'";'
                     self.__db.execute(sql)
-                    data = self.__db.getCursor().fetchall()   
-        
-                    siteManager = SiteManager()
+                    data = self.__db.getCursor().fetchall()    
+                    sites = []
+                    siteManager = SiteManager()                
                     
                     for d in data:
-                        
-                        #one round = one site
                         siteId = d[1]
-                        site = siteManager.getSite(siteId=siteId,dateReq=endOld,end=end)
                         
-                        #check resource available from end of this reservation to end of new reservation
+                        #create site just for getting the amount of resource types
+                        self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
+                        site_data = self.__db.getCursor().fetchone()   
+                        site = siteManager.createSite(site_data) 
+                       
                         r = site.getResources()
-                        for i in range(0,len(site.getResources())):
+                        
+                        for i in range(0,len(r)):
                             #d[2] = CPU, d[3] = Memory
-                            if int(r[i].getAvailableAmount()) <= int(d[2+i]):
-                                return False
                             r[i].setAmount(d[2+i])
                         
                         sites.append(site)
-                            
-                        
-        
-                    #----the resources are available----#
-                    #reservation table
-                    sql = 'UPDATE `reservation` SET `end` = "'+str(end)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'
-                    self.__db.execute(sql)  
-
                     
-                    #site_reserved table no nedd to be updated
                     
-                    #schedule table
-                    tmpBegin = str(endOld)
+                    #---remove the reservation data---
+                    #site_reserved table
+                    sql = 'DELETE FROM `site_reserved` WHERE `reservation_id` = "'+str(reservationId)+'";'
+                    self.__db.execute(sql)
+    
+                    #schedule table                
+                    tmpBegin = begin
                     beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                         
                     while beginToEnd>=timedelta(hours=1):
@@ -322,47 +439,52 @@ class ReservationManager:
                             self.__db.execute('SELECT * FROM `schedule` WHERE `site_id` = "'+str(siteId)+'" and `start` = "'+str(tmpBegin)+'";')
                             data = self.__db.getCursor().fetchone()
                             
-                            if data == None:
-                                #still not have this time slot of this site
+                            usedAmount = []
+                            for k in range(0,len(r)):
+                                #CPU = data[3], Memory = data[4]
+                                usedAmount.append(data[k+3])
                             
-                                sql = 'INSERT INTO `schedule` VALUES ('
-                                sql += '"'+str(siteId)+'","'+str(tmpBegin)+'","'+str(tmpEnd)+'","'
-                                
-                                for j in range(0,len(r)):
-                                    sql += str(r[j].getAmount())+'","'
-                                 
-                                sql = sql[:-2]
-                                sql += ');'
+                            tableDesc = self.__db.getCursor().description
                             
-                            else:
-                                #already have this time slot of this site
+                            sql = 'UPDATE `schedule` SET'
                             
-                                self.__db.execute("SELECT * FROM `schedule` LIMIT 0;")
-                                tableDesc = self.__db.getCursor().description
-                                
-                                sql = 'UPDATE `schedule` SET'
-                                
-                                for j in range(0,len(r)):
-                                    #note : data[3] is CPU
-                                    sql += ' `'+str(tableDesc[3+j][0]) + '` = "' + str(int(r[j].getAmount())+int(data[3+j]))+'",'
-                                 
-                                sql = sql[:-1]
-                                sql += ' WHERE `site_id` = "'+str(siteId)+'" AND `start` = "'+str(tmpBegin)+'";'
-                                
+                            for j in range(0,len(r)):
+                                #note : data[3] is CPU
+                                sql += ' `'+str(tableDesc[3+j][0]) + '` = "' + str(int(usedAmount[j])-int(r[j].getAmount()))+'",'
+                             
+                            sql = sql[:-1]
+                            sql += ' WHERE `site_id` = "'+str(siteId)+'" AND `start` = "'+str(tmpBegin)+'";'
+                            
+             
                             self.__db.execute(sql)
-                                
-                            
+                         
                         tmpBegin = tmpEnd
                         beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
-                
-                
+     
+                    
+                    #reservation table
+                    sql = 'DELETE FROM `reservation` WHERE `reservation_id` = "'+str(reservationId)+'";'
+                    self.__db.execute(sql)
+    
+                    
                     self.__db.commit()
+                    self.__db.close() 
                     return True
-           
+                    
             except:
                 self.__db.rollback()
+                self.__db.close() 
                 return False
-                  
                 
+            self.__db.close() 
+             
         return False
-          
+                
+                
+                
+                
+                
+                
+                
+                
+                
