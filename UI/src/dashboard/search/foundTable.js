@@ -6,7 +6,7 @@ export default class NotFoundTable extends Component {
         return (
             <section>
                 <div className={Style.label}>
-                    <div className={Style.firstlabel}>Search result (0):</div>
+                    <div className={Style.firstlabel}>Search result ({this.props.data.amount}):</div>
                     <div className={Style.secondlabel}>Click on site's name for more description.</div>
                 </div>
                 <div className={Style.data}>
@@ -19,66 +19,15 @@ export default class NotFoundTable extends Component {
                         <div className={Style.text}>Available Memory (GB)</div>
                     </div>
                     <div className={Style.itemlist}>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
-                       <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>128</div>
-                            <div className={Style.text}>180</div>
-                       </div>
+                        {this.props.data.sites.map((data,key)=>{
+                            return(
+                                <div className={Style.item} key={key}>
+                                    <div className={Style.text}>{data.name}</div>
+                                    <div className={Style.text}>{data.CPU.available}</div>
+                                    <div className={Style.text}>{data.memory.available}</div>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </section>

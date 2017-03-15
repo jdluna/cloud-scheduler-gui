@@ -19,54 +19,14 @@ export default class NotFoundTable extends Component {
                         </div>
                     </div>
                     <div className={Style.itemlist}>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
-                        <div className={Style.item}>
-                            <div className={Style.text}>AIST Cloud</div>
-                            <div className={Style.text}>10-NOV-2016 00:00</div>
-                        </div>
+                        {/*{this.props.data.sites.map((data,key)=>{
+                            return(
+                                <div className={Style.item} key={key}>
+                                    <div className={Style.text}>AIST Cloud</div>
+                                    <div className={Style.text}>10-NOV-2016 00:00</div>
+                                </div>
+                            )
+                        })}   */}
                     </div>
                 </div>
             </section>

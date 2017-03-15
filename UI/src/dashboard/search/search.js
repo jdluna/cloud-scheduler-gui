@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import Style from './search.scss'
 import DatePicker from 'react-datepicker'
-import NotFoundTable from './notFoundTable'
-import FoundTable from './foundTable'
 
-const TimeItem = () => (
-    <select className={Style.inputtime}>
+const TimeItem = (props) => (
+    <select name={props.name} className={Style.inputtime} value={props.value} onChange={props.handle}>
         <option value='00:00'>00 : 00</option>
         <option value='01:00'>01 : 00</option>
         <option value='02:00'>02 : 00</option>
@@ -44,91 +42,94 @@ export default class Search extends Component {
                     </header>
                     <section className={Style.content}>
                         <div className={Style.searchinput}>
-                            <div className={Style.row}>
-                                <div className={Style.block}>
-                                    <div>CPU:</div>
-                                    <input className={Style.input} type='text' />
-                                </div>
-                                <div className={Style.block}>
-                                    <div>Memory (GB):</div>
-                                    <input className={Style.input} type='text' />
-                                </div>
-                            </div>
-                            <div className={Style.row}>
-                                <div className={Style.block}>
-                                    <div>Begin:</div>
-                                    <DatePicker className={Style.inputdate} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate} onChange={this.props.searchContainer.onStartDateChange} />
-                                    <img className={Style.icon} src='img/ic_date_range.svg'/>
-                                    <TimeItem/>
-                                </div>
-                            </div>
-                            <div className={Style.row}>
-                                <div className={Style.block}>
-                                    <div>End:</div>
-                                    <DatePicker className={Style.inputdate} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate} onChange={this.props.searchContainer.onStartDateChange} />
-                                    <img className={Style.icon} src='img/ic_date_range.svg'/>
-                                    <TimeItem/>
-                                </div>
-                            </div>
-                            <div className={Style.row}>
-                                <div className={Style.block}>
-                                    <div className={Style.reservespace}>Reservation length:</div>
-                                    <div className={Style.choose}>
-                                        <input type='radio' name='type'/>
-                                        <span className={Style.text}>All period time</span>
+                            <form>
+                                <div className={Style.row}>
+                                    <div className={Style.block}>
+                                        <div>CPU:</div>
+                                        <input className={Style.input} type='text' name='cpu' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.cpu} autoFocus/>
+                                    </div>
+                                    <div className={Style.block}>
+                                        <div>Memory (GB):</div>
+                                        <input className={Style.input} type='text' name='mem' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.mem}/>
                                     </div>
                                 </div>
-                                <div className={Style.block}>
-                                    <div className={Style.choose}>
-                                        <input className={Style.marginradio} type='radio' name='type'/>
+                                <div className={Style.row}>
+                                    <div className={Style.block}>
+                                        <div>Begin:</div>
+                                        <DatePicker className={Style.inputdate} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
+                                        <img className={Style.icon} src='img/ic_date_range.svg'/>
+                                        <TimeItem name='startTime' value={this.props.searchContainer.state.startTime} handle={this.props.searchContainer.onTimeChange}/>
+                                    </div>
+                                </div>
+                                <div className={Style.row}>
+                                    <div className={Style.block}>
+                                        <div>End:</div>
+                                        <DatePicker className={Style.inputdate} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
+                                        <img className={Style.icon} src='img/ic_date_range.svg'/>
+                                        <TimeItem name='endTime' value={this.props.searchContainer.state.endTime} handle={this.props.searchContainer.onTimeChange}/>
+                                    </div>
+                                </div>
+                                <div className={Style.row}>
+                                    <div className={Style.block}>
+                                        <div className={Style.reservespace}>Reservation length:</div>
+                                        <div className={Style.choose}>
+                                            <input type='radio' name='type' value='all' checked={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthChange}/>
+                                            <span className={Style.text}>All period time</span>
+                                        </div>
+                                    </div>
+                                    <div className={Style.block}>
+                                        <div className={Style.choose}>
+                                            <input className={Style.marginradio} type='radio' name='type' value='time' checked={this.props.searchContainer.state.reservationLength.value=='time'} onChange={this.props.searchContainer.onReserveLengthChange}/>
+                                            <div className={Style.block}>
+                                                <input className={Style.inputradio} type='text' name='days' disabled={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.days}/>
+                                                <span className={Style.unittext}> days</span>
+                                            </div>
+                                            <div className={Style.block}>
+                                                <input className={Style.inputradio} type='text' name='hours' disabled={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.hours}/>
+                                                <span className={Style.unittext}> hours</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={Style.row}>
+                                    <div className={Style.block}>
+                                        <div>Additional Network:</div>
                                         <div className={Style.block}>
-                                            <input className={Style.inputradio} type='text' />
-                                            <span className={Style.unittext}> days</span>
+                                            <div className={Style.choose}>
+                                                <input type='radio' name='network' value='None' checked={this.props.searchContainer.state.additionalNetwork=='None'} onChange={this.props.searchContainer.onAdditionNetwordChange}/>
+                                                <span className={Style.text}>None</span>
+                                            </div>
                                         </div>
                                         <div className={Style.block}>
-                                            <input className={Style.inputradio} type='text' />
-                                            <span className={Style.unittext}> hours</span>
+                                            <div className={Style.choose}>
+                                                <input type='radio' name='network' value='ENT' checked={this.props.searchContainer.state.additionalNetwork=='ENT'} onChange={this.props.searchContainer.onAdditionNetwordChange}/>
+                                                <span className={Style.text}>ENT</span>
+                                            </div>
+                                        </div>
+                                        <div className={Style.block}>
+                                            <div className={Style.choose}>
+                                                <input type='radio' name='network' value='IPOP' checked={this.props.searchContainer.state.additionalNetwork=='IPOP'} onChange={this.props.searchContainer.onAdditionNetwordChange}/>
+                                                <span className={Style.text}>IPOP</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className={Style.row}>
-                                <div className={Style.block}>
-                                    <div>Additional Network:</div>
+                                <div className={Style.row}>
                                     <div className={Style.block}>
-                                        <div className={Style.choose}>
-                                            <input type='radio' name='network'/>
-                                            <span className={Style.text}>None</span>
-                                        </div>
-                                    </div>
-                                    <div className={Style.block}>
-                                        <div className={Style.choose}>
-                                            <input type='radio' name='network'/>
-                                            <span className={Style.text}>ENT</span>
-                                        </div>
-                                    </div>
-                                    <div className={Style.block}>
-                                        <div className={Style.choose}>
-                                            <input type='radio' name='network'/>
-                                            <span className={Style.text}>IPOP</span>
-                                        </div>
+                                        <div>Image type:</div>
+                                        <select className={Style.inputtime} value={this.props.searchContainer.state.imageType} onChange={this.props.searchContainer.onImageTypeChange}>
+                                            <option value='Any'>Any</option>
+                                            <option value='centOS7'>centOS7</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div className={Style.row}>
-                                <div className={Style.block}>
-                                    <div>Image type:</div>
-                                    <select className={Style.inputtime}>
-                                        <option value='Any'>Any</option>
-                                    </select>
+                                <div className={Style.searchbtn}>
+                                    <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>
                                 </div>
-                            </div>
-                            <div className={Style.searchbtn}>
-                                <button className='btn--info'>SEARCH</button>
-                            </div>
+                            </form>
                         </div>
                         <div className={Style.searchresult}>
-                            <FoundTable/>
+                            {this.props.searchContainer.state.resultTable}
                         </div>
                     </section>
                 </section>
