@@ -14,7 +14,8 @@ export default class mapContainer extends Component {
             date: this.getDateTimeZone(),
             timezone: this.getNameTimeZone(),
             search: '',
-            autocompletePanel: []
+            autocompletePanel: [],
+            searchFocus: false
         }
         this.onSearchChange = this.onSearchChange.bind(this)
         this.onItemInAutoCompleteClick = this.onItemInAutoCompleteClick.bind(this)
@@ -111,6 +112,7 @@ export default class mapContainer extends Component {
     onSearchPress(event){
         if(event.key&&event.key=='Enter'){
             this.setState({
+                search: '',
                 autocompletePanel: []
             })
             this.clearCluster()
@@ -151,6 +153,9 @@ export default class mapContainer extends Component {
              this.markerClusterSearch.clearMarkers()
              this.markerClusterSearch = new MarkerClusterer(this.map, markerNode, {imagePath: 'img/marker_cluster'})
              this.map.setZoom(2)
+        }else{
+             this.markerCluster.clearMarkers()
+             this.markerClusterSearch.clearMarkers()
         }
 
         if(item.length>0){
@@ -165,9 +170,11 @@ export default class mapContainer extends Component {
     }
 
     onItemInAutoCompleteClick(data){
+        this.hideMarker(data)
         this.setState({
             search: data,
-            autocompletePanel: []
+            autocompletePanel: [],
+            searchFocus: true
         })
     }
 

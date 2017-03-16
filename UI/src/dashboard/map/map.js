@@ -56,7 +56,7 @@ export default class map extends Component {
                     </div>
                 </div>
                 <div className={style.search}>
-                    <input type='text' placeholder='Search by name' className={style.input} value={this.props.container.state.search} onChange={this.props.container.onSearchChange} onKeyPress={this.props.container.onSearchPress}/>
+                    <input type='text' placeholder='Search by name' className={style.input} value={this.props.container.state.search} onChange={this.props.container.onSearchChange} onKeyPress={this.props.container.onSearchPress} autoFocus={this.props.container.state.searchFocus}/>
                     <img src='img/ic_search_input.svg'/>
                 </div>
                 {this.props.container.state.autocompletePanel}
