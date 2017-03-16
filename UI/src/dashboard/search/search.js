@@ -64,7 +64,7 @@ export default class Search extends Component {
                                 <div className={Style.row}>
                                     <div className={Style.block}>
                                         <div>End:</div>
-                                        <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
+                                        <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.startDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
                                         <img className={Style.icon} src='img/ic_date_range.svg'/>
                                         <TimeItem name='endTime' value={this.props.searchContainer.state.endTime} handle={this.props.searchContainer.onTimeChange}/>
                                     </div>
@@ -117,7 +117,7 @@ export default class Search extends Component {
                                 <div className={Style.row}>
                                     <div className={Style.block}>
                                         <div>Image type:</div>
-                                        <select className={Style.inputtime} value={this.props.searchContainer.state.imageType} onChange={this.props.searchContainer.onImageTypeChange}>
+                                        <select className={Style.inputtype} value={this.props.searchContainer.state.imageType} onChange={this.props.searchContainer.onImageTypeChange}>
                                             <option value='Any'>Any</option>
                                             <option value='centOS7'>centOS7</option>
                                         </select>

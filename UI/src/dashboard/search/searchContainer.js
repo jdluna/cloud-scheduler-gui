@@ -12,7 +12,7 @@ export default class SearchContainer extends Component {
         this.appContainer = this.props.dashBoardContainer.props.app
         this.dashboardContainer = this.props.dashBoardContainer
         this.timezone = moment.tz(this.appContainer.state.authen.timezone)
-
+       
         this.state = {
             cpu: '',
             mem: '',
@@ -24,8 +24,8 @@ export default class SearchContainer extends Component {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
             },
-            startTime: '00:00',
-            endTime: '00:00',
+            startTime: this.timezone.format().slice(11,13)+':00',
+            endTime: this.timezone.add(1,'hours').format().slice(11,13)+':00',
             reservationLength: {
                 value: 'all',
                 days: '',
@@ -72,21 +72,54 @@ export default class SearchContainer extends Component {
     }
 
     onStartDateChange(date) {
-        this.setState({
-            startDate:{
-                obj: date,
-                date: moment(date).format('YYYY-MM-DD')
-            } 
-        })
+        if(date.format()<this.state.endDate.obj.format()){
+            this.setState({
+                startDate:{
+                    obj: date,
+                    date: moment(date).format('YYYY-MM-DD')
+                } 
+            })
+        }else{
+            this.setState({
+                startDate:{
+                    obj: date,
+                    date: moment(date).format('YYYY-MM-DD')
+                }, 
+                endDate:{
+                    obj: date,
+                    date: moment(date).format('YYYY-MM-DD')
+                } 
+            })
+            let startTime = parseInt(this.state.startTime.replace(':00'))
+            let endTime = parseInt(this.state.endTime.replace(':00'))
+            if(endTime<=startTime){
+                let time = ((startTime+1)>=23) ? 23 : (startTime+1)
+                if((startTime+1)<=23){
+                    this.setState({
+                        endTime: ((time)>=10) ? (time)+':00' : '0'+(time)+':00'
+                    })
+                }else{
+                    this.setState({
+                        endDate:{
+                            obj: moment(date).add(1,'days'),
+                            date: moment(date).add(1,'days').format('YYYY-MM-DD')
+                        },
+                        endTime: '00:00'
+                    })
+                }
+            }
+        }
     }
 
     onEndDateChange(date) {
-        this.setState({
-            endDate:{
-                obj: date,
-                date: moment(date).format('YYYY-MM-DD')
-            } 
-        })
+        if(date.format()>=this.state.startDate.obj.format()){
+            this.setState({
+                endDate:{
+                    obj: date,
+                    date: moment(date).format('YYYY-MM-DD')
+                } 
+            })
+        }
     }
 
     onTimeChange(event){

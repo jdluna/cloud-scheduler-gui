@@ -70,7 +70,7 @@
                        margin-top: 9px;
                      }
                 }
-                .input,.inputdate,.inputtime,.inputradio{
+                .input,.inputdate,.inputtime,.inputradio,.inputtype{
                     background-color: #464a5f;
                     border-radius: 3px;
                     padding-right: 5px;
@@ -103,6 +103,11 @@
                 }
                 .inputtime{
                     width: 70px;
+                    height: 22px;
+                    padding-left: 0px;
+                }
+                .inputtype{
+                    width: 130px;
                     height: 22px;
                     padding-left: 0px;
                 }
