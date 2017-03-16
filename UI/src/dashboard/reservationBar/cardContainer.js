@@ -3,17 +3,25 @@ import Card from './card'
 import DateTime from '../../lib/dateTime'
 import axios from 'axios'
 import {CARD_ENDPOINT} from '../../config/endpoints'
+import moment from 'moment'
 
 const date = new DateTime()
 export default class cardContainer extends Component {
     constructor(props){
         super(props)
+        this.appContainer = this.props.dashBoardContainer.props.app
+        // this.currentDateStamp = moment.tz(this.appContainer.state.authen.timezone)
+
         this.currentDateStamp = new Date()
+
+        console.log(this.currentDateStamp)
+        console.log(date.getDate())
         this.querySite()
         this.state = {
             nodeCPU: {},
             nodeMem: {},
             date: date.getDate(),
+            // date: this.currentDateStamp.format('DD-MMM-YYYY').toUpperCase(),
             site: {
                 allData: {},
                 name: 'N/A',
@@ -104,7 +112,10 @@ export default class cardContainer extends Component {
 
     querySiteByDate(){
         let dateTime = date.getDateTimeForRequest(this.currentDateStamp)
+        // let dateTime = this.currentDateStamp.format('YYYY-MM-DDh:00:00')
+        console.log('request: '+dateTime)
         axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId+'&date_req='+dateTime).then(response =>{
+            console.log(response)
             if(response.status==200){
                 let {running,site} = response.data
                 this.setState({
@@ -171,6 +182,7 @@ export default class cardContainer extends Component {
         this.currentDateStamp = date.getNextDateTimeStamp(this.currentDateStamp)
         this.setState({
             date: date.getDate(this.currentDateStamp)
+            // date: this.currentDateStamp.add(1,'days').format('DD-MMM-YYYY').toUpperCase()
         })
         this.querySiteByDate()
     }

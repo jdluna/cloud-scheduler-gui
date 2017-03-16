@@ -11,7 +11,7 @@ export default class DateTime{
         let dateNumber = (date.getDate()<10) ? '0'+date.getDate() : date.getDate()
         let monthNumber = ((date.getMonth()+1)<10) ? '0'+(date.getMonth()+1) : (date.getMonth()+1)
         let dateTime = date.getFullYear()+'-'+monthNumber+'-'+dateNumber
-        return dateTime+''+this.getFullTime()
+        return dateTime+' '+this.getFullTime()
     }
     getDate(date=(new Date())){
         return date.getDate()+'-'+month[date.getMonth()]+'-'+date.getFullYear()

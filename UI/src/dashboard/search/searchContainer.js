@@ -9,16 +9,20 @@ import FoundTable from './foundTable'
 export default class SearchContainer extends Component {
     constructor(props) {
         super(props)
+        this.appContainer = this.props.dashBoardContainer.props.app
+        this.dashboardContainer = this.props.dashBoardContainer
+        this.timezone = moment.tz(this.appContainer.state.authen.timezone)
+
         this.state = {
             cpu: '',
             mem: '',
             startDate: {
-                obj: moment(),
-                date: moment().format('DD-MMM-YYYY').toUpperCase()
+                obj: this.timezone,
+                date: this.timezone.format('YYYY-MM-DD')
             },
             endDate: {
-                obj: moment(),
-                date: moment().format('DD-MMM-YYYY').toUpperCase()
+                obj: this.timezone,
+                date: this.timezone.format('YYYY-MM-DD')
             },
             startTime: '00:00',
             endTime: '00:00',
@@ -32,8 +36,6 @@ export default class SearchContainer extends Component {
             dataResult: null,
             resultTable: []
         }
-        this.appContainer = this.props.dashBoardContainer.props.app
-        this.dashboardContainer = this.props.dashBoardContainer
 
         this.onClose = this.onClose.bind(this)
         this.onResourceChange = this.onResourceChange.bind(this)
