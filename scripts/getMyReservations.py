@@ -12,7 +12,7 @@ cgitb.enable()
 
 
 ###variable from front-end###
-SESSION_ID = 'S44NIY'
+SESSION_ID = 'CUIQC5'
 #############################
 
 print "Content-Type: text/html"     
@@ -22,7 +22,7 @@ print
 from ReservationManager import ReservationManager
 
 resManager = ReservationManager()
-reservations = resManager.getMyReservations(SESSION_ID)
+reservations = resManager.getReservations(sessionId = SESSION_ID, ended = False)
 jsonStr = '{ "result" : [' 
 
 for r in reservations:

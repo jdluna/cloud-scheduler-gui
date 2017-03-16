@@ -170,28 +170,35 @@ class SiteManager:
     def getResultType(self):
         return self.__resultType
         
-    def getSite(self,siteId = None, dateReq = datetime.now().strftime("%Y-%m-%d %H:00:00")):
-        #for get site description specific by time
+    def getSite(self,siteId = None, dateReq = datetime.now().strftime("%Y-%m-%d %H:00:00"), end = datetime.now().strftime("%Y-%m-%d %H:00:00")):
+        #to get site description specific by time              
+        dateReq = str(dateReq)
+        end = str(end)
+        
+        if datetime.strptime(dateReq, "%Y-%m-%d %H:00:00") - datetime.strptime(end, "%Y-%m-%d %H:00:00") > timedelta(hours=0) :
+            end = dateReq
+         
+         
         db = Database()
         if db.connect() and siteId != None:
             db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
             data = db.getCursor().fetchone()
+
             site = self.createSite(data)
-            
             res = site.getResources()
-            
-            db = Database()
-            if db.connect():
-                db.execute("START TRANSACTION;")
+
+            db.execute("START TRANSACTION;")   
+
+            for i in range(0,len(res)):
+                res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
+
                 
-                for i in range(0,len(res)):
-                    res[i].setAvailableAmount(db=db,begin=dateReq,end=dateReq)
-            
             site.setRunningAmount(db,begin=dateReq)   
-                
+        
             return site
         else:
             return None
+            
             
     def createSite(self, d):
         site = Site(d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],d[12],d[13])

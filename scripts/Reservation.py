@@ -58,3 +58,9 @@ class Reservation:
     def getReservationStatus(self):
         return self.__sites
         
+    def setOwner(self, owner):
+        self.__owner = owner
+        
+    def getOwner(self):
+        return self.__owner
+        

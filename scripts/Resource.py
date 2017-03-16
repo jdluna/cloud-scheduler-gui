@@ -10,8 +10,6 @@ import cgitb
 cgitb.enable()
 
 
-from datetime import datetime
-import re
 from datetime import datetime,timedelta
 
 MONTH29DAYS = [2]
@@ -48,6 +46,9 @@ class Resource:
         return self.__siteId  
     
     def setAvailableAmount(self,db=None,typ=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+        begin = str(begin)
+        end = str(end)
+
         siteId = self.__siteId
         
         maxUsed = 0
@@ -58,17 +59,19 @@ class Resource:
 
             if db.execute(sql2) :
                 maxUsed = db.fetchone()[0]
+                
         
         else:
             #function 'search'
-                                
+            
             tmpBegin = datetime.strptime(begin, "%Y-%m-%d %H:00:00")
             tmpEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")
-            
+
             while tmpBegin != tmpEnd:
                 """ one round = one hour """        
                 
                 sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(tmpBegin.strftime("%Y-%m-%d %H:00:00"))+"';"                                
+
                 if db.execute(sql2) :
                     used = db.fetchone()[0]
                     if used > maxUsed:
@@ -81,11 +84,16 @@ class Resource:
         
         self.__availableAmount = int(self.getTotal())-int(maxUsed)
         
+        
     def getAvailableAmount(self) :
         return self.__availableAmount  
         
+    def setAmount(self, amt):
+        self.__amount  = amt
 
-
+    def getAmount(self):
+        return self.__amount 
+        
 
 class CPU(Resource,object):
     
