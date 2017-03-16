@@ -231,7 +231,7 @@ class ReservationManager:
         return ''.join(random.choice(chars) for self._ in range(size))
         
         
-    def getReservations(self, sessionId = None, userId = None):
+    def getReservations(self, sessionId = None, userId = None, ended = True):
         
         if sessionId == None and userId == None:
             return None
@@ -261,20 +261,43 @@ class ReservationManager:
             sql = 'SELECT `reservation_id`,`title`,`end` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
             self.__db.execute(sql)
             data = self.__db.getCursor().fetchall()
+            currentTime = datetime.now()
 
+
+            
             for d in data:
-                r = Reservation()
-                r.setReservationId(d[0])
-                r.setTitle(d[1])
-                r.setEnd(d[2])
-                r.setOwner(username)
+                end = d[2]
+                diff = currentTime - end
                 
-                r.setReservationStatus()                    
-                self.__reservations.append(r)
+                if ended:
+                    #history (already ended)
+                    if diff >= timedelta(hours=0):
+                        r = Reservation()
+                        r.setReservationId(d[0])
+                        r.setTitle(d[1])
+                        r.setEnd(end)
+                        r.setOwner(username)
+                        
+                        r.setReservationStatus()                    
+                        self.__reservations.append(r)
+                
+                else:
+                    #see reservations which havn't ended
+                    if diff < timedelta(hours=0):
+                        r = Reservation()
+                        r.setReservationId(d[0])
+                        r.setTitle(d[1])
+                        r.setEnd(d[2])
+                        r.setOwner(username)
+                        
+                        r.setReservationStatus()                    
+                        self.__reservations.append(r)
+                
+                
                     
         return self.__reservations
     
-    def getAllReservations(self, sessionId):
+    def getAllReservations(self, sessionId, ended = True):
         self.__db = Database()        
         self.__sessionId = sessionId
         self.__allReservations = []
@@ -299,7 +322,7 @@ class ReservationManager:
                     data = self.__db.getCursor().fetchall()
                     
                     for d in data:
-                        self.__allReservations.append(self.getReservations(userId=d[0]))
+                        self.__allReservations.append(self.getReservations(userId=d[0],ended=ended))
                         
             self.__db.close()
               
@@ -525,12 +548,5 @@ class ReservationManager:
             self.__db.close() 
              
         return False
-                
-                
-                
-                
-                
-                
-                
-                
-                
+        
+        
