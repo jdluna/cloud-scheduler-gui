@@ -5,6 +5,7 @@ import CardDescriptionContainer from './reservationBar/cardDescriptionContainer'
 import SettingsContainer from './settings/settingsContainer'
 import LoginContainer from './login/loginContainer'
 import SearchContainer from './search/searchContainer'
+import ReservationContainer from './reservation/reservationContainer'
 
 export default class DashboardContainer extends Component {
     constructor(props){
@@ -23,7 +24,7 @@ export default class DashboardContainer extends Component {
                 panel: [],
                 data: {}
             },
-            modal: [],
+            modal: <ReservationContainer dashBoardContainer={this}/>,
             markerNode: []
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
@@ -52,6 +53,7 @@ export default class DashboardContainer extends Component {
             case 'Reservations' : break
             case 'History'      : break
             case 'Settings'     : this.setState({modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>});break
+            case 'ReservationSites' : this.setState({modal: <ReservationContainer dashBoardContainer={this} app={this.props.app}/>});break
         }
     }
 

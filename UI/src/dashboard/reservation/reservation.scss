@@ -1,0 +1,233 @@
+@import '../../sass/_colors.scss';
+@import '../../sass/_fonts.scss';
+
+.panel{
+    width: 720px;
+    height: 470px;
+    font-family: $font-primary;
+    border-radius: 3px;
+    border: 1px solid #929296;
+    position: relative;
+    header{
+        border-radius: 3px 3px 0px 0px;
+        border-bottom: 1px solid #929296;
+        font-size: 9pt; 
+        text-align: center;
+        height: 28px;
+        position: relative;
+        background-color: rgba(18, 18, 19,0.76);
+        div{
+            color: #FFFFFF;
+            padding-top: 7px;
+        }
+        img{
+            position: absolute;
+            top: 3px;
+            right: 5px;
+            width: 20px;
+        }
+    }
+    .content{
+        width: 100%;
+        height: calc(100% - 29px);
+        .alert{
+            height: 24px;
+            .text{
+                display: none;
+                box-sizing: border-box;
+                font-family: $font-primary;
+                font-size: 9pt;
+                // background-color: rgba(73,8,9,0.43);
+                background-color: #490809;
+                text-align: center;
+                padding: 5px;
+                color: #FFFFFF;
+            }
+        }
+        .step{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: $font-primary;
+            padding: 10px 10px 5px 10px;
+            .fillcircle, .circle{
+                color: #efa430;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 40px;
+                width: 40px;
+                border: 2px solid #efa430;
+                border-radius: 22px;
+            }
+            .fillcircle{
+                background-color: #efa430; 
+                color: rgba(18, 18, 19,0.76);
+            }
+            .line{
+                width: 140px;
+                display: inline-block;
+                border-top: 2px dashed #efa430;
+            }
+        }
+        .steptext{
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            .text{
+                display: inline-block;
+                font-family: $font-primary;
+                font-size: 8pt;
+                margin: 0px 45px 0px 45px;
+                color: #efa430;
+            }
+        }
+        .btn{
+            width: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            bottom: 20px;
+            .cancel,.ok{
+                border-radius: 3px;
+                font-size: 9pt;
+                padding: 4px;
+                outline: none;
+                border: none;
+                margin-top: 5px;
+                color: #FFFFFF;
+                width: 80px;
+             }
+            .cancel{
+                float: left;
+                background-color: #ef303e;
+            }
+            .ok{
+                float: right;
+                margin-left: 15px;
+                background-color: #739aaf;
+            }
+            .cancel:hover,.ok:hover{
+                background-color: $bg-color-primary;
+            }
+        }
+        .form{
+            width: 380px;
+            height: 200px;
+            margin: auto;
+            color: #FFFFFF;
+            font-size: 9pt;
+            .sitelist{
+                margin: 10px 0px 10px 0px;
+                max-height: 80px;
+                box-sizing: border-box;
+                overflow-y: auto;
+            }
+            .sitelist::-webkit-scrollbar-track{
+                border-radius: 10px;
+                background-color: rgba(35,41,57,0.84);
+            }
+            .sitelist::-webkit-scrollbar{
+                width: 5px;
+                border-radius: 10px;
+                background-color: rgba(35,41,57,0.84);
+            }
+            .sitelist::-webkit-scrollbar-thumb{
+                border-radius: 10px;
+                background-color: rgba(18, 18, 19,0.76);
+            }     
+            .row{
+                margin-bottom: 5px;
+                .block{
+                    display: inline-block;
+                    margin-right: 10px;
+                    position: relative;
+                    .space{
+                        margin-top: 5px;
+                    }
+                    .reservespace{
+                      margin-top: 5px;
+                    }
+                    .icon{
+                        left: 110px;
+                        position: absolute;
+                        width: 16px;
+                        top: 22px;
+                    }
+                    .siteblock{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 110px;
+                        height: 20px;
+                        border-radius: 3px;
+                        border: 1px solid #464a5f;
+                    }
+                }
+                .choose{
+                     display: flex;
+                     margin-left: 2px;
+                     .text{
+                        margin-top: 3px;
+                     }
+                     .marginradio{
+                       margin-top: 9px;
+                     }
+                }
+                .input,.inputdate,.inputtime,.inputradio,.inputtype{
+                    background-color: #464a5f;
+                    border-radius: 3px;
+                    padding-right: 5px;
+                    padding-left: 5px;
+                    outline: none;
+                    border: none;
+                    height: 20px;
+                    margin-top: 5px;
+                    color: #FFFFFF;
+                }
+                .input{
+                    width: 70px;
+                    text-align: right;
+                }
+                .input::-webkit-input-placeholder{
+                    color: #000000;
+                }
+                .input::-moz-placeholder{
+                    color: #000000;
+                }
+                .inputdate{
+                    width: 120px;
+                    margin-right: 10px;
+                }
+                .inputdate::-webkit-input-placeholder{
+                    color: #000000;
+                }
+                .inputdate::-moz-placeholder{
+                    color: #000000;
+                }
+                .inputtime{
+                    width: 70px;
+                    height: 22px;
+                    padding-left: 0px;
+                }
+                .inputtype{
+                    width: 130px;
+                    height: 22px;
+                    padding-left: 0px;
+                }
+                .inputradio{
+                    width: 30px;
+                    margin-right: 5px;
+                    text-align: right;
+                    margin-top: 0px;
+                }
+                .inputradio::-webkit-input-placeholder{
+                    color: #000000;
+                }
+                .inputradio::-moz-placeholder{
+                    color: #000000;
+                }
+            }
+        }
+    }
+}
