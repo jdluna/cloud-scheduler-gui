@@ -3,6 +3,7 @@ import Reservation from './reservation'
 import axios from 'axios'
 import moment from 'moment'
 import Step1 from './step1'
+import Step2 from './step2'
 
 export default class ReservationContainer extends Component {
     constructor(props){
@@ -12,6 +13,7 @@ export default class ReservationContainer extends Component {
         this.timezone = moment.tz(this.appContainer.state.authen.timezone)
 
         this.state = {
+            // STEP1
             startDate: {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
@@ -27,10 +29,10 @@ export default class ReservationContainer extends Component {
                 hours: ''
             },
             imageType: 'Any',
-            card: <Step1 reservationContainer={this}/>,
-            alert:{
-                card1: {},
-            }
+
+            // OTHER
+            card: <Step2 reservationContainer={this}/>,
+            alertNode: {}
         }
 
         this.onStartDateChange = this.onStartDateChange.bind(this)
@@ -113,14 +115,14 @@ export default class ReservationContainer extends Component {
     onPreviousStep(event){
         switch(event.target.name){
             case 'step1' : this.onClose();break
-            case 'step2' : ;break
+            case 'step2' : this.setState({card:<Step1 reservationContainer={this}/>});break
             case 'step3' : ;break
         }
     }
 
     onNextStep(event){
         switch(event.target.name){
-            case 'step1' : ;break
+            case 'step1' : this.setState({card:<Step2 reservationContainer={this}/>});break
             case 'step2' : ;break
             case 'step3' : ;break
         }

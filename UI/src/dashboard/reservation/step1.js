@@ -34,9 +34,7 @@ const TimeItem = (props) => (
 export default class Step1 extends Component {
     componentDidMount(){
         this.props.reservationContainer.setState({
-            alert:{
-                card1: this.refs.alerts
-            }
+            alertNode: this.refs.alerts
         })
     }
 
@@ -164,7 +162,7 @@ export default class Step1 extends Component {
                 </div>
                 <div className={Style.btn}>
                     <button name='step1' className={Style.cancel} onClick={this.props.reservationContainer.onPreviousStep}>CANCEL</button>
-                    <button name='step1' className={Style.ok}>NEXT</button>
+                    <button name='step1' className={Style.ok} onClick={this.props.reservationContainer.onNextStep}>NEXT</button>
                 </div>
             </section>
         )
