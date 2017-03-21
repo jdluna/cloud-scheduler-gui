@@ -4,6 +4,7 @@ import axios from 'axios'
 import moment from 'moment'
 import Step1 from './step1'
 import Step2 from './step2'
+import Step3 from './step3'
 
 export default class ReservationContainer extends Component {
     constructor(props){
@@ -31,7 +32,7 @@ export default class ReservationContainer extends Component {
             imageType: 'Any',
 
             // OTHER
-            card: <Step2 reservationContainer={this}/>,
+            card: <Step1 reservationContainer={this}/>,
             alertNode: {}
         }
 
@@ -116,14 +117,14 @@ export default class ReservationContainer extends Component {
         switch(event.target.name){
             case 'step1' : this.onClose();break
             case 'step2' : this.setState({card:<Step1 reservationContainer={this}/>});break
-            case 'step3' : ;break
+            case 'step3' : this.setState({card:<Step2 reservationContainer={this}/>});break
         }
     }
 
     onNextStep(event){
         switch(event.target.name){
             case 'step1' : this.setState({card:<Step2 reservationContainer={this}/>});break
-            case 'step2' : ;break
+            case 'step2' : this.setState({card:<Step3 reservationContainer={this}/>});break
             case 'step3' : ;break
         }
     }

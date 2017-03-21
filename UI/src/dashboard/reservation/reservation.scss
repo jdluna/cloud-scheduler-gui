@@ -126,6 +126,14 @@
             font-size: 9pt;
             box-sizing: border-box;
         }
+        .form3{
+            width: 600px;
+            height: 200px;
+            margin: auto;
+            color: #FFFFFF;
+            font-size: 9pt;
+            box-sizing: border-box;
+        }
             .sitelist{
                 margin: 10px 0px 10px 0px;
                 max-height: 80px;
@@ -144,9 +152,50 @@
             .sitelist::-webkit-scrollbar-thumb{
                 border-radius: 10px;
                 background-color: rgba(18, 18, 19,0.76);
-            }     
+            }    
+
+            .confirmlist{
+                width: 380px;
+                max-height: 90px;
+                box-sizing: border-box;
+                overflow-y: auto;
+                margin: auto;
+                margin-top: 5px;
+                margin-bottom: 10px;
+                .item{
+                    margin-top: 10px;
+                }
+            }
+            .confirmlist::-webkit-scrollbar-track{
+                border-radius: 10px;
+                background-color: rgba(35,41,57,0.84);
+            }
+            .confirmlist::-webkit-scrollbar{
+                width: 5px;
+                border-radius: 10px;
+                background-color: rgba(35,41,57,0.84);
+            }
+            .confirmlist::-webkit-scrollbar-thumb{
+                border-radius: 10px;
+                background-color: rgba(18, 18, 19,0.76);
+            }  
+
             .row{
                 margin-bottom: 5px;
+                .column{
+                    display: flex;
+                    .west,.east{
+                        width: 50%;
+                    }
+                    .west{
+                        opacity: 0.5;
+                        text-align: right;
+                        padding-right: 10px;
+                    }
+                    .east{
+                        padding-left: 10px;
+                    }
+                }
                 .block{
                     display: inline-block;
                     margin-right: 10px;
