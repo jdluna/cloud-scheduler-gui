@@ -13960,7 +13960,8 @@ var cardContainer = function (_Component) {
         }
     }, {
         key: 'onCheckBoxChange',
-        value: function onCheckBoxChange() {
+        value: function onCheckBoxChange(event) {
+            event.stopPropagation();
             var entStyle = this.state.style.ent;
             var ipoptyle = this.state.style.ipop;
             if (this.state.select == false) {
@@ -13975,6 +13976,11 @@ var cardContainer = function (_Component) {
                     },
                     select: true
                 });
+                var _state$site$allData = this.state.site.allData,
+                    id = _state$site$allData.id,
+                    name = _state$site$allData.name;
+
+                this.props.dashBoardContainer.onSelectCard({ id: id, name: name });
             } else {
                 this.setState({
                     style: {
@@ -13984,12 +13990,23 @@ var cardContainer = function (_Component) {
                     },
                     select: false
                 });
+                var _state$site$allData2 = this.state.site.allData,
+                    _id = _state$site$allData2.id,
+                    _name = _state$site$allData2.name;
+
+                this.props.dashBoardContainer.onDeselectCard({ id: _id, name: _name });
             }
         }
     }, {
         key: 'onCloseCard',
-        value: function onCloseCard() {
+        value: function onCloseCard(event) {
+            event.stopPropagation();
             this.props.dashBoardContainer.onCloseCard(this.props.siteId);
+            var _state$site$allData3 = this.state.site.allData,
+                id = _state$site$allData3.id,
+                name = _state$site$allData3.name;
+
+            this.props.dashBoardContainer.onDeselectCard({ id: id, name: name });
         }
     }, {
         key: 'onNextDate',
@@ -30701,7 +30718,13 @@ var DashboardContainer = function (_Component) {
                 data: {}
             },
             modal: [],
-            markerNode: []
+            markerNode: [],
+            selectCard: [],
+            reservationPanel: {
+                multipleTextNode: {},
+                reserveBtnNode: {}
+            },
+            reserveMode: 'single'
         };
         _this.onSelectMarker = _this.onSelectMarker.bind(_this);
         _this.onCloseCard = _this.onCloseCard.bind(_this);
@@ -30711,6 +30734,8 @@ var DashboardContainer = function (_Component) {
         _this.onCloseModal = _this.onCloseModal.bind(_this);
         _this.getUserTimeZone = _this.getUserTimeZone.bind(_this);
         _this.setMarkerNode = _this.setMarkerNode.bind(_this);
+        _this.onSelectCard = _this.onSelectCard.bind(_this);
+        _this.onDeselectCard = _this.onDeselectCard.bind(_this);
         // this.setMapData = this.setMapData.bind(this)
         return _this;
     }
@@ -30737,7 +30762,7 @@ var DashboardContainer = function (_Component) {
                 case 'Settings':
                     this.setState({ modal: _react2.default.createElement(_settingsContainer2.default, { dashBoardContainer: this, app: this.props.app }) });break;
                 case 'ReservationSites':
-                    this.setState({ modal: _react2.default.createElement(_reservationContainer2.default, { dashBoardContainer: this, app: this.props.app }) });break;
+                    this.setState({ modal: _react2.default.createElement(_reservationContainer2.default, { dashBoardContainer: this, app: this.props.app, sites: this.state.selectCard }) });break;
             }
         }
     }, {
@@ -30867,6 +30892,65 @@ var DashboardContainer = function (_Component) {
         key: 'getUserTimeZone',
         value: function getUserTimeZone() {
             return this.props.app.state.authen.timezone;
+        }
+    }, {
+        key: 'onSelectCard',
+        value: function onSelectCard(props) {
+            var selectCard = this.state.selectCard;
+
+            var found = false;
+            selectCard.map(function (data) {
+                if (parseInt(data.id) == parseInt(props.id)) {
+                    found = true;
+                }
+            });
+            if (found == false) {
+                selectCard.push(props);
+                this.setState({
+                    selectCard: selectCard
+                });
+            }
+            this.changeMultipleTextColor();
+        }
+    }, {
+        key: 'onDeselectCard',
+        value: function onDeselectCard(props) {
+            var selectCard = this.state.selectCard;
+
+            var index = null;
+            selectCard.map(function (data, key) {
+                if (parseInt(data.id) == parseInt(props.id)) {
+                    index = key;
+                }
+            });
+            if (index != null) {
+                selectCard.splice(index, 1);
+                this.setState({
+                    selectCard: selectCard
+                });
+            }
+            this.changeMultipleTextColor();
+        }
+    }, {
+        key: 'changeMultipleTextColor',
+        value: function changeMultipleTextColor() {
+            var selectCard = this.state.selectCard;
+
+            if (selectCard.length >= 2) {
+                this.state.reservationPanel.multipleTextNode.style.opacity = '1';
+            } else {
+                this.state.reservationPanel.multipleTextNode.style.opacity = '0.5';
+            }
+            if (selectCard.length >= 1) {
+                this.state.reservationPanel.reserveBtnNode.className = 'btn';
+            } else {
+                this.state.reservationPanel.reserveBtnNode.className = 'btn--disabled';
+            }
+            if (selectCard.length <= 1) {
+                this.setState({
+                    reserveMode: 'single'
+                });
+            }
         }
     }, {
         key: 'render',
@@ -32283,6 +32367,16 @@ var reservationBar = function (_Component) {
     }
 
     _createClass(reservationBar, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.props.dashBoardContainer.setState({
+                reservationPanel: {
+                    multipleTextNode: this.refs.multiple,
+                    reserveBtnNode: this.refs.reserveBtn
+                }
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -32306,7 +32400,7 @@ var reservationBar = function (_Component) {
                         _react2.default.createElement(
                             'div',
                             { className: _reservationBar2.default.choose },
-                            _react2.default.createElement('input', { type: 'radio', name: 'type' }),
+                            _react2.default.createElement('input', { type: 'radio', name: 'type', value: 'single', checked: this.props.dashBoardContainer.state.reserveMode == 'single', onChange: this.props.reservationBarContainer.onReserveModeChange }),
                             _react2.default.createElement(
                                 'span',
                                 { className: _reservationBar2.default.text },
@@ -32316,21 +32410,22 @@ var reservationBar = function (_Component) {
                         _react2.default.createElement(
                             'div',
                             { className: _reservationBar2.default.choose },
-                            _react2.default.createElement('input', { type: 'radio', name: 'type' }),
+                            _react2.default.createElement('input', { type: 'radio', name: 'type', value: 'multiple', checked: this.props.dashBoardContainer.state.reserveMode == 'multiple', onChange: this.props.reservationBarContainer.onReserveModeChange, disabled: this.props.dashBoardContainer.state.selectCard.length < 2 }),
                             _react2.default.createElement(
                                 'span',
-                                { className: _reservationBar2.default.text },
+                                { ref: 'multiple', className: _reservationBar2.default.multipletext },
                                 'Single cluster spaning multiple sites'
                             )
                         ),
                         _react2.default.createElement(
                             'span',
                             { className: _reservationBar2.default.select },
-                            'Selected : 0'
+                            'Selected : ',
+                            this.props.dashBoardContainer.state.selectCard.length
                         ),
                         _react2.default.createElement(
                             'button',
-                            { className: 'btn' },
+                            { ref: 'reserveBtn', className: 'btn--disabled', disabled: this.props.dashBoardContainer.state.selectCard.length < 1, onClick: this.props.reservationBarContainer.onReserveClick },
                             'RESERVE'
                         )
                     )
@@ -32390,19 +32485,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var reservationBarContainer = function (_Component) {
     _inherits(reservationBarContainer, _Component);
 
-    function reservationBarContainer() {
+    function reservationBarContainer(props) {
         _classCallCheck(this, reservationBarContainer);
 
-        return _possibleConstructorReturn(this, (reservationBarContainer.__proto__ || Object.getPrototypeOf(reservationBarContainer)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (reservationBarContainer.__proto__ || Object.getPrototypeOf(reservationBarContainer)).call(this, props));
+
+        _this.onReserveModeChange = _this.onReserveModeChange.bind(_this);
+        _this.onReserveClick = _this.onReserveClick.bind(_this);
+        return _this;
     }
 
     _createClass(reservationBarContainer, [{
+        key: 'onReserveModeChange',
+        value: function onReserveModeChange(event) {
+            this.props.dashBoardContainer.setState({
+                reserveMode: event.target.value
+            });
+        }
+    }, {
+        key: 'onReserveClick',
+        value: function onReserveClick(event) {
+            event.preventDefault();
+            this.props.dashBoardContainer.onSelectMenu('ReservationSites');
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'section',
                 null,
-                _react2.default.createElement(_reservationBar2.default, { dashBoardContainer: this.props.dashBoardContainer }),
+                _react2.default.createElement(_reservationBar2.default, { dashBoardContainer: this.props.dashBoardContainer, reservationBarContainer: this }),
                 this.props.dashBoardContainer.state.cardDetail.panel
             );
         }
@@ -32543,6 +32655,7 @@ var ReservationContainer = function (_Component) {
         _this.appContainer = _this.props.dashBoardContainer.props.app;
         _this.dashboardContainer = _this.props.dashBoardContainer;
         _this.timezone = _moment2.default.tz(_this.appContainer.state.authen.timezone);
+        _this.sites = _this.props.sites;
 
         _this.state = {
             // STEP1
@@ -47887,7 +48000,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "#_19CXiMRn0iZnAZIZ2x1WNw {\n  -webkit-backdrop-filter: blur(10px);\n  right: 0px;\n  position: fixed;\n  width: 220px;\n  background-color: #293043;\n  border-left: solid 1px #3D4153;\n  z-index: 1;\n  box-sizing: border-box;\n  height: calc(100% - 49px);\n  font-family: sans-serif;\n  color: #FFFFFF; }\n  #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU {\n    position: relative;\n    margin-top: 10px;\n    margin-left: 10px;\n    background-color: #3D4358;\n    border-radius: 5px;\n    padding-top: 5px;\n    padding-bottom: 5px;\n    height: 107px;\n    width: calc(100% - 20px); }\n    #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU ._24HfJTIGIBrNbPCFyUgl14 {\n      display: block;\n      font-size: 9pt;\n      margin-left: 7px;\n      margin-top: 5px;\n      margin-bottom: 5px; }\n    #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU .xag0W_Q1I6lW7YSfnWLXv {\n      display: flex;\n      margin-left: 2px; }\n      #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU .xag0W_Q1I6lW7YSfnWLXv ._36GKSPdd3-APQAnjS0b2Db {\n        font-size: 8pt;\n        margin-top: 3px; }\n    #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU ._1Qgftt1VokS9f9eXrC2EFg {\n      display: inline-block;\n      font-size: 8pt;\n      margin-left: 7px;\n      margin-top: 10px; }\n  #_19CXiMRn0iZnAZIZ2x1WNw ._1sCgwoVQ6g8kp7tPVdDl6t {\n    margin-top: 100%;\n    text-align: center;\n    font-size: 9pt;\n    color: #4d546c; }\n  #_19CXiMRn0iZnAZIZ2x1WNw ._3IM_m-2q-EGZuwL4uCA35f {\n    height: calc(100% - 129px);\n    overflow: auto;\n    margin-top: 10px; }\n  #_19CXiMRn0iZnAZIZ2x1WNw ._3IM_m-2q-EGZuwL4uCA35f::-webkit-scrollbar {\n    width: 0px; }\n", ""]);
+exports.push([module.i, "#_19CXiMRn0iZnAZIZ2x1WNw {\n  -webkit-backdrop-filter: blur(10px);\n  right: 0px;\n  position: fixed;\n  width: 220px;\n  background-color: #293043;\n  border-left: solid 1px #3D4153;\n  z-index: 1;\n  box-sizing: border-box;\n  height: calc(100% - 49px);\n  font-family: sans-serif;\n  color: #FFFFFF; }\n  #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU {\n    position: relative;\n    margin-top: 10px;\n    margin-left: 10px;\n    background-color: #3D4358;\n    border-radius: 5px;\n    padding-top: 5px;\n    padding-bottom: 5px;\n    height: 107px;\n    width: calc(100% - 20px); }\n    #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU ._24HfJTIGIBrNbPCFyUgl14 {\n      display: block;\n      font-size: 9pt;\n      margin-left: 7px;\n      margin-top: 5px;\n      margin-bottom: 5px; }\n    #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU .xag0W_Q1I6lW7YSfnWLXv {\n      display: flex;\n      margin-left: 2px; }\n      #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU .xag0W_Q1I6lW7YSfnWLXv ._36GKSPdd3-APQAnjS0b2Db {\n        font-size: 8pt;\n        margin-top: 3px; }\n      #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU .xag0W_Q1I6lW7YSfnWLXv ._39Yji2aMVg7moW7sc-u8vj {\n        font-size: 8pt;\n        margin-top: 3px;\n        opacity: 0.5; }\n    #_19CXiMRn0iZnAZIZ2x1WNw ._2ZlmyWCzPTOaiiv1hKQCU ._1Qgftt1VokS9f9eXrC2EFg {\n      display: inline-block;\n      font-size: 8pt;\n      margin-left: 7px;\n      margin-top: 10px; }\n  #_19CXiMRn0iZnAZIZ2x1WNw ._1sCgwoVQ6g8kp7tPVdDl6t {\n    margin-top: 100%;\n    text-align: center;\n    font-size: 9pt;\n    color: #4d546c; }\n  #_19CXiMRn0iZnAZIZ2x1WNw ._3IM_m-2q-EGZuwL4uCA35f {\n    height: calc(100% - 129px);\n    overflow: auto;\n    margin-top: 10px; }\n  #_19CXiMRn0iZnAZIZ2x1WNw ._3IM_m-2q-EGZuwL4uCA35f::-webkit-scrollbar {\n    width: 0px; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -47896,6 +48009,7 @@ exports.locals = {
 	"title": "_24HfJTIGIBrNbPCFyUgl14",
 	"choose": "xag0W_Q1I6lW7YSfnWLXv",
 	"text": "_36GKSPdd3-APQAnjS0b2Db",
+	"multipletext": "_39Yji2aMVg7moW7sc-u8vj",
 	"select": "_1Qgftt1VokS9f9eXrC2EFg",
 	"status": "_1sCgwoVQ6g8kp7tPVdDl6t",
 	"cardpanel": "_3IM_m-2q-EGZuwL4uCA35f"
@@ -48067,7 +48181,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0px; }\n  body .btn, body .btn--info {\n    border-radius: 3px;\n    font-size: 9pt;\n    padding: 4px;\n    outline: none;\n    border: none;\n    margin-left: 5px;\n    margin-top: 5px;\n    color: #FFFFFF;\n    width: 95%; }\n  body .btn {\n    background-color: #739AAF; }\n  body .btn:hover {\n    background-color: #293043; }\n  body .btn--info {\n    background-color: #EFA430;\n    margin-bottom: 5px; }\n  body .btn--info:hover {\n    background-color: #293043; }\n  body .modal {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    -webkit-backdrop-filter: blur(15px);\n    background-color: rgba(18, 18, 19, 0.74);\n    width: 100%;\n    height: calc(100% - 49px);\n    z-index: 4; }\n  body .halfmodal {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    -webkit-backdrop-filter: blur(15px);\n    background-color: rgba(18, 18, 19, 0.74);\n    width: calc(100% - 220px);\n    height: calc(100% - 49px);\n    z-index: 4; }\n", ""]);
+exports.push([module.i, "body {\n  margin: 0px; }\n  body .btn, body .btn--info, body .btn--disabled {\n    border-radius: 3px;\n    font-size: 9pt;\n    padding: 4px;\n    outline: none;\n    border: none;\n    margin-left: 5px;\n    margin-top: 5px;\n    color: #FFFFFF;\n    width: 95%; }\n  body .btn {\n    background-color: #739AAF; }\n  body .btn:hover {\n    background-color: #293043; }\n  body .btn--disabled {\n    background-color: #739AAF;\n    opacity: 0.5; }\n  body .btn--info {\n    background-color: #EFA430;\n    margin-bottom: 5px; }\n  body .btn--info:hover {\n    background-color: #293043; }\n  body .modal {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    -webkit-backdrop-filter: blur(15px);\n    background-color: rgba(18, 18, 19, 0.74);\n    width: 100%;\n    height: calc(100% - 49px);\n    z-index: 4; }\n  body .halfmodal {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    -webkit-backdrop-filter: blur(15px);\n    background-color: rgba(18, 18, 19, 0.74);\n    width: calc(100% - 220px);\n    height: calc(100% - 49px);\n    z-index: 4; }\n", ""]);
 
 // exports
 

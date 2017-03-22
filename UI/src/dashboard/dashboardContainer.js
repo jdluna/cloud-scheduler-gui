@@ -25,7 +25,13 @@ export default class DashboardContainer extends Component {
                 data: {}
             },
             modal: [],
-            markerNode: []
+            markerNode: [],
+            selectCard: [],
+            reservationPanel:{
+                multipleTextNode: {},
+                reserveBtnNode: {},
+            },
+            reserveMode: 'single'
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -35,6 +41,8 @@ export default class DashboardContainer extends Component {
         this.onCloseModal = this.onCloseModal.bind(this)
         this.getUserTimeZone = this.getUserTimeZone.bind(this)
         this.setMarkerNode = this.setMarkerNode.bind(this)
+        this.onSelectCard = this.onSelectCard.bind(this)
+        this.onDeselectCard = this.onDeselectCard.bind(this)
         // this.setMapData = this.setMapData.bind(this)
     }
     
@@ -53,7 +61,7 @@ export default class DashboardContainer extends Component {
             case 'Reservations' : break
             case 'History'      : break
             case 'Settings'     : this.setState({modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>});break
-            case 'ReservationSites' : this.setState({modal: <ReservationContainer dashBoardContainer={this} app={this.props.app}/>});break
+            case 'ReservationSites' : this.setState({modal: <ReservationContainer dashBoardContainer={this} app={this.props.app} sites={this.state.selectCard}/>});break
         }
     }
 
@@ -166,6 +174,59 @@ export default class DashboardContainer extends Component {
 
     getUserTimeZone(){
         return this.props.app.state.authen.timezone
+    }
+
+    onSelectCard(props){
+        let {selectCard} = this.state
+        let found = false
+        selectCard.map((data)=>{
+            if(parseInt(data.id)==parseInt(props.id)){
+                found=true
+            }
+        })
+        if(found==false){
+            selectCard.push(props)
+            this.setState({
+                selectCard : selectCard
+            })
+        }
+        this.changeMultipleTextColor()
+    }
+
+    onDeselectCard(props){
+         let {selectCard} = this.state
+         let index = null
+         selectCard.map((data,key)=>{
+            if(parseInt(data.id)==parseInt(props.id)){
+                index=key
+            }
+        })
+        if(index!=null){
+            selectCard.splice(index,1)
+            this.setState({
+                selectCard : selectCard
+            })
+        }
+        this.changeMultipleTextColor()
+    }
+
+    changeMultipleTextColor(){
+        let {selectCard} = this.state
+        if(selectCard.length>=2){
+            this.state.reservationPanel.multipleTextNode.style.opacity = '1'
+        }else{
+            this.state.reservationPanel.multipleTextNode.style.opacity = '0.5'
+        }
+        if(selectCard.length>=1){
+            this.state.reservationPanel.reserveBtnNode.className = 'btn'
+        }else{
+            this.state.reservationPanel.reserveBtnNode.className = 'btn--disabled'
+        }
+        if(selectCard.length<=1){
+            this.setState({
+                reserveMode: 'single'
+            })
+        }
     }
 
     render() {

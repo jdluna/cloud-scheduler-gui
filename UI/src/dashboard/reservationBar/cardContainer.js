@@ -144,7 +144,8 @@ export default class cardContainer extends Component {
         })
     }
 
-    onCheckBoxChange(){
+    onCheckBoxChange(event){
+        event.stopPropagation()
         let entStyle = this.state.style.ent
         let ipoptyle = this.state.style.ipop
         if(this.state.select==false){
@@ -159,6 +160,8 @@ export default class cardContainer extends Component {
                 },
                 select: true
             })
+            let {id,name} = this.state.site.allData
+            this.props.dashBoardContainer.onSelectCard({id:id,name:name})
         }else{
             this.setState({
                 style:{
@@ -168,11 +171,16 @@ export default class cardContainer extends Component {
                 },
                 select: false
             })
+            let {id,name} = this.state.site.allData
+            this.props.dashBoardContainer.onDeselectCard({id:id,name:name})
         } 
     }
 
-    onCloseCard(){
+    onCloseCard(event){
+        event.stopPropagation()
         this.props.dashBoardContainer.onCloseCard(this.props.siteId)
+        let {id,name} = this.state.site.allData
+        this.props.dashBoardContainer.onDeselectCard({id:id,name:name})
     }
 
     onNextDate(){

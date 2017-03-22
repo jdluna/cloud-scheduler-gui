@@ -4,7 +4,7 @@
 :global{
     body{
         margin: 0px;
-        .btn, .btn--info{
+        .btn, .btn--info,.btn--disabled{
             border-radius: 3px;
             font-size: 9pt;
             padding: 4px;
@@ -20,6 +20,10 @@
         }
         .btn:hover{
              background-color: $bg-color-primary;
+        }
+        .btn--disabled{
+            background-color: #739AAF;
+            opacity: 0.5;
         }
         .btn--info{
             background-color: #EFA430;

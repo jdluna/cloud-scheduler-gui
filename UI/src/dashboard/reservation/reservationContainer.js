@@ -12,7 +12,8 @@ export default class ReservationContainer extends Component {
         this.appContainer = this.props.dashBoardContainer.props.app
         this.dashboardContainer = this.props.dashBoardContainer
         this.timezone = moment.tz(this.appContainer.state.authen.timezone)
-
+        this.sites = this.props.sites
+        
         this.state = {
             // STEP1
             startDate: {
