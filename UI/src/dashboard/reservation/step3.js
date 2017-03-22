@@ -6,6 +6,29 @@ export default class Step3 extends Component {
         this.props.reservationContainer.setState({
             alertNode: this.refs.alerts
         })
+        let card = this.props.reservationContainer.dashboardContainer.state.selectCard
+        this.cardName = ''
+        card.map((data)=>{
+            if(this.cardName==''){
+                this.cardName+=data.name
+            }else{
+                this.cardName+=', '+data.name
+            }
+        })
+        if(this.cardName.length>40){
+            this.cardName = this.cardName.slice(0,40)+'...'
+        }
+
+        this.begin = this.props.reservationContainer.state.startDate.obj.format('DD-MMM-YYYY').toUpperCase()+' '+this.props.reservationContainer.state.startTime
+        this.end = this.props.reservationContainer.state.endDate.obj.format('DD-MMM-YYYY').toUpperCase()+' '+this.props.reservationContainer.state.endTime
+        this.title = (this.props.reservationContainer.state.title!='') ? this.props.reservationContainer.state.title : '-'
+        this.desc = (this.props.reservationContainer.state.description!='') ? this.props.reservationContainer.state.description : '-'
+        if(this.title.length>40){
+            this.title = this.title.slice(0,40)+'...'
+        }
+        if(this.desc.length>40){
+            this.desc = this.desc.slice(0,40)+'...'
+        }
     }
 
     render() {
@@ -30,89 +53,67 @@ export default class Step3 extends Component {
                         <div className={Style.row}>
                             <div className={Style.column}>
                                 <div className={Style.west}>Site's name:</div>
-                                <div className={Style.east}>UCSD/SDSC, AIST</div>
+                                <div className={Style.east}>{this.cardName}</div>
                             </div>
                         </div>
                         <div className={Style.row}>
                             <div className={Style.column}>
                                 <div className={Style.west}>Begin:</div>
-                                <div className={Style.east}>09-NOV-2017 10:00</div>
+                                <div className={Style.east}>{this.begin}</div>
                             </div>
                         </div>
                         <div className={Style.row}>
                             <div className={Style.column}>
                                 <div className={Style.west}>End:</div>
-                                <div className={Style.east}>09-NOV-2017 11:00</div>
+                                <div className={Style.east}>{this.end}</div>
                             </div>
                         </div>
                         <div className={Style.row}>
                             <div className={Style.column}>
                                 <div className={Style.west}>Reservation Length:</div>
-                                <div className={Style.east}>2 Days, 5 Hours</div>
+                                <div className={Style.east}>{this.props.reservationContainer.state.reservationLength}</div>
                             </div>
                         </div>
                         <div className={Style.row}>
                             <div className={Style.column}>
                                 <div className={Style.west}>Image type:</div>
-                                <div className={Style.east}>centOS7</div>
+                                <div className={Style.east}>{this.props.reservationContainer.state.imageType}</div>
                             </div>
                         </div>
 
                         <div className={Style.confirmlist}>
-                            <div className={Style.item}>
-                                <div className={Style.row}>
-                                    <div className={Style.column}>
-                                        <div className={Style.west}>UCSD/SDSC CPUs:</div>
-                                        <div className={Style.east}>32</div>
-                                    </div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.column}>
-                                        <div className={Style.west}>Memory (GB):</div>
-                                        <div className={Style.east}>64</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={Style.item}>
-                                <div className={Style.row}>
-                                    <div className={Style.column}>
-                                        <div className={Style.west}>UCSD/SDSC CPUs:</div>
-                                        <div className={Style.east}>32</div>
-                                    </div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.column}>
-                                        <div className={Style.west}>Memory (GB):</div>
-                                        <div className={Style.east}>64</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={Style.item}>
-                                <div className={Style.row}>
-                                    <div className={Style.column}>
-                                        <div className={Style.west}>UCSD/SDSC CPUs:</div>
-                                        <div className={Style.east}>32</div>
-                                    </div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.column}>
-                                        <div className={Style.west}>Memory (GB):</div>
-                                        <div className={Style.east}>64</div>
-                                    </div>
-                                </div>
-                            </div>
+                            {
+                                this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
+                                    return(
+                                        <div className={Style.item} key={key}>
+                                            <div className={Style.row}>
+                                                <div className={Style.column}>
+                                                    <div className={Style.west}>{data.name} CPUs:</div>
+                                                    <div className={Style.east}>{(this.props.reservationContainer.state.cpu[key]!='') ? this.props.reservationContainer.state.cpu[key] : '0'}</div>
+                                                </div>
+                                            </div>
+                                            <div className={Style.row}>
+                                                <div className={Style.column}>
+                                                    <div className={Style.west}>Memory (GB):</div>
+                                                    <div className={Style.east}>{(this.props.reservationContainer.state.mem[key]!='') ? this.props.reservationContainer.state.mem[key] : '0'}</div>
+                                                </div>
+                                            </div>
+                                        </div>        
+                                    )
+                                })
+                            }
                         </div>
 
                         <div className={Style.row}>
                             <div className={Style.column}>
                                 <div className={Style.west}>Title of reservation:</div>
-                                <div className={Style.east}>Test reservation 1</div>
+                                <div className={Style.east}>{this.title}</div>
                             </div>
                         </div>
                         <div className={Style.row}>
                             <div className={Style.column}>
                                 <div className={Style.west}>Description of reservation:</div>
-                                <div className={Style.east}>-</div>
+                                <div className={Style.east}>{this.desc}</div>
                             </div>
                         </div>
                 </div>

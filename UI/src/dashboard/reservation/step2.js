@@ -31,13 +31,13 @@ export default class Step2 extends Component {
                         <div className={Style.row}>
                             <div className={Style.block}>
                                 <div>Title of reservation:</div>
-                                <input className={Style.inputtitle} type='text' autoFocus/>
+                                <input name='title' className={Style.inputtitle} type='text' value={this.props.reservationContainer.state.title} onChange={this.props.reservationContainer.onEnterInputStep2} autoFocus/>
                             </div>
                         </div>
                         <div className={Style.row}>
                             <div className={Style.block}>
                                 <div>Description of reservation:</div>
-                                <textarea className={Style.textarea}></textarea>
+                                <textarea name='description' value={this.props.reservationContainer.state.description} className={Style.textarea} onChange={this.props.reservationContainer.onEnterInputStep2}></textarea>
                             </div>
                         </div>
                     </form>

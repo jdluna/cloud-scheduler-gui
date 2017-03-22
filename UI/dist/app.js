@@ -32546,6 +32546,18 @@ var _reservation = __webpack_require__(48);
 
 var _reservation2 = _interopRequireDefault(_reservation);
 
+var _step = __webpack_require__(275);
+
+var _step2 = _interopRequireDefault(_step);
+
+var _step3 = __webpack_require__(276);
+
+var _step4 = _interopRequireDefault(_step3);
+
+var _step5 = __webpack_require__(277);
+
+var _step6 = _interopRequireDefault(_step5);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32566,6 +32578,16 @@ var Reservation = function (_Component) {
     _createClass(Reservation, [{
         key: 'render',
         value: function render() {
+            var card = void 0;
+            switch (this.props.reservationContainer.state.card) {
+                case 'step1':
+                    card = _react2.default.createElement(_step2.default, { reservationContainer: this.props.reservationContainer });break;
+                case 'step2':
+                    card = _react2.default.createElement(_step4.default, { reservationContainer: this.props.reservationContainer });break;
+                case 'step3':
+                    card = _react2.default.createElement(_step6.default, { reservationContainer: this.props.reservationContainer });break;
+            }
+
             return _react2.default.createElement(
                 'section',
                 { className: 'modal' },
@@ -32582,7 +32604,7 @@ var Reservation = function (_Component) {
                         ),
                         _react2.default.createElement('img', { src: 'img/ic_close.svg', onClick: this.props.reservationContainer.onClose })
                     ),
-                    this.props.reservationContainer.state.card
+                    card
                 )
             );
         }
@@ -32622,18 +32644,6 @@ var _moment = __webpack_require__(0);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _step = __webpack_require__(275);
-
-var _step2 = _interopRequireDefault(_step);
-
-var _step3 = __webpack_require__(276);
-
-var _step4 = _interopRequireDefault(_step3);
-
-var _step5 = __webpack_require__(277);
-
-var _step6 = _interopRequireDefault(_step5);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -32669,14 +32679,17 @@ var ReservationContainer = function (_Component) {
             },
             startTime: _this.timezone.format().slice(11, 13) + ':00',
             endTime: _this.timezone.add(1, 'hours').format().slice(11, 13) + ':00',
-            reservationLength: {
-                days: '',
-                hours: ''
-            },
+            reservationLength: '',
             imageType: 'Any',
+            cpu: [],
+            mem: [],
+
+            // STEP2
+            title: '',
+            description: '',
 
             // OTHER
-            card: _react2.default.createElement(_step2.default, { reservationContainer: _this, state: _this.state }),
+            card: 'step1',
             alertNode: {}
         };
 
@@ -32687,6 +32700,10 @@ var ReservationContainer = function (_Component) {
         _this.onPreviousStep = _this.onPreviousStep.bind(_this);
         _this.onNextStep = _this.onNextStep.bind(_this);
         _this.onClose = _this.onClose.bind(_this);
+        _this.onEnterCPU = _this.onEnterCPU.bind(_this);
+        _this.onEnterMEM = _this.onEnterMEM.bind(_this);
+        _this.setCPUAndMEM = _this.setCPUAndMEM.bind(_this);
+        _this.onEnterInputStep2 = _this.onEnterInputStep2.bind(_this);
         return _this;
     }
 
@@ -32694,6 +32711,30 @@ var ReservationContainer = function (_Component) {
         key: 'onClose',
         value: function onClose() {
             this.dashboardContainer.onCloseModal();
+        }
+    }, {
+        key: 'setReservationLength',
+        value: function setReservationLength() {
+            var startDate = this.state.startDate.date;
+            var endDate = this.state.endDate.date;
+            var _state = this.state,
+                startTime = _state.startTime,
+                endTime = _state.endTime;
+
+            var start = (0, _moment2.default)(startDate + ' ' + startTime, 'YYYY-MM-DD HH:mm');
+            var end = (0, _moment2.default)(endDate + ' ' + endTime, 'YYYY-MM-DD HH:mm');
+
+            var day = end.diff(start, 'days');
+            var hour = end.diff(start, 'hours');
+            var length = '';
+            if (day >= 1) {
+                length = day + ' Days, ' + (hour - 24 * day) + ' Hours';
+            } else {
+                length = day + ' Days, ' + hour + ' Hours';
+            }
+            this.setState({
+                reservationLength: length
+            });
         }
     }, {
         key: 'onStartDateChange',
@@ -32704,7 +32745,7 @@ var ReservationContainer = function (_Component) {
                         obj: date,
                         date: (0, _moment2.default)(date).format('YYYY-MM-DD')
                     }
-                });
+                }, this.setReservationLength);
             } else {
                 this.setState({
                     startDate: {
@@ -32715,7 +32756,7 @@ var ReservationContainer = function (_Component) {
                         obj: date,
                         date: (0, _moment2.default)(date).format('YYYY-MM-DD')
                     }
-                });
+                }, this.setReservationLength);
                 var startTime = parseInt(this.state.startTime.replace(':00'));
                 var endTime = parseInt(this.state.endTime.replace(':00'));
                 if (endTime <= startTime) {
@@ -32723,7 +32764,7 @@ var ReservationContainer = function (_Component) {
                     if (startTime + 1 <= 23) {
                         this.setState({
                             endTime: time >= 10 ? time + ':00' : '0' + time + ':00'
-                        });
+                        }, this.setReservationLength);
                     } else {
                         this.setState({
                             endDate: {
@@ -32731,7 +32772,7 @@ var ReservationContainer = function (_Component) {
                                 date: (0, _moment2.default)(date).add(1, 'days').format('YYYY-MM-DD')
                             },
                             endTime: '00:00'
-                        });
+                        }, this.setReservationLength);
                     }
                 }
             }
@@ -32745,14 +32786,14 @@ var ReservationContainer = function (_Component) {
                         obj: date,
                         date: (0, _moment2.default)(date).format('YYYY-MM-DD')
                     }
-                });
+                }, this.setReservationLength);
             }
         }
     }, {
         key: 'onTimeChange',
         value: function onTimeChange(event) {
             var name = event.target.name;
-            this.setState(_defineProperty({}, name, event.target.value));
+            this.setState(_defineProperty({}, name, event.target.value), this.setReservationLength);
         }
     }, {
         key: 'onImageTypeChange',
@@ -32768,9 +32809,9 @@ var ReservationContainer = function (_Component) {
                 case 'step1':
                     this.onClose();break;
                 case 'step2':
-                    this.setState({ card: _react2.default.createElement(_step2.default, { reservationContainer: this }) });break;
+                    this.setState({ card: 'step1' });break;
                 case 'step3':
-                    this.setState({ card: _react2.default.createElement(_step4.default, { reservationContainer: this }) });break;
+                    this.setState({ card: 'step2' });break;
             }
         }
     }, {
@@ -32778,12 +32819,57 @@ var ReservationContainer = function (_Component) {
         value: function onNextStep(event) {
             switch (event.target.name) {
                 case 'step1':
-                    this.setState({ card: _react2.default.createElement(_step4.default, { reservationContainer: this }) });break;
+                    this.setState({ card: 'step2' });break;
                 case 'step2':
-                    this.setState({ card: _react2.default.createElement(_step6.default, { reservationContainer: this }) });break;
+                    this.setState({ card: 'step3' });break;
                 case 'step3':
                     ;break;
             }
+        }
+    }, {
+        key: 'setCPUAndMEM',
+        value: function setCPUAndMEM(index) {
+            var _state2 = this.state,
+                cpu = _state2.cpu,
+                mem = _state2.mem;
+
+            cpu[index] = '';
+            mem[index] = '';
+            this.setState({
+                cpu: cpu,
+                mem: mem
+            });
+        }
+    }, {
+        key: 'onEnterCPU',
+        value: function onEnterCPU(event) {
+            var cpu = this.state.cpu;
+
+            cpu[parseInt(event.target.name)] = event.target.value;
+            this.setState({
+                cpu: cpu
+            });
+        }
+    }, {
+        key: 'onEnterMEM',
+        value: function onEnterMEM(event) {
+            var mem = this.state.mem;
+
+            mem[parseInt(event.target.name)] = event.target.value;
+            this.setState({
+                mem: mem
+            });
+        }
+    }, {
+        key: 'onEnterInputStep2',
+        value: function onEnterInputStep2(event) {
+            var name = event.target.name;
+            this.setState(_defineProperty({}, name, event.target.value));
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.setReservationLength();
         }
     }, {
         key: 'render',
@@ -32973,13 +33059,20 @@ var Step1 = function (_Component) {
     _createClass(Step1, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this2 = this;
+
             this.props.reservationContainer.setState({
                 alertNode: this.refs.alerts
+            });
+            this.props.reservationContainer.dashboardContainer.state.selectCard.map(function (data, key) {
+                _this2.props.reservationContainer.setCPUAndMEM(key);
             });
         }
     }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return _react2.default.createElement(
                 'section',
                 { className: _reservation2.default.content },
@@ -33079,193 +33172,61 @@ var Step1 = function (_Component) {
                                 _react2.default.createElement(
                                     'div',
                                     { className: _reservation2.default.space },
-                                    'Reservation Length: 2 Days, 5 Hours'
+                                    'Reservation Length: ',
+                                    this.props.reservationContainer.state.reservationLength
                                 )
                             )
                         ),
                         _react2.default.createElement(
                             'div',
                             { className: _reservation2.default.sitelist },
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
-                                _react2.default.createElement(
+                            this.props.reservationContainer.dashboardContainer.state.selectCard.map(function (data, key) {
+                                return _react2.default.createElement(
                                     'div',
-                                    { className: _reservation2.default.block },
+                                    { className: _reservation2.default.row, key: key },
                                     _react2.default.createElement(
                                         'div',
-                                        { className: _reservation2.default.siteblock },
+                                        { className: _reservation2.default.block },
+                                        _react2.default.createElement(
+                                            'div',
+                                            { className: _reservation2.default.siteblock },
+                                            _react2.default.createElement(
+                                                'span',
+                                                null,
+                                                data.name
+                                            )
+                                        )
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: _reservation2.default.block },
                                         _react2.default.createElement(
                                             'span',
                                             null,
-                                            'AIST'
+                                            'CPUs :'
                                         )
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'CPUs :'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement('input', { className: _reservation2.default.inputradio, type: 'text' })
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Memory (GB) :'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement('input', { className: _reservation2.default.inputradio, type: 'text' })
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
+                                    ),
                                     _react2.default.createElement(
                                         'div',
-                                        { className: _reservation2.default.siteblock },
+                                        { className: _reservation2.default.block },
+                                        _react2.default.createElement('input', { name: key, className: _reservation2.default.inputradio, type: 'text', onChange: _this3.props.reservationContainer.onEnterCPU })
+                                    ),
+                                    _react2.default.createElement(
+                                        'div',
+                                        { className: _reservation2.default.block },
                                         _react2.default.createElement(
                                             'span',
                                             null,
-                                            'AIST'
+                                            'Memory (GB) :'
                                         )
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'CPUs :'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement('input', { className: _reservation2.default.inputradio, type: 'text' })
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Memory (GB) :'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement('input', { className: _reservation2.default.inputradio, type: 'text' })
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
+                                    ),
                                     _react2.default.createElement(
                                         'div',
-                                        { className: _reservation2.default.siteblock },
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'AIST'
-                                        )
+                                        { className: _reservation2.default.block },
+                                        _react2.default.createElement('input', { name: key, className: _reservation2.default.inputradio, type: 'text', onChange: _this3.props.reservationContainer.onEnterMEM })
                                     )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'CPUs :'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement('input', { className: _reservation2.default.inputradio, type: 'text' })
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Memory (GB) :'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement('input', { className: _reservation2.default.inputradio, type: 'text' })
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.siteblock },
-                                        _react2.default.createElement(
-                                            'span',
-                                            null,
-                                            'AIST'
-                                        )
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'CPUs :'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement('input', { className: _reservation2.default.inputradio, type: 'text' })
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement(
-                                        'span',
-                                        null,
-                                        'Memory (GB) :'
-                                    )
-                                ),
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.block },
-                                    _react2.default.createElement('input', { className: _reservation2.default.inputradio, type: 'text' })
-                                )
-                            )
+                                );
+                            })
                         ),
                         _react2.default.createElement(
                             'div',
@@ -33436,7 +33397,7 @@ var Step2 = function (_Component) {
                                     null,
                                     'Title of reservation:'
                                 ),
-                                _react2.default.createElement('input', { className: _reservation2.default.inputtitle, type: 'text', autoFocus: true })
+                                _react2.default.createElement('input', { name: 'title', className: _reservation2.default.inputtitle, type: 'text', value: this.props.reservationContainer.state.title, onChange: this.props.reservationContainer.onEnterInputStep2, autoFocus: true })
                             )
                         ),
                         _react2.default.createElement(
@@ -33450,7 +33411,7 @@ var Step2 = function (_Component) {
                                     null,
                                     'Description of reservation:'
                                 ),
-                                _react2.default.createElement('textarea', { className: _reservation2.default.textarea })
+                                _react2.default.createElement('textarea', { name: 'description', value: this.props.reservationContainer.state.description, className: _reservation2.default.textarea, onChange: this.props.reservationContainer.onEnterInputStep2 })
                             )
                         )
                     )
@@ -33519,13 +33480,40 @@ var Step3 = function (_Component) {
     _createClass(Step3, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this2 = this;
+
             this.props.reservationContainer.setState({
                 alertNode: this.refs.alerts
             });
+            var card = this.props.reservationContainer.dashboardContainer.state.selectCard;
+            this.cardName = '';
+            card.map(function (data) {
+                if (_this2.cardName == '') {
+                    _this2.cardName += data.name;
+                } else {
+                    _this2.cardName += ', ' + data.name;
+                }
+            });
+            if (this.cardName.length > 40) {
+                this.cardName = this.cardName.slice(0, 40) + '...';
+            }
+
+            this.begin = this.props.reservationContainer.state.startDate.obj.format('DD-MMM-YYYY').toUpperCase() + ' ' + this.props.reservationContainer.state.startTime;
+            this.end = this.props.reservationContainer.state.endDate.obj.format('DD-MMM-YYYY').toUpperCase() + ' ' + this.props.reservationContainer.state.endTime;
+            this.title = this.props.reservationContainer.state.title != '' ? this.props.reservationContainer.state.title : '-';
+            this.desc = this.props.reservationContainer.state.description != '' ? this.props.reservationContainer.state.description : '-';
+            if (this.title.length > 40) {
+                this.title = this.title.slice(0, 40) + '...';
+            }
+            if (this.desc.length > 40) {
+                this.desc = this.desc.slice(0, 40) + '...';
+            }
         }
     }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return _react2.default.createElement(
                 'section',
                 { className: _reservation2.default.content },
@@ -33595,7 +33583,7 @@ var Step3 = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: _reservation2.default.east },
-                                'UCSD/SDSC, AIST'
+                                this.cardName
                             )
                         )
                     ),
@@ -33613,7 +33601,7 @@ var Step3 = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: _reservation2.default.east },
-                                '09-NOV-2017 10:00'
+                                this.begin
                             )
                         )
                     ),
@@ -33631,7 +33619,7 @@ var Step3 = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: _reservation2.default.east },
-                                '09-NOV-2017 11:00'
+                                this.end
                             )
                         )
                     ),
@@ -33649,7 +33637,7 @@ var Step3 = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: _reservation2.default.east },
-                                '2 Days, 5 Hours'
+                                this.props.reservationContainer.state.reservationLength
                             )
                         )
                     ),
@@ -33667,133 +33655,56 @@ var Step3 = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: _reservation2.default.east },
-                                'centOS7'
+                                this.props.reservationContainer.state.imageType
                             )
                         )
                     ),
                     _react2.default.createElement(
                         'div',
                         { className: _reservation2.default.confirmlist },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _reservation2.default.item },
-                            _react2.default.createElement(
+                        this.props.reservationContainer.dashboardContainer.state.selectCard.map(function (data, key) {
+                            return _react2.default.createElement(
                                 'div',
-                                { className: _reservation2.default.row },
+                                { className: _reservation2.default.item, key: key },
                                 _react2.default.createElement(
                                     'div',
-                                    { className: _reservation2.default.column },
+                                    { className: _reservation2.default.row },
                                     _react2.default.createElement(
                                         'div',
-                                        { className: _reservation2.default.west },
-                                        'UCSD/SDSC CPUs:'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.east },
-                                        '32'
+                                        { className: _reservation2.default.column },
+                                        _react2.default.createElement(
+                                            'div',
+                                            { className: _reservation2.default.west },
+                                            data.name,
+                                            ' CPUs:'
+                                        ),
+                                        _react2.default.createElement(
+                                            'div',
+                                            { className: _reservation2.default.east },
+                                            _this3.props.reservationContainer.state.cpu[key] != '' ? _this3.props.reservationContainer.state.cpu[key] : '0'
+                                        )
                                     )
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
+                                ),
                                 _react2.default.createElement(
                                     'div',
-                                    { className: _reservation2.default.column },
+                                    { className: _reservation2.default.row },
                                     _react2.default.createElement(
                                         'div',
-                                        { className: _reservation2.default.west },
-                                        'Memory (GB):'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.east },
-                                        '64'
+                                        { className: _reservation2.default.column },
+                                        _react2.default.createElement(
+                                            'div',
+                                            { className: _reservation2.default.west },
+                                            'Memory (GB):'
+                                        ),
+                                        _react2.default.createElement(
+                                            'div',
+                                            { className: _reservation2.default.east },
+                                            _this3.props.reservationContainer.state.mem[key] != '' ? _this3.props.reservationContainer.state.mem[key] : '0'
+                                        )
                                     )
                                 )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _reservation2.default.item },
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.column },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.west },
-                                        'UCSD/SDSC CPUs:'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.east },
-                                        '32'
-                                    )
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.column },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.west },
-                                        'Memory (GB):'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.east },
-                                        '64'
-                                    )
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _reservation2.default.item },
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.column },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.west },
-                                        'UCSD/SDSC CPUs:'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.east },
-                                        '32'
-                                    )
-                                )
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _reservation2.default.row },
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _reservation2.default.column },
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.west },
-                                        'Memory (GB):'
-                                    ),
-                                    _react2.default.createElement(
-                                        'div',
-                                        { className: _reservation2.default.east },
-                                        '64'
-                                    )
-                                )
-                            )
-                        )
+                            );
+                        })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -33809,7 +33720,7 @@ var Step3 = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: _reservation2.default.east },
-                                'Test reservation 1'
+                                this.title
                             )
                         )
                     ),
@@ -33827,7 +33738,7 @@ var Step3 = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: _reservation2.default.east },
-                                '-'
+                                this.desc
                             )
                         )
                     )
