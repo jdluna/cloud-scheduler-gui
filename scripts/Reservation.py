@@ -13,6 +13,7 @@ cgitb.enable()
 
 from Database import Database
 from Site import Site
+from SiteManager import SiteManager
 
 
 class Reservation:
@@ -32,30 +33,62 @@ class Reservation:
     def getTitle(self):
         return self.__title
         
+    def setDescription(self, description):
+        self.__description = description
+        
+    def getDescription(self):
+        return self.__description 
+        
+    def setStart(self, start):
+        self.__start = start
+        
+    def getStart(self):
+        return self.__start 
+        
     def setEnd(self, end):
         self.__end = end
         
     def getEnd(self):
         return self.__end
         
+    def setImageType(self, imageType):
+        self.__imageType = imageType
+        
+    def getImageType(self):
+        return self.__imageType
+        
       
-    def setReservationStatus(self):
+    def setReservationsSite(self):
         self.__db = Database()
         if self.__db.connect():
-            sql = 'SELECT `site_id`,`status` FROM `site_reserved` WHERE `reservation_id` = "'+str(self.__reservationId)+'"'
+            sql = 'SELECT * FROM `site_reserved` WHERE `reservation_id` = "'+str(self.__reservationId)+'"'
             self.__db.execute(sql)
-            data = self.__db.getCursor().fetchall()
+            data = self.__db.getCursor().fetchall() 
+            
+            siteManager = SiteManager() 
             for d in data:
-                siteId = d[0]
+                siteId = d[1]
                 s = Site(site_id = siteId)
-                s.setStatus(d[1])
+                s.setStatus(d[4])
+                       
+                #create site just for getting the amount of resource types
+                self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
+                site_data = self.__db.getCursor().fetchone()   
+                site = siteManager.createSite(site_data) 
+                r = site.getResources()
                 
-                self.__db.execute('SELECT `name` FROM `site` WHERE `site_id`="'+str(siteId)+'"')
+                for i in range(0,len(r)):
+                    #d[2] = CPU, d[3] = Memory
+                    r[i].setAmount(d[2+i])
+                    
+                s.setResources(r)
+                
+                self.__db.execute('SELECT `name` FROM `site` WHERE `site_id`="'+str(siteId)+'"')            
                 s.setName(self.__db.getCursor().fetchone()[0])
                 self.__sites.append(s)
                 
         
-    def getReservationStatus(self):
+    def getReservationsSite(self):
         return self.__sites
         
     def setOwner(self, owner):
@@ -63,4 +96,5 @@ class Reservation:
         
     def getOwner(self):
         return self.__owner
+        
         

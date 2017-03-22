@@ -258,7 +258,7 @@ class ReservationManager:
             username = self.__db.getCursor().fetchone()[0]
                 
                 
-            sql = 'SELECT `reservation_id`,`title`,`end` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
+            sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
             self.__db.execute(sql)
             data = self.__db.getCursor().fetchall()
             currentTime = datetime.now()
@@ -266,7 +266,7 @@ class ReservationManager:
 
             
             for d in data:
-                end = d[2]
+                end = d[4]
                 diff = currentTime - end
                 
                 if ended:
@@ -275,10 +275,13 @@ class ReservationManager:
                         r = Reservation()
                         r.setReservationId(d[0])
                         r.setTitle(d[1])
+                        r.setDescription(d[2])
+                        r.setStart(d[3])
                         r.setEnd(end)
+                        r.setImageType(d[5])
                         r.setOwner(username)
                         
-                        r.setReservationStatus()                    
+                        r.setReservationsSite()                    
                         self.__reservations.append(r)
                 
                 else:
@@ -287,10 +290,13 @@ class ReservationManager:
                         r = Reservation()
                         r.setReservationId(d[0])
                         r.setTitle(d[1])
-                        r.setEnd(d[2])
+                        r.setDescription(d[2])
+                        r.setStart(d[3])
+                        r.setEnd(end)
+                        r.setImageType(d[5])
                         r.setOwner(username)
                         
-                        r.setReservationStatus()                    
+                        r.setReservationsSite()                    
                         self.__reservations.append(r)
                 
                 
@@ -468,7 +474,8 @@ class ReservationManager:
                     self.__db.execute(sql)
                     data = self.__db.getCursor().fetchall()    
                     sites = []
-                    siteManager = SiteManager()                
+                    
+                    siteManager = SiteManager()                         
                     
                     for d in data:
                         siteId = d[1]
@@ -479,7 +486,7 @@ class ReservationManager:
                         site = siteManager.createSite(site_data) 
                        
                         r = site.getResources()
-                        
+                            
                         for i in range(0,len(r)):
                             #d[2] = CPU, d[3] = Memory
                             r[i].setAmount(d[2+i])
