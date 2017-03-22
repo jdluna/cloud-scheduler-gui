@@ -451,7 +451,7 @@ class ReservationManager:
         return False
          
          
-    def cancel(self, sessionId, reservationId):
+    def cancel(self, sessionId, reservationId, reason):
         self.__db = Database() 
         
         if self.__db.connect():
@@ -494,9 +494,13 @@ class ReservationManager:
                         sites.append(site)
                     
                     
-                    #---remove the reservation data---
+                    #---set new the reservation data---
                     #site_reserved table
-                    sql = 'DELETE FROM `site_reserved` WHERE `reservation_id` = "'+str(reservationId)+'";'
+                    sql = 'UPDATE `site_reserved` SET `status`="cancel" WHERE `reservation_id` = "'+str(reservationId)+'";'
+                    self.__db.execute(sql)
+                    
+                    #canceled_reservation table
+                    sql = 'INSERT INTO `canceled_reservation` VALUES ( "'+str(reservationId)+'", "'+str(reason)+'");'             
                     self.__db.execute(sql)
     
                     #schedule table                
@@ -538,10 +542,6 @@ class ReservationManager:
                         beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
      
                     
-                    #reservation table
-                    sql = 'DELETE FROM `reservation` WHERE `reservation_id` = "'+str(reservationId)+'";'
-                    self.__db.execute(sql)
-    
                     
                     self.__db.commit()
                     self.__db.close() 
@@ -552,7 +552,7 @@ class ReservationManager:
                 self.__db.close() 
                 return False
                 
-            self.__db.close() 
+        self.__db.close() 
              
         return False
         
