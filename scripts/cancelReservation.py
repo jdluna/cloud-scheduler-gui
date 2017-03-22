@@ -16,8 +16,9 @@ print
 
 
 ###variable from front-end###
-SESSION_ID = 'CUIQC5'
-RESERVATION_ID = '3'
+SESSION_ID = 'OJMMML'
+RESERVATION_ID = '9'
+REASON = 'my job finish!'
 #############################
 
 
@@ -25,7 +26,7 @@ RESERVATION_ID = '3'
 from ReservationManager import ReservationManager
 reservationManager = ReservationManager()
 
-reservation = reservationManager.cancel(SESSION_ID, RESERVATION_ID)
+reservation = reservationManager.cancel(SESSION_ID, RESERVATION_ID, REASON)
 
     
 jsonStr = '{ "result" : "' +str(reservation)+ '" }'

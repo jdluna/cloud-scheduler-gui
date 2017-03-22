@@ -152,6 +152,8 @@ class Site:
         res.setAvailableAmount(db=db)
         self.__resources.append(res)
         
+    def setResources(self,res):
+        self.__resources = res
         
     def getResources(self):
         return self.__resources 

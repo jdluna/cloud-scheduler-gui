@@ -1,7 +1,7 @@
 #!/Python27/python
 # -*- coding: utf-8 -*-
 """
-Created on Wed Mar 08 23:11:57 2017
+Created on Thu Mar 16 19:23:04 2017
 
 @author: bamboojfc
 """
@@ -22,7 +22,7 @@ print
 from ReservationManager import ReservationManager
 
 resManager = ReservationManager()
-reservations = resManager.getReservations(sessionId = SESSION_ID, ended = False)
+reservations = resManager.getReservations(sessionId = SESSION_ID, ended = True)
 jsonStr = '{ "result" : [' 
 
 for r in reservations:

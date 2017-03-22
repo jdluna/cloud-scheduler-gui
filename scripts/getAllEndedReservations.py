@@ -1,7 +1,7 @@
 #!/Python27/python
 # -*- coding: utf-8 -*-
 """
-Created on Wed Mar 08 23:11:57 2017
+Created on Thu Mar 16 19:25:40 2017
 
 @author: bamboojfc
 """
@@ -22,15 +22,13 @@ print
 from ReservationManager import ReservationManager
 
 resManager = ReservationManager()
-reservations = resManager.getAllReservations(sessionId = SESSION_ID, ended = False)
+reservations = resManager.getAllReservations(sessionId = SESSION_ID, ended = True)
 
 jsonStr = '{ "result" : [' 
 
 for i in range(0,len(reservations)):
     for j in range(0,len(reservations[i])):
-        
         r = reservations[i][j]
-        
         jsonStr += ' { "reservation_id" : "'+str(r.getReservationId())+'", '
         jsonStr += '"title" : "'+str(r.getTitle())+'", '
         jsonStr += '"description" : "'+str(r.getDescription())+'", '
