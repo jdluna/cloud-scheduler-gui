@@ -12,7 +12,7 @@ cgitb.enable()
 
 
 ###variable from front-end###
-SESSION_ID = 'CUIQC5'
+SESSION_ID = 'OJMMML'
 #############################
 
 print "Content-Type: text/html"     

@@ -16,8 +16,8 @@ print
 
 
 ###variable from front-end###
-SESSION_ID = 'ACB123'
-RESERVATION_ID = '7'
+SESSION_ID = 'OJMMML'
+RESERVATION_ID = '9'
 REASON = 'my job finish!'
 #############################
 
