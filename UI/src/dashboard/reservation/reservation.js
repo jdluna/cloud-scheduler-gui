@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Style from './reservation.scss'
-import DatePicker from 'react-datepicker'
 
 export default class Reservation extends Component {
     render() {

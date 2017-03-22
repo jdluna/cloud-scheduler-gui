@@ -32,7 +32,7 @@ export default class ReservationContainer extends Component {
             imageType: 'Any',
 
             // OTHER
-            card: <Step1 reservationContainer={this}/>,
+            card: <Step1 reservationContainer={this} state={this.state}/>,
             alertNode: {}
         }
 

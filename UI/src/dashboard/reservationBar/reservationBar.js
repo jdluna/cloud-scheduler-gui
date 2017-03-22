@@ -2,7 +2,6 @@ import style from './reservationBar.scss'
 import React,{Component} from 'react'
 import CardContainer from './cardContainer'
 
-
 export default class reservationBar extends Component {
     render() {
         return (

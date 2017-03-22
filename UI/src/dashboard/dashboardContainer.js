@@ -24,7 +24,7 @@ export default class DashboardContainer extends Component {
                 panel: [],
                 data: {}
             },
-            modal: <ReservationContainer dashBoardContainer={this}/>,
+            modal: [],
             markerNode: []
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
