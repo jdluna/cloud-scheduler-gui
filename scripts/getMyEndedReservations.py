@@ -33,6 +33,8 @@ for r in reservations:
     jsonStr += '"end" : "'+str(r.getEnd())+'", '
     jsonStr += '"owner" : "'+str(r.getOwner())+'", '
     jsonStr += '"image_type" : "'+str(r.getImageType())+'", '
+    jsonStr += '"type" : "'+str(r.getType())+'", '
+    
     jsonStr += '"sites" : ['
     
     sites = r.getReservationsSite()

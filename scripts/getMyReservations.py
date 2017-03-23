@@ -12,7 +12,7 @@ cgitb.enable()
 
 
 ###variable from front-end###
-SESSION_ID = 'OJMMML'
+SESSION_ID = 'JG21L8'
 #############################
 
 print "Content-Type: text/html"     
@@ -33,6 +33,8 @@ for r in reservations:
     jsonStr += '"end" : "'+str(r.getEnd())+'", '
     jsonStr += '"owner" : "'+str(r.getOwner())+'", '
     jsonStr += '"image_type" : "'+str(r.getImageType())+'", '
+    jsonStr += '"type" : "'+str(r.getType())+'", '
+    
     jsonStr += '"sites" : ['
     
     sites = r.getReservationsSite()

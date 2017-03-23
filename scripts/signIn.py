@@ -12,7 +12,7 @@ cgitb.enable()
 
 
 ###variable from front-end###
-USERNAME = 'project401'
+USERNAME = 'admin'
 PASSWORD = '1234'
 #############################
 

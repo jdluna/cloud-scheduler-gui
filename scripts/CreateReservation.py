@@ -18,14 +18,15 @@ print
 
 
 ###variable from front-end###
-SESSION_ID = 'OJMMML'
-BEGIN = '2017-03-23 09:00:00'
-END = '2017-03-23 12:00:00'
-SITES_ID = '1,2'
+SESSION_ID = 'WX61FG'
+BEGIN = '2017-03-23 02:00:00'
+END = '2017-03-23 04:00:00'
+SITES_ID = '5,6'
 RESOURCES = '2,2|4,8'
 IMG_TYPE = 'centOS7'
-TITLE = 'New reservation'
-DESCRIPTION = 'descriptions'
+TITLE = 'A reservation'
+DESCRIPTION = '-'
+TYPE = 'single cluster on a single site'
 #############################
 
 
@@ -60,7 +61,7 @@ reservation = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SI
 result = 'fail'
 
 if reservation :
-    reservationManager.createReservation(TITLE, DESCRIPTION)
+    reservationManager.createReservation(TITLE, DESCRIPTION, TYPE)
     result = reservationManager.getCreateReservationStatus()
     
     

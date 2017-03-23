@@ -12,7 +12,7 @@ cgitb.enable()
 
 
 ###variable from front-end###
-SESSION_ID = 'ACB123'
+SESSION_ID = 'HHNZP5'
 #############################
 
 print "Content-Type: text/html"     
@@ -20,7 +20,6 @@ print "Access-Control-Allow-Origin: *"
 print
 
 from ReservationManager import ReservationManager
-
 resManager = ReservationManager()
 reservations = resManager.getAllReservations(sessionId = SESSION_ID, ended = True)
 
@@ -36,6 +35,8 @@ for i in range(0,len(reservations)):
         jsonStr += '"end" : "'+str(r.getEnd())+'", '
         jsonStr += '"owner" : "'+str(r.getOwner())+'", '
         jsonStr += '"image_type" : "'+str(r.getImageType())+'", '
+        jsonStr += '"type" : "'+str(r.getType())+'", '
+        
         jsonStr += '"sites" : ['
         
         sites = r.getReservationsSite()
