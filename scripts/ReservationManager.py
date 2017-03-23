@@ -107,9 +107,10 @@ class ReservationManager:
                 
             
             
-    def createReservation(self, title, description):
+    def createReservation(self, title, description, reserveType):
         self.__title = title
         self.__description = description
+        self.__reservedType = reserveType
         
         self.__db = Database() 
         
@@ -127,7 +128,7 @@ class ReservationManager:
                     if data == None:
                         break
                 
-                sql = 'INSERT INTO `reservation`(`user_id`, `title`, `description`, `start`, `end`, `reference_number`, `image_type`) VALUES ("'+str(self.__userId)+'","'+str(self.__title)+'","'+str(self.__description)+'","'+str(self.__begin)+'","'+str(self.__end)+'","'+str(ref)+'","'+str(self.__imgType)+'");'
+                sql = 'INSERT INTO `reservation`(`user_id`, `title`, `description`, `start`, `end`, `reference_number`, `image_type`, `type`) VALUES ("'+str(self.__userId)+'","'+str(self.__title)+'","'+str(self.__description)+'","'+str(self.__begin)+'","'+str(self.__end)+'","'+str(ref)+'","'+str(self.__imgType)+'","'+str(self.__reservedType)+'");'
                 self.__db.execute(sql)
                 
                 self.__reservationID = self.__db.getCursor().lastrowid
@@ -258,7 +259,7 @@ class ReservationManager:
             username = self.__db.getCursor().fetchone()[0]
                 
                 
-            sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
+            sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type`, `type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
             self.__db.execute(sql)
             data = self.__db.getCursor().fetchall()
             currentTime = datetime.now()
@@ -274,7 +275,9 @@ class ReservationManager:
                 r.setStart(d[3])
                 r.setEnd(end)
                 r.setImageType(d[5])
+                r.setType(d[6])
                 r.setOwner(username)
+                
                 
                 r.setReservationsSite() 
                 status = r.getReservationsSite()[0].getStatus()
@@ -288,8 +291,7 @@ class ReservationManager:
                     #see reservations which havn't ended
                     if diff < timedelta(hours=0) and status != 'cancel':                   
                         self.__reservations.append(r)        
-                
-                    
+                       
         return self.__reservations
     
     def getAllReservations(self, sessionId, ended = True):
@@ -304,13 +306,12 @@ class ReservationManager:
             uid = self.__db.getCursor().fetchone()
             if uid != None:
                 self.__userId = uid[0]
+                
                 sql = 'SELECT `status` FROM `user` WHERE `user_id` = "'+str(self.__userId)+'";'
                 self.__db.execute(sql)
                 status = self.__db.getCursor().fetchone()[0]
                 
-                if str(status).lower() != 'admin':
-                    return False
-                else:
+                if str(status).lower() == 'admin':
                     #get all reservations in the system
                     sql = 'SELECT `user_id` FROM `user`;'
                     self.__db.execute(sql)
@@ -320,7 +321,7 @@ class ReservationManager:
                         self.__allReservations.append(self.getReservations(userId=d[0],ended=ended))
                         
             self.__db.close()
-              
+        
         return self.__allReservations
             
         

@@ -38,6 +38,8 @@ for i in range(0,len(reservations)):
         jsonStr += '"end" : "'+str(r.getEnd())+'", '
         jsonStr += '"owner" : "'+str(r.getOwner())+'", '
         jsonStr += '"image_type" : "'+str(r.getImageType())+'", '
+        jsonStr += '"type" : "'+str(r.getType())+'", '
+        
         jsonStr += '"sites" : ['
         
         sites = r.getReservationsSite()

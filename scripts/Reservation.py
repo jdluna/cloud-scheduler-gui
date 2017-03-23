@@ -97,4 +97,10 @@ class Reservation:
     def getOwner(self):
         return self.__owner
         
+    def setType(self, reserveType):
+        self.__reserveType = reserveType
+        
+    def getType(self):
+        return self.__reserveType
+        
         
