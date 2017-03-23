@@ -14,7 +14,7 @@ export default class Reservation extends Component {
         }
 
         return (
-            <section className='modal'>
+            // <section className='modal'>
                 <section className={Style.panel}>
                     <header>
                         <div>Create a New Reservation</div>
@@ -24,7 +24,7 @@ export default class Reservation extends Component {
                     {/*{this.props.reservationContainer.state.card}*/}
                     {card}
                 </section>
-            </section>
+            // </section>
         )
     }
 }

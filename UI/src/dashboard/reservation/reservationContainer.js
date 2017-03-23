@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import Reservation from './reservation'
 import axios from 'axios'
 import moment from 'moment'
-import {CHECK_RESERVATION_ENDPOINT} from '../../config/endpoints'
+import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT,CHECK_CONNECTION_TYPE_ENDPOINT} from '../../config/endpoints'
+import SuccessDialog from './successDialog'
+import ErrorDialog from './errorDialog'
 
 export default class ReservationContainer extends Component {
     constructor(props){
@@ -35,6 +37,7 @@ export default class ReservationContainer extends Component {
 
             // OTHER
             card: 'step1',
+            dialog: 'main',
             alertNode: {},
             siteInputCPUDom: [],
             siteInputMEMDom: []
@@ -153,7 +156,7 @@ export default class ReservationContainer extends Component {
         switch(event.target.name){
             case 'step1' : this.checkReservation();break
             case 'step2' : this.setState({card: 'step3'});break
-            case 'step3' : ;break
+            case 'step3' : this.queryConfirmReservation();break
         }
     }
 
@@ -243,10 +246,99 @@ export default class ReservationContainer extends Component {
         })
     }
 
+    queryCheckConnectionType(){
+        let {selectCard} = this.dashboardContainer.state
+        let type = ''
+        selectCard.map((data,key)=>{
+            let subType = ''
+            data.connection.map((subData,subKey)=>{
+                if(subKey==0){
+                    subType += subData.name
+                }else{
+                    subType += ','+subData.name
+                }
+            })
+            if(key==0){
+                type += (subType=='') ? '-' : subType
+            }else{
+                type += '|'+((subType=='') ? '-' : subType)
+            }
+        })
+
+        let params = {
+            params:{
+                connection_type: type
+            }
+        }
+        axios.get(CHECK_CONNECTION_TYPE_ENDPOINT,params).then(response=>{
+            let {data,status} = response
+            if(status==200&&data.result){
+                if(data.result=='True'){
+                    this.queryCheckReservation()
+                }else{
+                    this.state.alertNode.innerHTML = 'The resource are not same connection type. Please try again.'
+                    this.state.alertNode.style.display = 'block'
+                }
+            }
+        }).catch(error=>{
+            console.log('QUERRY CHECK CONNECTION TYPE ERROR: ',+error)
+        })
+    }
+
     checkReservation(){
         if(this.checkStep1Input()==false){
-            this.queryCheckReservation()
+            let {selectCard,reserveMode} = this.dashboardContainer.state
+            if(selectCard.length>1){
+                if(reserveMode=='multiple'){
+                    this.queryCheckConnectionType()
+                }else{
+                    this.queryCheckReservation()
+                }
+            }else{
+                this.queryCheckReservation()
+            }
         }
+    }
+
+    queryConfirmReservation(){
+        let sitesId = ''
+        let resources = ''
+        this.sites.map((data,key)=>{
+            if(key==0){
+                sitesId += data.id
+                resources += this.state.cpu[key]+','+this.state.mem[key]
+            }else{
+                sitesId += ','+data.id
+                resources += '|'+this.state.cpu[key]+','+this.state.mem[key]
+            }
+        })
+
+        let params = {
+            params:{
+                session_id: this.appContainer.state.authen.session,
+                begin: this.state.startDate.date+' '+this.state.startTime+':00',
+                end: this.state.endDate.date+' '+this.state.endTime+':00',
+                sites_id: sitesId,
+                resources: resources,
+                img_type: this.state.imageType,
+                title: (this.state.title!='') ? this.state.title : '-',
+                description: (this.state.description!='') ? this.state.description : '-',
+                type: this.dashboardContainer.state.reserveMode
+            }
+        }
+
+        axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
+            let {data,status} = response
+            if(status==200&&data.result){
+                if(data.result=='success'){
+                    this.changeDialog('success')
+                }else{
+                    this.changeDialog('error')
+                }
+            }
+        }).catch(error=>{
+            console.log('QUERY CONFIRM RESERVATION ERROR: '+error)
+        })
     }
 
     queryCheckReservation(){
@@ -258,7 +350,7 @@ export default class ReservationContainer extends Component {
                 resources += this.state.cpu[key]+','+this.state.mem[key]
             }else{
                 sitesId += ','+data.id
-                resource += '|'+this.state.cpu[key]+','+this.state.mem[key]
+                resources += '|'+this.state.cpu[key]+','+this.state.mem[key]
             }
         })
 
@@ -277,9 +369,11 @@ export default class ReservationContainer extends Component {
             let {data,status} = response
             if(status==200&&data.result){
                 if(data.result=='True'){
+                    this.state.alertNode.innerHTML = 'The resource are not available enough. Please try again.'
                     this.state.alertNode.style.display = 'none'
                     this.setState({card: 'step2'})
                 }else{
+                    this.state.alertNode.innerHTML = 'The resource are not available enough. Please try again.'
                     this.state.alertNode.style.display = 'block'
                 }
             }
@@ -288,15 +382,33 @@ export default class ReservationContainer extends Component {
         })
     }
 
+    changeDialog(name){
+        this.setState({
+            dialog: name
+        })
+    }
+
     componentWillMount(){
         this.setReservationLength()
     }
 
+    onCloseDialog(){
+        this.dashboardContainer.onCloseModal()
+    }
+
     render() {
+        let dialog
+        switch(this.state.dialog){
+            case 'main' : dialog = <Reservation reservationContainer={this}/>;break;
+            case 'success' : dialog = <SuccessDialog onCloseDialog={()=>this.onCloseDialog()}/>;break;
+            case 'error' : dialog = <ErrorDialog onCloseDialog={()=>this.onCloseDialog()}/>;break;
+        }
         return (
-            <section>
-                <Reservation reservationContainer={this}/>
+            // <section>
+            <section className='modal'>
+                {dialog}
             </section>
+            // </section>
         )
     }
 }

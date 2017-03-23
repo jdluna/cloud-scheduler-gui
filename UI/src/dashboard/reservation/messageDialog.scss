@@ -1,0 +1,62 @@
+@import '../../sass/_colors.scss';
+@import '../../sass/_fonts.scss';
+
+.panel{
+    width: 330px;
+    height: 175px;
+    font-family: $font-primary;
+    border-radius: 3px;
+    border: 1px solid #929296;
+    position: relative;
+    header{
+        border-radius: 3px 3px 0px 0px;
+        border-bottom: 1px solid #929296;
+        font-size: 9pt; 
+        text-align: center;
+        height: 28px;
+        background-color: rgba(18, 18, 19,0.76);
+        div{
+            color: #FFFFFF;
+            padding-top: 7px;
+        }
+    }
+    .content{
+        font-family: $font-primary;
+        font-size: 9pt;
+        color: #FFFFFF;
+        height: calc(100% - 29px);
+        .icon{
+            height: 55px;
+            display: flex;
+            justify-content:  center;
+            align-items: center;
+            .success{
+                width: 28px;
+                display: block;
+            }
+        }
+        .text{
+            text-align: center;
+        }
+        .btn{
+            width: 100%;
+            position: absolute;
+            bottom: 20px;
+            display: flex;
+            justify-content: center;
+            .ok{
+                border-radius: 3px;
+                font-size: 9pt;
+                padding: 4px;
+                outline: none;
+                border: none;
+                color: #FFFFFF;
+                width: 80px;
+                background-color: #739aaf;
+            }
+            .ok:hover{
+                background-color: $bg-color-primary;
+            }
+        }
+    }
+}

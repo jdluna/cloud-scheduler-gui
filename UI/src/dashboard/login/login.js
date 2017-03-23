@@ -17,7 +17,7 @@ export default class Login extends Component {
                                 <form>
                                     <div className={Style.user}>
                                         <img className={Style.icon} src='img/ic_perm.svg'/>
-                                        <input className={Style.input} type='text' placeholder='Username' value={this.handle.state.username} onChange={this.handle.onUsernameChange}/></div>
+                                        <input className={Style.input} type='text' placeholder='Username' value={this.handle.state.username} onChange={this.handle.onUsernameChange} autoFocus/></div>
                                     <div className={Style.pass}>
                                         <img className={Style.icon} src='img/ic_lock.svg'/>
                                         <input className={Style.input} type='password'  placeholder='Password'  value={this.handle.state.password} onChange={this.handle.onPasswordChange}/></div>

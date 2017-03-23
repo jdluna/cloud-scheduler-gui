@@ -160,8 +160,8 @@ export default class cardContainer extends Component {
                 },
                 select: true
             })
-            let {id,name} = this.state.site.allData
-            this.props.dashBoardContainer.onSelectCard({id:id,name:name})
+            let {id,name,connection_type} = this.state.site.allData
+            this.props.dashBoardContainer.onSelectCard({id:id,name:name,connection:connection_type})
         }else{
             this.setState({
                 style:{
@@ -171,16 +171,16 @@ export default class cardContainer extends Component {
                 },
                 select: false
             })
-            let {id,name} = this.state.site.allData
-            this.props.dashBoardContainer.onDeselectCard({id:id,name:name})
+            let {id,name,connection_type} = this.state.site.allData
+            this.props.dashBoardContainer.onDeselectCard({id:id,name:name,connection:connection_type})
         } 
     }
 
     onCloseCard(event){
         event.stopPropagation()
         this.props.dashBoardContainer.onCloseCard(this.props.siteId)
-        let {id,name} = this.state.site.allData
-        this.props.dashBoardContainer.onDeselectCard({id:id,name:name})
+        let {id,name,connection_type} = this.state.site.allData
+        this.props.dashBoardContainer.onDeselectCard({id:id,name:name,connection:connection_type})
     }
 
     onNextDate(){
