@@ -17,7 +17,14 @@ export default class reservationBarContainer extends Component {
 
     onReserveClick(event){
         event.preventDefault()
-        this.props.dashBoardContainer.onSelectMenu('ReservationSites')
+        let {app} = this.props.dashBoardContainer.props
+        if(app.state.authen.isLogedIn){
+            this.props.dashBoardContainer.onSelectMenu('ReservationSites')
+        }else{
+            app.setState({
+                isOpenReserveModal: true
+            },app.authentication)
+        }
     }
 
     render() {

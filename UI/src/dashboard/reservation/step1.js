@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Style from './reservation.scss'
 import DatePicker from 'react-datepicker'
+import ReactDOM from 'react-dom'
 
 const TimeItem = (props) => (
     <select name={props.name} className={Style.inputtime} value={props.value} onChange={props.handle}>
@@ -34,11 +35,32 @@ const TimeItem = (props) => (
 export default class Step1 extends Component {
     componentDidMount(){
         this.props.reservationContainer.setState({
-            alertNode: this.refs.alerts
+            alertNode: this.refs.alert
         })
-        this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
-            this.props.reservationContainer.setCPUAndMEM(key)
+        let siteInputCPUDom = []
+        let siteInputMEMDom = []
+        Object.keys(this.refs).map((data,key)=>{
+            if(key!=0){
+                if((key%2)==1){
+                    siteInputCPUDom.push(this.refs[data])
+                }else if((key%2)==0){
+                    siteInputMEMDom.push(this.refs[data])
+                }
+            }
         })
+        this.props.reservationContainer.setState({
+            siteInputCPUDom: siteInputCPUDom,
+            siteInputMEMDom: siteInputMEMDom
+        })
+    }
+
+    componentWillMount(){
+        let {cpu,mem} = this.props.reservationContainer.state
+        if(cpu.length==0||mem.length==0){
+            this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
+                this.props.reservationContainer.setCPUAndMEM(key)
+            })
+        }
     }
 
     render() {
@@ -94,13 +116,13 @@ export default class Step1 extends Component {
                                                 <span>CPUs :</span>
                                             </div>
                                             <div className={Style.block}>
-                                                <input name={key} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterCPU}/>
+                                                <input ref={data.name.toLowerCase().replace(' ','')+'CPU'} name={key} value={this.props.reservationContainer.state.cpu[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterCPU}/>
                                             </div>
                                             <div className={Style.block}>
                                                 <span>Memory (GB) :</span>
                                             </div>
                                             <div className={Style.block}>
-                                                <input name={key} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterMEM}/>
+                                                <input ref={data.name.toLowerCase().replace(' ','')+'MEM'} name={key} value={this.props.reservationContainer.state.mem[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterMEM}/>
                                             </div>
                                         </div>
                                     )
@@ -112,7 +134,7 @@ export default class Step1 extends Component {
                                 <div>Image type:</div>
                                 <select className={Style.inputtype} value={this.props.reservationContainer.state.imageType} onChange={this.props.reservationContainer.onImageTypeChange}>
                                     <option value='Any'>Any</option>
-                                    <option value='centOS7'>centOS7</option>
+                                    <option value='centos7'>centos7</option>
                                 </select>
                             </div>
                         </div>

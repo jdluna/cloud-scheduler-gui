@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Reservation from './reservation'
 import axios from 'axios'
 import moment from 'moment'
+import {CHECK_RESERVATION_ENDPOINT} from '../../config/endpoints'
 
 export default class ReservationContainer extends Component {
     constructor(props){
@@ -34,7 +35,9 @@ export default class ReservationContainer extends Component {
 
             // OTHER
             card: 'step1',
-            alertNode: {}
+            alertNode: {},
+            siteInputCPUDom: [],
+            siteInputMEMDom: []
         }
 
         this.onStartDateChange = this.onStartDateChange.bind(this)
@@ -148,10 +151,37 @@ export default class ReservationContainer extends Component {
 
     onNextStep(event){
         switch(event.target.name){
-            case 'step1' : this.setState({card: 'step2'});break
+            case 'step1' : this.checkReservation();break
             case 'step2' : this.setState({card: 'step3'});break
             case 'step3' : ;break
         }
+    }
+
+    checkStep1Input(){
+        let empty = false
+        this.state.siteInputCPUDom.map((data)=>{
+            if(data.value==''){
+                if(empty==false){
+                    data.focus()
+                }
+                data.style.border = '1px solid red'
+                empty = true
+            }else{
+                data.style.border = '1px solid #464a5f'
+            }
+        })
+        this.state.siteInputMEMDom.map((data)=>{
+            if(data.value==''){
+                if(empty==false){
+                    data.focus()
+                }
+                empty = true
+                data.style.border = '1px solid red'
+            }else{
+                data.style.border = '1px solid #464a5f'
+            }
+        })
+        return empty
     }
 
     setCPUAndMEM(index){
@@ -165,25 +195,96 @@ export default class ReservationContainer extends Component {
     }
 
     onEnterCPU(event){
-        let {cpu} = this.state
-        cpu[parseInt(event.target.name)] = event.target.value
-        this.setState({
-            cpu: cpu
-        })
+        let name = event.target.name
+        let value = event.target.value
+        let REGEX = /^\d+$/
+        if (value.match(REGEX)) {
+            let {cpu} = this.state
+            cpu[parseInt(name)] = value
+            this.setState({
+                cpu: cpu
+            })
+        } else {
+            if (value.length <= 1) {
+                let {cpu} = this.state
+                cpu[parseInt(name)] = ''
+                this.setState({
+                    cpu: cpu
+                })
+            }
+        }
     }
 
     onEnterMEM(event){
-        let {mem} = this.state
-        mem[parseInt(event.target.name)] = event.target.value
-        this.setState({
-            mem: mem
-        })
+        let name = event.target.name
+        let value = event.target.value
+        let REGEX = /^\d+$/
+        if (value.match(REGEX)) {
+            let {mem} = this.state
+            mem[parseInt(name)] = value
+            this.setState({
+                mem: mem
+            })
+        } else {
+            if (value.length <= 1) {
+                let {mem} = this.state
+                mem[parseInt(name)] = ''
+                this.setState({
+                    mem: mem
+                })
+            }
+        }
     }
 
     onEnterInputStep2(event){
         let name = event.target.name
         this.setState({
             [name]: event.target.value
+        })
+    }
+
+    checkReservation(){
+        if(this.checkStep1Input()==false){
+            this.queryCheckReservation()
+        }
+    }
+
+    queryCheckReservation(){
+        let sitesId = ''
+        let resources = ''
+        this.sites.map((data,key)=>{
+            if(key==0){
+                sitesId += data.id
+                resources += this.state.cpu[key]+','+this.state.mem[key]
+            }else{
+                sitesId += ','+data.id
+                resource += '|'+this.state.cpu[key]+','+this.state.mem[key]
+            }
+        })
+
+        let params = {
+            params:{
+                session_id: this.appContainer.state.authen.session,
+                begin: this.state.startDate.date+' '+this.state.startTime+':00',
+                end: this.state.endDate.date+' '+this.state.endTime+':00',
+                sites_id: sitesId,
+                resources: resources,
+                img_type: this.state.imageType
+            }
+        }
+
+        axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
+            let {data,status} = response
+            if(status==200&&data.result){
+                if(data.result=='True'){
+                    this.state.alertNode.style.display = 'none'
+                    this.setState({card: 'step2'})
+                }else{
+                    this.state.alertNode.style.display = 'block'
+                }
+            }
+        }).catch(error=>{
+            console.log('QUERY CHECK RESERVATION ERROR: '+error)
         })
     }
 

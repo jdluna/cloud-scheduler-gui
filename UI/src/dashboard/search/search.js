@@ -119,7 +119,7 @@ export default class Search extends Component {
                                         <div>Image type:</div>
                                         <select className={Style.inputtype} value={this.props.searchContainer.state.imageType} onChange={this.props.searchContainer.onImageTypeChange}>
                                             <option value='Any'>Any</option>
-                                            <option value='centOS7'>centOS7</option>
+                                            <option value='centos7'>centos7</option>
                                         </select>
                                     </div>
                                 </div>

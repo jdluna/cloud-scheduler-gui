@@ -19,7 +19,8 @@ export default class App extends Component {
                 name: '',
                 session: '',
                 timezone: moment.tz.guess()
-            }
+            },
+            isOpenReserveModal: false
         }
         this.authentication = this.authentication.bind(this)
         this.onLogin = this.onLogin.bind(this)
