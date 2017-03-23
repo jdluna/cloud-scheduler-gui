@@ -493,8 +493,16 @@ class ReservationManager:
                 sql = 'INSERT INTO `canceled_reservation` VALUES ( "'+str(reservationId)+'", "'+str(reason)+'");'             
                 self.__db.execute(sql)
 
-                #schedule table                
-                tmpBegin = (datetime.now() + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
+                #schedule table       
+                diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-datetime.now()
+                
+                if diff < timedelta(hours=0):
+                    #running reservation
+                    tmpBegin = (datetime.now() + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
+                else:
+                    tmpBegin = begin
+                
+                
                 beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                     
                 while beginToEnd>=timedelta(hours=1):
