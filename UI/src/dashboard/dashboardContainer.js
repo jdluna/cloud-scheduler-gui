@@ -6,6 +6,7 @@ import SettingsContainer from './settings/settingsContainer'
 import LoginContainer from './login/loginContainer'
 import SearchContainer from './search/searchContainer'
 import ReservationContainer from './reservation/reservationContainer'
+import ReservationsContainer from './reservations/reservationsContainer'
 
 export default class DashboardContainer extends Component {
     constructor(props){
@@ -24,7 +25,7 @@ export default class DashboardContainer extends Component {
                 panel: [],
                 data: {}
             },
-            modal: [],
+            modal: <ReservationsContainer/>,
             markerNode: [],
             selectCard: [],
             reservationPanel:{
