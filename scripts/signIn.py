@@ -22,11 +22,11 @@ print
 
 from AuthenticationManager import AuthenticationManager
 
-auth = AuthenticationManager(USERNAME,PASSWORD)
-result = auth.authenticate()
+auth = AuthenticationManager()
+result = auth.authenticate(USERNAME,PASSWORD)
 jsonStr = '{ "result" : "' +str(result)+ '"'
 
-if auth.authenticate() :
+if result :
     sessionId = auth.getUser().getSessionToken()
     jsonStr += ', "session_id" : "' + str(sessionId) + '"'
     jsonStr += ', "firstname" : "' + str(auth.getUser().getFirstname()) + '"'
