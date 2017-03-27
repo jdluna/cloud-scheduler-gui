@@ -16,70 +16,28 @@ from User import User
 import datetime
 import hashlib
 from Database import Database
-
-
-print "Content-Type: text/html"     
-print
-        
         
 class AuthenticationManager: 
-    __username = ''
-    __password = ''
-    __usr = None
-    __sessionId = None
-    __userId = None
-    __firstname = None
-    __lastName = None
-    __emailAddress = None
-    __phoneNumber = None
-    __status = None
-    __timezone = None
-    __organization = None
-    __position = None
-    __language = None
-    __isAthenticate = False
-    
-    def __init__(self,username,password):
-        self.__username = username
-        self.__password = password
-        self.__usr = None
-        self.__isAthenticate = False
-        
-    
-    
-    def authenticate(self):
-        db = Database()
-        if db.connect():
-            hashObject = hashlib.sha512(self.__password)
-            passwordDig = hashObject.hexdigest()
-            sql = "SELECT * FROM `user` WHERE `username` = '"+str(self.__username)+"' AND `password` = '"+str(passwordDig)+"';"
-            db.execute(sql)
-            data = db.getCursor().fetchone()
-        
-            if data != None:
-                self.__isAthenticate = True
-                '''
-                self.__userId = data[0]
-                self.__username = data[1]
-                self.__firstname = data[3]
-                self.__lastName = data[4]
-                self.__emailAddress = data[5]
-                self.__phoneNumber = data[6]
-                self.__status = data[7]
-                self.__organization = data[8]
-                self.__position = data[9]
-                self.__language = data[10]
-                self.__timezone = data[11]
-                '''
-                self.__usr = User(self.__username,data[0],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11])
-                
-                db.close()
 
-        return self.__isAthenticate
+    
+    def __init__(self):
+        self.__usr = None
+
+    
+    def authenticate(self,username,password):
+        self.createUser(username)
+        hashObject = hashlib.sha512(password)
+        passwordDig = hashObject.hexdigest()
+        
+        if self.getUser().getPassword() == passwordDig:
+            return True
+        else:
+            return False
         
         
     def getUser(self):
         return self.__usr  
+        
     
     def isSessionExpired(self,sessionId):
         db = Database()        
@@ -104,10 +62,17 @@ class AuthenticationManager:
         return True
     
         
-        
-auth = AuthenticationManager('project401','1234')
+    def createUser(self,username):
 
-if auth.authenticate() :
-    sess = auth.getUser().getSessionToken()
-    print sess + '</br>'
-    print auth.isSessionExpired(sess)
+        db = Database()
+        if db.connect():
+            sql = "SELECT * FROM `user` WHERE `username` = '"+str(username)+"';"
+            db.execute(sql)
+            data = db.getCursor().fetchone()
+        
+            if data != None:
+                self.__usr = User(username,data[0],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11])
+        
+            db.close()
+        
+                

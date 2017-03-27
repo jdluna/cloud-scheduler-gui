@@ -485,24 +485,32 @@ class ReservationManager:
                     
                     
                     #---set new the reservation data---
-                    #site_reserved table
-                    sql = 'UPDATE `site_reserved` SET `status`="cancel" WHERE `reservation_id` = "'+str(reservationId)+'";'
-                    self.__db.execute(sql)
-                    
-                    #canceled_reservation table
-                    sql = 'INSERT INTO `canceled_reservation` VALUES ( "'+str(reservationId)+'", "'+str(reason)+'");'             
-                    self.__db.execute(sql)
-    
-                    #schedule table       
                     diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-datetime.now()
                     
                     if diff < timedelta(hours=0):
                         #running reservation
                         tmpBegin = (datetime.now() + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
+                        
+                        #reservation table
+                        newEnd = datetime.now().strftime("%Y-%m-%d %H:00:00") 
+                        sql = 'UPDATE `reservation` SET `end`="'+str(newEnd)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'   
+                        self.__db.execute(sql)                
+                        
+                                            
                     else:
                         tmpBegin = begin
+                        
+                        
+                    #site_reserved table
+                    sql = 'UPDATE `site_reserved` SET `status`="cancel" WHERE `reservation_id` = "'+str(reservationId)+'";'
+                    self.__db.execute(sql)
+                        
+                    #canceled_reservation table
+                    sql = 'INSERT INTO `canceled_reservation` VALUES ( "'+str(reservationId)+'", "'+str(reason)+'", "'+str(end)+'");'             
+                    self.__db.execute(sql)
                     
                     
+                    #schedule table   
                     beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                         
                     while beginToEnd>=timedelta(hours=1):

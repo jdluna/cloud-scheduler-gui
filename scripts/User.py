@@ -13,6 +13,13 @@ cgitb.enable()
 from Database import Database
 import string
 import random
+import hashlib
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+
+RESET_PASSWORD_URL = "http://www.lima-vc-1.sdsc.optiputer.net/reset_password"
+SOURCE_EMAIL = "happy@vernity.com"
 
 
 class User: 
@@ -29,10 +36,11 @@ class User:
     __language = None
     
     
-    def __init__(self,username= None,userId= None,firstname= None,lastName= None,emailAddress= None,phoneNumber= None,status= None,organization= None,position= None,language= None,timezone= None,sessionId = None): 
+    def __init__(self,username= None,userId= None,password = None,firstname= None,lastName= None,emailAddress= None,phoneNumber= None,status= None,organization= None,position= None,language= None,timezone= None,sessionId = None): 
         self.__username = username      
         self.__sessionId = None
         self.__userId = userId
+        self.__password = password
         self.__firstname = firstname
         self.__lastName = lastName
         self.__emailAddress = emailAddress
@@ -65,11 +73,14 @@ class User:
         
     def getUsername(self):
         return self.__username
+        
+    def getPassword(self):
+        return self.__password
     
     def getFirstname(self):
         return self.__firstname 
         
-    def getLastName(self):
+    def getLastname(self):
         return self.__lastName
         
     def getEmailAddress(self):
@@ -131,3 +142,76 @@ class User:
         
     def __idGenerator(self,size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
+        
+        
+    def resetPassword(self,password):
+        db = Database()
+        if db.connect():
+            
+            hashObject = hashlib.sha512(password)
+            passwordDig = hashObject.hexdigest()
+            
+            try:
+                sql = 'SELECT * FROM `user` WHERE `username` = "'+str(self.__username)+'";'
+                db.execute(sql)
+                data = db.getCursor().fetchone()
+            
+                if data != None:
+                    
+                    #generate id
+                    while True:
+                        genID = self.__idGenerator()
+                        sql = "SELECT * FROM forget_password WHERE id='"+str(genID)+"'"
+                        db.execute(sql)
+                        data = db.getCursor().fetchone()
+                        if not data:    #not duplicate ID
+                            break
+                        else:           #duplicate ID   
+                            genID = self.__idGenerator()
+                    
+                    
+                    sql = "SELECT * FROM forget_password WHERE username='"+str(self.__username)+"'"
+                    db.execute(sql)
+                    data = db.getCursor().fetchone()
+                    if not data:     #username doesn't already exist
+                        pass
+                    else:            #username already exist  
+                        sql = "DELETE FROM `forget_password` WHERE `username`='"+str(self.__username)+"'"
+                        db.execute(sql)
+                        
+                        
+                    sql = "INSERT INTO `forget_password`(`id`, `username`) VALUES ('"+str(genID)+"','"+str(self.__username)+"', '"+str(passwordDig)+"')"
+                    db.execute(sql)
+
+                    
+                    #if commit -> will continue..
+                    toaddr = self.getEmailAddress()
+                    msg = MIMEMultipart()
+                    msg['From'] = SOURCE_EMAIL
+                    msg['To'] = toaddr
+                    msg['Subject'] = "CHAMP : Reset password"
+                     
+                    body = "Hello, "+str(self.getFirstName())+"\n\n"
+                    body += "We've recieved a request to reset the password for this account. \n\n"
+                    body += "To reset your password please click on this link: "+RESET_PASSWORD_URL+str(genID)
+        
+                    msg.attach(MIMEText(body, 'plain'))
+             
+                    server = smtplib.SMTP('mail.vernity.com', 587)
+                    
+                    server.starttls()
+                    server.login(SOURCE_EMAIL, "@V3rn!ty")
+                    text = msg.as_string()
+                    
+                    server.sendmail(SOURCE_EMAIL, toaddr, text)
+                    server.quit()
+                    
+                    db.commit()
+                    return True
+            except:
+                db.rollback()
+            
+            
+        return False
+                
+                
