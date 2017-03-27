@@ -4,7 +4,7 @@
 :global{
     body{
         margin: 0px;
-        .btn, .btn--info,.btn--disabled{
+        .btn, .btn--info,.btn--delete,.btn--disabled{
             border-radius: 3px;
             font-size: 9pt;
             padding: 4px;
@@ -31,6 +31,12 @@
         }
         .btn--info:hover{
             background-color: $bg-color-primary;
+        }
+        .btn--delete{
+            background-color: #ef303e;
+        }
+        .btn--delete:hover{
+             background-color: $bg-color-primary;
         }
         .modal{
             position: absolute;
