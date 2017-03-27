@@ -32,7 +32,8 @@ export default class DashboardContainer extends Component {
                 multipleTextNode: {},
                 reserveBtnNode: {},
             },
-            reserveMode: 'single'
+            reserveMode: 'single',
+            modalName: ''
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -59,13 +60,28 @@ export default class DashboardContainer extends Component {
     onSelectMenu(menu){
         switch(menu){
             case 'Search'       : this.setState({modal: <SearchContainer dashBoardContainer={this}/>});break
-            case 'Reservations' : this.setState({modal: <HistoryContainer dashBoardContainer={this}/>});break
-            case 'History'      : this.setState({modal: <HistoryContainer dashBoardContainer={this}/>});break
+            case 'Reservations' : this.checkLogin(menu);break
+            case 'History'      : this.checkLogin(menu);break
             case 'Settings'     : this.setState({modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>});break
             case 'ReservationSites' : this.setState({modal: <ReservationContainer dashBoardContainer={this} app={this.props.app} sites={this.state.selectCard}/>});break
         }
     }
 
+    checkLogin(menu){
+        if(this.props.app.state.authen.isLogedIn){
+            if(menu=='Reservations'||menu=='History'){
+                this.setState({
+                    modal: <HistoryContainer dashBoardContainer={this}/>,
+                    modalName: menu
+                })
+            }
+        }else{
+            this.props.app.setState({
+                isOpenReserveModal: true
+            },this.props.app.authentication)
+        }
+    }
+    
     onCloseModal(){
         this.setState({
             modal: []

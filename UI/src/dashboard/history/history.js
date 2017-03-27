@@ -6,12 +6,14 @@ import ExtendPopup from './extendPopup'
 import DeletePopup from './deletePopup'
 
 const TAB_MENU = () => (
-    <div className={Style.menu}>
-        <div className={Style.selecttableft}>
-            <div>All reservations</div>
-        </div>
-        <div className={Style.tab}>
-            <div>My reservations</div>
+    <div className={Style.header}>
+        <div className={Style.menu}>
+            <div className={Style.selecttableft}>
+                <div>All reservations</div>
+            </div>
+            <div className={Style.tab}>
+                <div>My reservations</div>
+            </div>
         </div>
     </div>
 )
@@ -35,22 +37,23 @@ const FOOTER_TABLE = () => (
 
 export default class History extends Component {
     render() {
+        let {user} = this.props.historyContainer.state
+        let tabMenu = (user=='admin') ? <TAB_MENU/> : []
+        let footerTable = (user=='admin') ? <FOOTER_TABLE/> : []
         return (
             <section className='modal'>
                 <section className={Style.panel}>
                     <header>
-                        <div>Reservations</div>
+                        <div>{this.props.historyContainer.dashboardContainer.state.modalName}</div>
                         <img src='img/ic_close.svg' onClick={this.props.historyContainer.onClose} />
                     </header>
                     <section className={Style.content}>
                         <div className={Style.result}>
-                            <div className={Style.header}>
-                                {<TAB_MENU />}
+                            {tabMenu}
+                            <div ref='wrap' className={Style.data}>
+                                <Table historyContainer={this.props.historyContainer}/>
                             </div>
-                            <div className={Style.data}>
-                                <Table />
-                            </div>
-                            {<FOOTER_TABLE/>}
+                            {footerTable}
                         </div>
                         <div className={Style.resultdetail}>
                             <div className={Style.header}>

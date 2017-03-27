@@ -5473,7 +5473,7 @@ module.exports = invariant;
 
 
 
-var _prodInvariant = __webpack_require__(25);
+var _prodInvariant = __webpack_require__(27);
 
 var ReactCurrentOwner = __webpack_require__(17);
 
@@ -6196,7 +6196,7 @@ var _prodInvariant = __webpack_require__(5),
     _assign = __webpack_require__(6);
 
 var CallbackQueue = __webpack_require__(211);
-var PooledClass = __webpack_require__(23);
+var PooledClass = __webpack_require__(25);
 var ReactFeatureFlags = __webpack_require__(216);
 var ReactReconciler = __webpack_require__(31);
 var Transaction = __webpack_require__(47);
@@ -6487,7 +6487,7 @@ module.exports = ReactCurrentOwner;
 
 var _assign = __webpack_require__(6);
 
-var PooledClass = __webpack_require__(23);
+var PooledClass = __webpack_require__(25);
 
 var emptyFunction = __webpack_require__(15);
 var warning = __webpack_require__(4);
@@ -7230,6 +7230,35 @@ module.exports = warning;
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(246);
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var API_SERVER = 'http://lima-vc-1.sdsc.optiputer.net/project/scripts';
+
+var MAP_ENDPOINT = exports.MAP_ENDPOINT = API_SERVER + '/getDashboard.py';
+var CARD_ENDPOINT = exports.CARD_ENDPOINT = API_SERVER + '/GetSiteDescription.py';
+var AUTHEN_ENDPOINT = exports.AUTHEN_ENDPOINT = API_SERVER + '/signIn.py';
+var SET_TIMEZONE_ENDPOINT = exports.SET_TIMEZONE_ENDPOINT = API_SERVER + '/setTimezone.py';
+var SEARCH_RESOURCE_ENDPOINT = exports.SEARCH_RESOURCE_ENDPOINT = API_SERVER + '/Search.py';
+var CHECK_RESERVATION_ENDPOINT = exports.CHECK_RESERVATION_ENDPOINT = API_SERVER + '/CheckForReservation.py';
+var CONFIRM_RESERVATION_ENDPOINT = exports.CONFIRM_RESERVATION_ENDPOINT = API_SERVER + '/CreateReservation.py';
+var CHECK_CONNECTION_TYPE_ENDPOINT = exports.CHECK_CONNECTION_TYPE_ENDPOINT = API_SERVER + '/checkConnectionType.py';
+var MY_RESERVATIONS_ENDPOINT = exports.MY_RESERVATIONS_ENDPOINT = API_SERVER + '/getMyReservations.py';
+var ALL_RESERVATIONS_ENDPOINT = exports.ALL_RESERVATIONS_ENDPOINT = API_SERVER + '/getAllReservations.py';
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright 2013-present, Facebook, Inc.
@@ -7345,7 +7374,7 @@ module.exports = PooledClass;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7692,7 +7721,7 @@ module.exports = ReactElement;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7736,7 +7765,7 @@ function reactProdInvariant(code) {
 module.exports = reactProdInvariant;
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -7760,33 +7789,6 @@ if(false) {
 	// When the module is disposed, remove the <style> tags
 	module.hot.dispose(function() { update(); });
 }
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(246);
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var API_SERVER = 'http://lima-vc-1.sdsc.optiputer.net/project/scripts';
-
-var MAP_ENDPOINT = exports.MAP_ENDPOINT = API_SERVER + '/getDashboard.py';
-var CARD_ENDPOINT = exports.CARD_ENDPOINT = API_SERVER + '/GetSiteDescription.py';
-var AUTHEN_ENDPOINT = exports.AUTHEN_ENDPOINT = API_SERVER + '/signIn.py';
-var SET_TIMEZONE_ENDPOINT = exports.SET_TIMEZONE_ENDPOINT = API_SERVER + '/setTimezone.py';
-var SEARCH_RESOURCE_ENDPOINT = exports.SEARCH_RESOURCE_ENDPOINT = API_SERVER + '/Search.py';
-var CHECK_RESERVATION_ENDPOINT = exports.CHECK_RESERVATION_ENDPOINT = API_SERVER + '/CheckForReservation.py';
-var CONFIRM_RESERVATION_ENDPOINT = exports.CONFIRM_RESERVATION_ENDPOINT = API_SERVER + '/CreateReservation.py';
-var CHECK_CONNECTION_TYPE_ENDPOINT = exports.CHECK_CONNECTION_TYPE_ENDPOINT = API_SERVER + '/checkConnectionType.py';
 
 /***/ }),
 /* 29 */
@@ -8489,7 +8491,7 @@ var ReactComponent = __webpack_require__(78);
 var ReactPureComponent = __webpack_require__(482);
 var ReactClass = __webpack_require__(479);
 var ReactDOMFactories = __webpack_require__(480);
-var ReactElement = __webpack_require__(24);
+var ReactElement = __webpack_require__(26);
 var ReactPropTypes = __webpack_require__(481);
 var ReactVersion = __webpack_require__(483);
 
@@ -13072,7 +13074,7 @@ var RouterContext = __WEBPACK_IMPORTED_MODULE_1_react___default.a.createClass({
 
 
 
-var _prodInvariant = __webpack_require__(25);
+var _prodInvariant = __webpack_require__(27);
 
 var ReactNoopUpdateQueue = __webpack_require__(79);
 
@@ -13698,7 +13700,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _history = __webpack_require__(26);
+var _history = __webpack_require__(28);
 
 var _history2 = _interopRequireDefault(_history);
 
@@ -13770,7 +13772,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _history = __webpack_require__(26);
+var _history = __webpack_require__(28);
 
 var _history2 = _interopRequireDefault(_history);
 
@@ -13846,11 +13848,11 @@ var _login = __webpack_require__(273);
 
 var _login2 = _interopRequireDefault(_login);
 
-var _axios = __webpack_require__(27);
+var _axios = __webpack_require__(23);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _endpoints = __webpack_require__(28);
+var _endpoints = __webpack_require__(24);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13969,11 +13971,11 @@ var _dateTime = __webpack_require__(95);
 
 var _dateTime2 = _interopRequireDefault(_dateTime);
 
-var _axios = __webpack_require__(27);
+var _axios = __webpack_require__(23);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _endpoints = __webpack_require__(28);
+var _endpoints = __webpack_require__(24);
 
 var _moment = __webpack_require__(0);
 
@@ -25469,7 +25471,7 @@ var _prodInvariant = __webpack_require__(5);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var PooledClass = __webpack_require__(23);
+var PooledClass = __webpack_require__(25);
 
 var invariant = __webpack_require__(3);
 
@@ -28234,7 +28236,7 @@ module.exports = REACT_ELEMENT_TYPE;
 
 var ReactCurrentOwner = __webpack_require__(17);
 var ReactComponentTreeHook = __webpack_require__(12);
-var ReactElement = __webpack_require__(24);
+var ReactElement = __webpack_require__(26);
 
 var checkReactTypeSpec = __webpack_require__(484);
 
@@ -30630,6 +30632,8 @@ var App = function (_Component) {
     }, {
         key: 'authentication',
         value: function authentication() {
+            var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+            var menu = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
             var _state$loginDialog = this.state.loginDialog,
                 open = _state$loginDialog.open,
                 check = _state$loginDialog.check;
@@ -30931,7 +30935,8 @@ var DashboardContainer = function (_Component) {
                 multipleTextNode: {},
                 reserveBtnNode: {}
             },
-            reserveMode: 'single'
+            reserveMode: 'single',
+            modalName: ''
         };
         _this.onSelectMarker = _this.onSelectMarker.bind(_this);
         _this.onCloseCard = _this.onCloseCard.bind(_this);
@@ -30963,13 +30968,29 @@ var DashboardContainer = function (_Component) {
                 case 'Search':
                     this.setState({ modal: _react2.default.createElement(_searchContainer2.default, { dashBoardContainer: this }) });break;
                 case 'Reservations':
-                    this.setState({ modal: _react2.default.createElement(_historyContainer2.default, { dashBoardContainer: this }) });break;
+                    this.checkLogin(menu);break;
                 case 'History':
-                    this.setState({ modal: _react2.default.createElement(_historyContainer2.default, { dashBoardContainer: this }) });break;
+                    this.checkLogin(menu);break;
                 case 'Settings':
                     this.setState({ modal: _react2.default.createElement(_settingsContainer2.default, { dashBoardContainer: this, app: this.props.app }) });break;
                 case 'ReservationSites':
                     this.setState({ modal: _react2.default.createElement(_reservationContainer2.default, { dashBoardContainer: this, app: this.props.app, sites: this.state.selectCard }) });break;
+            }
+        }
+    }, {
+        key: 'checkLogin',
+        value: function checkLogin(menu) {
+            if (this.props.app.state.authen.isLogedIn) {
+                if (menu == 'Reservations' || menu == 'History') {
+                    this.setState({
+                        modal: _react2.default.createElement(_historyContainer2.default, { dashBoardContainer: this }),
+                        modalName: menu
+                    });
+                }
+            } else {
+                this.props.app.setState({
+                    isOpenReserveModal: true
+                }, this.props.app.authentication);
             }
         }
     }, {
@@ -31192,7 +31213,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _history = __webpack_require__(26);
+var _history = __webpack_require__(28);
 
 var _history2 = _interopRequireDefault(_history);
 
@@ -31289,7 +31310,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _history = __webpack_require__(26);
+var _history = __webpack_require__(28);
 
 var _history2 = _interopRequireDefault(_history);
 
@@ -31345,6 +31366,11 @@ var Detail = function (_Component) {
                         _react2.default.createElement(
                             'div',
                             null,
+                            'Type'
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            null,
                             'Remaining'
                         )
                     ),
@@ -31370,6 +31396,11 @@ var Detail = function (_Component) {
                             'div',
                             null,
                             ': 24-MAR-2017 12:00'
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            null,
+                            ': Single'
                         ),
                         _react2.default.createElement(
                             'div',
@@ -31623,7 +31654,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _history = __webpack_require__(26);
+var _history = __webpack_require__(28);
 
 var _history2 = _interopRequireDefault(_history);
 
@@ -31857,7 +31888,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _history = __webpack_require__(26);
+var _history = __webpack_require__(28);
 
 var _history2 = _interopRequireDefault(_history);
 
@@ -31888,23 +31919,27 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var TAB_MENU = function TAB_MENU() {
     return _react2.default.createElement(
         'div',
-        { className: _history2.default.menu },
+        { className: _history2.default.header },
         _react2.default.createElement(
             'div',
-            { className: _history2.default.selecttableft },
+            { className: _history2.default.menu },
             _react2.default.createElement(
                 'div',
-                null,
-                'All reservations'
-            )
-        ),
-        _react2.default.createElement(
-            'div',
-            { className: _history2.default.tab },
+                { className: _history2.default.selecttableft },
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    'All reservations'
+                )
+            ),
             _react2.default.createElement(
                 'div',
-                null,
-                'My reservations'
+                { className: _history2.default.tab },
+                _react2.default.createElement(
+                    'div',
+                    null,
+                    'My reservations'
+                )
             )
         )
     );
@@ -31963,6 +31998,10 @@ var History = function (_Component) {
     _createClass(History, [{
         key: 'render',
         value: function render() {
+            var user = this.props.historyContainer.state.user;
+
+            var tabMenu = user == 'admin' ? _react2.default.createElement(TAB_MENU, null) : [];
+            var footerTable = user == 'admin' ? _react2.default.createElement(FOOTER_TABLE, null) : [];
             return _react2.default.createElement(
                 'section',
                 { className: 'modal' },
@@ -31975,7 +32014,7 @@ var History = function (_Component) {
                         _react2.default.createElement(
                             'div',
                             null,
-                            'Reservations'
+                            this.props.historyContainer.dashboardContainer.state.modalName
                         ),
                         _react2.default.createElement('img', { src: 'img/ic_close.svg', onClick: this.props.historyContainer.onClose })
                     ),
@@ -31985,17 +32024,13 @@ var History = function (_Component) {
                         _react2.default.createElement(
                             'div',
                             { className: _history2.default.result },
+                            tabMenu,
                             _react2.default.createElement(
                                 'div',
-                                { className: _history2.default.header },
-                                _react2.default.createElement(TAB_MENU, null)
+                                { ref: 'wrap', className: _history2.default.data },
+                                _react2.default.createElement(_table2.default, { historyContainer: this.props.historyContainer })
                             ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.data },
-                                _react2.default.createElement(_table2.default, null)
-                            ),
-                            _react2.default.createElement(FOOTER_TABLE, null)
+                            footerTable
                         ),
                         _react2.default.createElement(
                             'div',
@@ -32052,6 +32087,12 @@ var _moment = __webpack_require__(0);
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _axios = __webpack_require__(23);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _endpoints = __webpack_require__(24);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32073,6 +32114,8 @@ var HistoryContainer = function (_Component) {
         _this.timezone = _moment2.default.tz(_this.appContainer.state.authen.timezone);
 
         _this.state = {
+            user: _this.appContainer.state.authen.data.position.toLowerCase(),
+            reservationsItem: [],
             extendDate: {
                 obj: _this.timezone,
                 date: _this.timezone.format('YYYY-MM-DD')
@@ -32083,6 +32126,7 @@ var HistoryContainer = function (_Component) {
         _this.onClose = _this.onClose.bind(_this);
         _this.onExtendDateChange = _this.onExtendDateChange.bind(_this);
         _this.onExtendTimeChange = _this.onExtendTimeChange.bind(_this);
+        _this.getReservationsCountDown = _this.getReservationsCountDown.bind(_this);
         return _this;
     }
 
@@ -32107,6 +32151,73 @@ var HistoryContainer = function (_Component) {
             this.setState({
                 extendTime: event.target.value
             });
+        }
+    }, {
+        key: 'getReservationsCountDown',
+        value: function getReservationsCountDown(endDate) {
+            var start = this.timezone.format('YYYY-MM-DD HH:mm');
+            var end = (0, _moment2.default)(endDate, 'YYYY-MM-DD HH:mm');
+
+            var day = end.diff(start, 'days');
+            var hour = end.diff(start, 'hours');
+            var year = end.diff(start, 'years');
+            var minute = end.diff(start, 'minutes');
+            var second = end.diff(start, 'seconds');
+
+            var leftDate = '';
+            if (year >= 1) {
+                leftDate = year + ' year(s) left';
+            } else {
+                if (day >= 1) {
+                    leftDate = day + ' day(s) left';
+                } else {
+                    if (hour >= 1) {
+                        leftDate = hour + ' hour(s) left';
+                    } else {
+                        if (minute >= 1) {
+                            leftDate = minute + ' minute(s) left';
+                        } else {
+                            if (second >= 1) {
+                                leftDate = second + ' second(s) left';
+                            } else {
+                                leftDate = 'calceled';
+                            }
+                        }
+                    }
+                }
+            }
+            return leftDate;
+        }
+    }, {
+        key: 'queryReservationsItem',
+        value: function queryReservationsItem(ENDPOINT) {
+            var _this2 = this;
+
+            var params = {
+                params: {
+                    session_id: this.appContainer.state.authen.session
+                }
+            };
+            _axios2.default.get(ENDPOINT, params).then(function (response) {
+                var status = response.status,
+                    data = response.data;
+
+                if (status == 200 && data.result) {
+                    _this2.setState({
+                        reservationsItem: data.result
+                    });
+                    console.log(data);
+                } else {
+                    console.log(response);
+                }
+            }).catch(function (error) {
+                console.log('QUERY RESERVATIONS ERROR: ' + ENDPOINT + ' ' + error);
+            });
+        }
+    }, {
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.queryReservationsItem(_endpoints.MY_RESERVATIONS_ENDPOINT);
         }
     }, {
         key: 'render',
@@ -32137,9 +32248,13 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _history = __webpack_require__(26);
+var _history = __webpack_require__(28);
 
 var _history2 = _interopRequireDefault(_history);
+
+var _moment = __webpack_require__(0);
+
+var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32159,8 +32274,17 @@ var Table = function (_Component) {
     }
 
     _createClass(Table, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            if (this.props.historyContainer.state.user != 'admin') {
+                this.refs.list.style.height = '360px';
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'section',
                 null,
@@ -32190,449 +32314,55 @@ var Table = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: _history2.default.itemlist },
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
+                    { ref: 'list', className: _history2.default.itemlist },
+                    this.props.historyContainer.state.reservationsItem.map(function (data, key) {
+                        var leftDate = _this2.props.historyContainer.getReservationsCountDown(data.end);
+                        var leftDateSplit = leftDate.split(' ');
+                        var leftDateElement = [];
+                        if (leftDateSplit[1] == 'year(s)' || leftDateSplit[1] == 'day(s)') {
+                            leftDateElement = _react2.default.createElement(
+                                'span',
+                                null,
+                                leftDate
+                            );
+                        } else {
+                            leftDateElement = _react2.default.createElement(
                                 'span',
                                 { className: _history2.default.warning },
-                                '3 hour(s) left'
+                                leftDate
+                            );
+                        }
+                        return _react2.default.createElement(
+                            'div',
+                            { className: _history2.default.item, key: key },
+                            _react2.default.createElement(
+                                'div',
+                                { className: _history2.default.text },
+                                (0, _moment2.default)(data.end).format('DD-MMM-YYYY HH:mm').toUpperCase()
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                { className: _history2.default.warning },
-                                '3 hour(s) left'
+                                { className: _history2.default.text },
+                                data.title
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
+                                { className: _history2.default.text },
+                                data.owner
                             ),
                             _react2.default.createElement(
                                 'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
+                                { className: _history2.default.text },
+                                leftDateElement,
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: _history2.default.control },
+                                    _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
+                                    _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
+                                )
                             )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.item },
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            '24-MAR-2017 12:00'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'First virtual machine'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            'project401'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: _history2.default.text },
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                '3 hour(s) left'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                { className: _history2.default.control },
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                            )
-                        )
-                    )
+                        );
+                    })
                 )
             );
         }
@@ -32955,7 +32685,7 @@ var _react = __webpack_require__(2);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _axios = __webpack_require__(27);
+var _axios = __webpack_require__(23);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -32963,7 +32693,7 @@ var _map = __webpack_require__(275);
 
 var _map2 = _interopRequireDefault(_map);
 
-var _endpoints = __webpack_require__(28);
+var _endpoints = __webpack_require__(24);
 
 var _dateTime = __webpack_require__(95);
 
@@ -34419,7 +34149,7 @@ var _reservation = __webpack_require__(284);
 
 var _reservation2 = _interopRequireDefault(_reservation);
 
-var _axios = __webpack_require__(27);
+var _axios = __webpack_require__(23);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -34427,7 +34157,7 @@ var _moment = __webpack_require__(0);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _endpoints = __webpack_require__(28);
+var _endpoints = __webpack_require__(24);
 
 var _successDialog = __webpack_require__(289);
 
@@ -36593,7 +36323,7 @@ var _search = __webpack_require__(292);
 
 var _search2 = _interopRequireDefault(_search);
 
-var _axios = __webpack_require__(27);
+var _axios = __webpack_require__(23);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -36601,7 +36331,7 @@ var _moment = __webpack_require__(0);
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _endpoints = __webpack_require__(28);
+var _endpoints = __webpack_require__(24);
 
 var _notFoundTable = __webpack_require__(291);
 
@@ -37100,11 +36830,11 @@ var _timezones = __webpack_require__(299);
 
 var _timezones2 = _interopRequireDefault(_timezones);
 
-var _axios = __webpack_require__(27);
+var _axios = __webpack_require__(23);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _endpoints = __webpack_require__(28);
+var _endpoints = __webpack_require__(24);
 
 var _momentTimezone = __webpack_require__(57);
 
@@ -49930,7 +49660,7 @@ exports = module.exports = __webpack_require__(9)();
 
 
 // module
-exports.push([module.i, ".jDYzwL2qMoR5Z08taNRtl {\n  width: 850px;\n  height: 425px;\n  font-family: sans-serif;\n  border-radius: 3px;\n  border: 1px solid #929296;\n  position: relative;\n  background-color: black; }\n  .jDYzwL2qMoR5Z08taNRtl header {\n    border-radius: 3px 3px 0px 0px;\n    border-bottom: 1px solid #929296;\n    font-size: 9pt;\n    text-align: center;\n    height: 28px;\n    position: relative;\n    background-color: #161923; }\n    .jDYzwL2qMoR5Z08taNRtl header div {\n      color: #FFFFFF;\n      padding-top: 7px; }\n    .jDYzwL2qMoR5Z08taNRtl header img {\n      position: absolute;\n      top: 3px;\n      right: 5px;\n      width: 20px; }\n  .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW {\n    display: flex;\n    height: calc(100% - 29px);\n    width: 100%;\n    box-sizing: border-box; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO {\n      display: block;\n      width: 70%;\n      height: 100%;\n      display: flex;\n      flex-direction: column; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 {\n        width: 100%;\n        height: 65px;\n        display: flex;\n        justify-content: center;\n        align-items: center; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l {\n          height: 28px;\n          width: 250px;\n          border-radius: 5px;\n          border: 1px solid #EFA430;\n          font-family: sans-serif;\n          font-size: 9pt;\n          display: flex; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l .a0COUC42xUvxq_xqVzSWV, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._2j2NyP_2sy-w-qW9DA-utZ, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._1Il7Xv3eUKXAE49xUQKqr5 {\n            color: #EFA430;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            width: 50%;\n            height: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._2j2NyP_2sy-w-qW9DA-utZ {\n            color: #000000;\n            background-color: #EFA430;\n            border-top-left-radius: 3px;\n            border-bottom-left-radius: 3px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._1Il7Xv3eUKXAE49xUQKqr5 {\n            color: #000000;\n            background-color: #EFA430;\n            border-top-right-radius: 3px;\n            border-bottom-right-radius: 3px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l:hover {\n          cursor: pointer; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao {\n        width: 100%;\n        height: calc(100% - 66px);\n        color: #FFFFFF;\n        font-size: 9pt; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._3t91Hl38vXL_p91KrP4g_3 {\n          display: flex;\n          background-color: rgba(35, 41, 57, 0.84);\n          padding: 0px 0px 0px 20px;\n          margin-bottom: 5px;\n          box-sizing: border-box;\n          height: 24px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._3t91Hl38vXL_p91KrP4g_3 ._2IwuveY_xsmDwFw-Ygnh99 {\n            width: 50%; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh {\n          height: 265px;\n          overflow-y: auto;\n          margin-top: 1px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH {\n            display: flex;\n            padding: 5px 10px 5px 20px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 {\n              width: 50%;\n              position: relative; }\n              .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw {\n                top: -3px;\n                right: 0px;\n                position: absolute; }\n                .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw ._37rlZgzEgvfuGU8HAxmraF {\n                  width: 20px;\n                  margin-left: 5px; }\n                .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw ._37rlZgzEgvfuGU8HAxmraF:hover {\n                  cursor: pointer; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH:hover {\n            background-color: rgba(239, 164, 48, 0.4);\n            cursor: default; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar-track {\n          border-radius: 10px;\n          background-color: rgba(35, 41, 57, 0.84); }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar {\n          width: 5px;\n          border-radius: 10px;\n          background-color: rgba(35, 41, 57, 0.84); }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar-thumb {\n          border-radius: 10px;\n          background-color: rgba(18, 18, 19, 0.76); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._7wkUgHW79domoZqF1toa5 {\n        display: flex;\n        align-items: center;\n        position: absolute;\n        bottom: 7px;\n        left: 10px;\n        color: #FFFFFF;\n        font-size: 9pt;\n        opacity: 0.5; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._7wkUgHW79domoZqF1toa5 ._37rlZgzEgvfuGU8HAxmraF {\n          width: 20px;\n          margin: 0px 5px 0px 5px; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq {\n      width: 30%;\n      height: 100%;\n      border-left: 1px solid #FFFFFF;\n      font-size: 9pt;\n      color: #FFFFFF;\n      position: relative; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._3t91Hl38vXL_p91KrP4g_3 {\n        display: flex;\n        background-color: rgba(35, 41, 57, 0.84);\n        padding: 5px 0px 5px 15px;\n        box-sizing: border-box;\n        height: 24px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._3t91Hl38vXL_p91KrP4g_3 ._2IwuveY_xsmDwFw-Ygnh99 {\n          width: 50%; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao {\n        padding: 15px 15px 0px 15px;\n        overflow-y: auto;\n        height: calc(100% - 40px);\n        width: 100%;\n        box-sizing: border-box; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv {\n          box-sizing: border-box;\n          display: flex;\n          width: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv ._2h6r3qL7bGBqyoWqbKYFlN {\n            width: 35%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv ._1nGPXkEOMNivm_GfpHAqfL {\n            width: 65%; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao ._10oGmHGBZgFYsMokZf-p_F {\n          margin-top: 15px;\n          width: 100%;\n          border-top: 1px solid #464a5f; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao ._2sTAraDRC6zmmFCFhMAlee {\n          color: #FFFFFF;\n          padding-top: 15px;\n          padding-bottom: 5px; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1I2bWnYCflWAFEyG1sAr35::-webkit-scrollbar-track {\n        border-radius: 10px;\n        background-color: rgba(35, 41, 57, 0.84); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao::-webkit-scrollbar {\n        width: 5px;\n        border-radius: 10px;\n        background-color: rgba(35, 41, 57, 0.84); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao::-webkit-scrollbar-thumb {\n        border-radius: 10px;\n        background-color: rgba(18, 18, 19, 0.76); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 {\n        position: absolute;\n        width: 100%;\n        height: 100px;\n        bottom: 0px;\n        border-top: 1px solid #FFFFFF;\n        background-color: #000000; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee {\n          position: relative;\n          height: 27px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee div {\n            padding: 8px 0px 5px 15px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee img {\n            width: 20px;\n            position: absolute;\n            right: 5px;\n            top: 5px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW {\n          display: flex;\n          justify-content: center;\n          flex-direction: column;\n          padding-bottom: 10px;\n          height: calc(100% - 28px);\n          width: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._2mLZ6YBJ7-cfmH7S5gZU0E {\n            width: 28px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW .f3PCrTI_YijwT_O884DI9 {\n            width: 40%;\n            margin: auto; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 {\n            margin-bottom: 5px;\n            margin: auto; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._25pjloI1wUdGFhsJy_nw1r {\n              display: inline-block;\n              position: relative; }\n              .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._25pjloI1wUdGFhsJy_nw1r ._37rlZgzEgvfuGU8HAxmraF {\n                left: 110px;\n                position: absolute;\n                width: 16px;\n                top: 8px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._2SbvMg1zSQHDS70_yavTA, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP {\n              background-color: #464a5f;\n              border-radius: 3px;\n              padding-right: 5px;\n              padding-left: 5px;\n              outline: none;\n              border: none;\n              height: 20px;\n              margin-top: 5px;\n              color: #FFFFFF; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP::-webkit-input-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP::-moz-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA {\n              width: 120px;\n              margin-right: 10px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA::-webkit-input-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA::-moz-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._2SbvMg1zSQHDS70_yavTA {\n              width: 70px;\n              height: 22px;\n              padding-left: 0px; }\n  .jDYzwL2qMoR5Z08taNRtl ._1GQ-Ez_QQB_EocZV6Vu1ke {\n    color: #ef303e; }\n  .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY {\n    box-sizing: border-box;\n    display: flex;\n    width: 100%;\n    margin-top: 10px; }\n    .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY ._2h6r3qL7bGBqyoWqbKYFlN {\n      width: 50%; }\n    .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY ._1nGPXkEOMNivm_GfpHAqfL {\n      width: 50%; }\n  .jDYzwL2qMoR5Z08taNRtl ._2osWeV1vNVfDuMmf3KyO60 {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n    height: 100%; }\n", ""]);
+exports.push([module.i, ".jDYzwL2qMoR5Z08taNRtl {\n  width: 850px;\n  height: 425px;\n  font-family: sans-serif;\n  border-radius: 3px;\n  border: 1px solid #929296;\n  position: relative;\n  background-color: black; }\n  .jDYzwL2qMoR5Z08taNRtl header {\n    border-radius: 3px 3px 0px 0px;\n    border-bottom: 1px solid #929296;\n    font-size: 9pt;\n    text-align: center;\n    height: 28px;\n    position: relative;\n    background-color: #161923; }\n    .jDYzwL2qMoR5Z08taNRtl header div {\n      color: #FFFFFF;\n      padding-top: 7px; }\n    .jDYzwL2qMoR5Z08taNRtl header img {\n      position: absolute;\n      top: 3px;\n      right: 5px;\n      width: 20px; }\n  .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW {\n    display: flex;\n    height: calc(100% - 29px);\n    width: 100%;\n    box-sizing: border-box; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO {\n      display: block;\n      width: 70%;\n      height: 100%;\n      display: flex;\n      flex-direction: column; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 {\n        width: 100%;\n        height: 65px;\n        display: flex;\n        justify-content: center;\n        align-items: center; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l {\n          height: 28px;\n          width: 250px;\n          border-radius: 5px;\n          border: 1px solid #EFA430;\n          font-family: sans-serif;\n          font-size: 9pt;\n          display: flex; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l .a0COUC42xUvxq_xqVzSWV, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._2j2NyP_2sy-w-qW9DA-utZ, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._1Il7Xv3eUKXAE49xUQKqr5 {\n            color: #EFA430;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            width: 50%;\n            height: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._2j2NyP_2sy-w-qW9DA-utZ {\n            color: #000000;\n            background-color: #EFA430;\n            border-top-left-radius: 3px;\n            border-bottom-left-radius: 3px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._1Il7Xv3eUKXAE49xUQKqr5 {\n            color: #000000;\n            background-color: #EFA430;\n            border-top-right-radius: 3px;\n            border-bottom-right-radius: 3px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l:hover {\n          cursor: pointer; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao {\n        width: 100%;\n        height: calc(100% - 66px);\n        color: #FFFFFF;\n        font-size: 9pt; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._3t91Hl38vXL_p91KrP4g_3 {\n          display: flex;\n          background-color: rgba(35, 41, 57, 0.84);\n          padding: 0px 0px 0px 20px;\n          margin-bottom: 5px;\n          box-sizing: border-box;\n          height: 24px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._3t91Hl38vXL_p91KrP4g_3 ._2IwuveY_xsmDwFw-Ygnh99 {\n            width: 50%; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh {\n          height: 265px;\n          overflow-y: auto;\n          margin-top: 1px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH {\n            display: flex;\n            padding: 5px 10px 5px 20px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 {\n              width: 50%;\n              position: relative; }\n              .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw {\n                top: -3px;\n                right: 0px;\n                position: absolute; }\n                .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw ._37rlZgzEgvfuGU8HAxmraF {\n                  width: 20px;\n                  margin-left: 5px; }\n                .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw ._37rlZgzEgvfuGU8HAxmraF:hover {\n                  cursor: pointer; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH:hover {\n            background-color: rgba(239, 164, 48, 0.4);\n            cursor: default; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar-track {\n          border-radius: 10px;\n          background-color: rgba(35, 41, 57, 0.84); }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar {\n          width: 5px;\n          border-radius: 10px;\n          background-color: rgba(35, 41, 57, 0.84); }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar-thumb {\n          border-radius: 10px;\n          background-color: rgba(18, 18, 19, 0.76); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._7wkUgHW79domoZqF1toa5 {\n        display: flex;\n        align-items: center;\n        position: absolute;\n        bottom: 7px;\n        left: 10px;\n        color: #FFFFFF;\n        font-size: 9pt;\n        opacity: 0.5; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._7wkUgHW79domoZqF1toa5 ._37rlZgzEgvfuGU8HAxmraF {\n          width: 20px;\n          margin: 0px 5px 0px 5px; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq {\n      width: 30%;\n      height: 100%;\n      border-left: 1px solid #FFFFFF;\n      font-size: 9pt;\n      color: #FFFFFF;\n      position: relative; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._3t91Hl38vXL_p91KrP4g_3 {\n        display: flex;\n        background-color: rgba(35, 41, 57, 0.84);\n        padding: 5px 0px 5px 15px;\n        box-sizing: border-box;\n        height: 24px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._3t91Hl38vXL_p91KrP4g_3 ._2IwuveY_xsmDwFw-Ygnh99 {\n          width: 50%; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao {\n        padding: 15px 15px 0px 15px;\n        overflow-y: auto;\n        height: calc(100% - 40px);\n        width: 100%;\n        box-sizing: border-box; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv {\n          box-sizing: border-box;\n          display: flex;\n          width: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv ._2h6r3qL7bGBqyoWqbKYFlN {\n            width: 35%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv ._1nGPXkEOMNivm_GfpHAqfL {\n            width: 65%; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao ._10oGmHGBZgFYsMokZf-p_F {\n          margin-top: 15px;\n          width: 100%;\n          border-top: 1px solid #464a5f; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao ._2sTAraDRC6zmmFCFhMAlee {\n          color: #FFFFFF;\n          padding-top: 15px;\n          padding-bottom: 5px; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1I2bWnYCflWAFEyG1sAr35::-webkit-scrollbar-track {\n        border-radius: 10px;\n        background-color: rgba(35, 41, 57, 0.84); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao::-webkit-scrollbar {\n        width: 5px;\n        border-radius: 10px;\n        background-color: rgba(35, 41, 57, 0.84); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao::-webkit-scrollbar-thumb {\n        border-radius: 10px;\n        background-color: rgba(18, 18, 19, 0.76); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 {\n        position: absolute;\n        width: 100%;\n        height: 103px;\n        bottom: 0px;\n        border-top: 1px solid #FFFFFF;\n        background-color: #000000; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee {\n          position: relative;\n          height: 27px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee div {\n            padding: 8px 0px 5px 15px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee img {\n            width: 20px;\n            position: absolute;\n            right: 5px;\n            top: 5px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW {\n          display: flex;\n          justify-content: center;\n          flex-direction: column;\n          padding-bottom: 10px;\n          height: calc(100% - 28px);\n          width: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._2mLZ6YBJ7-cfmH7S5gZU0E {\n            width: 28px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW .f3PCrTI_YijwT_O884DI9 {\n            width: 40%;\n            margin: auto; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 {\n            margin-bottom: 5px;\n            margin: auto; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._25pjloI1wUdGFhsJy_nw1r {\n              display: inline-block;\n              position: relative; }\n              .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._25pjloI1wUdGFhsJy_nw1r ._37rlZgzEgvfuGU8HAxmraF {\n                left: 110px;\n                position: absolute;\n                width: 16px;\n                top: 8px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._2SbvMg1zSQHDS70_yavTA, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP {\n              background-color: #464a5f;\n              border-radius: 3px;\n              padding-right: 5px;\n              padding-left: 5px;\n              outline: none;\n              border: none;\n              height: 20px;\n              margin-top: 5px;\n              color: #FFFFFF; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP::-webkit-input-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP::-moz-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA {\n              width: 120px;\n              margin-right: 10px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA::-webkit-input-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA::-moz-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._2SbvMg1zSQHDS70_yavTA {\n              width: 70px;\n              height: 22px;\n              padding-left: 0px; }\n  .jDYzwL2qMoR5Z08taNRtl ._1GQ-Ez_QQB_EocZV6Vu1ke {\n    color: #ef303e; }\n  .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY {\n    box-sizing: border-box;\n    display: flex;\n    width: 100%;\n    margin-top: 10px; }\n    .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY ._2h6r3qL7bGBqyoWqbKYFlN {\n      width: 50%; }\n    .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY ._1nGPXkEOMNivm_GfpHAqfL {\n      width: 50%; }\n  .jDYzwL2qMoR5Z08taNRtl ._2osWeV1vNVfDuMmf3KyO60 {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n    height: 100%; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -54690,7 +54420,7 @@ module.exports = EnterLeaveEventPlugin;
 
 var _assign = __webpack_require__(6);
 
-var PooledClass = __webpack_require__(23);
+var PooledClass = __webpack_require__(25);
 
 var getTextContentAccessor = __webpack_require__(226);
 
@@ -59371,7 +59101,7 @@ var _assign = __webpack_require__(6);
 
 var EventListener = __webpack_require__(96);
 var ExecutionEnvironment = __webpack_require__(8);
-var PooledClass = __webpack_require__(23);
+var PooledClass = __webpack_require__(25);
 var ReactDOMComponentTree = __webpack_require__(7);
 var ReactUpdates = __webpack_require__(16);
 
@@ -60293,7 +60023,7 @@ module.exports = ReactPropTypeLocationNames;
 var _assign = __webpack_require__(6);
 
 var CallbackQueue = __webpack_require__(211);
-var PooledClass = __webpack_require__(23);
+var PooledClass = __webpack_require__(25);
 var ReactBrowserEventEmitter = __webpack_require__(45);
 var ReactInputSelection = __webpack_require__(218);
 var ReactInstrumentation = __webpack_require__(14);
@@ -60570,7 +60300,7 @@ module.exports = ReactRef;
 
 var _assign = __webpack_require__(6);
 
-var PooledClass = __webpack_require__(23);
+var PooledClass = __webpack_require__(25);
 var Transaction = __webpack_require__(47);
 var ReactInstrumentation = __webpack_require__(14);
 var ReactServerUpdateQueue = __webpack_require__(431);
@@ -64620,7 +64350,7 @@ module.exports = KeyEscapeUtils;
 
 
 
-var _prodInvariant = __webpack_require__(25);
+var _prodInvariant = __webpack_require__(27);
 
 var invariant = __webpack_require__(3);
 
@@ -64738,7 +64468,7 @@ module.exports = PooledClass;
 
 
 var PooledClass = __webpack_require__(477);
-var ReactElement = __webpack_require__(24);
+var ReactElement = __webpack_require__(26);
 
 var emptyFunction = __webpack_require__(15);
 var traverseAllChildren = __webpack_require__(486);
@@ -64933,11 +64663,11 @@ module.exports = ReactChildren;
 
 
 
-var _prodInvariant = __webpack_require__(25),
+var _prodInvariant = __webpack_require__(27),
     _assign = __webpack_require__(6);
 
 var ReactComponent = __webpack_require__(78);
-var ReactElement = __webpack_require__(24);
+var ReactElement = __webpack_require__(26);
 var ReactPropTypeLocationNames = __webpack_require__(80);
 var ReactNoopUpdateQueue = __webpack_require__(79);
 
@@ -65656,7 +65386,7 @@ module.exports = ReactClass;
 
 
 
-var ReactElement = __webpack_require__(24);
+var ReactElement = __webpack_require__(26);
 
 /**
  * Create a factory that creates HTML tag elements.
@@ -65832,7 +65562,7 @@ module.exports = ReactDOMFactories;
 
 
 
-var ReactElement = __webpack_require__(24);
+var ReactElement = __webpack_require__(26);
 var ReactPropTypeLocationNames = __webpack_require__(80);
 var ReactPropTypesSecret = __webpack_require__(241);
 
@@ -66338,7 +66068,7 @@ module.exports = '15.4.2';
 
 
 
-var _prodInvariant = __webpack_require__(25);
+var _prodInvariant = __webpack_require__(27);
 
 var ReactPropTypeLocationNames = __webpack_require__(80);
 var ReactPropTypesSecret = __webpack_require__(241);
@@ -66430,9 +66160,9 @@ module.exports = checkReactTypeSpec;
  */
 
 
-var _prodInvariant = __webpack_require__(25);
+var _prodInvariant = __webpack_require__(27);
 
-var ReactElement = __webpack_require__(24);
+var ReactElement = __webpack_require__(26);
 
 var invariant = __webpack_require__(3);
 
@@ -66475,7 +66205,7 @@ module.exports = onlyChild;
 
 
 
-var _prodInvariant = __webpack_require__(25);
+var _prodInvariant = __webpack_require__(27);
 
 var ReactCurrentOwner = __webpack_require__(17);
 var REACT_ELEMENT_TYPE = __webpack_require__(239);

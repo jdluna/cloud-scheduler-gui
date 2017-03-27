@@ -37,7 +37,7 @@ export default class App extends Component {
         console.log(this.state.timezone.time)
     }
 
-    authentication(){
+    authentication(props=null,menu=null){
         let {open,check} = this.state.loginDialog
         let {isLogedIn} = this.state.authen
         if(!isLogedIn){

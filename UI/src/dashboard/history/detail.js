@@ -11,6 +11,7 @@ export default class Detail extends Component {
                         <div>Description</div>
                         <div>Begin</div>
                         <div>End</div>
+                        <div>Type</div>
                         <div>Remaining</div>
                     </div>
                     <div className={Style.col2}>
@@ -18,6 +19,7 @@ export default class Detail extends Component {
                         <div>: test reservation</div>
                         <div>: 22-MAR-2017 18:00</div>
                         <div>: 24-MAR-2017 12:00</div>
+                        <div>: Single</div>
                         <div>: <span className={Style.warning}>3 hour(s) left</span></div>
                     </div>
                 </div>
