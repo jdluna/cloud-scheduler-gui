@@ -35,21 +35,21 @@ const TimeItem = (props) => (
 )
 
 const EXTEND_CARD = (props) => (
-    <div className={Style.footer}>
+    <div>
         <div className={Style.title}>
             <div>Extend this reservation to end at :</div>
-            <img src='img/ic_close.svg' />
+            <img src='img/ic_close.svg' onClick={props.historyContainer.onClosePopup}/>
         </div>
         <div className={Style.content}>
             <div className={Style.row}>
                 <div className={Style.block}>
-                    <DatePicker className={Style.inputdate} minDate={props.historyContainer.timezone.format('YYYY-MM-DD')} dateFormat='DD - MMM - YYYY' selected={props.historyContainer.state.extendDate.obj} onChange={props.historyContainer.onExtendDateChange} />
+                    <DatePicker className={Style.inputdate} minDate={props.historyContainer.state.extendDate.obj} dateFormat='DD - MMM - YYYY' selected={props.historyContainer.state.extendDate.obj} onChange={props.historyContainer.onExtendDateChange} />
                     <img className={Style.icon} src='img/ic_date_range.svg' />
                     <TimeItem value={props.historyContainer.state.extendTime} handle={props.historyContainer.onExtendTimeChange} />
                 </div>
             </div>
             <div className={Style.searchbtn}>
-                <button type='submit' className='btn'>CONFIRM</button>
+                <button type='submit' className='btn' onClick={props.historyContainer.onExtendConfirm}>CONFIRM</button>
             </div>
         </div>
     </div>
@@ -57,8 +57,19 @@ const EXTEND_CARD = (props) => (
 
 export default class ExtendPopup extends Component {
     render() {
+        let card
+        let {extendStatus} = this.props.historyContainer.state
+        if(extendStatus=='success'){
+            card = <SuccessCard onClose={this.props.historyContainer.onClosePopup}/>
+        }else if(extendStatus=='fail'){
+            card = <ErrorCard onClose={this.props.historyContainer.onClosePopup}/>
+        }else{
+            card = <EXTEND_CARD historyContainer={this.props.historyContainer}/>
+        }
         return (
-           <EXTEND_CARD historyContainer={this.props.historyContainer}/>
+            <div className={Style.footer}>
+                {card}
+            </div>
         )
     }
 }

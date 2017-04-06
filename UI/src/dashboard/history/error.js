@@ -4,9 +4,9 @@ import Style from './history.scss'
 export default class Error extends Component {
     render() {
         return (
-            <div className={Style.footer}>
+            <div>
                 <div className={Style.title}>
-                    <img src='img/ic_close.svg' />
+                    <img src='img/ic_close.svg' onClick={this.props.onClose} />
                 </div>
                 <div className={Style.content}>
                     <div className={Style.row}>

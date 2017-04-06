@@ -5,18 +5,35 @@ import Detail from './detail'
 import ExtendPopup from './extendPopup'
 import DeletePopup from './deletePopup'
 
-const TAB_MENU = () => (
-    <div className={Style.header}>
-        <div className={Style.menu}>
-            <div className={Style.selecttableft}>
-                <div>All reservations</div>
+const TAB_MENU = (props) => {
+    if(props.historyContainer.state.tab=='all'){
+        return(
+            <div className={Style.header}>
+                <div className={Style.menu}>
+                    <div className={Style.selecttableft} onClick={props.historyContainer.onSelectAllRunningTab}>
+                        <div>All reservations</div>
+                    </div>
+                    <div className={Style.tab} onClick={props.historyContainer.onSelectMyRunningTab}>
+                        <div>My reservations</div>
+                    </div>
+                </div>
             </div>
-            <div className={Style.tab}>
-                <div>My reservations</div>
+        )
+    }else{
+        return(
+            <div className={Style.header}>
+                <div className={Style.menu}>
+                    <div className={Style.tab} onClick={props.historyContainer.onSelectAllRunningTab}>
+                        <div>All reservations</div>
+                    </div>
+                    <div className={Style.selecttabright} onClick={props.historyContainer.onSelectMyRunningTab}>
+                        <div>My reservations</div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-)
+        )
+    }
+}
 
 const DETAIL_LABEL = () => (
     <div className={Style.detaillabel}>
@@ -37,14 +54,21 @@ const FOOTER_TABLE = () => (
 
 export default class History extends Component {
     render() {
-        let {user} = this.props.historyContainer.state
-        let tabMenu = (user=='admin') ? <TAB_MENU/> : []
-        let footerTable = (user=='admin') ? <FOOTER_TABLE/> : []
+        let {modalName} = this.props.historyContainer.dashboardContainer.state
+        let {user,tab,viewDetail,popup} = this.props.historyContainer.state
+        let detail = (viewDetail==false) ? <DETAIL_LABEL/> : <Detail historyContainer={this.props.historyContainer}/>
+        let tabMenu = (user=='admin') ? <TAB_MENU historyContainer={this.props.historyContainer}/> : []
+        let footerTable = (user=='admin'&&modalName.toLowerCase()!='history'&&tab!='all'||user!='admin'&&modalName.toLowerCase()!='history'&&tab=='all') ? <FOOTER_TABLE/> : []
+        let popupElement
+        switch(popup){
+            case 'extend' : popupElement = <ExtendPopup historyContainer={this.props.historyContainer}/>;break
+            case 'delete' : popupElement = <DeletePopup historyContainer={this.props.historyContainer}/>;break
+        }
         return (
             <section className='modal'>
                 <section className={Style.panel}>
                     <header>
-                        <div>{this.props.historyContainer.dashboardContainer.state.modalName}</div>
+                        <div>{modalName}</div>
                         <img src='img/ic_close.svg' onClick={this.props.historyContainer.onClose} />
                     </header>
                     <section className={Style.content}>
@@ -60,9 +84,10 @@ export default class History extends Component {
                                 <div className={Style.text}>Reservation detail</div>
                             </div>
                             <div className={Style.data}>
-                                {<Detail />}
+                                {detail}
                             </div>
-                            {<ExtendPopup historyContainer={this.props.historyContainer} />}
+                            {popupElement}
+                            {/*{<ExtendPopup historyContainer={this.props.historyContainer} />}*/}
                         </div>
                     </section>
                 </section>

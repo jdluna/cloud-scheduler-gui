@@ -1,86 +1,69 @@
 import React, { Component } from 'react'
 import Style from './history.scss'
+import moment from 'moment'
 
 export default class Detail extends Component {
     render() {
+        let {viewDetailKey,reservationsItem} = this.props.historyContainer.state
+        let data = reservationsItem[viewDetailKey]
+        let leftDate = this.props.historyContainer.getReservationsCountDown(data.end)
+        let leftDateSplit = leftDate.split(' ')
+        let leftDateElement = []
+        if(leftDateSplit[1]=='year(s)'||leftDateSplit[1]=='day(s)'||leftDateSplit[0]=='-'){
+            leftDateElement = <span>{leftDate}</span>
+        }else{
+            leftDateElement = <span className={Style.warning}>{leftDate}</span>
+        }
         return (
             <section>
                 <div className={Style.top}>
                     <div className={Style.col1}>
-                        <div>Title</div>
-                        <div>Description</div>
-                        <div>Begin</div>
-                        <div>End</div>
-                        <div>Type</div>
+                        <div className={Style.space}>Title</div>
+                        <div className={Style.space}>Description</div>
+                        <div className={Style.space}>Begin</div>
+                        <div className={Style.space}>End</div>
+                        <div className={Style.space}>Image type</div>
+                        <div className={Style.space}>Type</div>
                         <div>Remaining</div>
                     </div>
                     <div className={Style.col2}>
-                        <div>: First virtual machine</div>
-                        <div>: test reservation</div>
-                        <div>: 22-MAR-2017 18:00</div>
-                        <div>: 24-MAR-2017 12:00</div>
-                        <div>: Single</div>
-                        <div>: <span className={Style.warning}>3 hour(s) left</span></div>
+                        <div className={Style.space}>: {data.title}</div>
+                        <div className={Style.space}>: {data.description}</div>
+                        <div className={Style.space}>: {moment(data.begin).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
+                        <div className={Style.space}>: {moment(data.end).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
+                        <div className={Style.space}>: {data.image_type}</div>
+                        <div className={Style.space}>: {(data.type!='') ? data.type.charAt(0).toUpperCase()+data.type.slice(1) : '-'}</div>
+                        <div>: {leftDateElement}</div>
                     </div>
                 </div>
                 <div className={Style.line}></div>
-                <div className={Style.title}>Sites (4):</div>
-                <div className={Style.site}>
-                    <div className={Style.col1}>
-                        <div>Name</div>
-                        <div>CPU reserved</div>
-                        <div>Memory reserved</div>
-                        <div>Status</div>
-                    </div>
-                    <div className={Style.col2}>
-                        <div>: AIST Cloud</div>
-                        <div>: 4</div>
-                        <div>: 8</div>
-                        <div>: running</div>
-                    </div>
-                </div>
-                <div className={Style.site}>
-                    <div className={Style.col1}>
-                        <div>Name</div>
-                        <div>CPU reserved</div>
-                        <div>Memory reserved</div>
-                        <div>Status</div>
-                    </div>
-                    <div className={Style.col2}>
-                        <div>: AIST Cloud</div>
-                        <div>: 4</div>
-                        <div>: 8</div>
-                        <div>: running</div>
-                    </div>
-                </div>
-                <div className={Style.site}>
-                    <div className={Style.col1}>
-                        <div>Name</div>
-                        <div>CPU reserved</div>
-                        <div>Memory reserved</div>
-                        <div>Status</div>
-                    </div>
-                    <div className={Style.col2}>
-                        <div>: AIST Cloud</div>
-                        <div>: 4</div>
-                        <div>: 8</div>
-                        <div>: running</div>
-                    </div>
-                </div>
-                <div className={Style.site}>
-                    <div className={Style.col1}>
-                        <div>Name</div>
-                        <div>CPU reserved</div>
-                        <div>Memory reserved</div>
-                        <div>Status</div>
-                    </div>
-                    <div className={Style.col2}>
-                        <div>: AIST Cloud</div>
-                        <div>: 4</div>
-                        <div>: 8</div>
-                        <div>: running</div>
-                    </div>
-                </div>
+                <div className={Style.title}>Sites ({data.sites.length}):</div>
+                {
+                    data.sites.map((site,key)=>{
+                        let statusElement
+                        switch(site.status){
+                            case 'running'  : statusElement = <div>: <span className={Style.running}>{site.status}</span></div>;break
+                            case 'waiting'  : statusElement = <div>: <span className={Style.waiting}>{site.status}</span></div>;break
+                            case 'cancel'   : statusElement = <div>: <span className={Style.warning}>{site.status}</span></div>;break
+                        }
+                        return(
+                            <div className={Style.site} key={key}>
+                                <div className={Style.col1}>
+                                    <div  className={Style.space}>Name</div>
+                                    <div  className={Style.space}>CPU reserved</div>
+                                    <div  className={Style.space}>Memory reserved</div>
+                                    <div>Status</div>
+                                </div>
+                                <div className={Style.col2}>
+                                    <div  className={Style.space}>: {site.site_name}</div>
+                                    <div  className={Style.space}>: {site.CPU}</div>
+                                    <div  className={Style.space}>: {site.memory}</div>
+                                    {statusElement}
+                                </div>
+                            </div>
+                        )
+                    })
+                }
             </section>
         )
     }
