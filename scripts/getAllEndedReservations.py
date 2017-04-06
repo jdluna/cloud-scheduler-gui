@@ -25,8 +25,11 @@ reservations = resManager.getAllReservations(sessionId = SESSION_ID, ended = Tru
 
 jsonStr = '{ "result" : [' 
 
+cnt =0
+
 for i in range(0,len(reservations)):
     for j in range(0,len(reservations[i])):
+        cnt+=1
         r = reservations[i][j]
         jsonStr += ' { "reservation_id" : "'+str(r.getReservationId())+'", '
         jsonStr += '"title" : "'+str(r.getTitle())+'", '
@@ -54,7 +57,7 @@ for i in range(0,len(reservations)):
         jsonStr += '},' #end one reservation
         
 
-if len(reservations) > 0 and len(reservations[0]) > 0 :
+if cnt > 0 :
     jsonStr = jsonStr[:-1] 
 
 jsonStr += '] }'
