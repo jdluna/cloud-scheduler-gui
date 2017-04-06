@@ -16,6 +16,9 @@ import string
 import random
 from datetime import datetime,timedelta
 from Reservation import Reservation
+import pytz
+LOCAL = pytz.timezone ("America/Los_Angeles")
+
 
 
 class ReservationManager:
@@ -439,13 +442,13 @@ class ReservationManager:
             self.__db.close() 
             
         return False
-         
+
          
     def cancel(self, sessionId, reservationId, reason):
         self.__db = Database() 
         
         if self.__db.connect():
-            
+           
             try:
                 sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(sessionId)+'";'
                 self.__db.execute(sql)
@@ -484,26 +487,28 @@ class ReservationManager:
                         sites.append(site)
                     
                     
-                    #---set new the reservation data---
-                    diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-datetime.now()
-                    
-                    if diff < timedelta(hours=0):
-                        #running reservation
-                        tmpBegin = (datetime.now() + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
-                        
-                        #reservation table
-                        newEnd = datetime.now().strftime("%Y-%m-%d %H:00:00") 
-                        sql = 'UPDATE `reservation` SET `end`="'+str(newEnd)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'   
-                        self.__db.execute(sql)                
-                        
-                                            
-                    else:
-                        tmpBegin = begin
+                    #---set new the reservation table data---
+                    #reservation table
+
+                    ### !!!!fix timezone !!!!
+                  
+                    local_dt = LOCAL.localize(datetime.now(), is_dst=None)
+		    currentTime = local_dt.astimezone(pytz.utc)
+                    newEnd = currentTime.strftime("%Y-%m-%d %H:00:00")
+       
+		    sql = 'UPDATE `reservation` SET `end`="'+str(newEnd)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'   
+                    self.__db.execute(sql)
+                    #########################
+
+                    '''newEnd = datetime.now().strftime("%Y-%m-%d %H:00:00") 
+                    sql = 'UPDATE `reservation` SET `end`="'+str(newEnd)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'   
+                    self.__db.execute(sql) '''
                         
                         
                     #site_reserved table
                     sql = 'UPDATE `site_reserved` SET `status`="cancel" WHERE `reservation_id` = "'+str(reservationId)+'";'
                     self.__db.execute(sql)
+                    
                         
                     #canceled_reservation table
                     sql = 'INSERT INTO `canceled_reservation` VALUES ( "'+str(reservationId)+'", "'+str(reason)+'", "'+str(end)+'");'             
@@ -511,6 +516,14 @@ class ReservationManager:
                     
                     
                     #schedule table   
+                    diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-datetime.now()
+                    if diff < timedelta(hours=0):
+                        #running reservation
+                        tmpBegin = (datetime.now() + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")                                                                    
+                    else:
+                        #havn't start yet
+                        tmpBegin = begin
+                        
                     beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                         
                     while beginToEnd>=timedelta(hours=1):
@@ -561,5 +574,3 @@ class ReservationManager:
         self.__db.close() 
              
         return False
-        
-        
