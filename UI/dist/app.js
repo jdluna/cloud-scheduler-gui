@@ -7253,7 +7253,11 @@ var CHECK_RESERVATION_ENDPOINT = exports.CHECK_RESERVATION_ENDPOINT = API_SERVER
 var CONFIRM_RESERVATION_ENDPOINT = exports.CONFIRM_RESERVATION_ENDPOINT = API_SERVER + '/CreateReservation.py';
 var CHECK_CONNECTION_TYPE_ENDPOINT = exports.CHECK_CONNECTION_TYPE_ENDPOINT = API_SERVER + '/checkConnectionType.py';
 var MY_RESERVATIONS_ENDPOINT = exports.MY_RESERVATIONS_ENDPOINT = API_SERVER + '/getMyReservations.py';
+var MY_ENDED_RESERVATIONS_ENDPOINT = exports.MY_ENDED_RESERVATIONS_ENDPOINT = API_SERVER + '/getMyEndedReservations.py';
 var ALL_RESERVATIONS_ENDPOINT = exports.ALL_RESERVATIONS_ENDPOINT = API_SERVER + '/getAllReservations.py';
+var ALL_ENDED_RESERVATIONS_ENDPOINT = exports.ALL_ENDED_RESERVATIONS_ENDPOINT = API_SERVER + '/getAllEndedReservations.py';
+var EXTEND_RESERVATION_ENDPOINT = exports.EXTEND_RESERVATION_ENDPOINT = API_SERVER + '/extendReservation.py';
+var DELETE_RESERVATION_ENDPOINT = exports.DELETE_RESERVATION_ENDPOINT = API_SERVER + '/cancelReservation.py';
 
 /***/ }),
 /* 25 */
@@ -13726,11 +13730,11 @@ var Error = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { className: _history2.default.footer },
+                null,
                 _react2.default.createElement(
                     'div',
                     { className: _history2.default.title },
-                    _react2.default.createElement('img', { src: 'img/ic_close.svg' })
+                    _react2.default.createElement('img', { src: 'img/ic_close.svg', onClick: this.props.onClose })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -13798,11 +13802,11 @@ var Success = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { className: _history2.default.footer },
+                null,
                 _react2.default.createElement(
                     'div',
                     { className: _history2.default.title },
-                    _react2.default.createElement('img', { src: 'img/ic_close.svg' })
+                    _react2.default.createElement('img', { src: 'img/ic_close.svg', onClick: this.props.onClose })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -13810,7 +13814,7 @@ var Success = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: _history2.default.row },
-                        _react2.default.createElement('img', { className: _history2.default.iconstatus, src: 'img/ic_check_circle.svg' })
+                        _react2.default.createElement('img', { className: _history2.default.iconstatus, src: 'img/ic_check_circle.svg', onClick: this.props.onClose })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -30967,7 +30971,7 @@ var DashboardContainer = function (_Component) {
             switch (menu) {
                 case 'Search':
                     this.setState({ modal: _react2.default.createElement(_searchContainer2.default, { dashBoardContainer: this }) });break;
-                case 'Reservations':
+                case 'Runnings':
                     this.checkLogin(menu);break;
                 case 'History':
                     this.checkLogin(menu);break;
@@ -30981,7 +30985,7 @@ var DashboardContainer = function (_Component) {
         key: 'checkLogin',
         value: function checkLogin(menu) {
             if (this.props.app.state.authen.isLogedIn) {
-                if (menu == 'Reservations' || menu == 'History') {
+                if (menu == 'Runnings' || menu == 'History') {
                     this.setState({
                         modal: _react2.default.createElement(_historyContainer2.default, { dashBoardContainer: this }),
                         modalName: menu
@@ -31233,10 +31237,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var DELETE_CARD = function DELETE_CARD() {
+var DELETE_CARD = function DELETE_CARD(props) {
     return _react2.default.createElement(
         'div',
-        { className: _history2.default.footer },
+        null,
         _react2.default.createElement(
             'div',
             { className: _history2.default.title },
@@ -31245,7 +31249,7 @@ var DELETE_CARD = function DELETE_CARD() {
                 null,
                 'Why do you cancel this reservation?'
             ),
-            _react2.default.createElement('img', { src: 'img/ic_close.svg' })
+            _react2.default.createElement('img', { src: 'img/ic_close.svg', onClick: props.historyContainer.onClosePopup })
         ),
         _react2.default.createElement(
             'div',
@@ -31256,7 +31260,20 @@ var DELETE_CARD = function DELETE_CARD() {
                 _react2.default.createElement(
                     'div',
                     { className: _history2.default.block },
-                    _react2.default.createElement('input', { className: _history2.default.input, type: 'text', autoFocus: true })
+                    _react2.default.createElement('input', { className: _history2.default.input, type: 'text', onChange: props.historyContainer.onReasonOfDeleteChange, value: props.historyContainer.state.reasonOfDelete, autoFocus: true })
+                )
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: _history2.default.row },
+                _react2.default.createElement(
+                    'div',
+                    { className: _history2.default.block },
+                    _react2.default.createElement(
+                        'div',
+                        { className: _history2.default.hinttext },
+                        '*The Virtual Machine will be terminated after you click the confirm buttton.'
+                    )
                 )
             ),
             _react2.default.createElement(
@@ -31264,7 +31281,7 @@ var DELETE_CARD = function DELETE_CARD() {
                 { className: _history2.default.searchbtn },
                 _react2.default.createElement(
                     'button',
-                    { type: 'submit', className: 'btn--delete' },
+                    { type: 'submit', className: 'btn--delete', onClick: props.historyContainer.onDeleteConfirm },
                     'CONFIRM'
                 )
             )
@@ -31284,7 +31301,21 @@ var DeletePopup = function (_Component) {
     _createClass(DeletePopup, [{
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(_error2.default, null);
+            var card = void 0;
+            var deleteStatus = this.props.historyContainer.state.deleteStatus;
+
+            if (deleteStatus == 'success') {
+                card = _react2.default.createElement(_success2.default, { onClose: this.props.historyContainer.onClosePopup });
+            } else if (deleteStatus == 'fail') {
+                card = _react2.default.createElement(_error2.default, { onClose: this.props.historyContainer.onClosePopup });
+            } else {
+                card = _react2.default.createElement(DELETE_CARD, { historyContainer: this.props.historyContainer });
+            }
+            return _react2.default.createElement(
+                'div',
+                { className: _history2.default.footer },
+                card
+            );
         }
     }]);
 
@@ -31314,6 +31345,10 @@ var _history = __webpack_require__(28);
 
 var _history2 = _interopRequireDefault(_history);
 
+var _moment = __webpack_require__(0);
+
+var _moment2 = _interopRequireDefault(_moment);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31334,6 +31369,27 @@ var Detail = function (_Component) {
     _createClass(Detail, [{
         key: 'render',
         value: function render() {
+            var _props$historyContain = this.props.historyContainer.state,
+                viewDetailKey = _props$historyContain.viewDetailKey,
+                reservationsItem = _props$historyContain.reservationsItem;
+
+            var data = reservationsItem[viewDetailKey];
+            var leftDate = this.props.historyContainer.getReservationsCountDown(data.end);
+            var leftDateSplit = leftDate.split(' ');
+            var leftDateElement = [];
+            if (leftDateSplit[1] == 'year(s)' || leftDateSplit[1] == 'day(s)' || leftDateSplit[0] == '-') {
+                leftDateElement = _react2.default.createElement(
+                    'span',
+                    null,
+                    leftDate
+                );
+            } else {
+                leftDateElement = _react2.default.createElement(
+                    'span',
+                    { className: _history2.default.warning },
+                    leftDate
+                );
+            }
             return _react2.default.createElement(
                 'section',
                 null,
@@ -31345,27 +31401,32 @@ var Detail = function (_Component) {
                         { className: _history2.default.col1 },
                         _react2.default.createElement(
                             'div',
-                            null,
+                            { className: _history2.default.space },
                             'Title'
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
+                            { className: _history2.default.space },
                             'Description'
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
+                            { className: _history2.default.space },
                             'Begin'
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
+                            { className: _history2.default.space },
                             'End'
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
+                            { className: _history2.default.space },
+                            'Image type'
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: _history2.default.space },
                             'Type'
                         ),
                         _react2.default.createElement(
@@ -31379,38 +31440,45 @@ var Detail = function (_Component) {
                         { className: _history2.default.col2 },
                         _react2.default.createElement(
                             'div',
-                            null,
-                            ': First virtual machine'
+                            { className: _history2.default.space },
+                            ': ',
+                            data.title
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
-                            ': test reservation'
+                            { className: _history2.default.space },
+                            ': ',
+                            data.description
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
-                            ': 22-MAR-2017 18:00'
+                            { className: _history2.default.space },
+                            ': ',
+                            (0, _moment2.default)(data.begin).format('DD-MMM-YYYY HH:mm').toUpperCase()
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
-                            ': 24-MAR-2017 12:00'
+                            { className: _history2.default.space },
+                            ': ',
+                            (0, _moment2.default)(data.end).format('DD-MMM-YYYY HH:mm').toUpperCase()
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
-                            ': Single'
+                            { className: _history2.default.space },
+                            ': ',
+                            data.image_type
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: _history2.default.space },
+                            ': ',
+                            data.type != '' ? data.type.charAt(0).toUpperCase() + data.type.slice(1) : '-'
                         ),
                         _react2.default.createElement(
                             'div',
                             null,
                             ': ',
-                            _react2.default.createElement(
-                                'span',
-                                { className: _history2.default.warning },
-                                '3 hour(s) left'
-                            )
+                            leftDateElement
                         )
                     )
                 ),
@@ -31418,216 +31486,99 @@ var Detail = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: _history2.default.title },
-                    'Sites (4):'
+                    'Sites (',
+                    data.sites.length,
+                    '):'
                 ),
-                _react2.default.createElement(
-                    'div',
-                    { className: _history2.default.site },
-                    _react2.default.createElement(
+                data.sites.map(function (site, key) {
+                    var statusElement = void 0;
+                    switch (site.status) {
+                        case 'running':
+                            statusElement = _react2.default.createElement(
+                                'div',
+                                null,
+                                ': ',
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: _history2.default.running },
+                                    site.status
+                                )
+                            );break;
+                        case 'waiting':
+                            statusElement = _react2.default.createElement(
+                                'div',
+                                null,
+                                ': ',
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: _history2.default.waiting },
+                                    site.status
+                                )
+                            );break;
+                        case 'cancel':
+                            statusElement = _react2.default.createElement(
+                                'div',
+                                null,
+                                ': ',
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: _history2.default.warning },
+                                    site.status
+                                )
+                            );break;
+                    }
+                    return _react2.default.createElement(
                         'div',
-                        { className: _history2.default.col1 },
+                        { className: _history2.default.site, key: key },
                         _react2.default.createElement(
                             'div',
-                            null,
-                            'Name'
+                            { className: _history2.default.col1 },
+                            _react2.default.createElement(
+                                'div',
+                                { className: _history2.default.space },
+                                'Name'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: _history2.default.space },
+                                'CPU reserved'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: _history2.default.space },
+                                'Memory reserved'
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                null,
+                                'Status'
+                            )
                         ),
                         _react2.default.createElement(
                             'div',
-                            null,
-                            'CPU reserved'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Memory reserved'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Status'
+                            { className: _history2.default.col2 },
+                            _react2.default.createElement(
+                                'div',
+                                { className: _history2.default.space },
+                                ': ',
+                                site.site_name
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: _history2.default.space },
+                                ': ',
+                                site.CPU
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: _history2.default.space },
+                                ': ',
+                                site.memory
+                            ),
+                            statusElement
                         )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.col2 },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': AIST Cloud'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': 4'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': 8'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': running'
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: _history2.default.site },
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.col1 },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Name'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'CPU reserved'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Memory reserved'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Status'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.col2 },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': AIST Cloud'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': 4'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': 8'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': running'
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: _history2.default.site },
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.col1 },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Name'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'CPU reserved'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Memory reserved'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Status'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.col2 },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': AIST Cloud'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': 4'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': 8'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': running'
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: _history2.default.site },
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.col1 },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Name'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'CPU reserved'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Memory reserved'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            'Status'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: _history2.default.col2 },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': AIST Cloud'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': 4'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': 8'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            ': running'
-                        )
-                    )
-                )
+                    );
+                })
             );
         }
     }]);
@@ -31812,7 +31763,7 @@ var TimeItem = function TimeItem(props) {
 var EXTEND_CARD = function EXTEND_CARD(props) {
     return _react2.default.createElement(
         'div',
-        { className: _history2.default.footer },
+        null,
         _react2.default.createElement(
             'div',
             { className: _history2.default.title },
@@ -31821,7 +31772,7 @@ var EXTEND_CARD = function EXTEND_CARD(props) {
                 null,
                 'Extend this reservation to end at :'
             ),
-            _react2.default.createElement('img', { src: 'img/ic_close.svg' })
+            _react2.default.createElement('img', { src: 'img/ic_close.svg', onClick: props.historyContainer.onClosePopup })
         ),
         _react2.default.createElement(
             'div',
@@ -31832,7 +31783,7 @@ var EXTEND_CARD = function EXTEND_CARD(props) {
                 _react2.default.createElement(
                     'div',
                     { className: _history2.default.block },
-                    _react2.default.createElement(_reactDatepicker2.default, { className: _history2.default.inputdate, minDate: props.historyContainer.timezone.format('YYYY-MM-DD'), dateFormat: 'DD - MMM - YYYY', selected: props.historyContainer.state.extendDate.obj, onChange: props.historyContainer.onExtendDateChange }),
+                    _react2.default.createElement(_reactDatepicker2.default, { className: _history2.default.inputdate, minDate: props.historyContainer.state.extendDate.obj, dateFormat: 'DD - MMM - YYYY', selected: props.historyContainer.state.extendDate.obj, onChange: props.historyContainer.onExtendDateChange }),
                     _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_date_range.svg' }),
                     _react2.default.createElement(TimeItem, { value: props.historyContainer.state.extendTime, handle: props.historyContainer.onExtendTimeChange })
                 )
@@ -31842,7 +31793,7 @@ var EXTEND_CARD = function EXTEND_CARD(props) {
                 { className: _history2.default.searchbtn },
                 _react2.default.createElement(
                     'button',
-                    { type: 'submit', className: 'btn' },
+                    { type: 'submit', className: 'btn', onClick: props.historyContainer.onExtendConfirm },
                     'CONFIRM'
                 )
             )
@@ -31862,7 +31813,21 @@ var ExtendPopup = function (_Component) {
     _createClass(ExtendPopup, [{
         key: 'render',
         value: function render() {
-            return _react2.default.createElement(EXTEND_CARD, { historyContainer: this.props.historyContainer });
+            var card = void 0;
+            var extendStatus = this.props.historyContainer.state.extendStatus;
+
+            if (extendStatus == 'success') {
+                card = _react2.default.createElement(_success2.default, { onClose: this.props.historyContainer.onClosePopup });
+            } else if (extendStatus == 'fail') {
+                card = _react2.default.createElement(_error2.default, { onClose: this.props.historyContainer.onClosePopup });
+            } else {
+                card = _react2.default.createElement(EXTEND_CARD, { historyContainer: this.props.historyContainer });
+            }
+            return _react2.default.createElement(
+                'div',
+                { className: _history2.default.footer },
+                card
+            );
         }
     }]);
 
@@ -31916,33 +31881,62 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var TAB_MENU = function TAB_MENU() {
-    return _react2.default.createElement(
-        'div',
-        { className: _history2.default.header },
-        _react2.default.createElement(
+var TAB_MENU = function TAB_MENU(props) {
+    if (props.historyContainer.state.tab == 'all') {
+        return _react2.default.createElement(
             'div',
-            { className: _history2.default.menu },
+            { className: _history2.default.header },
             _react2.default.createElement(
                 'div',
-                { className: _history2.default.selecttableft },
+                { className: _history2.default.menu },
                 _react2.default.createElement(
                     'div',
-                    null,
-                    'All reservations'
-                )
-            ),
-            _react2.default.createElement(
-                'div',
-                { className: _history2.default.tab },
+                    { className: _history2.default.selecttableft, onClick: props.historyContainer.onSelectAllRunningTab },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        'All reservations'
+                    )
+                ),
                 _react2.default.createElement(
                     'div',
-                    null,
-                    'My reservations'
+                    { className: _history2.default.tab, onClick: props.historyContainer.onSelectMyRunningTab },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        'My reservations'
+                    )
                 )
             )
-        )
-    );
+        );
+    } else {
+        return _react2.default.createElement(
+            'div',
+            { className: _history2.default.header },
+            _react2.default.createElement(
+                'div',
+                { className: _history2.default.menu },
+                _react2.default.createElement(
+                    'div',
+                    { className: _history2.default.tab, onClick: props.historyContainer.onSelectAllRunningTab },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        'All reservations'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: _history2.default.selecttabright, onClick: props.historyContainer.onSelectMyRunningTab },
+                    _react2.default.createElement(
+                        'div',
+                        null,
+                        'My reservations'
+                    )
+                )
+            )
+        );
+    }
 };
 
 var DETAIL_LABEL = function DETAIL_LABEL() {
@@ -31998,10 +31992,23 @@ var History = function (_Component) {
     _createClass(History, [{
         key: 'render',
         value: function render() {
-            var user = this.props.historyContainer.state.user;
+            var modalName = this.props.historyContainer.dashboardContainer.state.modalName;
+            var _props$historyContain = this.props.historyContainer.state,
+                user = _props$historyContain.user,
+                tab = _props$historyContain.tab,
+                viewDetail = _props$historyContain.viewDetail,
+                popup = _props$historyContain.popup;
 
-            var tabMenu = user == 'admin' ? _react2.default.createElement(TAB_MENU, null) : [];
-            var footerTable = user == 'admin' ? _react2.default.createElement(FOOTER_TABLE, null) : [];
+            var detail = viewDetail == false ? _react2.default.createElement(DETAIL_LABEL, null) : _react2.default.createElement(_detail2.default, { historyContainer: this.props.historyContainer });
+            var tabMenu = user == 'admin' ? _react2.default.createElement(TAB_MENU, { historyContainer: this.props.historyContainer }) : [];
+            var footerTable = user == 'admin' && modalName.toLowerCase() != 'history' && tab != 'all' || user != 'admin' && modalName.toLowerCase() != 'history' && tab == 'all' ? _react2.default.createElement(FOOTER_TABLE, null) : [];
+            var popupElement = void 0;
+            switch (popup) {
+                case 'extend':
+                    popupElement = _react2.default.createElement(_extendPopup2.default, { historyContainer: this.props.historyContainer });break;
+                case 'delete':
+                    popupElement = _react2.default.createElement(_deletePopup2.default, { historyContainer: this.props.historyContainer });break;
+            }
             return _react2.default.createElement(
                 'section',
                 { className: 'modal' },
@@ -32014,7 +32021,7 @@ var History = function (_Component) {
                         _react2.default.createElement(
                             'div',
                             null,
-                            this.props.historyContainer.dashboardContainer.state.modalName
+                            modalName
                         ),
                         _react2.default.createElement('img', { src: 'img/ic_close.svg', onClick: this.props.historyContainer.onClose })
                     ),
@@ -32047,9 +32054,9 @@ var History = function (_Component) {
                             _react2.default.createElement(
                                 'div',
                                 { className: _history2.default.data },
-                                _react2.default.createElement(_detail2.default, null)
+                                detail
                             ),
-                            _react2.default.createElement(_extendPopup2.default, { historyContainer: this.props.historyContainer })
+                            popupElement
                         )
                     )
                 )
@@ -32114,16 +32121,33 @@ var HistoryContainer = function (_Component) {
         _this.timezone = _moment2.default.tz(_this.appContainer.state.authen.timezone);
 
         _this.state = {
-            user: _this.appContainer.state.authen.data.position.toLowerCase(),
+            user: _this.appContainer.state.authen.data.status.toLowerCase(),
+            viewDetail: false,
+            reserveId: null,
+            viewDetailKey: null,
+            tab: 'all',
             reservationsItem: [],
             extendDate: {
                 obj: _this.timezone,
                 date: _this.timezone.format('YYYY-MM-DD')
             },
-            extendTime: _this.timezone.format().slice(11, 13) + ':00'
+            extendTime: _this.timezone.format().slice(11, 13) + ':00',
+            reasonOfDelete: '',
+            popup: null,
+            extendStatus: '',
+            deleteStatus: ''
         };
 
         _this.onClose = _this.onClose.bind(_this);
+        _this.onReasonOfDeleteChange = _this.onReasonOfDeleteChange.bind(_this);
+        _this.onExtendConfirm = _this.onExtendConfirm.bind(_this);
+        _this.onDeleteConfirm = _this.onDeleteConfirm.bind(_this);
+        _this.onClosePopup = _this.onClosePopup.bind(_this);
+        _this.onExtendBtnClick = _this.onExtendBtnClick.bind(_this);
+        _this.onDeleteBtnClick = _this.onDeleteBtnClick.bind(_this);
+        _this.onViewReservationDetail = _this.onViewReservationDetail.bind(_this);
+        _this.onSelectAllRunningTab = _this.onSelectAllRunningTab.bind(_this);
+        _this.onSelectMyRunningTab = _this.onSelectMyRunningTab.bind(_this);
         _this.onExtendDateChange = _this.onExtendDateChange.bind(_this);
         _this.onExtendTimeChange = _this.onExtendTimeChange.bind(_this);
         _this.getReservationsCountDown = _this.getReservationsCountDown.bind(_this);
@@ -32134,6 +32158,141 @@ var HistoryContainer = function (_Component) {
         key: 'onClose',
         value: function onClose() {
             this.dashboardContainer.onCloseModal();
+        }
+    }, {
+        key: 'onReasonOfDeleteChange',
+        value: function onReasonOfDeleteChange(event) {
+            this.setState({
+                reasonOfDelete: event.target.value
+            });
+        }
+    }, {
+        key: 'onExtendConfirm',
+        value: function onExtendConfirm() {
+            var _this2 = this;
+
+            var params = {
+                params: {
+                    session_id: this.appContainer.state.authen.session,
+                    end: this.state.extendDate.date + ' ' + this.state.extendTime + ':00',
+                    reservation_id: this.state.reserveId
+                }
+            };
+            _axios2.default.get(_endpoints.EXTEND_RESERVATION_ENDPOINT, params).then(function (response) {
+                var status = response.status,
+                    data = response.data;
+
+                if (status == 200 && data) {
+                    if (data.result == 'True') {
+                        _this2.setState({
+                            extendStatus: 'success'
+                        }, _this2.setCountDownClosePopup);
+                    } else {
+                        _this2.setState({
+                            extendStatus: 'fail'
+                        }, _this2.setCountDownClosePopup);
+                    }
+                }
+            }).catch(function (error) {
+                console.log('QUERY EXTEND RESERVATIONS ERROR: ' + error);
+            });
+        }
+    }, {
+        key: 'onDeleteConfirm',
+        value: function onDeleteConfirm() {
+            var _this3 = this;
+
+            var params = {
+                params: {
+                    session_id: this.appContainer.state.authen.session,
+                    reservation_id: this.state.reserveId,
+                    reason: this.state.reasonOfDelete
+                }
+            };
+            _axios2.default.get(_endpoints.DELETE_RESERVATION_ENDPOINT, params).then(function (response) {
+                var status = response.status,
+                    data = response.data;
+
+                if (status == 200 && data) {
+                    if (data.result == 'True') {
+                        _this3.setState({
+                            reasonOfDelete: '',
+                            deleteStatus: 'success'
+                        }, _this3.setCountDownClosePopup);
+                    } else {
+                        _this3.setState({
+                            reasonOfDelete: '',
+                            deleteStatus: 'fail'
+                        }, _this3.setCountDownClosePopup);
+                    }
+                }
+            }).catch(function (error) {
+                console.log('QUERY DELETE RESERVATIONS ERROR: ' + error);
+            });
+        }
+    }, {
+        key: 'onClosePopup',
+        value: function onClosePopup() {
+            this.setState({
+                popup: null,
+                extendStatus: null,
+                deleteStatus: null
+            });
+        }
+    }, {
+        key: 'onExtendBtnClick',
+        value: function onExtendBtnClick(event) {
+            this.setState({
+                popup: 'extend'
+            });
+        }
+    }, {
+        key: 'onDeleteBtnClick',
+        value: function onDeleteBtnClick(event) {
+            this.setState({
+                popup: 'delete'
+            });
+        }
+    }, {
+        key: 'onViewReservationDetail',
+        value: function onViewReservationDetail(key, reservation_id) {
+            var end = this.state.reservationsItem[key].end;
+            var time = parseInt((0, _moment2.default)(end).format().slice(11, 13)) < 23 ? parseInt((0, _moment2.default)(end).format().slice(11, 13)) + 1 : '00';
+            time = time < 10 ? '0' + time : time;
+            this.setState({
+                extendDate: {
+                    obj: (0, _moment2.default)(end),
+                    date: (0, _moment2.default)(end).format('YYYY-MM-DD')
+                },
+                extendTime: time + ':00',
+                viewDetail: true,
+                reserveId: reservation_id,
+                viewDetailKey: key
+            });
+        }
+    }, {
+        key: 'onSelectAllRunningTab',
+        value: function onSelectAllRunningTab() {
+            var modalName = this.dashboardContainer.state.modalName;
+
+            modalName = modalName.toLowerCase();
+            if (this.state.user == 'admin' && modalName != 'history') {
+                this.queryReservationsItem(_endpoints.ALL_RESERVATIONS_ENDPOINT);
+            } else if (this.state.user == 'admin' && modalName == 'history') {
+                this.queryReservationsItem(_endpoints.ALL_ENDED_RESERVATIONS_ENDPOINT);
+            }
+        }
+    }, {
+        key: 'onSelectMyRunningTab',
+        value: function onSelectMyRunningTab() {
+            var modalName = this.dashboardContainer.state.modalName;
+
+            modalName = modalName.toLowerCase();
+            if (this.state.user == 'admin' && modalName != 'history') {
+                this.queryReservationsItem(_endpoints.MY_RESERVATIONS_ENDPOINT, 'my');
+            } else if (this.state.user == 'admin' && modalName == 'history') {
+                this.queryReservationsItem(_endpoints.MY_ENDED_RESERVATIONS_ENDPOINT, 'my');
+            }
         }
     }, {
         key: 'onExtendDateChange',
@@ -32180,7 +32339,7 @@ var HistoryContainer = function (_Component) {
                             if (second >= 1) {
                                 leftDate = second + ' second(s) left';
                             } else {
-                                leftDate = 'calceled';
+                                leftDate = '-';
                             }
                         }
                     }
@@ -32191,7 +32350,9 @@ var HistoryContainer = function (_Component) {
     }, {
         key: 'queryReservationsItem',
         value: function queryReservationsItem(ENDPOINT) {
-            var _this2 = this;
+            var _this4 = this;
+
+            var TAB = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'all';
 
             var params = {
                 params: {
@@ -32203,12 +32364,12 @@ var HistoryContainer = function (_Component) {
                     data = response.data;
 
                 if (status == 200 && data.result) {
-                    _this2.setState({
+                    _this4.setState({
+                        popup: null,
+                        viewDetail: false,
+                        tab: TAB,
                         reservationsItem: data.result
                     });
-                    console.log(data);
-                } else {
-                    console.log(response);
                 }
             }).catch(function (error) {
                 console.log('QUERY RESERVATIONS ERROR: ' + ENDPOINT + ' ' + error);
@@ -32217,7 +32378,32 @@ var HistoryContainer = function (_Component) {
     }, {
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.queryReservationsItem(_endpoints.MY_RESERVATIONS_ENDPOINT);
+            var modalName = this.dashboardContainer.state.modalName;
+
+            modalName = modalName.toLowerCase();
+            if (this.state.user == 'admin' && modalName != 'history') {
+                this.queryReservationsItem(_endpoints.ALL_RESERVATIONS_ENDPOINT);
+            } else if (this.state.user == 'admin' && modalName == 'history') {
+                this.queryReservationsItem(_endpoints.ALL_ENDED_RESERVATIONS_ENDPOINT);
+            } else if (this.state.user != 'admin' && modalName != 'history') {
+                this.queryReservationsItem(_endpoints.MY_RESERVATIONS_ENDPOINT);
+            } else if (this.state.user != 'admin' && modalName == 'history') {
+                this.queryReservationsItem(_endpoints.MY_ENDED_RESERVATIONS_ENDPOINT);
+            }
+        }
+    }, {
+        key: 'setCountDownClosePopup',
+        value: function setCountDownClosePopup() {
+            var _this5 = this;
+
+            this.queryReservationsItem(_endpoints.MY_RESERVATIONS_ENDPOINT, 'my');
+            setTimeout(function () {
+                _this5.setState({
+                    popup: null,
+                    extendStatus: '',
+                    deleteStatus: ''
+                });
+            }, 5000);
         }
     }, {
         key: 'render',
@@ -32264,6 +32450,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var BTN_CONTROL = function BTN_CONTROL(props) {
+    return _react2.default.createElement(
+        'div',
+        { className: _history2.default.control },
+        _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg', onClick: props.historyContainer.onExtendBtnClick }),
+        _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg', onClick: props.historyContainer.onDeleteBtnClick })
+    );
+};
+
 var Table = function (_Component) {
     _inherits(Table, _Component);
 
@@ -32285,6 +32480,15 @@ var Table = function (_Component) {
         value: function render() {
             var _this2 = this;
 
+            var btnControl = void 0;
+            var _props$historyContain = this.props.historyContainer.state,
+                user = _props$historyContain.user,
+                tab = _props$historyContain.tab;
+
+            var modalName = this.props.historyContainer.dashboardContainer.state.modalName.toLowerCase();
+            if (user == 'admin' && modalName != 'history' && tab != 'all' || user != 'admin' && modalName != 'history') {
+                btnControl = _react2.default.createElement(BTN_CONTROL, { historyContainer: this.props.historyContainer });
+            }
             return _react2.default.createElement(
                 'section',
                 null,
@@ -32319,7 +32523,7 @@ var Table = function (_Component) {
                         var leftDate = _this2.props.historyContainer.getReservationsCountDown(data.end);
                         var leftDateSplit = leftDate.split(' ');
                         var leftDateElement = [];
-                        if (leftDateSplit[1] == 'year(s)' || leftDateSplit[1] == 'day(s)') {
+                        if (leftDateSplit[1] == 'year(s)' || leftDateSplit[1] == 'day(s)' || leftDateSplit[0] == '-') {
                             leftDateElement = _react2.default.createElement(
                                 'span',
                                 null,
@@ -32334,7 +32538,9 @@ var Table = function (_Component) {
                         }
                         return _react2.default.createElement(
                             'div',
-                            { className: _history2.default.item, key: key },
+                            { className: _history2.default.item, key: key, onClick: function onClick() {
+                                    return _this2.props.historyContainer.onViewReservationDetail(key, data.reservation_id);
+                                } },
                             _react2.default.createElement(
                                 'div',
                                 { className: _history2.default.text },
@@ -32354,12 +32560,7 @@ var Table = function (_Component) {
                                 'div',
                                 { className: _history2.default.text },
                                 leftDateElement,
-                                _react2.default.createElement(
-                                    'div',
-                                    { className: _history2.default.control },
-                                    _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg' }),
-                                    _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg' })
-                                )
+                                btnControl
                             )
                         );
                     })
@@ -33036,7 +33237,7 @@ var MenuBar = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: _menuBar2.default.menu, onClick: function onClick() {
-                            return _this2.props.menubarContainer.onSelectMenu('Reservations');
+                            return _this2.props.menubarContainer.onSelectMenu('Runnings');
                         }, onMouseOver: function onMouseOver() {
                             return _this2.props.menubarContainer.onReserveOver();
                         }, onMouseOut: function onMouseOut() {
@@ -33163,7 +33364,7 @@ var MenuBarContainer = function (_Component) {
         key: 'onReserveOver',
         value: function onReserveOver() {
             this.setState({
-                reservation: 'Reservations'
+                reservation: 'Runnings'
             });
         }
     }, {
@@ -36048,6 +36249,30 @@ var TimeItem = function TimeItem(props) {
     );
 };
 
+var TimeList = function TimeList(props) {
+    var start = parseInt(props.s);
+    var end = parseInt(props.e);
+    var options = [];
+    for (var i = start; i <= end; i++) {
+        var time = i >= 10 ? i + ':00' : '0' + i + ':00';
+        options.push(time);
+    }
+    return _react2.default.createElement(
+        'select',
+        { className: _search2.default.inputtime, value: props.value, onChange: props.handle },
+        options.map(function (data, key) {
+            var d = data.replace(':', ' : ');
+            return _react2.default.createElement(
+                'option',
+                { key: key, value: data },
+                ' ',
+                d,
+                ' '
+            );
+        })
+    );
+};
+
 var Search = function (_Component) {
     _inherits(Search, _Component);
 
@@ -36060,6 +36285,10 @@ var Search = function (_Component) {
     _createClass(Search, [{
         key: 'render',
         value: function render() {
+            var startDuration = this.props.searchContainer.state.startDuration;
+            var endDuration = this.props.searchContainer.state.endDuration;
+            var timeStartList = _react2.default.createElement(TimeList, { s: startDuration, e: endDuration, value: this.props.searchContainer.state.startTime, handle: this.props.searchContainer.onTimeStartChange });
+
             return _react2.default.createElement(
                 'section',
                 { className: 'halfmodal' },
@@ -36122,7 +36351,7 @@ var Search = function (_Component) {
                                         ),
                                         _react2.default.createElement(_reactDatepicker2.default, { className: _search2.default.inputdate, minDate: this.props.searchContainer.timezone, dateFormat: 'DD - MMM - YYYY', selected: this.props.searchContainer.state.startDate.obj, onChange: this.props.searchContainer.onStartDateChange }),
                                         _react2.default.createElement('img', { className: _search2.default.icon, src: 'img/ic_date_range.svg' }),
-                                        _react2.default.createElement(TimeItem, { name: 'startTime', value: this.props.searchContainer.state.startTime, handle: this.props.searchContainer.onTimeChange })
+                                        timeStartList
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -36138,7 +36367,7 @@ var Search = function (_Component) {
                                         ),
                                         _react2.default.createElement(_reactDatepicker2.default, { className: _search2.default.inputdate, minDate: this.props.searchContainer.state.startDate.obj, dateFormat: 'DD - MMM - YYYY', selected: this.props.searchContainer.state.endDate.obj, onChange: this.props.searchContainer.onEndDateChange }),
                                         _react2.default.createElement('img', { className: _search2.default.icon, src: 'img/ic_date_range.svg' }),
-                                        _react2.default.createElement(TimeItem, { name: 'endTime', value: this.props.searchContainer.state.endTime, handle: this.props.searchContainer.onTimeChange })
+                                        _react2.default.createElement(TimeItem, { name: 'endTime', value: this.props.searchContainer.state.endTime, handle: this.props.searchContainer.onTimeEndChange })
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -36374,7 +36603,7 @@ var SearchContainer = function (_Component) {
                 obj: _this.timezone,
                 date: _this.timezone.format('YYYY-MM-DD')
             },
-            startTime: _this.timezone.format().slice(11, 13) + ':00',
+            startTime: _this.timezone.add(1, 'hours').format().slice(11, 13) + ':00',
             endTime: _this.timezone.add(1, 'hours').format().slice(11, 13) + ':00',
             reservationLength: {
                 value: 'all',
@@ -36384,14 +36613,17 @@ var SearchContainer = function (_Component) {
             additionalNetwork: 'None',
             imageType: 'Any',
             dataResult: null,
-            resultTable: []
+            resultTable: [],
+            startDuration: 0,
+            endDuration: 23
         };
 
         _this.onClose = _this.onClose.bind(_this);
         _this.onResourceChange = _this.onResourceChange.bind(_this);
         _this.onStartDateChange = _this.onStartDateChange.bind(_this);
         _this.onEndDateChange = _this.onEndDateChange.bind(_this);
-        _this.onTimeChange = _this.onTimeChange.bind(_this);
+        _this.onTimeStartChange = _this.onTimeStartChange.bind(_this);
+        _this.onTimeEndChange = _this.onTimeEndChange.bind(_this);
         _this.onReserveLengthChange = _this.onReserveLengthChange.bind(_this);
         _this.onImageTypeChange = _this.onImageTypeChange.bind(_this);
         _this.onAdditionNetwordChange = _this.onAdditionNetwordChange.bind(_this);
@@ -36423,61 +36655,119 @@ var SearchContainer = function (_Component) {
     }, {
         key: 'onStartDateChange',
         value: function onStartDateChange(date) {
-            if (date.format() < this.state.endDate.obj.format()) {
-                this.setState({
-                    startDate: {
-                        obj: date,
-                        date: (0, _moment2.default)(date).format('YYYY-MM-DD')
-                    }
-                });
-            } else {
-                this.setState({
-                    startDate: {
-                        obj: date,
-                        date: (0, _moment2.default)(date).format('YYYY-MM-DD')
-                    },
-                    endDate: {
-                        obj: date,
-                        date: (0, _moment2.default)(date).format('YYYY-MM-DD')
-                    }
-                });
-                var startTime = parseInt(this.state.startTime.replace(':00'));
-                var endTime = parseInt(this.state.endTime.replace(':00'));
-                if (endTime <= startTime) {
-                    var time = startTime + 1 >= 23 ? 23 : startTime + 1;
-                    if (startTime + 1 <= 23) {
-                        this.setState({
-                            endTime: time >= 10 ? time + ':00' : '0' + time + ':00'
-                        });
-                    } else {
-                        this.setState({
-                            endDate: {
-                                obj: (0, _moment2.default)(date).add(1, 'days'),
-                                date: (0, _moment2.default)(date).add(1, 'days').format('YYYY-MM-DD')
-                            },
-                            endTime: '00:00'
-                        });
-                    }
+            var _this2 = this;
+
+            this.setState({
+                startDate: {
+                    obj: date,
+                    date: (0, _moment2.default)(date).format('YYYY-MM-DD')
                 }
-            }
+            }, function () {
+
+                console.log('start date : ' + _this2.state.endDate.date);
+                console.log('end date : ' + _this2.state.endDate.date);
+
+                if (date.format() >= _this2.state.endDate.obj.format()) {
+
+                    _this2.setState({
+                        endDate: _this2.state.startDate
+                    }, function () {
+
+                        var startTime = parseInt(_this2.state.startTime.replace(':00'));
+                        var endTime = parseInt(_this2.state.endTime.replace(':00'));
+
+                        console.log('start time : ' + startTime);
+                        console.log('end time : ' + endTime);
+
+                        if (endTime <= startTime) {
+
+                            var time = startTime + 1 >= 23 ? 23 : startTime + 1;
+                            if (startTime + 1 <= 23) {
+                                _this2.setState({
+                                    endTime: time >= 10 ? time + ':00' : '0' + time + ':00'
+                                });
+                            } else {
+                                _this2.setState({
+                                    endDate: {
+                                        obj: (0, _moment2.default)(date).add(1, 'days'),
+                                        date: (0, _moment2.default)(date).add(1, 'days').format('YYYY-MM-DD')
+                                    },
+                                    endTime: '00:00'
+                                });
+                            }
+                        }
+                    }); //end of this.setState for endDate
+                } //end if
+            }); //end of this.setState for startDate
         }
     }, {
         key: 'onEndDateChange',
         value: function onEndDateChange(date) {
+            var _this3 = this;
+
             if (date.format() >= this.state.startDate.obj.format()) {
                 this.setState({
                     endDate: {
                         obj: date,
                         date: (0, _moment2.default)(date).format('YYYY-MM-DD')
                     }
+                }, function () {
+                    console.log('end date : ' + _this3.state.endDate.date);
                 });
             }
         }
     }, {
-        key: 'onTimeChange',
-        value: function onTimeChange(event) {
-            var name = event.target.name;
-            this.setState(_defineProperty({}, name, event.target.value));
+        key: 'onTimeStartChange',
+        value: function onTimeStartChange(time) {
+            var _this4 = this;
+
+            console.log('start time change:', time.target.value);
+
+            this.setState({
+                startTime: time.target.value
+            }, function () {
+
+                var startTime = parseInt(_this4.state.startTime.replace(':00'));
+                var endTime = parseInt(_this4.state.endTime.replace(':00'));
+
+                if (_this4.state.endDate.obj.format() == _this4.state.startDate.obj.format() && endTime <= startTime || _this4.state.endDate.obj.format() < _this4.state.startDate.obj.format()) {
+
+                    var t = startTime + 1 >= 23 ? 23 : startTime + 1;
+                    if (startTime + 1 <= 23) {
+                        _this4.setState({
+                            endTime: t >= 10 ? t + ':00' : '0' + t + ':00'
+                        });
+                    } else {
+                        _this4.setState({
+                            endDate: {
+                                obj: (0, _moment2.default)(_this4.state.startDate.obj).add(1, 'days'),
+                                date: (0, _moment2.default)(_this4.state.startDate.obj).add(1, 'days').format('YYYY-MM-DD')
+                            },
+                            endTime: '00:00'
+                        });
+                    }
+
+                    if (_this4.state.endDate.obj.format() == _this4.state.startDate.obj.format()) {
+                        // if start and end are on same date -> disable time before and equal to start !!
+
+                    }
+                }
+
+                console.log('start date : ' + _this4.state.endDate.date);
+                console.log('end date : ' + _this4.state.endDate.date);
+                console.log('start time : ' + _this4.state.startTime);
+                console.log('end time : ' + _this4.state.endTime);
+            });
+        }
+    }, {
+        key: 'onTimeEndChange',
+        value: function onTimeEndChange(time) {
+
+            var endTime = parseInt(time.target.value.replace(':00'));
+
+            this.setState({
+                endTime: endTime >= 10 ? endTime + ':00' : '0' + endTime + ':00'
+            });
         }
     }, {
         key: 'onReserveLengthChange',
@@ -36551,7 +36841,7 @@ var SearchContainer = function (_Component) {
     }, {
         key: 'queryResource',
         value: function queryResource(params) {
-            var _this2 = this;
+            var _this5 = this;
 
             _axios2.default.get(_endpoints.SEARCH_RESOURCE_ENDPOINT, params).then(function (response) {
                 var data = response.data,
@@ -36559,14 +36849,14 @@ var SearchContainer = function (_Component) {
 
                 if (status == 200 && data.result_type) {
                     if (data.result_type == 'result') {
-                        _this2.setState({
+                        _this5.setState({
                             dataResult: data,
-                            resultTable: _react2.default.createElement(_foundTable2.default, { data: data, searchContainer: _this2 })
+                            resultTable: _react2.default.createElement(_foundTable2.default, { data: data, searchContainer: _this5 })
                         });
                     } else {
-                        _this2.setState({
+                        _this5.setState({
                             dataResult: data,
-                            resultTable: _react2.default.createElement(_notFoundTable2.default, { data: data, searchContainer: _this2 })
+                            resultTable: _react2.default.createElement(_notFoundTable2.default, { data: data, searchContainer: _this5 })
                         });
                     }
                 }
@@ -49660,12 +49950,13 @@ exports = module.exports = __webpack_require__(9)();
 
 
 // module
-exports.push([module.i, ".jDYzwL2qMoR5Z08taNRtl {\n  width: 850px;\n  height: 425px;\n  font-family: sans-serif;\n  border-radius: 3px;\n  border: 1px solid #929296;\n  position: relative;\n  background-color: black; }\n  .jDYzwL2qMoR5Z08taNRtl header {\n    border-radius: 3px 3px 0px 0px;\n    border-bottom: 1px solid #929296;\n    font-size: 9pt;\n    text-align: center;\n    height: 28px;\n    position: relative;\n    background-color: #161923; }\n    .jDYzwL2qMoR5Z08taNRtl header div {\n      color: #FFFFFF;\n      padding-top: 7px; }\n    .jDYzwL2qMoR5Z08taNRtl header img {\n      position: absolute;\n      top: 3px;\n      right: 5px;\n      width: 20px; }\n  .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW {\n    display: flex;\n    height: calc(100% - 29px);\n    width: 100%;\n    box-sizing: border-box; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO {\n      display: block;\n      width: 70%;\n      height: 100%;\n      display: flex;\n      flex-direction: column; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 {\n        width: 100%;\n        height: 65px;\n        display: flex;\n        justify-content: center;\n        align-items: center; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l {\n          height: 28px;\n          width: 250px;\n          border-radius: 5px;\n          border: 1px solid #EFA430;\n          font-family: sans-serif;\n          font-size: 9pt;\n          display: flex; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l .a0COUC42xUvxq_xqVzSWV, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._2j2NyP_2sy-w-qW9DA-utZ, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._1Il7Xv3eUKXAE49xUQKqr5 {\n            color: #EFA430;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            width: 50%;\n            height: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._2j2NyP_2sy-w-qW9DA-utZ {\n            color: #000000;\n            background-color: #EFA430;\n            border-top-left-radius: 3px;\n            border-bottom-left-radius: 3px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._1Il7Xv3eUKXAE49xUQKqr5 {\n            color: #000000;\n            background-color: #EFA430;\n            border-top-right-radius: 3px;\n            border-bottom-right-radius: 3px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l:hover {\n          cursor: pointer; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao {\n        width: 100%;\n        height: calc(100% - 66px);\n        color: #FFFFFF;\n        font-size: 9pt; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._3t91Hl38vXL_p91KrP4g_3 {\n          display: flex;\n          background-color: rgba(35, 41, 57, 0.84);\n          padding: 0px 0px 0px 20px;\n          margin-bottom: 5px;\n          box-sizing: border-box;\n          height: 24px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._3t91Hl38vXL_p91KrP4g_3 ._2IwuveY_xsmDwFw-Ygnh99 {\n            width: 50%; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh {\n          height: 265px;\n          overflow-y: auto;\n          margin-top: 1px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH {\n            display: flex;\n            padding: 5px 10px 5px 20px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 {\n              width: 50%;\n              position: relative; }\n              .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw {\n                top: -3px;\n                right: 0px;\n                position: absolute; }\n                .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw ._37rlZgzEgvfuGU8HAxmraF {\n                  width: 20px;\n                  margin-left: 5px; }\n                .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw ._37rlZgzEgvfuGU8HAxmraF:hover {\n                  cursor: pointer; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH:hover {\n            background-color: rgba(239, 164, 48, 0.4);\n            cursor: default; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar-track {\n          border-radius: 10px;\n          background-color: rgba(35, 41, 57, 0.84); }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar {\n          width: 5px;\n          border-radius: 10px;\n          background-color: rgba(35, 41, 57, 0.84); }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar-thumb {\n          border-radius: 10px;\n          background-color: rgba(18, 18, 19, 0.76); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._7wkUgHW79domoZqF1toa5 {\n        display: flex;\n        align-items: center;\n        position: absolute;\n        bottom: 7px;\n        left: 10px;\n        color: #FFFFFF;\n        font-size: 9pt;\n        opacity: 0.5; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._7wkUgHW79domoZqF1toa5 ._37rlZgzEgvfuGU8HAxmraF {\n          width: 20px;\n          margin: 0px 5px 0px 5px; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq {\n      width: 30%;\n      height: 100%;\n      border-left: 1px solid #FFFFFF;\n      font-size: 9pt;\n      color: #FFFFFF;\n      position: relative; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._3t91Hl38vXL_p91KrP4g_3 {\n        display: flex;\n        background-color: rgba(35, 41, 57, 0.84);\n        padding: 5px 0px 5px 15px;\n        box-sizing: border-box;\n        height: 24px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._3t91Hl38vXL_p91KrP4g_3 ._2IwuveY_xsmDwFw-Ygnh99 {\n          width: 50%; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao {\n        padding: 15px 15px 0px 15px;\n        overflow-y: auto;\n        height: calc(100% - 40px);\n        width: 100%;\n        box-sizing: border-box; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv {\n          box-sizing: border-box;\n          display: flex;\n          width: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv ._2h6r3qL7bGBqyoWqbKYFlN {\n            width: 35%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv ._1nGPXkEOMNivm_GfpHAqfL {\n            width: 65%; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao ._10oGmHGBZgFYsMokZf-p_F {\n          margin-top: 15px;\n          width: 100%;\n          border-top: 1px solid #464a5f; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao ._2sTAraDRC6zmmFCFhMAlee {\n          color: #FFFFFF;\n          padding-top: 15px;\n          padding-bottom: 5px; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1I2bWnYCflWAFEyG1sAr35::-webkit-scrollbar-track {\n        border-radius: 10px;\n        background-color: rgba(35, 41, 57, 0.84); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao::-webkit-scrollbar {\n        width: 5px;\n        border-radius: 10px;\n        background-color: rgba(35, 41, 57, 0.84); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao::-webkit-scrollbar-thumb {\n        border-radius: 10px;\n        background-color: rgba(18, 18, 19, 0.76); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 {\n        position: absolute;\n        width: 100%;\n        height: 103px;\n        bottom: 0px;\n        border-top: 1px solid #FFFFFF;\n        background-color: #000000; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee {\n          position: relative;\n          height: 27px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee div {\n            padding: 8px 0px 5px 15px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee img {\n            width: 20px;\n            position: absolute;\n            right: 5px;\n            top: 5px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW {\n          display: flex;\n          justify-content: center;\n          flex-direction: column;\n          padding-bottom: 10px;\n          height: calc(100% - 28px);\n          width: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._2mLZ6YBJ7-cfmH7S5gZU0E {\n            width: 28px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW .f3PCrTI_YijwT_O884DI9 {\n            width: 40%;\n            margin: auto; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 {\n            margin-bottom: 5px;\n            margin: auto; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._25pjloI1wUdGFhsJy_nw1r {\n              display: inline-block;\n              position: relative; }\n              .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._25pjloI1wUdGFhsJy_nw1r ._37rlZgzEgvfuGU8HAxmraF {\n                left: 110px;\n                position: absolute;\n                width: 16px;\n                top: 8px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._2SbvMg1zSQHDS70_yavTA, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP {\n              background-color: #464a5f;\n              border-radius: 3px;\n              padding-right: 5px;\n              padding-left: 5px;\n              outline: none;\n              border: none;\n              height: 20px;\n              margin-top: 5px;\n              color: #FFFFFF; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP::-webkit-input-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP::-moz-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA {\n              width: 120px;\n              margin-right: 10px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA::-webkit-input-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA::-moz-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._2SbvMg1zSQHDS70_yavTA {\n              width: 70px;\n              height: 22px;\n              padding-left: 0px; }\n  .jDYzwL2qMoR5Z08taNRtl ._1GQ-Ez_QQB_EocZV6Vu1ke {\n    color: #ef303e; }\n  .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY {\n    box-sizing: border-box;\n    display: flex;\n    width: 100%;\n    margin-top: 10px; }\n    .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY ._2h6r3qL7bGBqyoWqbKYFlN {\n      width: 50%; }\n    .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY ._1nGPXkEOMNivm_GfpHAqfL {\n      width: 50%; }\n  .jDYzwL2qMoR5Z08taNRtl ._2osWeV1vNVfDuMmf3KyO60 {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n    height: 100%; }\n", ""]);
+exports.push([module.i, "@keyframes _1fjZdmdFaoxPx_ILvricqX {\n  from {\n    margin-bottom: -10px;\n    opacity: 0.25; }\n  to {\n    opacity: 1; } }\n\n.jDYzwL2qMoR5Z08taNRtl {\n  width: 880px;\n  height: 425px;\n  font-family: sans-serif;\n  border-radius: 3px;\n  border: 1px solid #929296;\n  position: relative;\n  background-color: black; }\n  .jDYzwL2qMoR5Z08taNRtl header {\n    border-radius: 3px 3px 0px 0px;\n    border-bottom: 1px solid #929296;\n    font-size: 9pt;\n    text-align: center;\n    height: 28px;\n    position: relative;\n    background-color: #161923; }\n    .jDYzwL2qMoR5Z08taNRtl header div {\n      color: #FFFFFF;\n      padding-top: 7px; }\n    .jDYzwL2qMoR5Z08taNRtl header img {\n      position: absolute;\n      top: 3px;\n      right: 5px;\n      width: 20px; }\n  .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW {\n    display: flex;\n    height: calc(100% - 29px);\n    width: 100%;\n    box-sizing: border-box; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._9e_XIm_HnwxN15Ew3gJb1 {\n      margin-bottom: 4px; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO {\n      display: block;\n      width: 67%;\n      height: 100%;\n      display: flex;\n      flex-direction: column; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 {\n        width: 100%;\n        height: 65px;\n        display: flex;\n        justify-content: center;\n        align-items: center; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l {\n          height: 28px;\n          width: 250px;\n          border-radius: 5px;\n          border: 1px solid #EFA430;\n          font-family: sans-serif;\n          font-size: 9pt;\n          display: flex; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l .a0COUC42xUvxq_xqVzSWV, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._2j2NyP_2sy-w-qW9DA-utZ, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._1Il7Xv3eUKXAE49xUQKqr5 {\n            color: #EFA430;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            width: 50%;\n            height: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._2j2NyP_2sy-w-qW9DA-utZ {\n            color: #000000;\n            background-color: #EFA430;\n            border-top-left-radius: 3px;\n            border-bottom-left-radius: 3px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l ._1Il7Xv3eUKXAE49xUQKqr5 {\n            color: #000000;\n            background-color: #EFA430;\n            border-top-right-radius: 3px;\n            border-bottom-right-radius: 3px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._3t91Hl38vXL_p91KrP4g_3 ._2p8c8d1nhAEwu2TpwJAt-l:hover {\n          cursor: pointer; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao {\n        width: 100%;\n        height: calc(100% - 66px);\n        color: #FFFFFF;\n        font-size: 9pt; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._3t91Hl38vXL_p91KrP4g_3 {\n          display: flex;\n          background-color: rgba(35, 41, 57, 0.84);\n          padding: 0px 0px 0px 20px;\n          margin-bottom: 5px;\n          box-sizing: border-box;\n          height: 24px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._3t91Hl38vXL_p91KrP4g_3 ._2IwuveY_xsmDwFw-Ygnh99 {\n            width: 50%; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh {\n          height: 265px;\n          overflow-y: auto;\n          margin-top: 1px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH {\n            display: flex;\n            padding: 5px 10px 5px 20px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 {\n              width: 50%;\n              position: relative; }\n              .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw {\n                top: -3px;\n                right: 0px;\n                position: absolute; }\n                .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw ._37rlZgzEgvfuGU8HAxmraF {\n                  width: 20px;\n                  margin-left: 5px; }\n                .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH ._2IwuveY_xsmDwFw-Ygnh99 ._15-28ihpEK13br2XwztDnw ._37rlZgzEgvfuGU8HAxmraF:hover {\n                  cursor: pointer; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh ._32sNV463a3Q8prYHY3CwbH:hover {\n            background-color: rgba(239, 164, 48, 0.4);\n            cursor: default; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar-track {\n          border-radius: 10px;\n          background-color: rgba(35, 41, 57, 0.84); }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar {\n          width: 5px;\n          border-radius: 10px;\n          background-color: rgba(35, 41, 57, 0.84); }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._1s-5OFhojb7fhB31cTWTao ._2m6HTRJ6Ec_-mWo2rRFVWh::-webkit-scrollbar-thumb {\n          border-radius: 10px;\n          background-color: rgba(18, 18, 19, 0.76); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._7wkUgHW79domoZqF1toa5 {\n        display: flex;\n        align-items: center;\n        position: absolute;\n        bottom: 7px;\n        left: 10px;\n        color: #FFFFFF;\n        font-size: 9pt;\n        opacity: 0.5; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW .FTUHz7aX_9g7Dk0waVOmO ._7wkUgHW79domoZqF1toa5 ._37rlZgzEgvfuGU8HAxmraF {\n          width: 20px;\n          margin: 0px 5px 0px 5px; }\n    .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq {\n      width: 33%;\n      height: 100%;\n      border-left: 1px solid #929296;\n      font-size: 9pt;\n      color: #FFFFFF;\n      position: relative; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._3t91Hl38vXL_p91KrP4g_3 {\n        display: flex;\n        background-color: rgba(35, 41, 57, 0.84);\n        padding: 5px 0px 5px 15px;\n        box-sizing: border-box;\n        height: 24px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._3t91Hl38vXL_p91KrP4g_3 ._2IwuveY_xsmDwFw-Ygnh99 {\n          width: 50%; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao {\n        padding: 15px 15px 0px 15px;\n        overflow-y: auto;\n        height: calc(100% - 45px);\n        width: 100%;\n        box-sizing: border-box; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv {\n          box-sizing: border-box;\n          display: flex;\n          width: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv ._2h6r3qL7bGBqyoWqbKYFlN {\n            width: 35%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao .DSizkpO9SRX_E0iDwf9sv ._1nGPXkEOMNivm_GfpHAqfL {\n            width: 65%; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao ._10oGmHGBZgFYsMokZf-p_F {\n          margin-top: 15px;\n          width: 100%;\n          border-top: 1px solid #464a5f; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao ._2sTAraDRC6zmmFCFhMAlee {\n          color: #FFFFFF;\n          padding-top: 15px;\n          padding-bottom: 5px; }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1I2bWnYCflWAFEyG1sAr35::-webkit-scrollbar-track {\n        border-radius: 10px;\n        background-color: rgba(35, 41, 57, 0.84); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao::-webkit-scrollbar {\n        width: 5px;\n        border-radius: 10px;\n        background-color: rgba(35, 41, 57, 0.84); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._1s-5OFhojb7fhB31cTWTao::-webkit-scrollbar-thumb {\n        border-radius: 10px;\n        background-color: rgba(18, 18, 19, 0.76); }\n      .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 {\n        position: absolute;\n        width: 100%;\n        height: 120px;\n        bottom: 0px;\n        border-top: 1px solid #929296;\n        background-color: #000000;\n        animation-name: _1fjZdmdFaoxPx_ILvricqX;\n        animation-duration: 0.25s;\n        animation-timing-function: ease-out; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee {\n          position: relative;\n          height: 27px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee div {\n            padding: 8px 0px 5px 15px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 ._2sTAraDRC6zmmFCFhMAlee img {\n            width: 20px;\n            position: absolute;\n            right: 5px;\n            top: 5px; }\n        .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW {\n          display: flex;\n          justify-content: center;\n          flex-direction: column;\n          padding-bottom: 10px;\n          height: calc(100% - 28px);\n          width: 100%; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._2mLZ6YBJ7-cfmH7S5gZU0E {\n            width: 28px; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW .f3PCrTI_YijwT_O884DI9 {\n            width: 40%;\n            margin: auto; }\n          .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 {\n            margin-bottom: 5px;\n            margin: auto; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._25pjloI1wUdGFhsJy_nw1r {\n              display: inline-block;\n              position: relative; }\n              .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._25pjloI1wUdGFhsJy_nw1r ._37rlZgzEgvfuGU8HAxmraF {\n                left: 110px;\n                position: absolute;\n                width: 16px;\n                top: 8px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._8FWJfVbGJR42au11nZe7U {\n              font-size: 8pt;\n              color: #ef303e;\n              padding: 5px 15px 0px 15px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._2SbvMg1zSQHDS70_yavTA, .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP {\n              background-color: #464a5f;\n              border-radius: 3px;\n              padding-right: 5px;\n              padding-left: 5px;\n              outline: none;\n              border: none;\n              height: 20px;\n              margin-top: 5px;\n              color: #FFFFFF; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP::-webkit-input-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3WCijTZShB0VWi6OHCuGWP::-moz-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA {\n              width: 120px;\n              margin-right: 10px; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA::-webkit-input-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._3vanZAnCiDWIDO9rMeUbJA::-moz-placeholder {\n              color: #000000; }\n            .jDYzwL2qMoR5Z08taNRtl .PBBqB2K1gJtaAaZPl3lWW ._3UsogC17_OWtNDKSd09ibq ._7wkUgHW79domoZqF1toa5 .PBBqB2K1gJtaAaZPl3lWW ._3YBIsKpHrARwBVlNgT77P1 ._2SbvMg1zSQHDS70_yavTA {\n              width: 70px;\n              height: 22px;\n              padding-left: 0px; }\n  .jDYzwL2qMoR5Z08taNRtl ._1GQ-Ez_QQB_EocZV6Vu1ke {\n    color: #ef303e; }\n  .jDYzwL2qMoR5Z08taNRtl ._1ssxnJ_eoUClUYvAHBpLL9 {\n    color: #76FF03; }\n  .jDYzwL2qMoR5Z08taNRtl ._1jFURSntR0lGmUic22QGdZ {\n    color: #FF8F00; }\n  .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY {\n    box-sizing: border-box;\n    display: flex;\n    width: 100%;\n    margin-top: 10px; }\n    .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY ._2h6r3qL7bGBqyoWqbKYFlN {\n      width: 50%; }\n    .jDYzwL2qMoR5Z08taNRtl ._4tV7LCswcCvkM2NQkoomY ._1nGPXkEOMNivm_GfpHAqfL {\n      width: 50%; }\n  .jDYzwL2qMoR5Z08taNRtl ._2osWeV1vNVfDuMmf3KyO60 {\n    display: flex;\n    justify-content: center;\n    flex-direction: column;\n    align-items: center;\n    height: 100%; }\n", ""]);
 
 // exports
 exports.locals = {
 	"panel": "jDYzwL2qMoR5Z08taNRtl",
 	"content": "PBBqB2K1gJtaAaZPl3lWW",
+	"space": "_9e_XIm_HnwxN15Ew3gJb1",
 	"result": "FTUHz7aX_9g7Dk0waVOmO",
 	"header": "_3t91Hl38vXL_p91KrP4g_3",
 	"menu": "_2p8c8d1nhAEwu2TpwJAt-l",
@@ -49686,14 +49977,18 @@ exports.locals = {
 	"line": "_10oGmHGBZgFYsMokZf-p_F",
 	"title": "_2sTAraDRC6zmmFCFhMAlee",
 	"daata": "_1I2bWnYCflWAFEyG1sAr35",
+	"popup_slice_animate": "_1fjZdmdFaoxPx_ILvricqX",
 	"iconstatus": "_2mLZ6YBJ7-cfmH7S5gZU0E",
 	"searchbtn": "f3PCrTI_YijwT_O884DI9",
 	"row": "_3YBIsKpHrARwBVlNgT77P1",
 	"block": "_25pjloI1wUdGFhsJy_nw1r",
+	"hinttext": "_8FWJfVbGJR42au11nZe7U",
 	"inputdate": "_3vanZAnCiDWIDO9rMeUbJA",
 	"inputtime": "_2SbvMg1zSQHDS70_yavTA",
 	"input": "_3WCijTZShB0VWi6OHCuGWP",
 	"warning": "_1GQ-Ez_QQB_EocZV6Vu1ke",
+	"running": "_1ssxnJ_eoUClUYvAHBpLL9",
+	"waiting": "_1jFURSntR0lGmUic22QGdZ",
 	"site": "_4tV7LCswcCvkM2NQkoomY",
 	"detaillabel": "_2osWeV1vNVfDuMmf3KyO60"
 };
