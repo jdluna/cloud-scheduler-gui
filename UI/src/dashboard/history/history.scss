@@ -18,8 +18,7 @@
     border-radius: 3px;
     border: 1px solid #929296;
     position: relative;
-    background-color: rgb(0,0,0);
-    // opacity: 0.66;
+    background-color: rgba(0,0,0,0.66);
     header{
         border-radius: 3px 3px 0px 0px;
         border-bottom: 1px solid #929296;
@@ -135,6 +134,27 @@
                     .item:hover{
                         background-color: rgba(239,164,48,0.4);
                         cursor: default;
+                    }
+                    .itemactive{
+                        display: flex;
+                        padding: 5px 10px 5px 20px;
+                        background-color: rgba(239,164,48,0.4);
+                        .text{
+                            width: 50%;
+                            position: relative;
+                            .control{
+                                top: -3px;
+                                right: 0px;
+                                position: absolute;
+                                .icon{
+                                    width: 20px;
+                                    margin-left: 5px;
+                                }
+                                .icon:hover{
+                                    cursor: pointer;
+                                }
+                            }
+                        }
                     }
                 }
                 .itemlist::-webkit-scrollbar-track{
@@ -289,6 +309,9 @@
                             height: 20px;
                             margin-top: 5px;
                             color: #FFFFFF;
+                        }
+                        .input{
+                            width: 250px;
                         }
                         .input::-webkit-input-placeholder{
                             color: #000000;

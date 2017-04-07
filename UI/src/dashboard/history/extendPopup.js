@@ -48,6 +48,9 @@ const EXTEND_CARD = (props) => (
                     <TimeItem value={props.historyContainer.state.extendTime} handle={props.historyContainer.onExtendTimeChange} />
                 </div>
             </div>
+            <div className={Style.row}>
+                <div className={Style.block}></div>
+            </div>
             <div className={Style.searchbtn}>
                 <button type='submit' className='btn' onClick={props.historyContainer.onExtendConfirm}>CONFIRM</button>
             </div>

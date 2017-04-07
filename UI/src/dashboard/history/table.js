@@ -43,7 +43,7 @@ export default class Table extends Component {
                                 leftDateElement = <span className={Style.warning}>{leftDate}</span>
                             }
                             return(
-                                <div className={Style.item} key={key} onClick={()=>this.props.historyContainer.onViewReservationDetail(key,data.reservation_id)}>
+                                <div className={(this.props.historyContainer.state.viewDetailKey==key) ? Style.itemactive : Style.item} key={key} onClick={()=>this.props.historyContainer.onViewReservationDetail(key,data.reservation_id)}>
                                     <div className={Style.text}>{moment(data.end).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
                                     <div className={Style.text}>{data.title}</div>
                                     <div className={Style.text}>{data.owner}</div>

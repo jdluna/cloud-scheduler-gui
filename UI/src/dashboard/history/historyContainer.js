@@ -159,6 +159,9 @@ export default class HistoryContainer extends Component {
         }else if(this.state.user=='admin'&&modalName=='history'){
             this.queryReservationsItem(ALL_ENDED_RESERVATIONS_ENDPOINT)
         }
+        this.setState({
+            viewDetail: false
+        })
     }
 
     onSelectMyRunningTab(){
@@ -169,6 +172,9 @@ export default class HistoryContainer extends Component {
         }else if(this.state.user=='admin'&&modalName=='history'){
             this.queryReservationsItem(MY_ENDED_RESERVATIONS_ENDPOINT,'my')
         }
+        this.setState({
+            viewDetail: false
+        })
     }
 
     onExtendDateChange(date){
@@ -232,8 +238,9 @@ export default class HistoryContainer extends Component {
             if(status==200&&data.result){
                 this.setState({
                     popup: null,
-                    viewDetail: false,
+                    // viewDetail: false,
                     tab: TAB,
+                    viewDetailKey: -1,
                     reservationsItem: data.result
                 })
             }
@@ -257,13 +264,12 @@ export default class HistoryContainer extends Component {
     }
 
     setCountDownClosePopup(){
-        this.queryReservationsItem(MY_RESERVATIONS_ENDPOINT,'my')
         setTimeout(()=>{
             this.setState({
                 popup: null,
                 extendStatus: '',
                 deleteStatus: ''
-            })
+            },this.queryReservationsItem(MY_RESERVATIONS_ENDPOINT,'my'))
         },5000)
     }
 
