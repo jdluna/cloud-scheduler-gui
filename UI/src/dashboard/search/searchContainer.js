@@ -24,7 +24,7 @@ export default class SearchContainer extends Component {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
             },
-            startTime: this.timezone.format().slice(11,13)+':00',
+            startTime: this.timezone.add(1,'hours').format().slice(11,13)+':00',
             endTime: this.timezone.add(1,'hours').format().slice(11,13)+':00',
             reservationLength: {
                 value: 'all',
@@ -34,14 +34,17 @@ export default class SearchContainer extends Component {
             additionalNetwork: 'None',
             imageType: 'Any',
             dataResult: null,
-            resultTable: []
+            resultTable: [],
+            startDuration: 0,
+            endDuration: 23
         }
 
         this.onClose = this.onClose.bind(this)
         this.onResourceChange = this.onResourceChange.bind(this)
         this.onStartDateChange = this.onStartDateChange.bind(this)
         this.onEndDateChange = this.onEndDateChange.bind(this)
-        this.onTimeChange = this.onTimeChange.bind(this)
+        this.onTimeStartChange = this.onTimeStartChange.bind(this)
+        this.onTimeEndChange = this.onTimeEndChange.bind(this)
         this.onReserveLengthChange = this.onReserveLengthChange.bind(this)
         this.onImageTypeChange = this.onImageTypeChange.bind(this)
         this.onAdditionNetwordChange = this.onAdditionNetwordChange.bind(this)
@@ -72,44 +75,56 @@ export default class SearchContainer extends Component {
     }
 
     onStartDateChange(date) {
-        if(date.format()<this.state.endDate.obj.format()){
-            this.setState({
-                startDate:{
-                    obj: date,
-                    date: moment(date).format('YYYY-MM-DD')
-                } 
-            })
-        }else{
-            this.setState({
-                startDate:{
-                    obj: date,
-                    date: moment(date).format('YYYY-MM-DD')
-                }, 
-                endDate:{
-                    obj: date,
-                    date: moment(date).format('YYYY-MM-DD')
-                } 
-            })
-            let startTime = parseInt(this.state.startTime.replace(':00'))
-            let endTime = parseInt(this.state.endTime.replace(':00'))
-            if(endTime<=startTime){
-                let time = ((startTime+1)>=23) ? 23 : (startTime+1)
-                if((startTime+1)<=23){
-                    this.setState({
-                        endTime: ((time)>=10) ? (time)+':00' : '0'+(time)+':00'
-                    })
-                }else{
-                    this.setState({
-                        endDate:{
-                            obj: moment(date).add(1,'days'),
-                            date: moment(date).add(1,'days').format('YYYY-MM-DD')
-                        },
-                        endTime: '00:00'
-                    })
-                }
-            }
-        }
+
+        this.setState({
+            startDate:{
+                obj: date,
+                date: moment(date).format('YYYY-MM-DD')
+            } 
+        },()=>{
+
+            console.log('start date : '+this.state.endDate.date)
+            console.log('end date : '+this.state.endDate.date)
+
+            if(date.format()>=this.state.endDate.obj.format()){
+
+                this.setState({
+                    endDate: this.state.startDate
+                },()=>{
+
+                    let startTime = parseInt(this.state.startTime.replace(':00'))
+                    let endTime = parseInt(this.state.endTime.replace(':00'))
+
+                    console.log('start time : '+startTime)
+                    console.log('end time : '+endTime)
+
+                    if(endTime<=startTime){
+
+                        let time = ((startTime+1)>=23) ? 23 : (startTime+1)
+                        if((startTime+1)<=23){
+                            this.setState({
+                                endTime: ((time)>=10) ? (time)+':00' : '0'+(time)+':00'
+                            })
+                        }else{
+                            this.setState({
+                                endDate:{
+                                    obj: moment(date).add(1,'days'),
+                                    date: moment(date).add(1,'days').format('YYYY-MM-DD')
+                                },
+                                endTime: '00:00'
+                            })
+                        }
+
+                    }   
+
+                })//end of this.setState for endDate
+                
+            } //end if
+
+        }) //end of this.setState for startDate
+
     }
+
 
     onEndDateChange(date) {
         if(date.format()>=this.state.startDate.obj.format()){
@@ -118,14 +133,61 @@ export default class SearchContainer extends Component {
                     obj: date,
                     date: moment(date).format('YYYY-MM-DD')
                 } 
-            })
+            },()=>{console.log('end date : '+this.state.endDate.date)})
         }
     }
 
-    onTimeChange(event){
-        let name = event.target.name
+    onTimeStartChange(time){
+        
+        console.log('start time change:',time.target.value)
+
         this.setState({
-            [name]: event.target.value
+            startTime: time.target.value
+        },()=>{
+
+                let startTime = parseInt(this.state.startTime.replace(':00'))
+                let endTime = parseInt(this.state.endTime.replace(':00'))
+
+                if( (this.state.endDate.obj.format()==this.state.startDate.obj.format()&&endTime<=startTime) || this.state.endDate.obj.format()<this.state.startDate.obj.format() ){
+                    
+                    let t = ((startTime+1)>=23) ? 23 : (startTime+1)
+                    if((startTime+1)<=23){
+                        this.setState({
+                            endTime: ((t)>=10) ? (t)+':00' : '0'+(t)+':00'
+                        })
+                    }else{
+                        this.setState({
+                            endDate:{
+                                obj: moment(this.state.startDate.obj).add(1,'days'),
+                                date: moment(this.state.startDate.obj).add(1,'days').format('YYYY-MM-DD')
+                            },
+                            endTime: '00:00'
+                        })
+                    }
+
+                
+                    if(this.state.endDate.obj.format()==this.state.startDate.obj.format()){
+                        // if start and end are on same date -> disable time before and equal to start !!
+
+                    }   
+                
+                }
+
+                console.log('start date : '+this.state.endDate.date)
+                console.log('end date : '+this.state.endDate.date)
+                console.log('start time : '+this.state.startTime)
+                console.log('end time : '+this.state.endTime)
+
+        })  
+    
+    }
+
+    onTimeEndChange(time){
+        
+        let endTime = parseInt(time.target.value.replace(':00'))
+
+        this.setState({
+            endTime: ((endTime)>=10) ? (endTime)+':00' : '0'+(endTime)+':00'
         })
     }
 
