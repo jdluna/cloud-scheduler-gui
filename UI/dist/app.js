@@ -36526,6 +36526,30 @@ var TimeItem = function TimeItem(props) {
     );
 };
 
+var TimeList = function TimeList(props) {
+    var start = parseInt(props.s);
+    var end = parseInt(props.e);
+    var options = [];
+    for (var i = start; i <= end; i++) {
+        var time = i >= 10 ? i + ':00' : '0' + i + ':00';
+        options.push(time);
+    }
+    return _react2.default.createElement(
+        'select',
+        { className: _search2.default.inputtime, value: props.value, onChange: props.handle },
+        options.map(function (data, key) {
+            var d = data.replace(':', ' : ');
+            return _react2.default.createElement(
+                'option',
+                { key: key, value: data },
+                ' ',
+                d,
+                ' '
+            );
+        })
+    );
+};
+
 var Search = function (_Component) {
     _inherits(Search, _Component);
 
@@ -36538,6 +36562,10 @@ var Search = function (_Component) {
     _createClass(Search, [{
         key: 'render',
         value: function render() {
+            var startDuration = this.props.searchContainer.state.startDuration;
+            var endDuration = this.props.searchContainer.state.endDuration;
+            var timeStartList = _react2.default.createElement(TimeList, { s: startDuration, e: endDuration, value: this.props.searchContainer.state.startTime, handle: this.props.searchContainer.onTimeStartChange });
+
             return _react2.default.createElement(
                 'section',
                 { className: 'halfmodal' },
@@ -36620,7 +36648,7 @@ var Search = function (_Component) {
                                         ),
                                         _react2.default.createElement(_reactDatepicker2.default, { className: _search2.default.inputdate, minDate: this.props.searchContainer.timezone, dateFormat: 'DD - MMM - YYYY', selected: this.props.searchContainer.state.startDate.obj, onChange: this.props.searchContainer.onStartDateChange }),
                                         _react2.default.createElement('img', { className: _search2.default.icon, src: 'img/ic_date_range.svg' }),
-                                        _react2.default.createElement(TimeItem, { name: 'startTime', value: this.props.searchContainer.state.startTime, handle: this.props.searchContainer.onTimeChange })
+                                        timeStartList
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -36636,7 +36664,7 @@ var Search = function (_Component) {
                                         ),
                                         _react2.default.createElement(_reactDatepicker2.default, { className: _search2.default.inputdate, minDate: this.props.searchContainer.state.startDate.obj, dateFormat: 'DD - MMM - YYYY', selected: this.props.searchContainer.state.endDate.obj, onChange: this.props.searchContainer.onEndDateChange }),
                                         _react2.default.createElement('img', { className: _search2.default.icon, src: 'img/ic_date_range.svg' }),
-                                        _react2.default.createElement(TimeItem, { name: 'endTime', value: this.props.searchContainer.state.endTime, handle: this.props.searchContainer.onTimeChange })
+                                        _react2.default.createElement(TimeItem, { name: 'endTime', value: this.props.searchContainer.state.endTime, handle: this.props.searchContainer.onTimeEndChange })
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -36882,7 +36910,7 @@ var SearchContainer = function (_Component) {
                 obj: _this.timezone,
                 date: _this.timezone.format('YYYY-MM-DD')
             },
-            startTime: _this.timezone.format().slice(11, 13) + ':00',
+            startTime: _this.timezone.add(1, 'hours').format().slice(11, 13) + ':00',
             endTime: _this.timezone.add(1, 'hours').format().slice(11, 13) + ':00',
             reservationLength: {
                 value: 'all',
@@ -36893,14 +36921,17 @@ var SearchContainer = function (_Component) {
             imageType: 'Any',
             dataResult: null,
             resultTable: [],
-            viewCardKey: null
+            viewCardKey: null,
+            startDuration: 0,
+            endDuration: 23
         };
 
         _this.onClose = _this.onClose.bind(_this);
         _this.onResourceChange = _this.onResourceChange.bind(_this);
         _this.onStartDateChange = _this.onStartDateChange.bind(_this);
         _this.onEndDateChange = _this.onEndDateChange.bind(_this);
-        _this.onTimeChange = _this.onTimeChange.bind(_this);
+        _this.onTimeStartChange = _this.onTimeStartChange.bind(_this);
+        _this.onTimeEndChange = _this.onTimeEndChange.bind(_this);
         _this.onReserveLengthChange = _this.onReserveLengthChange.bind(_this);
         _this.onImageTypeChange = _this.onImageTypeChange.bind(_this);
         _this.onAdditionNetwordChange = _this.onAdditionNetwordChange.bind(_this);
@@ -36933,61 +36964,119 @@ var SearchContainer = function (_Component) {
     }, {
         key: 'onStartDateChange',
         value: function onStartDateChange(date) {
-            if (date.format() < this.state.endDate.obj.format()) {
-                this.setState({
-                    startDate: {
-                        obj: date,
-                        date: (0, _moment2.default)(date).format('YYYY-MM-DD')
-                    }
-                });
-            } else {
-                this.setState({
-                    startDate: {
-                        obj: date,
-                        date: (0, _moment2.default)(date).format('YYYY-MM-DD')
-                    },
-                    endDate: {
-                        obj: date,
-                        date: (0, _moment2.default)(date).format('YYYY-MM-DD')
-                    }
-                });
-                var startTime = parseInt(this.state.startTime.replace(':00'));
-                var endTime = parseInt(this.state.endTime.replace(':00'));
-                if (endTime <= startTime) {
-                    var time = startTime + 1 >= 23 ? 23 : startTime + 1;
-                    if (startTime + 1 <= 23) {
-                        this.setState({
-                            endTime: time >= 10 ? time + ':00' : '0' + time + ':00'
-                        });
-                    } else {
-                        this.setState({
-                            endDate: {
-                                obj: (0, _moment2.default)(date).add(1, 'days'),
-                                date: (0, _moment2.default)(date).add(1, 'days').format('YYYY-MM-DD')
-                            },
-                            endTime: '00:00'
-                        });
-                    }
+            var _this2 = this;
+
+            this.setState({
+                startDate: {
+                    obj: date,
+                    date: (0, _moment2.default)(date).format('YYYY-MM-DD')
                 }
-            }
+            }, function () {
+
+                console.log('start date : ' + _this2.state.endDate.date);
+                console.log('end date : ' + _this2.state.endDate.date);
+
+                if (date.format() >= _this2.state.endDate.obj.format()) {
+
+                    _this2.setState({
+                        endDate: _this2.state.startDate
+                    }, function () {
+
+                        var startTime = parseInt(_this2.state.startTime.replace(':00'));
+                        var endTime = parseInt(_this2.state.endTime.replace(':00'));
+
+                        console.log('start time : ' + startTime);
+                        console.log('end time : ' + endTime);
+
+                        if (endTime <= startTime) {
+
+                            var time = startTime + 1 >= 23 ? 23 : startTime + 1;
+                            if (startTime + 1 <= 23) {
+                                _this2.setState({
+                                    endTime: time >= 10 ? time + ':00' : '0' + time + ':00'
+                                });
+                            } else {
+                                _this2.setState({
+                                    endDate: {
+                                        obj: (0, _moment2.default)(date).add(1, 'days'),
+                                        date: (0, _moment2.default)(date).add(1, 'days').format('YYYY-MM-DD')
+                                    },
+                                    endTime: '00:00'
+                                });
+                            }
+                        }
+                    }); //end of this.setState for endDate
+                } //end if
+            }); //end of this.setState for startDate
         }
     }, {
         key: 'onEndDateChange',
         value: function onEndDateChange(date) {
+            var _this3 = this;
+
             if (date.format() >= this.state.startDate.obj.format()) {
                 this.setState({
                     endDate: {
                         obj: date,
                         date: (0, _moment2.default)(date).format('YYYY-MM-DD')
                     }
+                }, function () {
+                    console.log('end date : ' + _this3.state.endDate.date);
                 });
             }
         }
     }, {
-        key: 'onTimeChange',
-        value: function onTimeChange(event) {
-            var name = event.target.name;
-            this.setState(_defineProperty({}, name, event.target.value));
+        key: 'onTimeStartChange',
+        value: function onTimeStartChange(time) {
+            var _this4 = this;
+
+            console.log('start time change:', time.target.value);
+
+            this.setState({
+                startTime: time.target.value
+            }, function () {
+
+                var startTime = parseInt(_this4.state.startTime.replace(':00'));
+                var endTime = parseInt(_this4.state.endTime.replace(':00'));
+
+                if (_this4.state.endDate.obj.format() == _this4.state.startDate.obj.format() && endTime <= startTime || _this4.state.endDate.obj.format() < _this4.state.startDate.obj.format()) {
+
+                    var t = startTime + 1 >= 23 ? 23 : startTime + 1;
+                    if (startTime + 1 <= 23) {
+                        _this4.setState({
+                            endTime: t >= 10 ? t + ':00' : '0' + t + ':00'
+                        });
+                    } else {
+                        _this4.setState({
+                            endDate: {
+                                obj: (0, _moment2.default)(_this4.state.startDate.obj).add(1, 'days'),
+                                date: (0, _moment2.default)(_this4.state.startDate.obj).add(1, 'days').format('YYYY-MM-DD')
+                            },
+                            endTime: '00:00'
+                        });
+                    }
+
+                    if (_this4.state.endDate.obj.format() == _this4.state.startDate.obj.format()) {
+                        // if start and end are on same date -> disable time before and equal to start !!
+
+                    }
+                }
+
+                console.log('start date : ' + _this4.state.endDate.date);
+                console.log('end date : ' + _this4.state.endDate.date);
+                console.log('start time : ' + _this4.state.startTime);
+                console.log('end time : ' + _this4.state.endTime);
+            });
+        }
+    }, {
+        key: 'onTimeEndChange',
+        value: function onTimeEndChange(time) {
+
+            var endTime = parseInt(time.target.value.replace(':00'));
+
+            this.setState({
+                endTime: endTime >= 10 ? endTime + ':00' : '0' + endTime + ':00'
+            });
         }
     }, {
         key: 'onReserveLengthChange',
@@ -37064,7 +37153,7 @@ var SearchContainer = function (_Component) {
     }, {
         key: 'queryResource',
         value: function queryResource(params) {
-            var _this2 = this;
+            var _this5 = this;
 
             _axios2.default.get(_endpoints.SEARCH_RESOURCE_ENDPOINT, params).then(function (response) {
                 var data = response.data,
@@ -37072,14 +37161,14 @@ var SearchContainer = function (_Component) {
 
                 if (status == 200 && data.result_type) {
                     if (data.result_type == 'result') {
-                        _this2.setState({
+                        _this5.setState({
                             dataResult: data,
-                            resultTable: _react2.default.createElement(_foundTable2.default, { data: data, searchContainer: _this2 })
+                            resultTable: _react2.default.createElement(_foundTable2.default, { data: data, searchContainer: _this5 })
                         });
                     } else {
-                        _this2.setState({
+                        _this5.setState({
                             dataResult: data,
-                            resultTable: _react2.default.createElement(_notFoundTable2.default, { data: data, searchContainer: _this2 })
+                            resultTable: _react2.default.createElement(_notFoundTable2.default, { data: data, searchContainer: _this5 })
                         });
                     }
                 }
