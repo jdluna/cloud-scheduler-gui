@@ -34,7 +34,8 @@ export default class SearchContainer extends Component {
             additionalNetwork: 'None',
             imageType: 'Any',
             dataResult: null,
-            resultTable: []
+            resultTable: [],
+            viewCardKey: null
         }
 
         this.onClose = this.onClose.bind(this)
@@ -48,6 +49,7 @@ export default class SearchContainer extends Component {
         this.onReserveLengthDataChange = this.onReserveLengthDataChange.bind(this)
         this.onSearchSubmit = this.onSearchSubmit.bind(this)
         this.onSelectItem = this.onSelectItem.bind(this)
+        this.getReservationsLength = this.getReservationsLength.bind(this)
     }
 
     onClose() {
@@ -176,7 +178,10 @@ export default class SearchContainer extends Component {
         })
     }
 
-    onSelectItem(name){
+    onSelectItem(name,key){
+        this.setState({
+            viewCardKey: key
+        })
         let markerNode = this.dashboardContainer.state.markerNode
         for(let i=0;i<markerNode.length;i++){
             if(markerNode[i].name.toLowerCase()==name.toLowerCase()){
@@ -230,6 +235,41 @@ export default class SearchContainer extends Component {
             }
         }
         this.queryResource(params)
+    }
+
+    getReservationsLength(startDate,endDate){
+        let start = moment(startDate,'YYYY-MM-DD HH:mm')
+        let end = moment(endDate,'YYYY-MM-DD HH:mm')
+
+        let day = end.diff(start,'days')
+        let hour = end.diff(start,'hours')
+        let year = end.diff(start,'years')
+        let minute = end.diff(start,'minutes')
+        let second = end.diff(start,'seconds')
+
+        let leftDate = ''
+        if(year>=1){
+            leftDate = year+' years '+parseInt((day/12))+' days'
+        }else{
+            if(day>=1){
+                leftDate = day+' days '+parseInt((hour/24))+' hours'
+            }else{
+                if(hour>=1){
+                    leftDate = hour+' hours '+parseInt((minute/60))+' minutes'
+                }else{
+                    if(minute>=1){
+                        leftDate = minute+' minutes'
+                    }else{
+                        if(second>=1){
+                            leftDate = second+' seconds'
+                        }else{
+                            leftDate = '-'
+                        }
+                    }
+                }
+            }
+        }
+        return leftDate
     }
 
     render() {

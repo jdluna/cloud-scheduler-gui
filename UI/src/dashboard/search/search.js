@@ -43,6 +43,10 @@ export default class Search extends Component {
                     <section className={Style.content}>
                         <div className={Style.searchinput}>
                             <form>
+                                <div className={Style.divideblock}>
+                                    <div>Resources</div>
+                                    <div className={Style.horizontalline}></div>
+                                </div>
                                 <div className={Style.row}>
                                     <div className={Style.block}>
                                         <div>CPU:</div>
@@ -52,6 +56,10 @@ export default class Search extends Component {
                                         <div>Memory (GB):</div>
                                         <input className={Style.input} type='text' name='mem' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.mem}/>
                                     </div>
+                                </div>
+                                <div className={Style.divideblock2}>
+                                    <div>Duration</div>
+                                    <div className={Style.horizontalline}></div>
                                 </div>
                                 <div className={Style.row}>
                                     <div className={Style.block}>
@@ -90,6 +98,10 @@ export default class Search extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div className={Style.divideblock2}>
+                                    <div>Others</div>
+                                    <div className={Style.horizontalline}></div>
                                 </div>
                                 <div className={Style.row}>
                                     <div className={Style.block}>
