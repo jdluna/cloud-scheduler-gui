@@ -30,7 +30,9 @@ export default class card extends Component {
                                 <div className={style.label}>{this.props.cardContainer.state.site.cpuAvailable}</div>
                                 <div className={style.minilabel}>CPUs</div>
                             </div>
-                            <canvas className={style.padding} ref="cpu" width='70' height='70'></canvas>
+                            <div className={style.chartwrap}>
+                                <canvas className={style.padding} ref="cpu" width='70' height='70'></canvas>
+                            </div>
                             <div className={style.label}>CPU</div>
                         </div>
                         <div>
@@ -38,7 +40,9 @@ export default class card extends Component {
                                 <div className={style.label}>{this.props.cardContainer.state.site.memAvailable}</div>
                                 <div className={style.minilabel}>GB</div>
                             </div>
-                            <canvas className={style.padding} ref="mem" width='70' height='70'></canvas>
+                            <div className={style.chartwrap}>
+                                <canvas className={style.padding} ref="mem" width='70' height='70'></canvas>
+                            </div>
                             <div className={style.label}>Memory</div>
                         </div>
                     </div>

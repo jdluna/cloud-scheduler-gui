@@ -72,7 +72,7 @@ export default class DashboardContainer extends Component {
             if(menu=='Existing reservations'||menu=='Past reservations'){
                 this.setState({
                     modal: <HistoryContainer dashBoardContainer={this}/>,
-                    modalName: menu
+                    modalName: (menu=='Past reservations') ? 'history' : menu
                 })
             }
         }else{
