@@ -21,6 +21,8 @@ export default class NotFoundTable extends Component {
             label = <LABEL/>
         }
 
+        let {reservationLength} = this.props.searchContainer.state
+        let time = reservationLength.days+' days '+reservationLength.hours+' hours'
         return (
             <section>
                 <div className={Style.label}>
@@ -37,7 +39,7 @@ export default class NotFoundTable extends Component {
                             </div>
                             <div>
                                 <span>Reservation length : </span>
-                                <span className={Style.hilight}>{this.props.searchContainer.getReservationsLength(startDateLength,endDateLength)}</span>
+                                <span className={Style.hilight}>{(reservationLength.value=='all') ? this.props.searchContainer.getReservationsLength(startDateLength,endDateLength) : time}</span>
                             </div>
                             <div>
                                 <span>Additional network : </span>
@@ -72,15 +74,15 @@ export default class NotFoundTable extends Component {
                     </div>
                     <div className={Style.itemlist}>
                         {
-                            console.log(this.props.data)
-                            /*{this.props.data.sites.map((data,key)=>{
-                            return(
-                                <div className={Style.item} key={key}>
-                                    <div className={Style.text}>AIST Cloud</div>
-                                    <div className={Style.text}>10-NOV-2016 00:00</div>
-                                </div>
-                            )
-                        })}   */}
+                            this.props.data.sites.map((data,key)=>{
+                                return(
+                                    <div className={Style.item} key={key} onClick={()=>this.props.searchContainer.onSelectItem(data.name,key)}>
+                                        <div className={Style.text}>{data.name}</div>
+                                        <div className={Style.text}>{moment(data.time.begin).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
             </section>

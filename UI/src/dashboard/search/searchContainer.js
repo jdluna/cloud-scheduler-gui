@@ -175,10 +175,10 @@ export default class SearchContainer extends Component {
                 
                 }
 
-                console.log('start date : '+this.state.endDate.date)
-                console.log('end date : '+this.state.endDate.date)
-                console.log('start time : '+this.state.startTime)
-                console.log('end time : '+this.state.endTime)
+                // console.log('start date : '+this.state.endDate.date)
+                // console.log('end date : '+this.state.endDate.date)
+                // console.log('start time : '+this.state.startTime)
+                // console.log('end time : '+this.state.endTime)
 
         })  
     
@@ -283,6 +283,11 @@ export default class SearchContainer extends Component {
 
     onSearchSubmit(event){
         event.preventDefault()
+        let {startDate,endDate,startTime,endTime} = this.state
+        let startDateLength = startDate.date+' '+startTime
+        let endDateLength = endDate.date+' '+endTime
+        let time = this.getReservationsLength(startDateLength,endDateLength).split(' ')
+
         let params = {
             params:{
                 cpu_amt: (this.state.cpu=='') ? 0 : this.state.cpu,
@@ -292,8 +297,8 @@ export default class SearchContainer extends Component {
                 begin: this.state.startDate.date+' '+this.state.startTime+':00',
                 end: this.state.endDate.date+' '+this.state.endTime+':00',
                 all_period: (this.state.reservationLength.value=='all') ? 'True' : 'False',
-                days: (this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days,
-                hours: (this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours
+                days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
+                hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours)
             }
         }
         this.queryResource(params)
@@ -311,13 +316,13 @@ export default class SearchContainer extends Component {
 
         let leftDate = ''
         if(year>=1){
-            leftDate = year+' years '+parseInt((day/12))+' days'
+            leftDate = year+' years '+parseInt((day%12))+' days'
         }else{
             if(day>=1){
-                leftDate = day+' days '+parseInt((hour/24))+' hours'
+                leftDate = day+' days '+parseInt((hour%24))+' hours'
             }else{
                 if(hour>=1){
-                    leftDate = hour+' hours '+parseInt((minute/60))+' minutes'
+                    leftDate = hour+' hours '+parseInt((minute%60))+' minutes'
                 }else{
                     if(minute>=1){
                         leftDate = minute+' minutes'

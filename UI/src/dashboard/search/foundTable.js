@@ -10,6 +10,8 @@ export default class NotFoundTable extends Component {
         let startDateLength = data.startDate.date+' '+data.startTime
         let endDateLength = data.endDate.date+' '+data.endTime
 
+        let {reservationLength} = this.props.searchContainer.state
+        let time = reservationLength.days+' days '+reservationLength.hours+' hours'
         return (
             <section>
                 <div className={Style.label}>
@@ -26,7 +28,7 @@ export default class NotFoundTable extends Component {
                             </div>
                             <div>
                                 <span>Reservation length : </span>
-                                <span className={Style.hilight}>{this.props.searchContainer.getReservationsLength(startDateLength,endDateLength)}</span>
+                                <span className={Style.hilight}>{(reservationLength.value=='all') ? this.props.searchContainer.getReservationsLength(startDateLength,endDateLength) : time}</span>
                             </div>
                             <div>
                                 <span>Additional network : </span>

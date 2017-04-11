@@ -101,7 +101,7 @@ export default class mapContainer extends Component {
         this.map = new google.maps.Map(node, options);
         axios.get(MAP_ENDPOINT).then(response =>{
             if(response.status==200){
-                console.log(response.data)
+                // console.log(response.data)
                 this.setMarker(response.data)
             }else{
                 console.warn('query map failed!')
