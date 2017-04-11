@@ -15,6 +15,7 @@ from Database import Database
 from Site import Site
 from Resource import CPU, Memory
 from datetime import datetime,timedelta
+import pytz
 
 
 class SiteManager:
@@ -42,7 +43,10 @@ class SiteManager:
 
     def getSites(self,resAmount=None,begin=None,end=None,allPeriod=True,days=0,hours=0,connectionType=None, imageType='Any'):
         #for search with criteria
-    
+    	
+	hours = int(hours)
+	days = int(days)
+	
         self.__sites = self.getAllSites()
         result = []
         conAndImgMatch = []
@@ -63,6 +67,7 @@ class SiteManager:
             #check image type
             if imageType == 'Any' or imageType in s.getImageType() :
                 imgStatus = True
+                
                 
             if conStatus and imgStatus:
                 conAndImgMatch.append(s)
@@ -114,7 +119,7 @@ class SiteManager:
         ## -> suggest all sites match available resources but not in that time     
         if not result:  
             #result is empty
-            self.__resultType = "suggest"
+ 	    self.__resultType = "suggest"
             
             for s in conAndImgMatch:
                 # check only the site match in connection and image type
@@ -126,7 +131,7 @@ class SiteManager:
                 
                 # Are total resources enough?
                 for i in range(0,len(res)):
-                    if res[i].getTotal() >= resAmount[i]:
+                    if int(res[i].getTotal()) >= int(resAmount[i]):
                         resTotalStatus[i] = True
                         
                 if not False in resTotalStatus:
