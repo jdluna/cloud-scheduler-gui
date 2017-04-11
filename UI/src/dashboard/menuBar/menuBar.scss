@@ -13,7 +13,7 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: 1px 1px rgba(10, 13, 20, 0.7);
-    .menu,.mediummenu{
+    .menu1,.menu2,.menu3,.menu4{
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 8px;
@@ -29,15 +29,27 @@
             font-size: 14px;
         }
     }
-    .menu:hover{
+    .menu1:hover{
         background-color: rgba(10, 13, 20,0.8);
-        width: 130px;
+        width: 100px;
         border-bottom-right-radius: 5px;
         border-top-right-radius: 5px;
     }
-    .mediummenu:hover{
+    .menu2:hover{
         background-color: rgba(10, 13, 20,0.8);
-        width: 190px;
+        width: 180px;
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    .menu3:hover{
+        background-color: rgba(10, 13, 20,0.8);
+        width: 160px;
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    .menu4:hover{
+        background-color: rgba(10, 13, 20,0.8);
+        width: 100px;
         border-bottom-right-radius: 5px;
         border-top-right-radius: 5px;
     }

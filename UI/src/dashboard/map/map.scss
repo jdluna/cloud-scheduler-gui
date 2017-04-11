@@ -39,12 +39,13 @@
         z-index: 2;
         top: 10px;
         right: 10px;
+        width: 164px;
         background-color: #3D4358;
         border-radius: 2px;
         border: 1px solid #242939;
         .input{
             padding: 4px;
-            padding-left: 10px;
+            padding-left: 4px;
             border-radius: 2px;
             border: none;
             outline: none;
@@ -52,6 +53,14 @@
             color: $text-color-secondary;
             font: $font-primary;
             width: 110px;
+        }
+        .searchicon{
+            padding-left: 4px;
+            width: 18px;
+        }
+        .cancelicon{
+            width: 18px;
+            padding-left: 3px;
         }
     }
     .display{

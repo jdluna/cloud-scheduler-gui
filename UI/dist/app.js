@@ -30971,9 +30971,9 @@ var DashboardContainer = function (_Component) {
             switch (menu) {
                 case 'Search':
                     this.setState({ modal: _react2.default.createElement(_searchContainer2.default, { dashBoardContainer: this }) });break;
-                case 'Runnings Reservation':
+                case 'Existing reservations':
                     this.checkLogin(menu);break;
-                case 'History':
+                case 'Past reservations':
                     this.checkLogin(menu);break;
                 case 'Settings':
                     this.setState({ modal: _react2.default.createElement(_settingsContainer2.default, { dashBoardContainer: this, app: this.props.app }) });break;
@@ -30985,7 +30985,7 @@ var DashboardContainer = function (_Component) {
         key: 'checkLogin',
         value: function checkLogin(menu) {
             if (this.props.app.state.authen.isLogedIn) {
-                if (menu == 'Runnings Reservation' || menu == 'History') {
+                if (menu == 'Existing reservations' || menu == 'Past reservations') {
                     this.setState({
                         modal: _react2.default.createElement(_historyContainer2.default, { dashBoardContainer: this }),
                         modalName: menu
@@ -32841,6 +32841,12 @@ var map = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var search = this.props.container.state.search;
+
+            var cancelIcon = void 0;
+            if (search != '') {
+                cancelIcon = _react2.default.createElement('img', { className: _map2.default.cancelicon, src: 'img/ic_cancel_circle_white.svg', onClick: this.props.container.onClearSearch });
+            }
             return _react2.default.createElement(
                 'section',
                 { id: _map2.default.map },
@@ -32866,8 +32872,9 @@ var map = function (_Component) {
                 _react2.default.createElement(
                     'div',
                     { className: _map2.default.search },
+                    _react2.default.createElement('img', { className: _map2.default.searchicon, src: 'img/ic_search_input.svg' }),
                     _react2.default.createElement('input', { type: 'text', placeholder: 'Search by name', className: _map2.default.input, value: this.props.container.state.search, onChange: this.props.container.onSearchChange, onKeyPress: this.props.container.onSearchPress }),
-                    _react2.default.createElement('img', { src: 'img/ic_search_input.svg' })
+                    cancelIcon
                 ),
                 this.props.container.state.autocompletePanel,
                 _react2.default.createElement('div', { className: _map2.default.display, ref: 'map' })
@@ -32947,6 +32954,7 @@ var mapContainer = function (_Component) {
         _this.onSearchChange = _this.onSearchChange.bind(_this);
         _this.onItemInAutoCompleteClick = _this.onItemInAutoCompleteClick.bind(_this);
         _this.onSearchPress = _this.onSearchPress.bind(_this);
+        _this.onClearSearch = _this.onClearSearch.bind(_this);
         return _this;
     }
 
@@ -33082,6 +33090,14 @@ var mapContainer = function (_Component) {
             } else {
                 this.showAllMarker();
             }
+        }
+    }, {
+        key: 'onClearSearch',
+        value: function onClearSearch() {
+            this.setState({
+                search: ''
+            });
+            this.showAllMarker();
         }
     }, {
         key: 'hideMarker',
@@ -33231,7 +33247,7 @@ var MenuBar = function (_Component) {
                 { id: _menuBar2.default.navigate },
                 _react2.default.createElement(
                     'div',
-                    { className: _menuBar2.default.menu, onClick: function onClick() {
+                    { className: _menuBar2.default.menu1, onClick: function onClick() {
                             return _this2.props.menubarContainer.onSelectMenu('Search');
                         }, onMouseOver: function onMouseOver() {
                             return _this2.props.menubarContainer.onSearchOver();
@@ -33247,8 +33263,8 @@ var MenuBar = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: _menuBar2.default.mediummenu, onClick: function onClick() {
-                            return _this2.props.menubarContainer.onSelectMenu('Runnings Reservation');
+                    { className: _menuBar2.default.menu2, onClick: function onClick() {
+                            return _this2.props.menubarContainer.onSelectMenu('Existing reservations');
                         }, onMouseOver: function onMouseOver() {
                             return _this2.props.menubarContainer.onReserveOver();
                         }, onMouseOut: function onMouseOut() {
@@ -33263,8 +33279,8 @@ var MenuBar = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: _menuBar2.default.menu, onClick: function onClick() {
-                            return _this2.props.menubarContainer.onSelectMenu('History');
+                    { className: _menuBar2.default.menu3, onClick: function onClick() {
+                            return _this2.props.menubarContainer.onSelectMenu('Past reservations');
                         }, onMouseOver: function onMouseOver() {
                             return _this2.props.menubarContainer.onHistoryOver();
                         }, onMouseOut: function onMouseOut() {
@@ -33279,7 +33295,7 @@ var MenuBar = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: _menuBar2.default.menu, onClick: function onClick() {
+                    { className: _menuBar2.default.menu4, onClick: function onClick() {
                             return _this2.props.menubarContainer.onSelectMenu('Settings');
                         }, onMouseOver: function onMouseOver() {
                             return _this2.props.menubarContainer.onSettingOver();
@@ -33375,7 +33391,7 @@ var MenuBarContainer = function (_Component) {
         key: 'onReserveOver',
         value: function onReserveOver() {
             this.setState({
-                reservation: 'Runnings Reservation'
+                reservation: 'Existing reservations'
             });
         }
     }, {
@@ -33389,7 +33405,7 @@ var MenuBarContainer = function (_Component) {
         key: 'onHistoryOver',
         value: function onHistoryOver() {
             this.setState({
-                history: 'History'
+                history: 'Past reservations'
             });
         }
     }, {
@@ -50419,7 +50435,7 @@ exports = module.exports = __webpack_require__(9)();
 
 
 // module
-exports.push([module.i, "#_3YSwNfDcPU7UUi0Nis5PGk {\n  position: fixed;\n  background-color: #FFFFFF;\n  height: calc(100% - 49px);\n  width: calc(100% - 220px); }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB {\n    position: absolute;\n    display: flex;\n    z-index: 2;\n    top: 10px;\n    left: 13px;\n    color: #739AAF;\n    border: 1px solid #739AAF;\n    opacity: 0.7;\n    font-weight: bold;\n    border-radius: 5px;\n    height: 50px;\n    padding: 3px;\n    width: 200px;\n    font-family: sans-serif; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF {\n      padding-left: 5px; }\n      #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF ._2gnPQb-leFJEb7LSwhZZKB {\n        margin-top: 10px;\n        font-size: 14px; }\n      #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF ._1i3N-aA34DzA_Q2z-WRbhr {\n        margin-top: 1px;\n        font-size: 8px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs {\n    display: flex;\n    position: absolute;\n    z-index: 2;\n    top: 10px;\n    right: 10px;\n    background-color: #3D4358;\n    border-radius: 2px;\n    border: 1px solid #242939; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs .frINV3MY7pS7bK30b-V58 {\n      padding: 4px;\n      padding-left: 10px;\n      border-radius: 2px;\n      border: none;\n      outline: none;\n      background-color: #3D4358;\n      color: #FFFFFF;\n      font: sans-serif;\n      width: 110px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._1ceu9nIBul7dFMa9AeIgm7 {\n    width: 100%;\n    height: 100%; }\n", ""]);
+exports.push([module.i, "#_3YSwNfDcPU7UUi0Nis5PGk {\n  position: fixed;\n  background-color: #FFFFFF;\n  height: calc(100% - 49px);\n  width: calc(100% - 220px); }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB {\n    position: absolute;\n    display: flex;\n    z-index: 2;\n    top: 10px;\n    left: 13px;\n    color: #739AAF;\n    border: 1px solid #739AAF;\n    opacity: 0.7;\n    font-weight: bold;\n    border-radius: 5px;\n    height: 50px;\n    padding: 3px;\n    width: 200px;\n    font-family: sans-serif; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF {\n      padding-left: 5px; }\n      #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF ._2gnPQb-leFJEb7LSwhZZKB {\n        margin-top: 10px;\n        font-size: 14px; }\n      #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF ._1i3N-aA34DzA_Q2z-WRbhr {\n        margin-top: 1px;\n        font-size: 8px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs {\n    display: flex;\n    position: absolute;\n    z-index: 2;\n    top: 10px;\n    right: 10px;\n    width: 164px;\n    background-color: #3D4358;\n    border-radius: 2px;\n    border: 1px solid #242939; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs .frINV3MY7pS7bK30b-V58 {\n      padding: 4px;\n      padding-left: 4px;\n      border-radius: 2px;\n      border: none;\n      outline: none;\n      background-color: #3D4358;\n      color: #FFFFFF;\n      font: sans-serif;\n      width: 110px; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs .bNwrJ0-uPQZrUDEbtOLlA {\n      padding-left: 4px;\n      width: 18px; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs ._1ZFdIaKWyKruaNFDEi1AlS {\n      width: 18px;\n      padding-left: 3px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._1ceu9nIBul7dFMa9AeIgm7 {\n    width: 100%;\n    height: 100%; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -50430,6 +50446,8 @@ exports.locals = {
 	"utc": "_1i3N-aA34DzA_Q2z-WRbhr",
 	"search": "_3WR9NFhiiNGrO5hkvmnUhs",
 	"input": "frINV3MY7pS7bK30b-V58",
+	"searchicon": "bNwrJ0-uPQZrUDEbtOLlA",
+	"cancelicon": "_1ZFdIaKWyKruaNFDEi1AlS",
 	"display": "_1ceu9nIBul7dFMa9AeIgm7"
 };
 
@@ -50442,13 +50460,15 @@ exports = module.exports = __webpack_require__(9)();
 
 
 // module
-exports.push([module.i, "#_1cL4L4l8p-5DrXKG1V6yZc {\n  margin: auto;\n  position: absolute;\n  top: 48px;\n  bottom: 0;\n  height: 170px;\n  width: 40px;\n  background-color: rgba(10, 13, 20, 0.5);\n  z-index: 1;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  box-shadow: 1px 1px rgba(10, 13, 20, 0.7); }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m, #_1cL4L4l8p-5DrXKG1V6yZc ._2M0IRjDkg6A5AILV-M4TH0 {\n    padding-top: 5px;\n    padding-bottom: 5px;\n    padding-left: 8px;\n    text-align: center;\n    margin-top: 7px;\n    display: flex; }\n    #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m ._2mQkN_m60PGmcXLgKTo43B, #_1cL4L4l8p-5DrXKG1V6yZc ._2M0IRjDkg6A5AILV-M4TH0 ._2mQkN_m60PGmcXLgKTo43B {\n      display: block;\n      color: orange;\n      padding-left: 10px;\n      padding-top: 3px;\n      font-family: sans-serif;\n      font-size: 14px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 130px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2M0IRjDkg6A5AILV-M4TH0:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 190px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n", ""]);
+exports.push([module.i, "#_1cL4L4l8p-5DrXKG1V6yZc {\n  margin: auto;\n  position: absolute;\n  top: 48px;\n  bottom: 0;\n  height: 170px;\n  width: 40px;\n  background-color: rgba(10, 13, 20, 0.5);\n  z-index: 1;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  box-shadow: 1px 1px rgba(10, 13, 20, 0.7); }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2ZOFY7OmhLzVTMlIJO1vLm, #_1cL4L4l8p-5DrXKG1V6yZc ._2ENmk9TLzckXj9pNEeLDJj, #_1cL4L4l8p-5DrXKG1V6yZc ._1R5CGkLfgVI1Uu4ETDb-0q, #_1cL4L4l8p-5DrXKG1V6yZc .pVyB-VMESie3TxNzIyFrC {\n    padding-top: 5px;\n    padding-bottom: 5px;\n    padding-left: 8px;\n    text-align: center;\n    margin-top: 7px;\n    display: flex; }\n    #_1cL4L4l8p-5DrXKG1V6yZc ._2ZOFY7OmhLzVTMlIJO1vLm ._2mQkN_m60PGmcXLgKTo43B, #_1cL4L4l8p-5DrXKG1V6yZc ._2ENmk9TLzckXj9pNEeLDJj ._2mQkN_m60PGmcXLgKTo43B, #_1cL4L4l8p-5DrXKG1V6yZc ._1R5CGkLfgVI1Uu4ETDb-0q ._2mQkN_m60PGmcXLgKTo43B, #_1cL4L4l8p-5DrXKG1V6yZc .pVyB-VMESie3TxNzIyFrC ._2mQkN_m60PGmcXLgKTo43B {\n      display: block;\n      color: orange;\n      padding-left: 10px;\n      padding-top: 3px;\n      font-family: sans-serif;\n      font-size: 14px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2ZOFY7OmhLzVTMlIJO1vLm:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 100px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2ENmk9TLzckXj9pNEeLDJj:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 180px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._1R5CGkLfgVI1Uu4ETDb-0q:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 160px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc .pVyB-VMESie3TxNzIyFrC:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 100px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n", ""]);
 
 // exports
 exports.locals = {
 	"navigate": "_1cL4L4l8p-5DrXKG1V6yZc",
-	"menu": "_2aR4f8T8wR9WFGHP22AI5m",
-	"mediummenu": "_2M0IRjDkg6A5AILV-M4TH0",
+	"menu1": "_2ZOFY7OmhLzVTMlIJO1vLm",
+	"menu2": "_2ENmk9TLzckXj9pNEeLDJj",
+	"menu3": "_1R5CGkLfgVI1Uu4ETDb-0q",
+	"menu4": "pVyB-VMESie3TxNzIyFrC",
 	"text": "_2mQkN_m60PGmcXLgKTo43B"
 };
 

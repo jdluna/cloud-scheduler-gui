@@ -46,6 +46,11 @@ export default class map extends Component {
     }
 
     render() {
+        let {search} = this.props.container.state
+        let cancelIcon
+        if(search!=''){
+            cancelIcon = <img className={style.cancelicon} src='img/ic_cancel_circle_white.svg' onClick={this.props.container.onClearSearch}/>
+        }
         return (
             <section id={style.map}>
                 <div className={style.timezone}>
@@ -56,8 +61,9 @@ export default class map extends Component {
                     </div>
                 </div>
                 <div className={style.search}>
+                    <img  className={style.searchicon} src='img/ic_search_input.svg'/>
                     <input type='text' placeholder='Search by name' className={style.input} value={this.props.container.state.search} onChange={this.props.container.onSearchChange} onKeyPress={this.props.container.onSearchPress}/>
-                    <img src='img/ic_search_input.svg'/>
+                    {cancelIcon}
                 </div>
                 {this.props.container.state.autocompletePanel}
                 <div className={style.display} ref="map"></div>

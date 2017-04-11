@@ -31,7 +31,7 @@ export default class MenuBarContainer extends Component{
 
     onReserveOver(){
         this.setState({
-            reservation: 'Runnings Reservation'
+            reservation: 'Existing reservations'
         })
     }
 
@@ -43,7 +43,7 @@ export default class MenuBarContainer extends Component{
 
     onHistoryOver(){
         this.setState({
-            history: 'History'
+            history: 'Past reservations'
         })
     }
 

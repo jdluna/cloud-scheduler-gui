@@ -20,6 +20,7 @@ export default class mapContainer extends Component {
         this.onSearchChange = this.onSearchChange.bind(this)
         this.onItemInAutoCompleteClick = this.onItemInAutoCompleteClick.bind(this)
         this.onSearchPress = this.onSearchPress.bind(this)
+        this.onClearSearch = this.onClearSearch.bind(this)
     }
 
     getDateTimeZone(){
@@ -131,6 +132,13 @@ export default class mapContainer extends Component {
         } else {
             this.showAllMarker()
         }
+    }
+
+    onClearSearch(){
+        this.setState({
+            search: ''
+        })
+        this.showAllMarker()
     }
 
     hideMarker(name){
