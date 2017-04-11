@@ -60,7 +60,7 @@ export default class DashboardContainer extends Component {
     onSelectMenu(menu){
         switch(menu){
             case 'Search'       : this.setState({modal: <SearchContainer dashBoardContainer={this}/>});break
-            case 'Runnings' : this.checkLogin(menu);break
+            case 'Runnings Reservation' : this.checkLogin(menu);break
             case 'History'      : this.checkLogin(menu);break
             case 'Settings'     : this.setState({modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>});break
             case 'ReservationSites' : this.setState({modal: <ReservationContainer dashBoardContainer={this} app={this.props.app} sites={this.state.selectCard}/>});break
@@ -69,7 +69,7 @@ export default class DashboardContainer extends Component {
 
     checkLogin(menu){
         if(this.props.app.state.authen.isLogedIn){
-            if(menu=='Runnings'||menu=='History'){
+            if(menu=='Runnings Reservation'||menu=='History'){
                 this.setState({
                     modal: <HistoryContainer dashBoardContainer={this}/>,
                     modalName: menu

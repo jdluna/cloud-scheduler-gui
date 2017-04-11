@@ -31,7 +31,7 @@ export default class MenuBarContainer extends Component{
 
     onReserveOver(){
         this.setState({
-            reservation: 'Runnings'
+            reservation: 'Runnings Reservation'
         })
     }
 

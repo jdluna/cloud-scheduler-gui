@@ -13,7 +13,7 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: 1px 1px rgba(10, 13, 20, 0.7);
-    .menu{
+    .menu,.mediummenu{
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 8px;
@@ -32,6 +32,12 @@
     .menu:hover{
         background-color: rgba(10, 13, 20,0.8);
         width: 130px;
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    .mediummenu:hover{
+        background-color: rgba(10, 13, 20,0.8);
+        width: 190px;
         border-bottom-right-radius: 5px;
         border-top-right-radius: 5px;
     }

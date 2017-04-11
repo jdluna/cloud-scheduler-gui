@@ -30971,7 +30971,7 @@ var DashboardContainer = function (_Component) {
             switch (menu) {
                 case 'Search':
                     this.setState({ modal: _react2.default.createElement(_searchContainer2.default, { dashBoardContainer: this }) });break;
-                case 'Runnings':
+                case 'Runnings Reservation':
                     this.checkLogin(menu);break;
                 case 'History':
                     this.checkLogin(menu);break;
@@ -30985,7 +30985,7 @@ var DashboardContainer = function (_Component) {
         key: 'checkLogin',
         value: function checkLogin(menu) {
             if (this.props.app.state.authen.isLogedIn) {
-                if (menu == 'Runnings' || menu == 'History') {
+                if (menu == 'Runnings Reservation' || menu == 'History') {
                     this.setState({
                         modal: _react2.default.createElement(_historyContainer2.default, { dashBoardContainer: this }),
                         modalName: menu
@@ -33050,7 +33050,7 @@ var mapContainer = function (_Component) {
             this.map = new google.maps.Map(node, options);
             _axios2.default.get(_endpoints.MAP_ENDPOINT).then(function (response) {
                 if (response.status == 200) {
-                    console.log(response.data);
+                    // console.log(response.data)
                     _this4.setMarker(response.data);
                 } else {
                     console.warn('query map failed!');
@@ -33247,8 +33247,8 @@ var MenuBar = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: _menuBar2.default.menu, onClick: function onClick() {
-                            return _this2.props.menubarContainer.onSelectMenu('Runnings');
+                    { className: _menuBar2.default.mediummenu, onClick: function onClick() {
+                            return _this2.props.menubarContainer.onSelectMenu('Runnings Reservation');
                         }, onMouseOver: function onMouseOver() {
                             return _this2.props.menubarContainer.onReserveOver();
                         }, onMouseOut: function onMouseOut() {
@@ -33375,7 +33375,7 @@ var MenuBarContainer = function (_Component) {
         key: 'onReserveOver',
         value: function onReserveOver() {
             this.setState({
-                reservation: 'Runnings'
+                reservation: 'Runnings Reservation'
             });
         }
     }, {
@@ -35931,6 +35931,9 @@ var NotFoundTable = function (_Component) {
             var startDateLength = data.startDate.date + ' ' + data.startTime;
             var endDateLength = data.endDate.date + ' ' + data.endTime;
 
+            var reservationLength = this.props.searchContainer.state.reservationLength;
+
+            var time = reservationLength.days + ' days ' + reservationLength.hours + ' hours';
             return _react2.default.createElement(
                 'section',
                 null,
@@ -35989,7 +35992,7 @@ var NotFoundTable = function (_Component) {
                                 _react2.default.createElement(
                                     'span',
                                     { className: _search2.default.hilight },
-                                    this.props.searchContainer.getReservationsLength(startDateLength, endDateLength)
+                                    reservationLength.value == 'all' ? this.props.searchContainer.getReservationsLength(startDateLength, endDateLength) : time
                                 )
                             ),
                             _react2.default.createElement(
@@ -36187,6 +36190,8 @@ var NotFoundTable = function (_Component) {
     _createClass(NotFoundTable, [{
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var data = this.props.searchContainer.state;
             var startDate = (0, _moment2.default)(data.startDate.date + ' ' + data.startTime).format('DD-MMM-YYYY HH:mm').toUpperCase();
             var endDate = (0, _moment2.default)(data.endDate.date + ' ' + data.endTime).format('DD-MMM-YYYY HH:mm').toUpperCase();
@@ -36197,6 +36202,9 @@ var NotFoundTable = function (_Component) {
                 label = _react2.default.createElement(LABEL, null);
             }
 
+            var reservationLength = this.props.searchContainer.state.reservationLength;
+
+            var time = reservationLength.days + ' days ' + reservationLength.hours + ' hours';
             return _react2.default.createElement(
                 'section',
                 null,
@@ -36253,7 +36261,7 @@ var NotFoundTable = function (_Component) {
                                 _react2.default.createElement(
                                     'span',
                                     { className: _search2.default.hilight },
-                                    this.props.searchContainer.getReservationsLength(startDateLength, endDateLength)
+                                    reservationLength.value == 'all' ? this.props.searchContainer.getReservationsLength(startDateLength, endDateLength) : time
                                 )
                             ),
                             _react2.default.createElement(
@@ -36346,15 +36354,24 @@ var NotFoundTable = function (_Component) {
                     _react2.default.createElement(
                         'div',
                         { className: _search2.default.itemlist },
-                        console.log(this.props.data)
-                        /*{this.props.data.sites.map((data,key)=>{
-                        return(
-                            <div className={Style.item} key={key}>
-                                <div className={Style.text}>AIST Cloud</div>
-                                <div className={Style.text}>10-NOV-2016 00:00</div>
-                            </div>
-                        )
-                        })}   */
+                        this.props.data.sites.map(function (data, key) {
+                            return _react2.default.createElement(
+                                'div',
+                                { className: _search2.default.item, key: key, onClick: function onClick() {
+                                        return _this2.props.searchContainer.onSelectItem(data.name, key);
+                                    } },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: _search2.default.text },
+                                    data.name
+                                ),
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: _search2.default.text },
+                                    (0, _moment2.default)(data.time.begin).format('DD-MMM-YYYY HH:mm').toUpperCase()
+                                )
+                            );
+                        })
                     )
                 )
             );
@@ -37062,10 +37079,10 @@ var SearchContainer = function (_Component) {
                     }
                 }
 
-                console.log('start date : ' + _this4.state.endDate.date);
-                console.log('end date : ' + _this4.state.endDate.date);
-                console.log('start time : ' + _this4.state.startTime);
-                console.log('end time : ' + _this4.state.endTime);
+                // console.log('start date : '+this.state.endDate.date)
+                // console.log('end date : '+this.state.endDate.date)
+                // console.log('start time : '+this.state.startTime)
+                // console.log('end time : '+this.state.endTime)
             });
         }
     }, {
@@ -37180,6 +37197,16 @@ var SearchContainer = function (_Component) {
         key: 'onSearchSubmit',
         value: function onSearchSubmit(event) {
             event.preventDefault();
+            var _state = this.state,
+                startDate = _state.startDate,
+                endDate = _state.endDate,
+                startTime = _state.startTime,
+                endTime = _state.endTime;
+
+            var startDateLength = startDate.date + ' ' + startTime;
+            var endDateLength = endDate.date + ' ' + endTime;
+            var time = this.getReservationsLength(startDateLength, endDateLength).split(' ');
+
             var params = {
                 params: {
                     cpu_amt: this.state.cpu == '' ? 0 : this.state.cpu,
@@ -37189,8 +37216,8 @@ var SearchContainer = function (_Component) {
                     begin: this.state.startDate.date + ' ' + this.state.startTime + ':00',
                     end: this.state.endDate.date + ' ' + this.state.endTime + ':00',
                     all_period: this.state.reservationLength.value == 'all' ? 'True' : 'False',
-                    days: this.state.reservationLength.days == '' ? 0 : this.state.reservationLength.days,
-                    hours: this.state.reservationLength.hours == '' ? 0 : this.state.reservationLength.hours
+                    days: this.state.reservationLength.value == 'all' ? 0 : this.state.reservationLength.days == '' ? 0 : this.state.reservationLength.days,
+                    hours: this.state.reservationLength.value == 'all' ? 0 : this.state.reservationLength.hours == '' ? 0 : this.state.reservationLength.hours
                 }
             };
             this.queryResource(params);
@@ -37209,13 +37236,13 @@ var SearchContainer = function (_Component) {
 
             var leftDate = '';
             if (year >= 1) {
-                leftDate = year + ' years ' + parseInt(day / 12) + ' days';
+                leftDate = year + ' years ' + parseInt(day % 12) + ' days';
             } else {
                 if (day >= 1) {
-                    leftDate = day + ' days ' + parseInt(hour / 24) + ' hours';
+                    leftDate = day + ' days ' + parseInt(hour % 24) + ' hours';
                 } else {
                     if (hour >= 1) {
-                        leftDate = hour + ' hours ' + parseInt(minute / 60) + ' minutes';
+                        leftDate = hour + ' hours ' + parseInt(minute % 60) + ' minutes';
                     } else {
                         if (minute >= 1) {
                             leftDate = minute + ' minutes';
@@ -50415,12 +50442,13 @@ exports = module.exports = __webpack_require__(9)();
 
 
 // module
-exports.push([module.i, "#_1cL4L4l8p-5DrXKG1V6yZc {\n  margin: auto;\n  position: absolute;\n  top: 48px;\n  bottom: 0;\n  height: 170px;\n  width: 40px;\n  background-color: rgba(10, 13, 20, 0.5);\n  z-index: 1;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  box-shadow: 1px 1px rgba(10, 13, 20, 0.7); }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m {\n    padding-top: 5px;\n    padding-bottom: 5px;\n    padding-left: 8px;\n    text-align: center;\n    margin-top: 7px;\n    display: flex; }\n    #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m ._2mQkN_m60PGmcXLgKTo43B {\n      display: block;\n      color: orange;\n      padding-left: 10px;\n      padding-top: 3px;\n      font-family: sans-serif;\n      font-size: 14px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 130px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n", ""]);
+exports.push([module.i, "#_1cL4L4l8p-5DrXKG1V6yZc {\n  margin: auto;\n  position: absolute;\n  top: 48px;\n  bottom: 0;\n  height: 170px;\n  width: 40px;\n  background-color: rgba(10, 13, 20, 0.5);\n  z-index: 1;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  box-shadow: 1px 1px rgba(10, 13, 20, 0.7); }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m, #_1cL4L4l8p-5DrXKG1V6yZc ._2M0IRjDkg6A5AILV-M4TH0 {\n    padding-top: 5px;\n    padding-bottom: 5px;\n    padding-left: 8px;\n    text-align: center;\n    margin-top: 7px;\n    display: flex; }\n    #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m ._2mQkN_m60PGmcXLgKTo43B, #_1cL4L4l8p-5DrXKG1V6yZc ._2M0IRjDkg6A5AILV-M4TH0 ._2mQkN_m60PGmcXLgKTo43B {\n      display: block;\n      color: orange;\n      padding-left: 10px;\n      padding-top: 3px;\n      font-family: sans-serif;\n      font-size: 14px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2aR4f8T8wR9WFGHP22AI5m:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 130px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n  #_1cL4L4l8p-5DrXKG1V6yZc ._2M0IRjDkg6A5AILV-M4TH0:hover {\n    background-color: rgba(10, 13, 20, 0.8);\n    width: 190px;\n    border-bottom-right-radius: 5px;\n    border-top-right-radius: 5px; }\n", ""]);
 
 // exports
 exports.locals = {
 	"navigate": "_1cL4L4l8p-5DrXKG1V6yZc",
 	"menu": "_2aR4f8T8wR9WFGHP22AI5m",
+	"mediummenu": "_2M0IRjDkg6A5AILV-M4TH0",
 	"text": "_2mQkN_m60PGmcXLgKTo43B"
 };
 
