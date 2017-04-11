@@ -18,12 +18,12 @@ print
 
 
 ###variable from front-end###
-SESSION_ID = 'WX61FG'
-BEGIN = '2017-03-23 02:00:00'
-END = '2017-03-23 04:00:00'
-SITES_ID = '5,6'
-RESOURCES = '2,2|4,8'
-IMG_TYPE = 'centOS7'
+SESSION_ID = 'M3XEED'
+BEGIN = '2017-04-14 15:00:00'
+END = '2017-04-14 16:00:00'
+SITES_ID = '7'
+RESOURCES = '2,2'
+IMG_TYPE = 'centos7'
 TITLE = 'A reservation'
 DESCRIPTION = '-'
 TYPE = 'single cluster on a single site'

@@ -20,18 +20,24 @@ print
 CPU_AMT = 64
 MEMORY_AMT = 128
 CONNECTION_TYPE = "None"
-IMAGE_TYPE = 'centOS7'
-BEGIN = '2017-03-07 09:00:00'
-END = '2017-03-10 09:00:00'
-ALL_PERIOD = False
+IMAGE_TYPE = 'Any'
+BEGIN = '2017-04-14 08:00:00'
+END = '2017-04-16 09:00:00'
+ALL_PERIOD = True
 DAYS = 0
-HOURS = 4
+HOURS = 0
 #############################
 
 
 #prepare connection criteria
 if "None" in CONNECTION_TYPE:
     CONNECTION_TYPE = None
+    
+#prepare all_period criteria
+if ALL_PERIOD != True and ALL_PERIOD != False and "True" in ALL_PERIOD:
+    ALL_PERIOD = True
+elif ALL_PERIOD != True and ALL_PERIOD != False and "False" in ALL_PERIOD:
+    ALL_PERIOD = False
 
 
 #prepare criteria about resources
