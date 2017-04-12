@@ -32374,6 +32374,16 @@ var HistoryContainer = function (_Component) {
                 var status = response.status,
                     data = response.data;
 
+
+                data.result.sort(function (a, b) {
+                    var nowDateTime = _this4.timezone.format('YYYY-MM-DD HH:mm');
+                    var first = (0, _moment2.default)(a.end, 'YYYY-MM-DD HH:mm');
+                    var second = (0, _moment2.default)(b.end, 'YYYY-MM-DD HH:mm');
+                    var firstDiff = first.diff(nowDateTime);
+                    var secondDiff = second.diff(nowDateTime);
+                    return firstDiff - secondDiff;
+                });
+
                 if (status == 200 && data.result) {
                     _this4.setState({
                         popup: null,

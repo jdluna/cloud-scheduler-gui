@@ -235,6 +235,16 @@ export default class HistoryContainer extends Component {
         }
         axios.get(ENDPOINT,params).then(response=>{
             let {status,data} = response
+
+            data.result.sort((a,b)=>{
+                let nowDateTime = this.timezone.format('YYYY-MM-DD HH:mm')
+                let first = moment(a.end,'YYYY-MM-DD HH:mm')
+                let second = moment(b.end,'YYYY-MM-DD HH:mm')
+                let firstDiff = first.diff(nowDateTime)
+                let secondDiff = second.diff(nowDateTime)
+                return firstDiff-secondDiff
+            })
+
             if(status==200&&data.result){
                 this.setState({
                     popup: null,
