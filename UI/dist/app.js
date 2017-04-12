@@ -32006,7 +32006,7 @@ var History = function (_Component) {
 
             var detail = viewDetail == false ? _react2.default.createElement(DETAIL_LABEL, null) : _react2.default.createElement(_detail2.default, { historyContainer: this.props.historyContainer });
             var tabMenu = user == 'admin' ? _react2.default.createElement(TAB_MENU, { historyContainer: this.props.historyContainer }) : [];
-            var footerTable = user == 'admin' && modalName.toLowerCase() != 'history' && tab != 'all' || user != 'admin' && modalName.toLowerCase() != 'history' && tab == 'all' ? _react2.default.createElement(FOOTER_TABLE, null) : [];
+            var footerTable = user == 'admin' && modalName.toLowerCase() != 'history' && tab != 'all' || user != 'admin' && modalName.toLowerCase() != 'history' ? _react2.default.createElement(FOOTER_TABLE, null) : [];
             var popupElement = void 0;
             switch (popup) {
                 case 'extend':
@@ -32361,9 +32361,12 @@ var HistoryContainer = function (_Component) {
     }, {
         key: 'queryReservationsItem',
         value: function queryReservationsItem(ENDPOINT) {
+            var TAB = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'all';
+
             var _this4 = this;
 
-            var TAB = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'all';
+            var RM_TAB = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+            var POPUP = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
             var params = {
                 params: {
@@ -32386,10 +32389,10 @@ var HistoryContainer = function (_Component) {
 
                 if (status == 200 && data.result) {
                     _this4.setState({
-                        popup: null,
+                        popup: POPUP == false ? null : _this4.state.popup,
                         // viewDetail: false,
                         tab: TAB,
-                        viewDetailKey: -1,
+                        viewDetailKey: RM_TAB == true ? -1 : _this4.state.viewDetailKey,
                         reservationsItem: data.result
                     });
                 }
@@ -32418,12 +32421,13 @@ var HistoryContainer = function (_Component) {
         value: function setCountDownClosePopup() {
             var _this5 = this;
 
+            this.queryReservationsItem(_endpoints.MY_RESERVATIONS_ENDPOINT, 'my', false, true);
             setTimeout(function () {
                 _this5.setState({
                     popup: null,
                     extendStatus: '',
                     deleteStatus: ''
-                }, _this5.queryReservationsItem(_endpoints.MY_RESERVATIONS_ENDPOINT, 'my'));
+                });
             }, 5000);
         }
     }, {

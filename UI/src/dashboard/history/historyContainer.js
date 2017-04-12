@@ -227,7 +227,7 @@ export default class HistoryContainer extends Component {
         return leftDate
     }
 
-    queryReservationsItem(ENDPOINT,TAB='all'){
+    queryReservationsItem(ENDPOINT,TAB='all',RM_TAB=true,POPUP=false){
         let params = {
             params:{
                 session_id: this.appContainer.state.authen.session
@@ -247,10 +247,10 @@ export default class HistoryContainer extends Component {
 
             if(status==200&&data.result){
                 this.setState({
-                    popup: null,
+                    popup: (POPUP==false) ? null : this.state.popup,
                     // viewDetail: false,
                     tab: TAB,
-                    viewDetailKey: -1,
+                    viewDetailKey: (RM_TAB==true) ? -1 : this.state.viewDetailKey,
                     reservationsItem: data.result
                 })
             }
@@ -274,12 +274,13 @@ export default class HistoryContainer extends Component {
     }
 
     setCountDownClosePopup(){
+        this.queryReservationsItem(MY_RESERVATIONS_ENDPOINT,'my',false,true)
         setTimeout(()=>{
             this.setState({
                 popup: null,
                 extendStatus: '',
                 deleteStatus: ''
-            },this.queryReservationsItem(MY_RESERVATIONS_ENDPOINT,'my'))
+            })
         },5000)
     }
 

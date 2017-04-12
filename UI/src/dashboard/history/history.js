@@ -58,7 +58,7 @@ export default class History extends Component {
         let {user,tab,viewDetail,popup} = this.props.historyContainer.state
         let detail = (viewDetail==false) ? <DETAIL_LABEL/> : <Detail historyContainer={this.props.historyContainer}/>
         let tabMenu = (user=='admin') ? <TAB_MENU historyContainer={this.props.historyContainer}/> : []
-        let footerTable = (user=='admin'&&modalName.toLowerCase()!='history'&&tab!='all'||user!='admin'&&modalName.toLowerCase()!='history'&&tab=='all') ? <FOOTER_TABLE/> : []
+        let footerTable = ((user=='admin'&&modalName.toLowerCase()!='history'&&tab!='all')||(user!='admin'&&modalName.toLowerCase()!='history')) ? <FOOTER_TABLE/> : []
         let popupElement
         switch(popup){
             case 'extend' : popupElement = <ExtendPopup historyContainer={this.props.historyContainer}/>;break
