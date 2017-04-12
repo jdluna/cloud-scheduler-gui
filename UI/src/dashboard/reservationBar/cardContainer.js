@@ -67,7 +67,7 @@ export default class cardContainer extends Component {
             },
             options: {
                 cutoutPercentage: 80,
-                responsive: false,
+                responsive: true,
                 legend: {
                     display: false
                 }

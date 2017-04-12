@@ -77,6 +77,9 @@
                 padding-bottom: 5px;
                 padding-left: 10px;
                 padding-right: 10px;
+                height: 75px !important;
+                width: 90px;
+                box-sizing: border-box;
             }
             .innerlabel{
                 position: absolute;
@@ -97,10 +100,6 @@
             .label{
                 margin: auto;
                 text-align: center;
-            }
-            .chartwrap{
-                width: 90px;
-                height: 75px;
             }
         }
         .resource{
