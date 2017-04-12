@@ -77,9 +77,9 @@
                 padding-bottom: 5px;
                 padding-left: 10px;
                 padding-right: 10px;
-                height: 75px !important;
-                width: 90px;
-                box-sizing: border-box;
+                // box-sizing: border-box;
+                // width: 90px !important;
+                // height: 75px !important;
             }
             .innerlabel{
                 position: absolute;
@@ -101,6 +101,10 @@
                 margin: auto;
                 text-align: center;
             }
+            // .chartwrap{
+            //     width: 90px !important;
+            //     height: 75px !important;
+            // }
         }
         .resource{
             .cpu, .mem{

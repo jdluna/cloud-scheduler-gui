@@ -65,7 +65,7 @@ export default class Search extends Component {
             <section className='halfmodal'>
                 <section className={Style.panel}>
                     <header>
-                        <div>Search Resources</div>
+                        <div>Search by Criteria</div>
                         <img src='img/ic_close.svg' onClick={this.props.searchContainer.onClose} />
                     </header>
                     <section className={Style.content}>
