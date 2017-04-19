@@ -56,9 +56,14 @@ const TimeList = (props) => {
 
 export default class Search extends Component {
     render() {
-        let startDuration = this.props.searchContainer.state.startDuration
-        let endDuration = this.props.searchContainer.state.endDuration
-        let timeStartList = <TimeList s={startDuration} e={endDuration} value={this.props.searchContainer.state.startTime} handle={this.props.searchContainer.onTimeStartChange}/>
+        let startBeginDuration = this.props.searchContainer.state.startBeginDuration
+        let endBeginDuration = this.props.searchContainer.state.endBeginDuration
+        let timeStartList = <TimeList s={startBeginDuration} e={endBeginDuration} value={this.props.searchContainer.state.startTime} handle={this.props.searchContainer.onTimeStartChange}/>
+
+        
+        let startEndDuration = this.props.searchContainer.state.startEndDuration
+        let endEndDuration = this.props.searchContainer.state.endEndDuration
+        let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.searchContainer.state.endTime} handle={this.props.searchContainer.onTimeEndChange}/>
 
 
         return (
@@ -102,7 +107,7 @@ export default class Search extends Component {
                                         <div>End:</div>
                                         <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.startDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
                                         <img className={Style.icon} src='img/ic_date_range.svg'/>
-                                        <TimeItem name='endTime' value={this.props.searchContainer.state.endTime} handle={this.props.searchContainer.onTimeEndChange} />
+                                        {timeEndList}
                                     </div>
                                 </div>
                                 <div className={Style.row}>
