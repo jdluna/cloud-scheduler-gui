@@ -60,6 +60,43 @@
             height: calc(100% - 49px);
             z-index: 4;
         }
+
+        .tooltip {
+            position: relative;
+        }
+        .tooltip--left--icon{
+            width: 60px !important;
+        }
+        .tooltip .tooltiptext--left{
+            visibility: hidden;
+            width: 100%;
+            font-size: 9pt;
+            background-color: black;
+            color: #EFA430;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            right: 110%;
+        }
+        .tooltip .tooltiptext--left::after{
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent transparent black;
+        }
+        .tooltip:hover .tooltiptext--left{
+            visibility: visible;
+        }
+        .tooltiptext--hide{
+            visibility: hidden;
+        }
     }  
 }
  

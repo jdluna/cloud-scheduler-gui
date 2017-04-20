@@ -7,7 +7,8 @@ export default class reservationBar extends Component {
         this.props.dashBoardContainer.setState({
             reservationPanel:{
                 multipleTextNode: this.refs.multiple,
-                reserveBtnNode: this.refs.reserveBtn
+                reserveBtnNode: this.refs.reserveBtn,
+                reserveTooltipNode: this.refs.reserveTooltip
             }
         })
     }
@@ -26,7 +27,10 @@ export default class reservationBar extends Component {
                             <span ref='multiple' className={style.multipletext}>Single cluster spaning multiple sites</span>
                         </div>
                         <span className={style.select}>Selected : {this.props.dashBoardContainer.state.selectCard.length}</span>
-                        <button ref='reserveBtn' className='btn--disabled' disabled={this.props.dashBoardContainer.state.selectCard.length<1} onClick={this.props.reservationBarContainer.onReserveClick}>RESERVE</button>
+                        <span className='tooltip' >
+                            <button ref='reserveBtn' className='btn--disabled' disabled={this.props.dashBoardContainer.state.selectCard.length<1} onClick={this.props.reservationBarContainer.onReserveClick}>RESERVE</button>
+                            <span ref='reserveTooltip' className="tooltiptext--left">Select any cards for reservation</span>
+                        </span>
                     </form>
                 </section>
                 <p style={this.props.dashBoardContainer.state.cardPanel.notfound} className={style.status}>Click on the marker to view Info.</p>

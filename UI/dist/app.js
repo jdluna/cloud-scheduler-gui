@@ -30937,7 +30937,8 @@ var DashboardContainer = function (_Component) {
             selectCard: [],
             reservationPanel: {
                 multipleTextNode: {},
-                reserveBtnNode: {}
+                reserveBtnNode: {},
+                reserveTooltipNode: {}
             },
             reserveMode: 'single',
             modalName: ''
@@ -31174,8 +31175,10 @@ var DashboardContainer = function (_Component) {
                 this.state.reservationPanel.multipleTextNode.style.opacity = '0.5';
             }
             if (selectCard.length >= 1) {
+                this.state.reservationPanel.reserveTooltipNode.className = 'tooltiptext--hide';
                 this.state.reservationPanel.reserveBtnNode.className = 'btn';
             } else {
+                this.state.reservationPanel.reserveTooltipNode.className = 'tooltiptext--left';
                 this.state.reservationPanel.reserveBtnNode.className = 'btn--disabled';
             }
             if (selectCard.length <= 1) {
@@ -32479,8 +32482,26 @@ var BTN_CONTROL = function BTN_CONTROL(props) {
     return _react2.default.createElement(
         'div',
         { className: _history2.default.control },
-        _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg', onClick: props.historyContainer.onExtendBtnClick }),
-        _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg', onClick: props.historyContainer.onDeleteBtnClick })
+        _react2.default.createElement(
+            'span',
+            { className: 'tooltip' },
+            _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_add_circle.svg', onClick: props.historyContainer.onExtendBtnClick }),
+            _react2.default.createElement(
+                'span',
+                { className: 'tooltiptext--left tooltip--left--icon' },
+                'Extend'
+            )
+        ),
+        _react2.default.createElement(
+            'span',
+            { className: 'tooltip' },
+            _react2.default.createElement('img', { className: _history2.default.icon, src: 'img/ic_remove_circle.svg', onClick: props.historyContainer.onDeleteBtnClick }),
+            _react2.default.createElement(
+                'span',
+                { className: 'tooltiptext--left tooltip--left--icon' },
+                'Cancel'
+            )
+        )
     );
 };
 
@@ -32806,10 +32827,13 @@ var OPTIONS = {
     },
     zoom: 2,
     minZoom: 2,
+    maxZoom: 11,
     backgroundColor: '#191E2C',
+    scaleControl: true,
     disableDefaultUI: false,
     streetViewControl: false,
     mapTypeControl: false,
+    zoomControl: false,
     styles: [{
         featureType: 'water',
         stylers: [{ color: '#191E2C' }]
@@ -32855,7 +32879,11 @@ var map = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var search = this.props.container.state.search;
+            var _props$container$stat = this.props.container.state,
+                search = _props$container$stat.search,
+                minZoom = _props$container$stat.minZoom,
+                maxZoom = _props$container$stat.maxZoom,
+                nowZoom = _props$container$stat.nowZoom;
 
             var cancelIcon = void 0;
             if (search != '') {
@@ -32891,6 +32919,21 @@ var map = function (_Component) {
                     cancelIcon
                 ),
                 this.props.container.state.autocompletePanel,
+                _react2.default.createElement(
+                    'div',
+                    { className: _map2.default.zoomcontrol },
+                    _react2.default.createElement(
+                        'div',
+                        { className: _map2.default.zoombtn, onClick: this.props.container.onZoomOut },
+                        _react2.default.createElement('img', { className: _map2.default.icon, src: 'img/ic_remove.svg' })
+                    ),
+                    _react2.default.createElement('input', { className: _map2.default.zoomslider, type: 'range', min: minZoom, max: maxZoom, value: nowZoom, onChange: this.props.container.onZoomSliderChange }),
+                    _react2.default.createElement(
+                        'div',
+                        { className: _map2.default.zoombtn, onClick: this.props.container.onZoomIn },
+                        _react2.default.createElement('img', { className: _map2.default.icon, src: 'img/ic_add.svg' })
+                    )
+                ),
                 _react2.default.createElement('div', { className: _map2.default.display, ref: 'map' })
             );
         }
@@ -32963,12 +33006,18 @@ var mapContainer = function (_Component) {
             timezone: _this.getNameTimeZone(),
             search: '',
             autocompletePanel: [],
-            markerFocus: {}
+            markerFocus: {},
+            minZoom: 2,
+            maxZoom: 11,
+            nowZoom: 2
         };
         _this.onSearchChange = _this.onSearchChange.bind(_this);
         _this.onItemInAutoCompleteClick = _this.onItemInAutoCompleteClick.bind(_this);
         _this.onSearchPress = _this.onSearchPress.bind(_this);
         _this.onClearSearch = _this.onClearSearch.bind(_this);
+        _this.onZoomSliderChange = _this.onZoomSliderChange.bind(_this);
+        _this.onZoomIn = _this.onZoomIn.bind(_this);
+        _this.onZoomOut = _this.onZoomOut.bind(_this);
         return _this;
     }
 
@@ -33078,6 +33127,42 @@ var mapContainer = function (_Component) {
                     console.warn('query map failed!');
                 }
             });
+            this.map.addListener('zoom_changed', function () {
+                _this4.setState({
+                    nowZoom: _this4.map.getZoom()
+                });
+            });
+        }
+    }, {
+        key: 'onZoomSliderChange',
+        value: function onZoomSliderChange(event) {
+            var value = parseInt(event.target.value);
+            this.setState({
+                nowZoom: value
+            });
+            this.map.setZoom(value);
+        }
+    }, {
+        key: 'onZoomIn',
+        value: function onZoomIn() {
+            var zoom = this.state.nowZoom + 1;
+            if (zoom <= this.state.maxZoom) {
+                this.setState({
+                    nowZoom: zoom
+                });
+                this.map.setZoom(zoom);
+            }
+        }
+    }, {
+        key: 'onZoomOut',
+        value: function onZoomOut() {
+            var zoom = this.state.nowZoom - 1;
+            if (zoom >= this.state.minZoom) {
+                this.setState({
+                    nowZoom: zoom
+                });
+                this.map.setZoom(zoom);
+            }
         }
     }, {
         key: 'onSearchPress',
@@ -34019,7 +34104,8 @@ var reservationBar = function (_Component) {
             this.props.dashBoardContainer.setState({
                 reservationPanel: {
                     multipleTextNode: this.refs.multiple,
-                    reserveBtnNode: this.refs.reserveBtn
+                    reserveBtnNode: this.refs.reserveBtn,
+                    reserveTooltipNode: this.refs.reserveTooltip
                 }
             });
         }
@@ -34071,9 +34157,18 @@ var reservationBar = function (_Component) {
                             this.props.dashBoardContainer.state.selectCard.length
                         ),
                         _react2.default.createElement(
-                            'button',
-                            { ref: 'reserveBtn', className: 'btn--disabled', disabled: this.props.dashBoardContainer.state.selectCard.length < 1, onClick: this.props.reservationBarContainer.onReserveClick },
-                            'RESERVE'
+                            'span',
+                            { className: 'tooltip' },
+                            _react2.default.createElement(
+                                'button',
+                                { ref: 'reserveBtn', className: 'btn--disabled', disabled: this.props.dashBoardContainer.state.selectCard.length < 1, onClick: this.props.reservationBarContainer.onReserveClick },
+                                'RESERVE'
+                            ),
+                            _react2.default.createElement(
+                                'span',
+                                { ref: 'reserveTooltip', className: 'tooltiptext--left' },
+                                'Select any cards for reservation'
+                            )
                         )
                     )
                 ),
@@ -36609,9 +36704,13 @@ var Search = function (_Component) {
     _createClass(Search, [{
         key: 'render',
         value: function render() {
-            var startDuration = this.props.searchContainer.state.startDuration;
-            var endDuration = this.props.searchContainer.state.endDuration;
-            var timeStartList = _react2.default.createElement(TimeList, { s: startDuration, e: endDuration, value: this.props.searchContainer.state.startTime, handle: this.props.searchContainer.onTimeStartChange });
+            var startBeginDuration = this.props.searchContainer.state.startBeginDuration;
+            var endBeginDuration = this.props.searchContainer.state.endBeginDuration;
+            var timeStartList = _react2.default.createElement(TimeList, { s: startBeginDuration, e: endBeginDuration, value: this.props.searchContainer.state.startTime, handle: this.props.searchContainer.onTimeStartChange });
+
+            var startEndDuration = this.props.searchContainer.state.startEndDuration;
+            var endEndDuration = this.props.searchContainer.state.endEndDuration;
+            var timeEndList = _react2.default.createElement(TimeList, { s: startEndDuration, e: endEndDuration, value: this.props.searchContainer.state.endTime, handle: this.props.searchContainer.onTimeEndChange });
 
             return _react2.default.createElement(
                 'section',
@@ -36711,7 +36810,7 @@ var Search = function (_Component) {
                                         ),
                                         _react2.default.createElement(_reactDatepicker2.default, { className: _search2.default.inputdate, minDate: this.props.searchContainer.state.startDate.obj, dateFormat: 'DD - MMM - YYYY', selected: this.props.searchContainer.state.endDate.obj, onChange: this.props.searchContainer.onEndDateChange }),
                                         _react2.default.createElement('img', { className: _search2.default.icon, src: 'img/ic_date_range.svg' }),
-                                        _react2.default.createElement(TimeItem, { name: 'endTime', value: this.props.searchContainer.state.endTime, handle: this.props.searchContainer.onTimeEndChange })
+                                        timeEndList
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -36732,7 +36831,7 @@ var Search = function (_Component) {
                                             _react2.default.createElement(
                                                 'span',
                                                 { className: _search2.default.text },
-                                                'All period time'
+                                                'From begin to end'
                                             )
                                         )
                                     ),
@@ -36946,6 +37045,9 @@ var SearchContainer = function (_Component) {
         _this.dashboardContainer = _this.props.dashBoardContainer;
         _this.timezone = _moment2.default.tz(_this.appContainer.state.authen.timezone);
 
+        var tmp = _this.timezone.add(2, 'hours').format().slice(11, 13) + ':00';
+        _this.timezone.subtract(2, 'hours').format().slice(11, 13) + ':00';
+
         _this.state = {
             cpu: '',
             mem: '',
@@ -36969,8 +37071,10 @@ var SearchContainer = function (_Component) {
             dataResult: null,
             resultTable: [],
             viewCardKey: null,
-            startDuration: 0,
-            endDuration: 23
+            startBeginDuration: 0,
+            endBeginDuration: 23,
+            startEndDuration: tmp,
+            endEndDuration: 23
         };
 
         _this.onClose = _this.onClose.bind(_this);
@@ -37020,9 +37124,6 @@ var SearchContainer = function (_Component) {
                 }
             }, function () {
 
-                console.log('start date : ' + _this2.state.endDate.date);
-                console.log('end date : ' + _this2.state.endDate.date);
-
                 if (date.format() >= _this2.state.endDate.obj.format()) {
 
                     _this2.setState({
@@ -37032,15 +37133,14 @@ var SearchContainer = function (_Component) {
                         var startTime = parseInt(_this2.state.startTime.replace(':00'));
                         var endTime = parseInt(_this2.state.endTime.replace(':00'));
 
-                        console.log('start time : ' + startTime);
-                        console.log('end time : ' + endTime);
-
                         if (endTime <= startTime) {
 
                             var time = startTime + 1 >= 23 ? 23 : startTime + 1;
                             if (startTime + 1 <= 23) {
                                 _this2.setState({
                                     endTime: time >= 10 ? time + ':00' : '0' + time + ':00'
+                                }, function () {
+                                    _this2.setStartEndDuration(startTime);
                                 });
                             } else {
                                 _this2.setState({
@@ -37049,11 +37149,22 @@ var SearchContainer = function (_Component) {
                                         date: (0, _moment2.default)(date).add(1, 'days').format('YYYY-MM-DD')
                                     },
                                     endTime: '00:00'
+                                }, function () {
+                                    _this2.setStartEndDuration(startTime);
                                 });
                             }
+                        } else {
+                            _this2.setStartEndDuration(startTime);
                         }
                     }); //end of this.setState for endDate
-                } //end if
+                } //end if 
+                else {
+                        var startTime = parseInt(_this2.state.startTime.replace(':00'));
+                        _this2.setStartEndDuration(startTime);
+                    }
+
+                console.log('start date : ' + _this2.state.startDate.date);
+                console.log('end date : ' + _this2.state.endDate.date);
             }); //end of this.setState for startDate
         }
     }, {
@@ -37092,6 +37203,8 @@ var SearchContainer = function (_Component) {
                     if (startTime + 1 <= 23) {
                         _this4.setState({
                             endTime: t >= 10 ? t + ':00' : '0' + t + ':00'
+                        }, function () {
+                            _this4.setStartEndDuration(startTime);
                         });
                     } else {
                         _this4.setState({
@@ -37100,13 +37213,12 @@ var SearchContainer = function (_Component) {
                                 date: (0, _moment2.default)(_this4.state.startDate.obj).add(1, 'days').format('YYYY-MM-DD')
                             },
                             endTime: '00:00'
+                        }, function () {
+                            _this4.setStartEndDuration(startTime);
                         });
                     }
-
-                    if (_this4.state.endDate.obj.format() == _this4.state.startDate.obj.format()) {
-                        // if start and end are on same date -> disable time before and equal to start !!
-
-                    }
+                } else {
+                    _this4.setStartEndDuration(startTime);
                 }
 
                 // console.log('start date : '+this.state.endDate.date)
@@ -37124,6 +37236,27 @@ var SearchContainer = function (_Component) {
             this.setState({
                 endTime: endTime >= 10 ? endTime + ':00' : '0' + endTime + ':00'
             });
+        }
+    }, {
+        key: 'setStartEndDuration',
+        value: function setStartEndDuration(startTime) {
+            if (this.state.endDate.obj.format() == this.state.startDate.obj.format()) {
+                //begin and end are on same day
+                if (startTime + 1 <= 23) {
+                    this.setState({
+                        startEndDuration: startTime + 1
+                    });
+                } else {
+                    this.setState({
+                        startEndDuration: 0
+                    });
+                }
+            } else {
+                //end day after begin
+                this.setState({
+                    startEndDuration: 0
+                });
+            }
         }
     }, {
         key: 'onReserveLengthChange',
@@ -50449,7 +50582,7 @@ exports = module.exports = __webpack_require__(9)();
 
 
 // module
-exports.push([module.i, "#_3YSwNfDcPU7UUi0Nis5PGk {\n  position: fixed;\n  background-color: #FFFFFF;\n  height: calc(100% - 49px);\n  width: calc(100% - 220px); }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB {\n    position: absolute;\n    display: flex;\n    z-index: 2;\n    top: 10px;\n    left: 13px;\n    color: #739AAF;\n    border: 1px solid #739AAF;\n    opacity: 0.7;\n    font-weight: bold;\n    border-radius: 5px;\n    height: 50px;\n    padding: 3px;\n    width: 200px;\n    font-family: sans-serif; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF {\n      padding-left: 5px; }\n      #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF ._2gnPQb-leFJEb7LSwhZZKB {\n        margin-top: 10px;\n        font-size: 14px; }\n      #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF ._1i3N-aA34DzA_Q2z-WRbhr {\n        margin-top: 1px;\n        font-size: 8px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs {\n    display: flex;\n    position: absolute;\n    z-index: 2;\n    top: 10px;\n    right: 10px;\n    width: 164px;\n    background-color: #3D4358;\n    border-radius: 2px;\n    border: 1px solid #242939; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs .frINV3MY7pS7bK30b-V58 {\n      padding: 4px;\n      padding-left: 4px;\n      border-radius: 2px;\n      border: none;\n      outline: none;\n      background-color: #3D4358;\n      color: #FFFFFF;\n      font: sans-serif;\n      width: 110px; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs .bNwrJ0-uPQZrUDEbtOLlA {\n      padding-left: 4px;\n      width: 18px; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs ._1ZFdIaKWyKruaNFDEi1AlS {\n      width: 18px;\n      padding-left: 3px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._1ceu9nIBul7dFMa9AeIgm7 {\n    width: 100%;\n    height: 100%; }\n", ""]);
+exports.push([module.i, "#_3YSwNfDcPU7UUi0Nis5PGk {\n  position: fixed;\n  background-color: #FFFFFF;\n  height: calc(100% - 49px);\n  width: calc(100% - 220px); }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB {\n    position: absolute;\n    display: flex;\n    z-index: 2;\n    top: 10px;\n    left: 13px;\n    color: #739AAF;\n    border: 1px solid #739AAF;\n    opacity: 0.7;\n    font-weight: bold;\n    border-radius: 5px;\n    height: 50px;\n    padding: 3px;\n    width: 200px;\n    font-family: sans-serif; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF {\n      padding-left: 5px; }\n      #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF ._2gnPQb-leFJEb7LSwhZZKB {\n        margin-top: 10px;\n        font-size: 14px; }\n      #_3YSwNfDcPU7UUi0Nis5PGk ._3vhTRrRIhxJo6b7ZPqiknB ._3xp9OLH8hDwdgOdTYLQzuF ._1i3N-aA34DzA_Q2z-WRbhr {\n        margin-top: 1px;\n        font-size: 8px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._2FBypCLMggJoq1340L9smg {\n    position: absolute;\n    right: -70px;\n    bottom: 105px;\n    z-index: 2;\n    transform: rotate(270deg);\n    display: flex;\n    flex-direction: rows; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._2FBypCLMggJoq1340L9smg ._1DY9qhzsCIDbkbBKwzUSgG {\n      margin: 0px 5px 2px 5px; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._2FBypCLMggJoq1340L9smg ._1G3FmRnLj86uWkY2QXZIXL {\n      display: flex;\n      justify-content: center;\n      background-color: #739AAF;\n      border: 2px solid #739AAF;\n      border-radius: 3px;\n      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);\n      width: 20px;\n      height: 20px;\n      box-sizing: border-box;\n      transform: rotate(270deg); }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._2FBypCLMggJoq1340L9smg ._1G3FmRnLj86uWkY2QXZIXL:hover {\n      cursor: pointer; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._2FBypCLMggJoq1340L9smg ._2dgqQAcgvSOVyDeQzmI-t- {\n      width: 14px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs {\n    display: flex;\n    position: absolute;\n    z-index: 2;\n    top: 10px;\n    right: 10px;\n    width: 164px;\n    background-color: #3D4358;\n    border-radius: 2px;\n    border: 1px solid #242939; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs .frINV3MY7pS7bK30b-V58 {\n      padding: 4px;\n      padding-left: 4px;\n      border-radius: 2px;\n      border: none;\n      outline: none;\n      background-color: #3D4358;\n      color: #FFFFFF;\n      font: sans-serif;\n      width: 110px; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs .bNwrJ0-uPQZrUDEbtOLlA {\n      padding-left: 4px;\n      width: 18px; }\n    #_3YSwNfDcPU7UUi0Nis5PGk ._3WR9NFhiiNGrO5hkvmnUhs ._1ZFdIaKWyKruaNFDEi1AlS {\n      width: 18px;\n      padding-left: 3px; }\n  #_3YSwNfDcPU7UUi0Nis5PGk ._1ceu9nIBul7dFMa9AeIgm7 {\n    width: 100%;\n    height: 100%; }\n", ""]);
 
 // exports
 exports.locals = {
@@ -50458,6 +50591,10 @@ exports.locals = {
 	"text": "_3xp9OLH8hDwdgOdTYLQzuF",
 	"time": "_2gnPQb-leFJEb7LSwhZZKB",
 	"utc": "_1i3N-aA34DzA_Q2z-WRbhr",
+	"zoomcontrol": "_2FBypCLMggJoq1340L9smg",
+	"zoomslider": "_1DY9qhzsCIDbkbBKwzUSgG",
+	"zoombtn": "_1G3FmRnLj86uWkY2QXZIXL",
+	"icon": "_2dgqQAcgvSOVyDeQzmI-t-",
 	"search": "_3WR9NFhiiNGrO5hkvmnUhs",
 	"input": "frINV3MY7pS7bK30b-V58",
 	"searchicon": "bNwrJ0-uPQZrUDEbtOLlA",
@@ -50775,7 +50912,7 @@ exports = module.exports = __webpack_require__(9)();
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0px; }\n  body .btn, body .btn--info, body .btn--delete, body .btn--disabled {\n    border-radius: 3px;\n    font-size: 9pt;\n    padding: 4px;\n    outline: none;\n    border: none;\n    margin-left: 5px;\n    margin-top: 5px;\n    color: #FFFFFF;\n    width: 95%; }\n  body .btn {\n    background-color: #739AAF; }\n  body .btn:hover {\n    background-color: #293043; }\n  body .btn--disabled {\n    background-color: #739AAF;\n    opacity: 0.5; }\n  body .btn--info {\n    background-color: #EFA430;\n    margin-bottom: 5px; }\n  body .btn--info:hover {\n    background-color: #293043; }\n  body .btn--delete {\n    background-color: #ef303e; }\n  body .btn--delete:hover {\n    background-color: #293043; }\n  body .modal {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    -webkit-backdrop-filter: blur(15px);\n    background-color: rgba(7, 7, 7, 0.86);\n    width: 100%;\n    height: calc(100% - 49px);\n    z-index: 4; }\n  body .halfmodal {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    -webkit-backdrop-filter: blur(15px);\n    background-color: rgba(7, 7, 7, 0.86);\n    width: calc(100% - 220px);\n    height: calc(100% - 49px);\n    z-index: 4; }\n", ""]);
+exports.push([module.i, "body {\n  margin: 0px; }\n  body .btn, body .btn--info, body .btn--delete, body .btn--disabled {\n    border-radius: 3px;\n    font-size: 9pt;\n    padding: 4px;\n    outline: none;\n    border: none;\n    margin-left: 5px;\n    margin-top: 5px;\n    color: #FFFFFF;\n    width: 95%; }\n  body .btn {\n    background-color: #739AAF; }\n  body .btn:hover {\n    background-color: #293043; }\n  body .btn--disabled {\n    background-color: #739AAF;\n    opacity: 0.5; }\n  body .btn--info {\n    background-color: #EFA430;\n    margin-bottom: 5px; }\n  body .btn--info:hover {\n    background-color: #293043; }\n  body .btn--delete {\n    background-color: #ef303e; }\n  body .btn--delete:hover {\n    background-color: #293043; }\n  body .modal {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    -webkit-backdrop-filter: blur(15px);\n    background-color: rgba(7, 7, 7, 0.86);\n    width: 100%;\n    height: calc(100% - 49px);\n    z-index: 4; }\n  body .halfmodal {\n    position: absolute;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    -webkit-backdrop-filter: blur(15px);\n    background-color: rgba(7, 7, 7, 0.86);\n    width: calc(100% - 220px);\n    height: calc(100% - 49px);\n    z-index: 4; }\n  body .tooltip {\n    position: relative; }\n  body .tooltip--left--icon {\n    width: 60px !important; }\n  body .tooltip .tooltiptext--left {\n    visibility: hidden;\n    width: 100%;\n    font-size: 9pt;\n    background-color: black;\n    color: #EFA430;\n    text-align: center;\n    border-radius: 6px;\n    padding: 5px 0;\n    position: absolute;\n    z-index: 1;\n    top: -5px;\n    right: 110%; }\n  body .tooltip .tooltiptext--left::after {\n    content: \"\";\n    position: absolute;\n    top: 50%;\n    left: 100%;\n    margin-top: -5px;\n    border-width: 5px;\n    border-style: solid;\n    border-color: transparent transparent transparent black; }\n  body .tooltip:hover .tooltiptext--left {\n    visibility: visible; }\n  body .tooltiptext--hide {\n    visibility: hidden; }\n", ""]);
 
 // exports
 

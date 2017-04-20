@@ -4,8 +4,14 @@ import moment from 'moment'
 
 const BTN_CONTROL = (props) => (
     <div className={Style.control}>
-        <img className={Style.icon} src='img/ic_add_circle.svg' onClick={props.historyContainer.onExtendBtnClick}/>
-        <img className={Style.icon} src='img/ic_remove_circle.svg' onClick={props.historyContainer.onDeleteBtnClick}/>
+        <span className='tooltip'>
+            <img className={Style.icon} src='img/ic_add_circle.svg' onClick={props.historyContainer.onExtendBtnClick}/>
+            <span className="tooltiptext--left tooltip--left--icon">Extend</span>
+        </span>
+        <span className='tooltip'>
+            <img className={Style.icon} src='img/ic_remove_circle.svg' onClick={props.historyContainer.onDeleteBtnClick}/>
+            <span className="tooltiptext--left tooltip--left--icon">Cancel</span>
+        </span>
     </div>
 )
 

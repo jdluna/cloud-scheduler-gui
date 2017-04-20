@@ -31,6 +31,7 @@ export default class DashboardContainer extends Component {
             reservationPanel:{
                 multipleTextNode: {},
                 reserveBtnNode: {},
+                reserveTooltipNode: {},
             },
             reserveMode: 'single',
             modalName: ''
@@ -235,8 +236,10 @@ export default class DashboardContainer extends Component {
             this.state.reservationPanel.multipleTextNode.style.opacity = '0.5'
         }
         if(selectCard.length>=1){
+            this.state.reservationPanel.reserveTooltipNode.className = 'tooltiptext--hide'
             this.state.reservationPanel.reserveBtnNode.className = 'btn'
         }else{
+            this.state.reservationPanel.reserveTooltipNode.className = 'tooltiptext--left'
             this.state.reservationPanel.reserveBtnNode.className = 'btn--disabled'
         }
         if(selectCard.length<=1){
