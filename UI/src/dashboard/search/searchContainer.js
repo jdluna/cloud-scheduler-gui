@@ -43,6 +43,10 @@ export default class SearchContainer extends Component {
             endBeginDuration: 23,
             startEndDuration: tmp,
             endEndDuration: 23,
+            minDate: {
+                obj: this.timezone,
+                date: this.timezone.format('YYYY-MM-DD')
+            }
         }
 
 
@@ -91,14 +95,14 @@ export default class SearchContainer extends Component {
             } 
         },()=>{
 
+            let startTime = parseInt(this.state.startTime.replace(':00'))
+            let endTime = parseInt(this.state.endTime.replace(':00'))
+
             if(date.format()>=this.state.endDate.obj.format()){
 
                 this.setState({
                     endDate: this.state.startDate
                 },()=>{
-
-                    let startTime = parseInt(this.state.startTime.replace(':00'))
-                    let endTime = parseInt(this.state.endTime.replace(':00'))
 
                     if(endTime<=startTime){
 
@@ -107,9 +111,13 @@ export default class SearchContainer extends Component {
                             this.setState({
                                 endTime: ((time)>=10) ? (time)+':00' : '0'+(time)+':00'
                             },()=>{
-                                this.setStartEndDuration(startTime)
+                                this.setStartEndDuration()
+                                this.setState({
+                                    minDate: this.state.endDate
+                                })
                             })
                         }else{
+                            console.log(this.state.minDate)
                             this.setState({
                                 endDate:{
                                     obj: moment(date).add(1,'days'),
@@ -117,20 +125,38 @@ export default class SearchContainer extends Component {
                                 },
                                 endTime: '00:00'
                             },()=>{
-                                this.setStartEndDuration(startTime)
+                                this.setStartEndDuration()
+                                this.setState({
+                                    minDate: this.state.endDate
+                                })
                             })
+                            
                         }
 
                     }else{
-                        this.setStartEndDuration(startTime)   
+                        this.setStartEndDuration()   
+                        this.setState({
+                            minDate: this.state.endDate
+                        })
                     }   
 
                 })//end of this.setState for endDate
                 
             }//end if 
             else{
-                let startTime = parseInt(this.state.startTime.replace(':00'))
-                this.setStartEndDuration(startTime) 
+                this.setStartEndDuration()
+                if((startTime+1)<=23){
+                    this.setState({
+                        minDate: this.state.startDate
+                    })
+                }else{
+                    this.setState({
+                        minDate: {
+                            obj : moment(this.state.startDate.obj).add(1,'days'),
+                            date: moment(this.state.startDate.obj).add(1,'days').format('YYYY-MM-DD')
+                        }
+                    })
+                }
             }
 
             console.log('start date : '+this.state.startDate.date)
@@ -148,7 +174,10 @@ export default class SearchContainer extends Component {
                     obj: date,
                     date: moment(date).format('YYYY-MM-DD')
                 } 
-            },()=>{console.log('end date : '+this.state.endDate.date)})
+            },()=>{
+                console.log('end date : '+this.state.endDate.date)
+                this.setStartEndDuration() 
+            })
         }
     }
 
@@ -171,7 +200,10 @@ export default class SearchContainer extends Component {
                         this.setState({
                             endTime: ((t)>=10) ? (t)+':00' : '0'+(t)+':00'
                         },()=>{
-                            this.setStartEndDuration(startTime)
+                            this.setStartEndDuration()
+                            this.setState({
+                                minDate: this.state.endDate
+                            })
                         })
                     }else{
                         this.setState({
@@ -179,14 +211,33 @@ export default class SearchContainer extends Component {
                                 obj: moment(this.state.startDate.obj).add(1,'days'),
                                 date: moment(this.state.startDate.obj).add(1,'days').format('YYYY-MM-DD')
                             },
-                            endTime: '00:00'
+                            endTime: '00:00',
+                            minDate: this.state.endDate
                         },()=>{
-                            this.setStartEndDuration(startTime)
+                            console.log('XX start time change:')
+                            this.setStartEndDuration()
+                            this.setState({
+                                minDate: this.state.endDate
+                            })
                         })
                     }
                 
                 }else{
-                    this.setStartEndDuration(startTime)
+                    this.setStartEndDuration()
+
+                    if((startTime+1)<=23){
+                        this.setState({
+                            minDate: this.state.startDate
+                        })
+                    }else{
+                        this.setState({
+                            minDate: {
+                                obj : moment(this.state.startDate.obj).add(1,'days'),
+                                date: moment(this.state.startDate.obj).add(1,'days').format('YYYY-MM-DD')
+                            }
+                        })
+                    }
+                    
                 }
 
                 
@@ -209,7 +260,8 @@ export default class SearchContainer extends Component {
         })
     }
 
-    setStartEndDuration(startTime){
+    setStartEndDuration(){
+        let startTime = parseInt(this.state.startTime.replace(':00'))
         if(this.state.endDate.obj.format()==this.state.startDate.obj.format()){
             //begin and end are on same day
             if((startTime+1)<=23){
