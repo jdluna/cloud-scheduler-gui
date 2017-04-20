@@ -7,11 +7,14 @@ const OPTIONS = {
         lng: 2.295038
     },
     zoom: 2,
-    minZoom: 2,  
+    minZoom: 2,
+    maxZoom: 11,  
     backgroundColor: '#191E2C',
+    scaleControl: true,
     disableDefaultUI: false,
     streetViewControl: false,
     mapTypeControl: false,
+    zoomControl: false,
         styles: [{
             featureType: 'water',
             stylers: [{ color: '#191E2C' }]
@@ -46,7 +49,7 @@ export default class map extends Component {
     }
 
     render() {
-        let {search} = this.props.container.state
+        let {search,minZoom,maxZoom,nowZoom} = this.props.container.state
         let cancelIcon
         if(search!=''){
             cancelIcon = <img className={style.cancelicon} src='img/ic_cancel_circle_white.svg' onClick={this.props.container.onClearSearch}/>
@@ -66,6 +69,12 @@ export default class map extends Component {
                     {cancelIcon}
                 </div>
                 {this.props.container.state.autocompletePanel}
+
+                <div className={style.zoomcontrol}>
+                    <div className={style.zoombtn} onClick={this.props.container.onZoomOut}><img className={style.icon} src='img/ic_remove.svg'/></div>
+                    <input className={style.zoomslider} type='range' min={minZoom} max={maxZoom} value={nowZoom} onChange={this.props.container.onZoomSliderChange}/>
+                    <div className={style.zoombtn} onClick={this.props.container.onZoomIn}><img className={style.icon} src='img/ic_add.svg'/></div>
+                </div>
                 <div className={style.display} ref="map"></div>
             </section>
         )
