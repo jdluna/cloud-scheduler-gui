@@ -115,7 +115,7 @@ export default class Search extends Component {
                                         <div className={Style.reservespace}>Reservation length:</div>
                                         <div className={Style.choose}>
                                             <input type='radio' name='type' value='all' checked={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthChange}/>
-                                            <span className={Style.text}>All period time</span>
+                                            <span className={Style.text}>From begin to end</span>
                                         </div>
                                     </div>
                                     <div className={Style.block}>

@@ -15,12 +15,18 @@ export default class mapContainer extends Component {
             timezone: this.getNameTimeZone(),
             search: '',
             autocompletePanel: [],
-            markerFocus: {}
+            markerFocus: {},
+            minZoom: 2,
+            maxZoom: 11,
+            nowZoom: 2
         }
         this.onSearchChange = this.onSearchChange.bind(this)
         this.onItemInAutoCompleteClick = this.onItemInAutoCompleteClick.bind(this)
         this.onSearchPress = this.onSearchPress.bind(this)
         this.onClearSearch = this.onClearSearch.bind(this)
+        this.onZoomSliderChange = this.onZoomSliderChange.bind(this)
+        this.onZoomIn = this.onZoomIn.bind(this)
+        this.onZoomOut = this.onZoomOut.bind(this)
     }
 
     getDateTimeZone(){
@@ -108,6 +114,39 @@ export default class mapContainer extends Component {
                 console.warn('query map failed!')
             }
         })
+        this.map.addListener('zoom_changed',()=>{
+            this.setState({
+                nowZoom: this.map.getZoom()
+            })
+        })
+    }
+
+    onZoomSliderChange(event){
+        let value = parseInt(event.target.value)
+        this.setState({
+            nowZoom: value
+        })
+        this.map.setZoom(value)
+    }
+
+    onZoomIn(){
+        let zoom = this.state.nowZoom+1
+        if(zoom<=this.state.maxZoom){
+            this.setState({
+                nowZoom: zoom
+            })
+            this.map.setZoom(zoom)
+        }
+    }
+
+    onZoomOut(){
+        let zoom = this.state.nowZoom-1
+        if(zoom>=this.state.minZoom){
+            this.setState({
+                nowZoom: zoom
+            })
+            this.map.setZoom(zoom)
+        }
     }
 
     onSearchPress(event){
