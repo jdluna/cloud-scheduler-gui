@@ -1,4 +1,3 @@
-.. highlight:: rest
 
 Student Project Ideas
 ======================
