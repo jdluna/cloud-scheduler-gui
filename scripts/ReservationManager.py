@@ -16,9 +16,6 @@ import string
 import random
 from datetime import datetime,timedelta
 from Reservation import Reservation
-import pytz
-LOCAL = pytz.timezone ("America/Los_Angeles")
-
 
 
 class ReservationManager:
@@ -103,11 +100,9 @@ class ReservationManager:
                 if not False in siteStatus:
                 #all conditions are okay, this reservation can be created
                     return True
-           
-           
+               
                 
-        return False
-                
+        return False             
             
             
     def createReservation(self, title, description, reserveType):
@@ -294,7 +289,8 @@ class ReservationManager:
                     #see reservations which havn't ended
                     if diff < timedelta(hours=0) and status != 'cancel':                   
                         self.__reservations.append(r)        
-                       
+                
+                    
         return self.__reservations
     
     def getAllReservations(self, sessionId, ended = True):
@@ -309,12 +305,13 @@ class ReservationManager:
             uid = self.__db.getCursor().fetchone()
             if uid != None:
                 self.__userId = uid[0]
-                
                 sql = 'SELECT `status` FROM `user` WHERE `user_id` = "'+str(self.__userId)+'";'
                 self.__db.execute(sql)
                 status = self.__db.getCursor().fetchone()[0]
                 
-                if str(status).lower() == 'admin':
+                if str(status).lower() != 'admin':
+                    return False
+                else:
                     #get all reservations in the system
                     sql = 'SELECT `user_id` FROM `user`;'
                     self.__db.execute(sql)
@@ -324,7 +321,7 @@ class ReservationManager:
                         self.__allReservations.append(self.getReservations(userId=d[0],ended=ended))
                         
             self.__db.close()
-        
+              
         return self.__allReservations
             
         
@@ -442,8 +439,8 @@ class ReservationManager:
             self.__db.close() 
             
         return False
-
-         
+    
+    
     def cancel(self, sessionId, reservationId, reason):
         self.__db = Database() 
         
@@ -489,21 +486,18 @@ class ReservationManager:
                     
                     #---set new the reservation table data---
                     #reservation table
+                    newEnd = datetime.now().strftime("%Y-%m-%d %H:00:00") 
+                    sql = 'UPDATE `reservation` SET `end`="'+str(newEnd)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'   
+                    self.__db.execute(sql)
 
-                    ### !!!!fix timezone !!!!
-                  
+                    ''' !!! fix timezone !!!
                     local_dt = LOCAL.localize(datetime.now(), is_dst=None)
-		    currentTime = local_dt.astimezone(pytz.utc)
+                    currentTime = local_dt.astimezone(pytz.utc)
                     newEnd = currentTime.strftime("%Y-%m-%d %H:00:00")
        
-		    sql = 'UPDATE `reservation` SET `end`="'+str(newEnd)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'   
-                    self.__db.execute(sql)
-                    #########################
-
-                    '''newEnd = datetime.now().strftime("%Y-%m-%d %H:00:00") 
                     sql = 'UPDATE `reservation` SET `end`="'+str(newEnd)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'   
-                    self.__db.execute(sql) '''
-                        
+                    self.__db.execute(sql)
+                    '''                       
                         
                     #site_reserved table
                     sql = 'UPDATE `site_reserved` SET `status`="cancel" WHERE `reservation_id` = "'+str(reservationId)+'";'

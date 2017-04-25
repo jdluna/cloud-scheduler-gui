@@ -15,8 +15,6 @@ from Database import Database
 from Site import Site
 from Resource import CPU, Memory
 from datetime import datetime,timedelta
-import pytz
-
 
 class SiteManager:
     
