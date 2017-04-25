@@ -13,7 +13,6 @@ cgitb.enable()
 from Database import Database
 
 from Site import Site
-from Resource import CPU, Memory
 from datetime import datetime,timedelta
 
 class SiteManager:
@@ -181,7 +180,6 @@ class SiteManager:
         if datetime.strptime(dateReq, "%Y-%m-%d %H:00:00") - datetime.strptime(end, "%Y-%m-%d %H:00:00") > timedelta(hours=0) :
             end = dateReq
          
-         
         db = Database()
         if db.connect() and siteId != None:
             db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
@@ -194,8 +192,7 @@ class SiteManager:
 
             for i in range(0,len(res)):
                 res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
-
-                
+         
             site.setRunningAmount(db,begin=dateReq)   
         
             return site
