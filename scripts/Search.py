@@ -17,15 +17,14 @@ print
 
 
 ###variable from front-end###
-CPU_AMT = 64
-MEMORY_AMT = 128
+RESOURCES = '2,2'
 CONNECTION_TYPE = "None"
 IMAGE_TYPE = 'Any'
-BEGIN = '2017-04-14 08:00:00'
-END = '2017-04-16 09:00:00'
-ALL_PERIOD = True
+BEGIN = '2017-04-25 15:00:00'
+END = '2017-04-26 16:00:00'
+ALL_PERIOD = False
 DAYS = 0
-HOURS = 0
+HOURS = 2
 #############################
 
 
@@ -41,11 +40,11 @@ elif ALL_PERIOD != True and ALL_PERIOD != False and "False" in ALL_PERIOD:
 
 
 #prepare criteria about resources
-if CPU_AMT == None:
-    CPU_AMT = 0
-if MEMORY_AMT == None:
-    MEMORY_AMT = 0
-resourcesAmt = [CPU_AMT,MEMORY_AMT]
+spl = RESOURCES.split(',')
+RESOURCES = []
+for s in spl:
+    RESOURCES.append(s)
+resourcesAmt = list(RESOURCES)
 
 
 #prepare criteria about days and hours
