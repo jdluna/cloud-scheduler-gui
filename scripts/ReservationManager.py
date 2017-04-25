@@ -11,6 +11,7 @@ import cgitb
 cgitb.enable()
 
 from SiteManager import SiteManager
+from Site import Site
 from Database import Database
 import string
 import random
@@ -19,19 +20,10 @@ from Reservation import Reservation
 
 
 class ReservationManager:
-    __isComplete = False
-    __imgTypeError = False
-    __siteManager = None
-    __db = None
-    __siteError = []
-    __resError = []
-    __reservationID = None
-
     
     def __init__(self):
         self.__isComplete = False
         self.__imgTypeError = False
-        self.__siteManager = SiteManager()
         self.__db = None
         self.__siteError = []
         self.__resError = []
@@ -72,7 +64,7 @@ class ReservationManager:
                     #get data of this site
                     self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(sitesId[i])+'";')
                     data = self.__db.getCursor().fetchone()
-                    site = self.__siteManager.createSite(data)             
+                    site = Site(data)             
     
                         
                     #-> check available resources in site from begin to end
@@ -111,7 +103,6 @@ class ReservationManager:
         self.__reservedType = reserveType
         
         self.__db = Database() 
-        
         if self.__db.connect(): 
             
             try:
@@ -465,15 +456,13 @@ class ReservationManager:
                     data = self.__db.getCursor().fetchall()    
                     sites = []
                     
-                    siteManager = SiteManager()                         
-                    
                     for d in data:
                         siteId = d[1]
                         
                         #create site just for getting the amount of resource types
                         self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
                         site_data = self.__db.getCursor().fetchone()   
-                        site = siteManager.createSite(site_data) 
+                        site = Site(site_data) 
                        
                         r = site.getResources()
                             
