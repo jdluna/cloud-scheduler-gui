@@ -6,11 +6,11 @@ const BTN_CONTROL = (props) => (
     <div className={Style.control}>
         <span className='tooltip'>
             <img className={Style.icon} src='img/ic_add_circle.svg' onClick={props.historyContainer.onExtendBtnClick}/>
-            <span className="tooltiptext--left tooltip--left--icon">Extend</span>
+            <span className="tooltiptext--top">Extend</span>
         </span>
         <span className='tooltip'>
             <img className={Style.icon} src='img/ic_remove_circle.svg' onClick={props.historyContainer.onDeleteBtnClick}/>
-            <span className="tooltiptext--left tooltip--left--icon">Cancel</span>
+            <span className="tooltiptext--top">Cancel</span>
         </span>
     </div>
 )
