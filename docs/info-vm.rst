@@ -1,5 +1,4 @@
 
-.. highlight:: rest
 
 Using virtual machines
 =============================
