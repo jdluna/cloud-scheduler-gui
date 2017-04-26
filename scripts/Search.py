@@ -40,11 +40,11 @@ elif ALL_PERIOD != True and ALL_PERIOD != False and "False" in ALL_PERIOD:
 
 
 #prepare criteria about resources
-spl = RESOURCES.split(',')
-RESOURCES = []
-for s in spl:
-    RESOURCES.append(s)
-resourcesAmt = list(RESOURCES)
+resourcesAmt = []
+if RESOURCES != None:
+    spl = RESOURCES.split(',')
+    for s in spl:
+        resourcesAmt.append(s)
 
 
 #prepare criteria about days and hours
