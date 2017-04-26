@@ -242,44 +242,44 @@ class ReservationManager:
             else:
                 self.__userId = userId
                 
-            
-            sql = 'SELECT `username` FROM `user` WHERE `user_id`="'+str(self.__userId)+'";'
-            self.__db.execute(sql)
-            username = self.__db.getCursor().fetchone()[0]
+            if userId != None:
+                sql = 'SELECT `username` FROM `user` WHERE `user_id`="'+str(self.__userId)+'";'
+                self.__db.execute(sql)
+                username = self.__db.getCursor().fetchone()[0]
+                    
+                    
+                sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type`, `type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
+                self.__db.execute(sql)
+                data = self.__db.getCursor().fetchall()
+                currentTime = datetime.now()
                 
-                
-            sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type`, `type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
-            self.__db.execute(sql)
-            data = self.__db.getCursor().fetchall()
-            currentTime = datetime.now()
-            
-            for d in data:
-                end = d[4]
-                diff = currentTime - end
-                
-                r = Reservation()
-                r.setReservationId(d[0])
-                r.setTitle(d[1])
-                r.setDescription(d[2])
-                r.setStart(d[3])
-                r.setEnd(end)
-                r.setImageType(d[5])
-                r.setType(d[6])
-                r.setOwner(username)
-                
-                
-                r.setReservationsSite() 
-                status = r.getReservationsSite()[0].getStatus()
-                
-                if ended:
-                    #history (already ended)
-                    if diff >= timedelta(hours=0) or status == 'cancel':
-                        self.__reservations.append(r)
-                
-                else:
-                    #see reservations which havn't ended
-                    if diff < timedelta(hours=0) and status != 'cancel':                   
-                        self.__reservations.append(r)        
+                for d in data:
+                    end = d[4]
+                    diff = currentTime - end
+                    
+                    r = Reservation()
+                    r.setReservationId(d[0])
+                    r.setTitle(d[1])
+                    r.setDescription(d[2])
+                    r.setStart(d[3])
+                    r.setEnd(end)
+                    r.setImageType(d[5])
+                    r.setType(d[6])
+                    r.setOwner(username)
+                    
+                    
+                    r.setReservationsSite() 
+                    status = r.getReservationsSite()[0].getStatus()
+                    
+                    if ended:
+                        #history (already ended)
+                        if diff >= timedelta(hours=0) or status == 'cancel':
+                            self.__reservations.append(r)
+                    
+                    else:
+                        #see reservations which havn't ended
+                        if diff < timedelta(hours=0) and status != 'cancel':                   
+                            self.__reservations.append(r)        
                 
                     
         return self.__reservations

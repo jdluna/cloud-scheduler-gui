@@ -16,36 +16,41 @@ from Resource import CPU, Memory
 
 
 class Site:
+    __resources = []
     
-    def __init__(self, site):   
-        self.__siteId = site[0]
-        self.__name = site[1]
-        self.__description = site[2]
-        self.__contact = site[3]
-        self.__location = site[4]
-        self.__pragma_boot_path = site[5]
-        self.__pragma_boot_version = site[6]
-        self.__python_path = site[7]
-        self.__temp_dir = site[8]
-        self.__username = site[9]
-        self.__deployment_type = site[10]
-        self.__site_hostname = site[11]
-        self.__latitude = site[12]
-        self.__longitude = site[13]
+    def __init__(self, site=None, site_id=None):   
+        
+        if site_id != None:
+            self.__siteId = site_id
+        
+        if site != None:
+            self.__siteId = site[0]
+            self.__name = site[1]
+            self.__description = site[2]
+            self.__contact = site[3]
+            self.__location = site[4]
+            self.__pragma_boot_path = site[5]
+            self.__pragma_boot_version = site[6]
+            self.__python_path = site[7]
+            self.__temp_dir = site[8]
+            self.__username = site[9]
+            self.__deployment_type = site[10]
+            self.__site_hostname = site[11]
+            self.__latitude = site[12]
+            self.__longitude = site[13]
+            
+            db = Database()
+            if db.connect() :
+                db.execute("START TRANSACTION;")
+                self.addResource(db,CPU(siteId=self.__siteId, total=site[14]))
+                self.addResource(db,Memory(siteId=self.__siteId, total=site[15]))
+            db.close
+            
         self.__image_types = []
         self.__connection_types = []
         self.__resources = []
-        
-        
         self.__setConnectionType()
         self.__setImageType()
-        
-        db = Database()
-        if db.connect() :
-            db.execute("START TRANSACTION;")
-            self.addResource(db,CPU(siteId=self.__siteId, total=site[14]))
-            self.addResource(db,Memory(siteId=self.__siteId, total=site[15]))
-        db.close
             
         self.__beginAvailable = None
         self.__endAvailable = None
