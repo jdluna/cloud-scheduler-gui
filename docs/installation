@@ -1,6 +1,6 @@
 GUI
------------------
-Require
+-------------------------
+Require (localhost only)
 - Node.js
 
 Install
@@ -22,4 +22,3 @@ step4: deploy.
   - clone source code to /var/www/html/
   - go to "URL-SERVER/cloud-scheduler-gui/UI/dist"
   - finish!
-  -----------------
