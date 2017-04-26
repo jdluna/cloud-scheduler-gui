@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 08 16:19:36 2017
@@ -10,11 +10,14 @@ Created on Wed Mar 08 16:19:36 2017
 import cgitb
 cgitb.enable()
 
+import cgi
+form = cgi.FieldStorage()
 
 ###variable from front-end###
-USERNAME = 'admin'
-PASSWORD = '1234'
+USERNAME = form.getvalue('username')
+PASSWORD = form.getvalue('password')
 #############################
+
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  

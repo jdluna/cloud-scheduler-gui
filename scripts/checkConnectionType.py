@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 23 22:33:07 2017
@@ -14,9 +14,12 @@ print "Content-Type: text/html"
 print "Access-Control-Allow-Origin: *"  
 print
 
+import cgi
+form = cgi.FieldStorage()
+
 
 ###variable from front-end###
-connectionType = 'IPOP|ENT|ENT'
+connectionType = form.getvalue('connection_type')
 #############################
 
 sites = connectionType.split('|')

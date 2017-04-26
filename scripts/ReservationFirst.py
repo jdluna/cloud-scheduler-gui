@@ -11,21 +11,21 @@ import cgitb
 cgitb.enable()
 
 
-import cgi
-form = cgi.FieldStorage()
-
-###variable from front-end###
-SESSION_ID = form.getvalue('session_id')
-BEGIN = form.getvalue('begin')
-END = form.getvalue('end')
-SITES_ID = form.getvalue('sites_id')
-RESOURCES = form.getvalue('resources')
-IMG_TYPE = form.getvalue('img_type')
-#############################
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
 print
+
+
+###variable from front-end###
+USER_ID = 1
+BEGIN = '2017-03-07 09:00:00'
+END = '2017-03-09 09:00:00'
+SITES_ID = '7'
+RESOURCES = '32,128'
+IMG_TYPE = 'centOS7'
+#############################
+
 
 ####prepare connection criteria###
 #SITES_ID will be a list of sites(id)
@@ -54,11 +54,12 @@ RESOURCES = list(RESOURCES)
 from ReservationManager import ReservationManager
 reservationManager = ReservationManager()
 
-result = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
+s = reservationManager.createReservation(USER_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
+result = reservationManager.getReservationStatus()
 
 jsonStr = '{ "result" : "' +str(result)+ '",'
 
-if result == False:
+if result == 'fail':
     resError = reservationManager.getResourceError()
     resErrorStatus = len(resError) > 0
     siteError = reservationManager.getSiteError()
@@ -74,7 +75,7 @@ if result == False:
         jsonStr += ']'
         
 else:
-    jsonStr = jsonStr[:-1]
+    jsonStr += ' "reserve_id" : "'+str(reservationManager.getReservationID()) + '"'
 
 jsonStr += '}'
 

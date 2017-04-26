@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 09 16:44:00 2017

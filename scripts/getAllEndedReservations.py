@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 16 19:25:40 2017
@@ -10,9 +10,11 @@ Created on Thu Mar 16 19:25:40 2017
 import cgitb
 cgitb.enable()
 
+import cgi
+form = cgi.FieldStorage()
 
 ###variable from front-end###
-SESSION_ID = 'HHNZP5'
+SESSION_ID = form.getvalue('session_id')
 #############################
 
 print "Content-Type: text/html"     
@@ -20,16 +22,16 @@ print "Access-Control-Allow-Origin: *"
 print
 
 from ReservationManager import ReservationManager
+
 resManager = ReservationManager()
 reservations = resManager.getAllReservations(sessionId = SESSION_ID, ended = True)
 
 jsonStr = '{ "result" : [' 
 
 cnt =0
-
 for i in range(0,len(reservations)):
     for j in range(0,len(reservations[i])):
-        cnt+=1
+	cnt += 1
         r = reservations[i][j]
         jsonStr += ' { "reservation_id" : "'+str(r.getReservationId())+'", '
         jsonStr += '"title" : "'+str(r.getTitle())+'", '

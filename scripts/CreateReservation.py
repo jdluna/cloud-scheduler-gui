@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Tue Mar 07 02:23:37 2017
@@ -10,24 +10,25 @@ Created on Tue Mar 07 02:23:37 2017
 import cgitb
 cgitb.enable()
 
+import cgi
+form = cgi.FieldStorage()
+
+###variable from front-end###
+SESSION_ID = form.getvalue('session_id')
+BEGIN = form.getvalue('begin')
+END = form.getvalue('end')
+SITES_ID = form.getvalue('sites_id')
+RESOURCES = form.getvalue('resources')
+IMG_TYPE = form.getvalue('img_type')
+TITLE = form.getvalue('title')
+DESCRIPTION = form.getvalue('description')
+TYPE = form.getvalue('type')
+#############################
 
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
 print
-
-
-###variable from front-end###
-SESSION_ID = 'M3XEED'
-BEGIN = '2017-04-14 15:00:00'
-END = '2017-04-14 16:00:00'
-SITES_ID = '7'
-RESOURCES = '2,2'
-IMG_TYPE = 'centos7'
-TITLE = 'A reservation'
-DESCRIPTION = '-'
-TYPE = 'single cluster on a single site'
-#############################
 
 
 ####prepare connection criteria###

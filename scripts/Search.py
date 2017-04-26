@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 16 22:17:23 2017
@@ -10,22 +10,26 @@ import cgitb
 cgitb.enable()
 
 
+import cgi
+form = cgi.FieldStorage()
+
+
+###variable from front-end###
+RESOURCES = form.getvalue('resources')
+CONNECTION_TYPE = form.getvalue('connection_type')
+IMAGE_TYPE = form.getvalue('image_type')
+BEGIN = form.getvalue('begin')
+END = form.getvalue('end')
+ALL_PERIOD = form.getvalue('all_period')
+DAYS = form.getvalue('days')
+HOURS = form.getvalue('hours')
+#############################
+
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
 print
 
-
-###variable from front-end###
-RESOURCES = '2,2'
-CONNECTION_TYPE = "None"
-IMAGE_TYPE = 'Any'
-BEGIN = '2017-04-25 15:00:00'
-END = '2017-04-26 16:00:00'
-ALL_PERIOD = False
-DAYS = 0
-HOURS = 2
-#############################
 
 
 #prepare connection criteria
