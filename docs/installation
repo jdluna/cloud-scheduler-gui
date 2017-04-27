@@ -42,7 +42,7 @@ Python
    > ldconfig
 4. Change file permission of python scripts 
    > cd /var/www/html/cloud-scheduler-gui/scripts
-	 > chmod 755 *
+   > chmod 755 *
 5. Install MySQLdb in /opt/python/bin by “./easy_install MYSQL-python”.
 6. Test by going to : http://lima-vc-2.sdsc.optiputer.net/cloud-scheduler-gui/scripts/getDashboard.py
-	If it shows some data in JSON format, it works!
+   If it shows some data in JSON format, it works!
