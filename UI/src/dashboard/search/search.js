@@ -55,6 +55,18 @@ const TimeList = (props) => {
 }
 
 export default class Search extends Component {
+    componentDidMount(){
+        this.props.searchContainer.setState({
+            reservationLengthNode:{
+                daysInput: this.refs.daysInput,
+                hoursInput: this.refs.hoursInput,
+                daysLabel: this.refs.daysLabel,
+                hoursLabel: this.refs.hoursLabel
+            }
+        })
+        this.refs.cpu.focus()
+    }
+
     render() {
         let startBeginDuration = this.props.searchContainer.state.startBeginDuration
         let endBeginDuration = this.props.searchContainer.state.endBeginDuration
@@ -83,7 +95,7 @@ export default class Search extends Component {
                                 <div className={Style.row}>
                                     <div className={Style.block}>
                                         <div>CPU:</div>
-                                        <input className={Style.input} type='text' name='cpu' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.cpu} autoFocus/>
+                                        <input ref='cpu' className={Style.input} type='text' name='cpu' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.cpu} autoFocus/>
                                     </div>
                                     <div className={Style.block}>
                                         <div>Memory (GB):</div>
@@ -113,21 +125,21 @@ export default class Search extends Component {
                                 <div className={Style.row}>
                                     <div className={Style.block}>
                                         <div className={Style.reservespace}>Reservation length:</div>
-                                        <div className={Style.choose}>
-                                            <input type='radio' name='type' value='all' checked={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthChange}/>
+                                        <div className={Style.choose} onClick={()=>this.props.searchContainer.onReserveLengthChange('all')}>
+                                            <input type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value=='all'} onChange={()=>this.props.searchContainer.onReserveLengthChange('all')}/>
                                             <span className={Style.text}>From begin to end</span>
                                         </div>
                                     </div>
                                     <div className={Style.block}>
-                                        <div className={Style.choose}>
-                                            <input className={Style.marginradio} type='radio' name='type' value='time' checked={this.props.searchContainer.state.reservationLength.value=='time'} onChange={this.props.searchContainer.onReserveLengthChange}/>
+                                        <div className={Style.choose} onClick={()=>this.props.searchContainer.onReserveLengthChange('time')}>
+                                            <input className={Style.marginradio} type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value=='time'} onChange={()=>this.props.searchContainer.onReserveLengthChange('time')}/>
                                             <div className={Style.block}>
-                                                <input className={Style.inputradio} type='text' name='days' disabled={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.days}/>
-                                                <span className={Style.unittext}> days</span>
+                                                <input ref='daysInput' className={Style.inputradio} type='text' name='days' disabled={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.days}/>
+                                                <span ref='daysLabel' className={Style.unittext}> days</span>
                                             </div>
                                             <div className={Style.block}>
-                                                <input className={Style.inputradio} type='text' name='hours' disabled={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.hours}/>
-                                                <span className={Style.unittext}> hours</span>
+                                                <input ref='hoursInput' className={Style.inputradio} type='text' name='hours' disabled={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.hours}/>
+                                                <span ref='hoursLabel' className={Style.unittext}> hours</span>
                                             </div>
                                         </div>
                                     </div>

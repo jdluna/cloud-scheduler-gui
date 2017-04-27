@@ -46,6 +46,12 @@ export default class SearchContainer extends Component {
             minDate: {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
+            },
+            reservationLengthNode:{
+                daysInput: null,
+                hoursInput: null,
+                daysLabel: null,
+                hoursLabel: null
             }
         }
 
@@ -282,14 +288,34 @@ export default class SearchContainer extends Component {
     }
         
 
-    onReserveLengthChange(event){
-        this.setState({
-            reservationLength: {
-                value: event.target.value,
-                days: '',
-                hours: ''
-            }
-        })
+    onReserveLengthChange(type){
+        let {daysInput, hoursInput, daysLabel, hoursLabel} = this.state.reservationLengthNode
+        if(type=='all'){
+            this.setState({
+                reservationLength: {
+                    value: type,
+                    days: '',
+                    hours: ''
+                }
+            })
+            daysInput.style.opacity = '0.5'
+            hoursInput.style.opacity = '0.5'
+            daysLabel.style.opacity = '0.5'
+            hoursLabel.style.opacity = '0.5'
+        }else{
+            this.setState({
+                reservationLength: {
+                    value: 'time',
+                    days: this.state.reservationLength.days,
+                    hours: this.state.reservationLength.hours
+                }
+                },()=>{
+                    daysInput.style.opacity = '1'
+                    hoursInput.style.opacity = '1'
+                    daysLabel.style.opacity = '1'
+                    hoursLabel.style.opacity = '1'
+            })
+        }
     }
 
     onReserveLengthDataChange(event){
@@ -379,7 +405,8 @@ export default class SearchContainer extends Component {
 
         let params = {
             params:{
-                cpu_amt: (this.state.cpu=='') ? 0 : this.state.cpu,
+                resources: ((this.state.cpu=='') ? 0 : this.state.cpu)+','+((this.state.cpu=='') ? 0 : this.state.cpu),
+                // cpu_amt: (this.state.cpu=='') ? 0 : this.state.cpu,
                 memory_amt: (this.state.mem=='') ? 0 : this.state.mem,
                 connection_type: this.state.additionalNetwork,
                 image_type: this.state.imageType,

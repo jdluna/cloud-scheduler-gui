@@ -71,6 +71,7 @@
                     }
                     .unittext{
                         opacity: 0.5;
+                        cursor: default;
                     }
                 }
                 .choose{
@@ -78,6 +79,7 @@
                      margin-left: 2px;
                      .text{
                         margin-top: 3px;
+                        cursor: default;
                      }
                      .marginradio{
                        margin-top: 9px;
@@ -128,6 +130,7 @@
                     width: 38px;
                     margin-right: 5px;
                     text-align: right;
+                    opacity: 0.5;
                 }
                 .inputradio::-webkit-input-placeholder{
                     color: #000000;
