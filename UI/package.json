@@ -8,7 +8,11 @@
     "copy": "mkdir dist & copy src\\index.html dist & mkdir dist\\img & copy src\\img dist\\img",
     "prebuild": "npm run clean & npm run copy",
     "build": "webpack --display-error-details",
-    "start": "webpack-dev-server --hot --inline --content-base src"
+    "start": "webpack-dev-server --hot --inline --content-base src",
+    "clean-linux": "rm -rf dist",
+    "copy-linux": "mkdir dist && cp src/index.html dist && cp -r src/img dist/img",
+    "prebuild-linux": "npm run clean-linux && npm run copy-linux",
+    "build-linux": "webpack --display-error-detail"
   },
   "repository": {
     "type": "git",
