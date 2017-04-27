@@ -19,6 +19,7 @@ class Site:
     __resources = []
     
     def __init__(self, site=None, site_id=None):   
+        self.__resources = []
         
         if site_id != None:
             self.__siteId = site_id
@@ -48,7 +49,6 @@ class Site:
             
         self.__image_types = []
         self.__connection_types = []
-        self.__resources = []
         self.__setConnectionType()
         self.__setImageType()
             
@@ -152,7 +152,6 @@ class Site:
         
     def getResources(self):
         return self.__resources 
-
 
     def setBeginAvailable(self,d):
         self.__beginAvailable = d   
