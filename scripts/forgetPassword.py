@@ -10,16 +10,18 @@ import cgitb
 cgitb.enable()
 from AuthenticationManager import AuthenticationManager
 
+import cgi
+form = cgi.FieldStorage()
+
+###variable from front-end###
+USERNAME = form.getvalue('username')
+NEW_PASSWORD = form.getvalue('password')
+#############################
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
 print
 
-
-###variable from front-end###
-USERNAME = 'PXZ99J'
-NEW_PASSWORD = '12345'
-#############################
 
 authManager = AuthenticationManager()
 user = authManager.createUser(USERNAME).getUser()

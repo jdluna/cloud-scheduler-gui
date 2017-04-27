@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 16 22:17:23 2017
@@ -10,23 +10,26 @@ import cgitb
 cgitb.enable()
 
 
+import cgi
+form = cgi.FieldStorage()
+
+
+###variable from front-end###
+RESOURCES = form.getvalue('resources')
+CONNECTION_TYPE = form.getvalue('connection_type')
+IMAGE_TYPE = form.getvalue('image_type')
+BEGIN = form.getvalue('begin')
+END = form.getvalue('end')
+ALL_PERIOD = form.getvalue('all_period')
+DAYS = form.getvalue('days')
+HOURS = form.getvalue('hours')
+#############################
+
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
 print
 
-
-###variable from front-end###
-CPU_AMT = 64
-MEMORY_AMT = 128
-CONNECTION_TYPE = "None"
-IMAGE_TYPE = 'Any'
-BEGIN = '2017-04-14 08:00:00'
-END = '2017-04-16 09:00:00'
-ALL_PERIOD = True
-DAYS = 0
-HOURS = 0
-#############################
 
 
 #prepare connection criteria
@@ -41,11 +44,11 @@ elif ALL_PERIOD != True and ALL_PERIOD != False and "False" in ALL_PERIOD:
 
 
 #prepare criteria about resources
-if CPU_AMT == None:
-    CPU_AMT = 0
-if MEMORY_AMT == None:
-    MEMORY_AMT = 0
-resourcesAmt = [CPU_AMT,MEMORY_AMT]
+resourcesAmt = []
+if RESOURCES != None:
+    spl = RESOURCES.split(',')
+    for s in spl:
+        resourcesAmt.append(s)
 
 
 #prepare criteria about days and hours

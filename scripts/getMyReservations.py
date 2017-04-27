@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 08 23:11:57 2017
@@ -10,9 +10,11 @@ Created on Wed Mar 08 23:11:57 2017
 import cgitb
 cgitb.enable()
 
+import cgi
+form = cgi.FieldStorage()
 
 ###variable from front-end###
-SESSION_ID = 'JG21L8'
+SESSION_ID = form.getvalue('session_id')
 #############################
 
 print "Content-Type: text/html"     

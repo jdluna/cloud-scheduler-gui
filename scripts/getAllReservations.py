@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 08 23:11:57 2017
@@ -10,9 +10,12 @@ Created on Wed Mar 08 23:11:57 2017
 import cgitb
 cgitb.enable()
 
+import cgi
+form = cgi.FieldStorage()
+
 
 ###variable from front-end###
-SESSION_ID = 'ACB123'
+SESSION_ID = form.getvalue('session_id')
 #############################
 
 print "Content-Type: text/html"     
@@ -25,13 +28,14 @@ resManager = ReservationManager()
 reservations = resManager.getAllReservations(sessionId = SESSION_ID, ended = False)
 
 jsonStr = '{ "result" : [' 
+
 cnt = 0
 
 for i in range(0,len(reservations)):
     for j in range(0,len(reservations[i])):
-        cnt += 1
-        r = reservations[i][j]
         
+        r = reservations[i][j]
+        cnt += 1
         jsonStr += ' { "reservation_id" : "'+str(r.getReservationId())+'", '
         jsonStr += '"title" : "'+str(r.getTitle())+'", '
         jsonStr += '"description" : "'+str(r.getDescription())+'", '

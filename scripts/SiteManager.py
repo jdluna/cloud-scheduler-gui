@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 09 01:52:36 2017
@@ -13,10 +13,7 @@ cgitb.enable()
 from Database import Database
 
 from Site import Site
-from Resource import CPU, Memory
 from datetime import datetime,timedelta
-import pytz
-
 
 class SiteManager:
     
@@ -34,7 +31,7 @@ class SiteManager:
             db.execute("SELECT * FROM `site`;")
             data = db.getCursor().fetchall()
             for d in data:
-                site = self.createSite(d)              
+                site = Site(d)              
                 self.__sites.append(site)
                 
             return self.__sites
@@ -176,43 +173,30 @@ class SiteManager:
         return self.__resultType
         
     def getSite(self,siteId = None, dateReq = datetime.now().strftime("%Y-%m-%d %H:00:00"), end = datetime.now().strftime("%Y-%m-%d %H:00:00")):
-        #to get site description specific by time              
+        #to get site description specified by time              
         dateReq = str(dateReq)
         end = str(end)
         
         if datetime.strptime(dateReq, "%Y-%m-%d %H:00:00") - datetime.strptime(end, "%Y-%m-%d %H:00:00") > timedelta(hours=0) :
             end = dateReq
          
-         
         db = Database()
         if db.connect() and siteId != None:
             db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
             data = db.getCursor().fetchone()
 
-            site = self.createSite(data)
+            site = Site(data)
             res = site.getResources()
 
             db.execute("START TRANSACTION;")   
 
             for i in range(0,len(res)):
                 res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
-
-                
+         
             site.setRunningAmount(db,begin=dateReq)   
         
             return site
         else:
             return None
             
-            
-    def createSite(self, d):
-        site = Site(d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8],d[9],d[10],d[11],d[12],d[13])
-        
-        db = Database()
-        if db.connect() :
-            db.execute("START TRANSACTION;")
-            site.addResource(db,CPU(siteId=d[0], total=d[14]))
-            site.addResource(db,Memory(siteId=d[0], total=d[15]))
-            db.close
-        
-        return site
+    

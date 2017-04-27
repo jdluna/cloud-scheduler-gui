@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 09 01:52:36 2017
@@ -12,57 +12,52 @@ cgitb.enable()
 
 
 from Database import Database
+from Resource import CPU, Memory
 
 
 class Site:
-    __site_id = None
-    __name = None
-    __description = None
-    __contact = None
-    __location = None
-    __pragma_boot_path = None
-    __pragma_boot_version = None
-    __python_path = None
-    __temp_dir = None
-    __username = None
-    __deployment_type = None
-    __site_hostname = None
-    __latitude = None
-    __longitude = None
-    __image_types = []
-    __connection_types = []
     __resources = []
-    __beginAvailable = None
-    __endAvailable = None
-    __running = None
     
-    def __init__(self, site_id, name=None, description=None, contact=None, location=None, pragma_boot_path=None, pragma_boot_version=None, python_path=None,temp_dir=None, username=None, deployment_type=None, site_hostname=None, latitude=None, longitude=None):
-        self.__site_id = site_id
-        self.__name = name
-        self.__description = description
-        self.__contact = contact
-        self.__location = location
-        self.__pragma_boot_path = pragma_boot_path
-        self.__pragma_boot_version = pragma_boot_version
-        self.__python_path = python_path
-        self.__temp_dir = temp_dir
-        self.__username = username
-        self.__deployment_type = deployment_type
-        self.__site_hostname = site_hostname
-        self.__latitude = latitude
-        self.__longitude = longitude
+    def __init__(self, site=None, site_id=None):   
+        
+        if site_id != None:
+            self.__siteId = site_id
+        
+        if site != None:
+            self.__siteId = site[0]
+            self.__name = site[1]
+            self.__description = site[2]
+            self.__contact = site[3]
+            self.__location = site[4]
+            self.__pragma_boot_path = site[5]
+            self.__pragma_boot_version = site[6]
+            self.__python_path = site[7]
+            self.__temp_dir = site[8]
+            self.__username = site[9]
+            self.__deployment_type = site[10]
+            self.__site_hostname = site[11]
+            self.__latitude = site[12]
+            self.__longitude = site[13]
+            
+            db = Database()
+            if db.connect() :
+                db.execute("START TRANSACTION;")
+                self.addResource(db,CPU(siteId=self.__siteId, total=site[14]))
+                self.addResource(db,Memory(siteId=self.__siteId, total=site[15]))
+            db.close
+            
         self.__image_types = []
         self.__connection_types = []
         self.__resources = []
         self.__setConnectionType()
         self.__setImageType()
+            
         self.__beginAvailable = None
         self.__endAvailable = None
-        self.__running = None
             
         
     def getSiteId(self):
-        return self.__site_id    
+        return self.__siteId    
         
     def setName(self,name):
         self.__name = name
@@ -113,7 +108,7 @@ class Site:
         
         db = Database()
         if db.connect() :
-            sql = "SELECT `image_type` FROM `image_type` WHERE `site_id` = '"+str(self.__site_id)+"';"
+            sql = "SELECT `image_type` FROM `image_type` WHERE `site_id` = '"+str(self.__siteId)+"';"
             
             if db.execute(sql) :
                 data = db.fetchall()
@@ -133,7 +128,7 @@ class Site:
     def __setConnectionType(self):        
         db = Database()
         if db.connect() :
-            sql = "SELECT `connection_type` FROM `connection_type` WHERE `site_id` = '"+str(self.__site_id)+"';"
+            sql = "SELECT `connection_type` FROM `connection_type` WHERE `site_id` = '"+str(self.__siteId)+"';"
             
             if db.execute(sql) :
                 data = db.fetchall()
@@ -172,15 +167,15 @@ class Site:
         return self.__endAvailable     
         
     def setRunningAmount(self,db,begin):
-        sql = "SELECT `start` FROM `reservation` JOIN `site_reserved` ON `reservation`.`reservation_id` = `site_reserved`.`reservation_id` WHERE `site_reserved`.`site_id` = '"+str(self.__site_id)+"' AND `start` = '"+str(begin)+"';"
+        sql = "SELECT `start` FROM `reservation` JOIN `site_reserved` ON `reservation`.`reservation_id` = `site_reserved`.`reservation_id` WHERE `site_reserved`.`site_id` = '"+str(self.__siteId)+"' AND `start` = '"+str(begin)+"';"
             
         if db.execute(sql) :
-            self.__running = db.fetchall()
+            self.__runningAmount = len(db.fetchall())
+        else:
+            self.__runningAmount = 0
         
     def getRunningAmount(self):  
-        if self.__running == None:
-            self.__running = []
-        return len(self.__running)
+        return self.__runningAmount
         
     def setStatus(self,status):
         self.__status = status

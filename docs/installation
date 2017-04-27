@@ -1,0 +1,38 @@
+GUI
+-------------------------
+Require (localhost only)
+- Node.js
+
+Install
+step1: clone source code from Github.
+  > git clone https://github.com/pragmagrid/cloud-scheduler-gui.git
+step2: go to "cloud-scheduler-gui/UI" directory to run on localhost server.
+  > npm run start
+  - open web browser and enter "localhost:8080"
+  - and now, you can edit source code. When you save file, web browser will be auto refresh.
+step3: after you run on localhost, you have to the configure installation file and test before deploy to server.
+  - open file "cloud-scheduler-gui/UI/src/config/endpoints.js"
+  - change endpoint of "API_SERVER" (first line) to your API server, in this case you can change to "https://cloud.pragma-grid.net"
+step3: after everything is OK in localhost. you can build and deploy to server.
+  - go to "cloud-scheduler-gui/UI" directory
+  > npm run build
+step4: deploy.
+  - commit sourecode and push to Github.
+  - ssh to your server.
+  - clone source code to /var/www/html/
+  - go to "URL-SERVER/cloud-scheduler-gui/UI/dist"
+  - finish!
+
+Python
+--------------------------
+Installation for Python
+1.	Configuring Apache file “/etc/httpd/conf/httpd.conf” by removing the ‘#’ at the first of line "AddHandler cgi-script .cgi" 
+    and add “.py” to the end of this line.
+2.	Set the machine to be able to use Python 2.7 by add the python path which is “/opt/python/lib” to “/etc/ld.so.conf”
+3.	Install MySQLdb in /opt/python/bin by “./easy_install MYSQL-python”.
+4.	Import database to the machine
+    a.	cd /var/www/html/project/db
+    b.	mysql –u root –p (without password)
+    c.	CREATE DATABASE pragma;
+    d.	use pragma;
+    e.	source pragma.sql;

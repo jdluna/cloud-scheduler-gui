@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 08 23:54:20 2017
@@ -13,7 +13,6 @@ cgitb.enable()
 
 from Database import Database
 from Site import Site
-from SiteManager import SiteManager
 
 
 class Reservation:
@@ -65,7 +64,6 @@ class Reservation:
             self.__db.execute(sql)
             data = self.__db.getCursor().fetchall() 
             
-            siteManager = SiteManager() 
             for d in data:
                 siteId = d[1]
                 s = Site(site_id = siteId)
@@ -74,7 +72,7 @@ class Reservation:
                 #create site just for getting the amount of resource types
                 self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
                 site_data = self.__db.getCursor().fetchone()   
-                site = siteManager.createSite(site_data) 
+                site = Site(site_data) 
                 r = site.getResources()
                 
                 for i in range(0,len(r)):

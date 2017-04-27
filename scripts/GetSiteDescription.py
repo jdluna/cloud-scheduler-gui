@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 01 01:36:30 2017
@@ -10,7 +10,8 @@ Created on Wed Mar 01 01:36:30 2017
 import cgitb
 cgitb.enable()
 
-
+import cgi
+form = cgi.FieldStorage()
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
@@ -18,8 +19,8 @@ print
 
 
 ###variable from front-end###
-SITE_ID = 1
-DATE_REQUIRE = '2017-03-20 09:00:00'
+SITE_ID = form.getvalue('site_id')
+DATE_REQUIRE = form.getvalue('date_req')
 #############################
 
 

@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 02 00:04:12 2017
@@ -10,18 +10,18 @@ Created on Thu Mar 02 00:04:12 2017
 import cgitb
 cgitb.enable()
 
+import cgi
+form = cgi.FieldStorage()
+
+###variable from front-end###
+SESSION_ID = form.getvalue('session_id')
+TIMEZONE = form.getvalue('timezone')
+#############################
 
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
 print
-
-
-###variable from front-end###
-SESSION_ID = 'WWX9KX'
-TIMEZONE = 'UTC+07:00'
-#############################
-
 
 
 from User import User
