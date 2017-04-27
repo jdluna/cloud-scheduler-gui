@@ -4,7 +4,7 @@ import axios from 'axios'
 import moment from 'moment'
 import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT,CHECK_CONNECTION_TYPE_ENDPOINT} from '../../config/endpoints'
 import SuccessDialog from './successDialog'
-import ErrorDialog from './errorDialog'
+import ErrorDialog from './ErrorDialog'
 
 export default class ReservationContainer extends Component {
     constructor(props){
