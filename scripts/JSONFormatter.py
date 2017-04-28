@@ -88,3 +88,6 @@ class JSONFormatter:
         jsonStr += '}'
         
         return jsonStr
+        
+    def formatJson(self,name,data):
+        return '"'+str(name)+'" : "'+str(data)+'"'
