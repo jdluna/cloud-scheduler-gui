@@ -7242,7 +7242,7 @@ module.exports = __webpack_require__(246);
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var API_SERVER = 'http://lima-vc-1.sdsc.optiputer.net/project/scripts';
+var API_SERVER = 'http://lima-vc-2.sdsc.optiputer.net/cloud-scheduler-gui/scripts';
 
 var MAP_ENDPOINT = exports.MAP_ENDPOINT = API_SERVER + '/getDashboard.py';
 var CARD_ENDPOINT = exports.CARD_ENDPOINT = API_SERVER + '/GetSiteDescription.py';
