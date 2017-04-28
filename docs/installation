@@ -15,14 +15,17 @@ step2: clone source code from Github.
   - go to "/var/www/html" directory.
   > git clone https://github.com/pragmagrid/cloud-scheduler-gui.git
   - go to "/var/www/html/cloud-scheduler-gui/UI" directory.
-  > chmod 744 /var/www/html/cloud-scheduler-gui/UI/node_modules/.bin/webpack
-  > npm rebuild node-sass
+  option1: manual.
+	> chmod 744 /var/www/html/cloud-scheduler-gui/UI/node_modules/.bin/webpack
+     	> npm rebuild node-sass
+  option2: use script.
+     	> npm run config-unix
 step3: configure & build source code.
   - open file "/var/www/html/cloud-scheduler-gui/UI/src/config/endpoints.js"
   - change endpoint of "API_SERVER" (first line) to your URL server and API path.
   - go to "/var/www/html/cloud-scheduler-gui/UI" directory.
   > npm run build-unix
-step4: demo
+step4: demo.
   - open web browser and enter "URL/cloud-scheduler-gui/UI/dist"
   - finish!
 
