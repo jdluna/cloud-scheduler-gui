@@ -405,9 +405,9 @@ export default class SearchContainer extends Component {
 
         let params = {
             params:{
-                resources: ((this.state.cpu=='') ? 0 : this.state.cpu)+','+((this.state.cpu=='') ? 0 : this.state.cpu),
+                resources: ((this.state.cpu=='') ? 0 : this.state.cpu)+','+((this.state.mem=='') ? 0 : this.state.mem),
                 // cpu_amt: (this.state.cpu=='') ? 0 : this.state.cpu,
-                memory_amt: (this.state.mem=='') ? 0 : this.state.mem,
+                // memory_amt: (this.state.mem=='') ? 0 : this.state.mem,
                 connection_type: this.state.additionalNetwork,
                 image_type: this.state.imageType,
                 begin: this.state.startDate.date+' '+this.state.startTime+':00',
