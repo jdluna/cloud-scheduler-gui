@@ -9,10 +9,10 @@
     "prebuild": "npm run clean & npm run copy",
     "build": "webpack --display-error-details",
     "start": "webpack-dev-server --hot --inline --content-base src",
-    "clean-linux": "rm -rf dist",
-    "copy-linux": "mkdir dist && cp src/index.html dist && cp -r src/img dist/img",
-    "prebuild-linux": "npm run clean-linux && npm run copy-linux",
-    "build-linux": "webpack --display-error-detail"
+    "clean-unix": "rm -rf dist",
+    "copy-unix": "mkdir dist && cp src/index.html dist && cp -r src/img dist/img",
+    "prebuild-unix": "npm run clean-unix && npm run copy-unix",
+    "build-unix": "webpack --display-error-details"
   },
   "repository": {
     "type": "git",
