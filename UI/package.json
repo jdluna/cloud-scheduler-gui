@@ -12,7 +12,8 @@
     "clean-unix": "rm -rf dist",
     "copy-unix": "mkdir dist && cp src/index.html dist && cp -r src/img dist/img",
     "prebuild-unix": "npm run clean-unix && npm run copy-unix",
-    "build-unix": "webpack --display-error-details"
+    "build-unix": "webpack --display-error-details",
+    "config-unix": "chmod 744 ./node_modules/.bin/webpack && npm rebuild node-sass"
   },
   "repository": {
     "type": "git",
