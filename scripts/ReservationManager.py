@@ -242,7 +242,7 @@ class ReservationManager:
             else:
                 self.__userId = userId
                 
-            if userId != None:
+            if self.__userId != None:
                 sql = 'SELECT `username` FROM `user` WHERE `user_id`="'+str(self.__userId)+'";'
                 self.__db.execute(sql)
                 username = self.__db.getCursor().fetchone()[0]
