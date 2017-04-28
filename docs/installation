@@ -6,12 +6,12 @@ Require
 
 Install
 step1: install Node.js
-  - go to "/home" directory for download Node.js (linux binaries).
+  - go to "/usr/local" directory and download Node.js (linux binaries).
   > wget https://nodejs.org/dist/v6.10.2/node-v6.10.2-linux-x64.tar.gz
   - you can choose latest version from here "https://nodejs.org/download/release/latest/" (by default, we recommended v6.10.2)
-  > sudo tar --strip-components 1 -xzvf node-v6.10.2-linux-x64.tar.gz -C /usr/local
+  > sudo tar --strip-components 1 -xzvf node-v6.10.2-linux-x64.tar.gz
   > node --version (when installation successful, use this command to check version number)
-step2: clone source code from Github & setup environment to build.
+step2: clone source code from Github.
   - go to "/var/www/html" directory.
   > git clone https://github.com/pragmagrid/cloud-scheduler-gui.git
   - go to "/var/www/html/cloud-scheduler-gui/UI" directory.
