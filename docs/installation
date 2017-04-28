@@ -1,29 +1,32 @@
+--------------------------  
 GUI
--------------------------
-Require (localhost only)
-- Node.js
+--------------------------
+Require
+- Node.js (included Node Packages Manager)
 
 Install
-step1: clone source code from Github.
+step1: install Node.js
+  - go to "/home" directory for download Node.js (linux binaries).
+  > wget https://nodejs.org/dist/v6.10.2/node-v6.10.2-linux-x64.tar.gz
+  - you can choose latest version from here "https://nodejs.org/download/release/latest/" (by default, we recommended v6.10.2)
+  > sudo tar --strip-components 1 -xzvf node-v6.10.2-linux-x64.tar.gz -C /usr/local
+  > node --version (when installation successful, use this command to check version number)
+step2: clone source code from Github & setup environment to build.
+  - go to "/var/www/html" directory.
   > git clone https://github.com/pragmagrid/cloud-scheduler-gui.git
-step2: go to "cloud-scheduler-gui/UI" directory to run on localhost server.
-  > npm run start
-  - open web browser and enter "localhost:8080"
-  - and now, you can edit source code. When you save file, web browser will be auto refresh.
-step3: after you run on localhost, you have to the configure installation file and test before deploy to server.
-  - open file "cloud-scheduler-gui/UI/src/config/endpoints.js"
-  - change endpoint of "API_SERVER" (first line) to your API server, in this case you can change to "https://cloud.pragma-grid.net"
-step3: after everything is OK in localhost. you can build and deploy to server.
-  - go to "cloud-scheduler-gui/UI" directory
-  > npm run build
-step4: deploy.
-  - commit sourecode and push to Github.
-  - ssh to your server.
-  - clone source code to /var/www/html/
-  - go to "URL-SERVER/cloud-scheduler-gui/UI/dist"
+  - go to "/var/www/html/cloud-scheduler-gui/UI" directory.
+  > chmod 744 /var/www/html/cloud-scheduler-gui/UI/node_modules/.bin/webpack
+  > npm rebuild node-sass
+step3: configure & build source code.
+  - open file "/var/www/html/cloud-scheduler-gui/UI/src/config/endpoints.js"
+  - change endpoint of "API_SERVER" (first line) to your URL server and API path.
+  - go to "/var/www/html/cloud-scheduler-gui/UI" directory.
+  > npm run build-unix
+ step4: demo
+  - open web browser and enter "URL/cloud-scheduler-gui/UI/dist"
   - finish!
 
-
+--------------------------
 MySQL
 --------------------------
 In directory /var/www/html/cloud-scheduler-gui/db
@@ -32,6 +35,7 @@ In directory /var/www/html/cloud-scheduler-gui/db
 	> use pragma;
 	> source pragma.sql;
 
+--------------------------
 Python
 --------------------------
 1. Configuring the Apache file “/etc/httpd/conf/httpd.conf” by removing the ‘#’ at the first of line "AddHandler cgi-script .cgi" 
