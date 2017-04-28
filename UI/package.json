@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rmdir /s /q dist",
     "copy": "mkdir dist & copy src\\index.html dist & mkdir dist\\img & copy src\\img dist\\img",
-    "prebuild": "npm run clean & npm run copy",
+    "prebuild": "npm run copy",
     "build": "webpack --display-error-details",
     "start": "webpack-dev-server --hot --inline --content-base src",
     "clean-unix": "rm -rf dist",
