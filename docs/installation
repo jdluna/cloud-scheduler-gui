@@ -14,13 +14,9 @@ step1: install Node.js
 step2: clone source code from Github.
   - go to "/var/www/html" directory.
   > git clone https://github.com/pragmagrid/cloud-scheduler-gui.git
-step3: configure.
+step3: install packages & configure.
   - go to "/var/www/html/cloud-scheduler-gui/UI" directory.
-  option1: manual.
-	> chmod 744 /var/www/html/cloud-scheduler-gui/UI/node_modules/.bin/webpack
-     	> npm rebuild node-sass
-  option2: use script.
-     	> npm run config-unix
+  > npm install
   - open file "/var/www/html/cloud-scheduler-gui/UI/src/config/endpoints.js"
   - change endpoint of "API_SERVER" (first line) to your URL server and API path.
 step4: build source code.
