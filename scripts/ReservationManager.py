@@ -459,11 +459,10 @@ class ReservationManager:
                     for d in data:
                         siteId = d[1]
                         
-                        #create site just for getting the amount of resource types
                         self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
                         site_data = self.__db.getCursor().fetchone()   
-                        site = Site(site_data) 
-                       
+                        
+                        site = Site(site_data) #create site just for getting the amount of resource types
                         r = site.getResources()
                             
                         for i in range(0,len(r)):

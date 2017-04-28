@@ -98,7 +98,6 @@ class Resource:
 class CPU(Resource,object):
     
     def __init__(self,siteId=None,total=None,availAmount=None):
-        
         super(CPU,self).setType("CPU")
         super(CPU,self).setTotal(total)
         super(CPU,self).setSiteId(siteId)

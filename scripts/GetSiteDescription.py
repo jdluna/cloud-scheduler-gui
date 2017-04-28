@@ -23,8 +23,6 @@ SITE_ID = form.getvalue('site_id')
 DATE_REQUIRE = form.getvalue('date_req')
 #############################
 
-
-
 from SiteManager import SiteManager
 siteManager = SiteManager()
 if DATE_REQUIRE == None:
