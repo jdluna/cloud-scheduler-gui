@@ -458,7 +458,7 @@ export default class SearchContainer extends Component {
     render() {
         return (
             <section>
-                <Search searchContainer={this} />
+                <Search searchContainer={this} dashboardContainer={this.dashboardContainer}/>
             </section>
         )
     }

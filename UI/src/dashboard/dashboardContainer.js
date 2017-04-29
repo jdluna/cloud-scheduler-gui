@@ -32,9 +32,14 @@ export default class DashboardContainer extends Component {
                 multipleTextNode: {},
                 reserveBtnNode: {},
                 reserveTooltipNode: {},
+                reserveBarNode: {},
             },
             reserveMode: 'single',
-            modalName: ''
+            modalName: '',
+            aboveSearchModal:{
+                open: false,
+                node: null
+            }
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -60,7 +65,7 @@ export default class DashboardContainer extends Component {
 
     onSelectMenu(menu){
         switch(menu){
-            case 'Search'                   : this.setState({modal: <SearchContainer dashBoardContainer={this}/>});break
+            case 'Search'                   : this.setState({modal: <SearchContainer dashBoardContainer={this}/>});this.state.reservationPanel.reserveBarNode.style.zIndex = 8;break
             case 'Existing reservations'    : this.onCloseMoreInfo();this.checkLogin(menu);break
             case 'Past reservations'        : this.onCloseMoreInfo();this.checkLogin(menu);break
             case 'Settings'                 : this.onCloseMoreInfo();this.setState({modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>});break
@@ -85,8 +90,13 @@ export default class DashboardContainer extends Component {
     
     onCloseModal(){
         this.setState({
-            modal: []
+            modal: [],
+            aboveSearchModal:{
+                open: false,
+                node: null
+            }
         })
+        this.state.reservationPanel.reserveBarNode.style.zIndex = 1
     }
 
     onCloseMoreInfo(){
@@ -94,8 +104,17 @@ export default class DashboardContainer extends Component {
             cardDetail : {
                 panel: [],
                 data: {}
+            },
+            aboveSearchModal:{
+                open: false,
+                node: this.state.aboveSearchModal.node
             }
         })
+        if(this.state.aboveSearchModal.node!=null){
+            this.state.aboveSearchModal.node.style.visibility = 'hidden'
+        }else{
+            this.state.reservationPanel.reserveBarNode.style.zIndex = 1
+        }
     }
 
     onViewMoreInfo(data){
@@ -105,8 +124,16 @@ export default class DashboardContainer extends Component {
             cardDetail : {
                 panel: panel,
                 data: data
+            },
+            aboveSearchModal:{
+                open: true,
+                node: this.state.aboveSearchModal.node
             }
         })
+        if(this.state.aboveSearchModal.node!=null){
+            this.state.aboveSearchModal.node.style.visibility = 'visible'
+        }
+        this.state.reservationPanel.reserveBarNode.style.zIndex = 8;
     }
 
     setMarkerNode(marker){

@@ -60,9 +60,19 @@
             height: calc(100% - 49px);
             z-index: 4;
         }
+        .halfmodal--hidden{
+            position: absolute;
+            -webkit-backdrop-filter: blur(15px);
+            background-color: rgba(7,7,7,0.86);
+            width: calc(100% - 220px);
+            height: calc(100% - 49px);
+            z-index: 5;
+            visibility: hidden;
+        }
 
         .tooltip {
             position: relative;
+            z-index: 10 !important;
         }
         .tooltiptext--hide{
             visibility: hidden;
@@ -72,7 +82,6 @@
         }
         .tooltip--small{
             width: 60px !important;
-            top: -10px !important;
         }
         .tooltip .tooltiptext--left{
             visibility: hidden;
