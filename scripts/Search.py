@@ -9,10 +9,12 @@ Created on Thu Feb 16 22:17:23 2017
 import cgitb
 cgitb.enable()
 
+print "Content-Type: text/html"     
+print "Access-Control-Allow-Origin: *"  
+print
 
 import cgi
 form = cgi.FieldStorage()
-
 
 ###variable from front-end###
 RESOURCES = form.getvalue('resources')

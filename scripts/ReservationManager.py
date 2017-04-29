@@ -257,16 +257,8 @@ class ReservationManager:
                     end = d[4]
                     diff = currentTime - end
                     
-                    r = Reservation()
-                    r.setReservationId(d[0])
-                    r.setTitle(d[1])
-                    r.setDescription(d[2])
-                    r.setStart(d[3])
-                    r.setEnd(end)
-                    r.setImageType(d[5])
-                    r.setType(d[6])
+                    r = Reservation(d)
                     r.setOwner(username)
-                    
                     
                     r.setReservationsSite() 
                     status = r.getReservationsSite()[0].getStatus()

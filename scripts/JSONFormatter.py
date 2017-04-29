@@ -59,3 +59,35 @@ class JSONFormatter:
         jsonStr += '}'
         
         return jsonStr
+        
+    def formatReservation(self,r):
+        jsonStr = ''
+        jsonStr += ' { "reservation_id" : "'+str(r.getReservationId())+'", '
+        jsonStr += '"title" : "'+str(r.getTitle())+'", '
+        jsonStr += '"description" : "'+str(r.getDescription())+'", '
+        jsonStr += '"begin" : "'+str(r.getStart())+'", '
+        jsonStr += '"end" : "'+str(r.getEnd())+'", '
+        jsonStr += '"owner" : "'+str(r.getOwner())+'", '
+        jsonStr += '"image_type" : "'+str(r.getImageType())+'", '
+        jsonStr += '"type" : "'+str(r.getType())+'", '
+        
+        jsonStr += '"sites" : ['
+        
+        sites = r.getReservationsSite()
+        for s in sites:
+            jsonStr += ' { "site_name" : "'+str(s.getName())+'", '
+            
+            for r in s.getResources():
+                jsonStr += '"'+str(r.getType())+'" : "'+str(r.getAmount())+'" ,'
+            
+            jsonStr += '"status" : "'+str(s.getStatus())+'" },'
+        
+        jsonStr = jsonStr[:-1]    
+        jsonStr += ']' #end sites
+        
+        jsonStr += '}'
+        
+        return jsonStr
+        
+    def formatJson(self,name,data):
+        return '"'+str(name)+'" : "'+str(data)+'"'

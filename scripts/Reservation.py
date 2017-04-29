@@ -17,8 +17,15 @@ from Site import Site
 
 class Reservation:
     
-    def __init__(self):
+    def __init__(self,d):
         self.__sites=[]
+        self.setReservationId(d[0])
+        self.setTitle(d[1])
+        self.setDescription(d[2])
+        self.setStart(d[3])
+        self.setEnd(d[4])
+        self.setImageType(d[5])
+        self.setType(d[6])
     
     def setReservationId(self, reservationId):
         self.__reservationId = reservationId
