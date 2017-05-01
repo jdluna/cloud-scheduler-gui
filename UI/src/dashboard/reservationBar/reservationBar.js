@@ -8,13 +8,14 @@ export default class reservationBar extends Component {
             reservationPanel:{
                 multipleTextNode: this.refs.multiple,
                 reserveBtnNode: this.refs.reserveBtn,
-                reserveTooltipNode: this.refs.reserveTooltip
+                reserveTooltipNode: this.refs.reserveTooltip,
+                reserveBarNode: this.refs.reserveBar
             }
         })
     }
     render() {
         return (
-            <section id={style.panel}>
+            <section ref='reserveBar' id={style.panel}>
                 <section className={style.reserve}>
                     <form>
                         <div><span className={style.title}>RESERVATION</span></div>
@@ -29,7 +30,7 @@ export default class reservationBar extends Component {
                         <span className={style.select}>Selected : {this.props.dashBoardContainer.state.selectCard.length}</span>
                         <span className='tooltip' >
                             <button ref='reserveBtn' className='btn--disabled' disabled={this.props.dashBoardContainer.state.selectCard.length<1} onClick={this.props.reservationBarContainer.onReserveClick}>RESERVE</button>
-                            <span ref='reserveTooltip' className="tooltiptext--left">Select any cards for reservation</span>
+                            <span ref='reserveTooltip' className="tooltiptext--left">Select any sites for reservation</span>
                         </span>
                     </form>
                 </section>

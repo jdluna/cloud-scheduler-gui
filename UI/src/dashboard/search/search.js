@@ -65,6 +65,16 @@ export default class Search extends Component {
             }
         })
         this.refs.cpu.focus()
+
+        if(this.props.dashboardContainer.state.aboveSearchModal.open==true){
+            this.refs.abovesearchmodal.style.visibility = 'visible'
+        }
+        this.props.dashboardContainer.setState({
+            aboveSearchModal:{
+                open: true,
+                node: this.refs.abovesearchmodal
+            }
+        })
     }
 
     render() {
@@ -77,8 +87,9 @@ export default class Search extends Component {
         let endEndDuration = this.props.searchContainer.state.endEndDuration
         let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.searchContainer.state.endTime} handle={this.props.searchContainer.onTimeEndChange}/>
 
-
         return (
+            <div>
+            <section ref='abovesearchmodal' className='halfmodal--hidden'></section>
             <section className='halfmodal'>
                 <section className={Style.panel}>
                     <header>
@@ -191,6 +202,7 @@ export default class Search extends Component {
                     </section>
                 </section>
             </section>
+            </div>
         )
     }
 }
