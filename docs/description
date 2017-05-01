@@ -1,0 +1,49 @@
+GUI
+----------------------
+
+UI DIRECTORY
+  UI directory contained source code and configure file, included one directory and two file.
+    - src (contained all source code)
+    - packages.json (information about the project & npm script)
+    - webpack.config.js (build configure file)
+  after build source code and don't to edit anything. you can remove src, packages.json and webpack.config.js because build file will contained in dist directory, that is.
+    - index.html
+    - index.js (contained all of javascript that compiled from react and included css that compiled from sass)
+    - img (contained all image file)
+SRC DIRECTORY
+  UI/src directory included seven directory and two file
+    - app (contained main component)
+    - config (contained configure file to call python script)
+    - dashboard (contained all dashboard module)
+    - header (header module)
+    - img (all of image file)
+      - download here. https://material.io/icons/
+    - lib (third party library, such as marker cluster)
+      - https://github.com/googlemaps/v3-utility-library/tree/master/markerclusterer
+    - sass (global style, such as some button color)
+    - index.html
+    - index.js
+COMPONENT & MODULE 
+    - Now, the system have one component, that is dashboard. it contained many module. basic of module included three file.
+      - presentation (html)
+      - container (logic. that is all function for that module)
+      - style (scss)
+    - dependencies (important!)
+      some module will work together. so, some function and variable will declare at root of component. in this case we declare in dashboardContainer.js 
+
+Example:
+    - how to add new attributes (for example, GPU)
+      - search function
+        - search.js (update html)
+        - foundTable.js (update html)
+        - notFoundTable.js (update html)
+        - searchContainer.js (update js)
+      
+    
+    
+      
+
+
+ 
+  
+  
