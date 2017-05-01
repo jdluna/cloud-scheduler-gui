@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmi:id="_nu3RoCxuEeepAIkEZNs7pw" type="UMLClass" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_n7zhcCxuEeepAIkEZNs7pw" type="2014">
+    <children xmi:type="notation:Node" xmi:id="_n70IgCxuEeepAIkEZNs7pw" type="5020"/>
+    <children xmi:type="notation:Node" xmi:id="_n70vkCxuEeepAIkEZNs7pw" type="7032">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_n70vkSxuEeepAIkEZNs7pw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_n70vkixuEeepAIkEZNs7pw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_n70vkyxuEeepAIkEZNs7pw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_n7zhcSxuEeepAIkEZNs7pw" fontName="Segoe UI"/>
+    <element xmi:type="uml:Model" href="Python.uml#_nqZBUCxuEeepAIkEZNs7pw"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_n7zhcixuEeepAIkEZNs7pw"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ph6joCxuEeepAIkEZNs7pw" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_ph7KsCxuEeepAIkEZNs7pw" type="5003">
+      <styles xmi:type="notation:FontStyle" xmi:id="_piJ0MCxuEeepAIkEZNs7pw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ph7KsSxuEeepAIkEZNs7pw" type="5019"/>
+    <children xmi:type="notation:Node" xmi:id="_ph7xwCxuEeepAIkEZNs7pw" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ph7xwSxuEeepAIkEZNs7pw"/>
+      <styles xmi:type="notation:TitleStyle" xmi:id="_ph7xwixuEeepAIkEZNs7pw" showTitle="true"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ph7xwyxuEeepAIkEZNs7pw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ph7xxCxuEeepAIkEZNs7pw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ph8_4CxuEeepAIkEZNs7pw" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ph8_4SxuEeepAIkEZNs7pw"/>
+      <styles xmi:type="notation:TitleStyle" xmi:id="_ph8_4ixuEeepAIkEZNs7pw" showTitle="true"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ph8_4yxuEeepAIkEZNs7pw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ph8_5CxuEeepAIkEZNs7pw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ph8_5SxuEeepAIkEZNs7pw" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ph8_5ixuEeepAIkEZNs7pw"/>
+      <styles xmi:type="notation:TitleStyle" xmi:id="_ph8_5yxuEeepAIkEZNs7pw" showTitle="true"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ph8_6CxuEeepAIkEZNs7pw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ph8_6SxuEeepAIkEZNs7pw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ph6joSxuEeepAIkEZNs7pw" fontName="Segoe UI"/>
+    <element xmi:type="uml:Class" href="Python.uml#_phRDYCxuEeepAIkEZNs7pw"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ph6joixuEeepAIkEZNs7pw" x="210" y="137"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_nu3RoSxuEeepAIkEZNs7pw"/>
+  <styles xmi:type="notation:FilteringStyle" xmi:id="_nu3RoixuEeepAIkEZNs7pw"/>
+  <element xmi:type="uml:Model" href="Python.uml#_nqZBUCxuEeepAIkEZNs7pw"/>
+</notation:Diagram>

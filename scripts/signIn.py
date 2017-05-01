@@ -33,7 +33,7 @@ if result :
     sessionId = auth.getUser().getSessionToken()
     jsonStr += ', "session_id" : "' + str(sessionId) + '"'
     jsonStr += ', "firstname" : "' + str(auth.getUser().getFirstname()) + '"'
-    jsonStr += ', "lastName" : "' + str(auth.getUser().getLastname()) + '"'
+    jsonStr += ', "lastname" : "' + str(auth.getUser().getLastname()) + '"'
     jsonStr += ', "email_address" : "' + str(auth.getUser().getEmailAddress()) + '"'
     jsonStr += ', "phone_number" : "' + str(auth.getUser().getPhoneNumber()) + '"'
     jsonStr += ', "status" : "' + str(auth.getUser().getStatus()) + '"'

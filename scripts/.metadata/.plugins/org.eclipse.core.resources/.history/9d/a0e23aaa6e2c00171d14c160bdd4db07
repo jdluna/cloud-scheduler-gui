@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmi:id="_nqZBUCxuEeepAIkEZNs7pw" name="Python">
+  <profileApplication xmi:id="_nrZG4CxuEeepAIkEZNs7pw">
+    <eAnnotations xmi:id="_nraVACxuEeepAIkEZNs7pw" source="http://www.eclipse.org/uml2/2.0.0/UML"/>
+    <appliedProfile href="PyUMLProfile.uml#_7Y-UAKi8Edyr_pXRyLU3wA"/>
+  </profileApplication>
+</uml:Model>
