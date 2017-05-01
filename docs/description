@@ -17,11 +17,13 @@ SRC DIRECTORY
     - dashboard (contained all dashboard module)
     - header (header module)
     - img (all of image file)
+      - download here. https://material.io/icons/
     - lib (third party library, such as marker cluster)
+      - https://github.com/googlemaps/v3-utility-library/tree/master/markerclusterer
     - sass (global style, such as some button color)
     - index.html
     - index.js
-Component & Module 
+COMPONENT & MODULE 
     - Now, the system have one component, that is dashboard. it contained many module. basic of module included three file.
       - presentation (html)
       - container (logic. that is all function for that module)
