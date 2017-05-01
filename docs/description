@@ -11,19 +11,20 @@ UI DIRECTORY
     - index.js (contained all of javascript that compiled from react and included css that compiled from sass)
     - img (contained all image file)
 SRC DIRECTORY
-  UI/src directory included seven directory and two file
+  UI/src directory included seven directory and two file.
     - app (contained main component)
-    - config (contained configure file to call python script)
+    - config (contained configure file to call python scripts)
     - dashboard (contained all dashboard module)
     - header (header module)
     - img (all of image file)
-      - download here. https://material.io/icons/
-    - lib (third party library, such as marker cluster)
-      - https://github.com/googlemaps/v3-utility-library/tree/master/markerclusterer
+      - svg file, download here. https://material.io/icons
+    - lib (contained third party library)
+      - markerclusterer, download here. https://github.com/googlemaps/v3-utility-library/tree/master/markerclusterer
+      if you have added new library. you will update "webpack.config.js" file. in array of entry (five line), push new pathe of library. 
     - sass (global style, such as some button color)
     - index.html
     - index.js
-COMPONENT & MODULE 
+COMPONENT & MODULE
     - Now, the system have one component, that is dashboard. it contained many module. basic of module included three file.
       - presentation (html)
       - container (logic. that is all function for that module)
