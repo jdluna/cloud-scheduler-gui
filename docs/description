@@ -31,6 +31,13 @@ Component & Module
 
 Example:
     - how to add new attributes (for example, GPU)
+      - search function
+        - search.js (update html)
+        - foundTable.js (update html)
+        - notFoundTable.js (update html)
+        - searchContainer.js (update js)
+      
+    
     
       
 
