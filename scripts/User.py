@@ -36,24 +36,25 @@ class User:
     __language = None
     
     
-    def __init__(self,username= None,userId= None,password = None,firstname= None,lastName= None,emailAddress= None,phoneNumber= None,status= None,organization= None,position= None,language= None,timezone= None,sessionId = None): 
-        self.__username = username      
-        self.__sessionId = None
-        self.__userId = userId
-        self.__password = password
-        self.__firstname = firstname
-        self.__lastName = lastName
-        self.__emailAddress = emailAddress
-        self.__phoneNumber = phoneNumber
-        self.__status = status
-        self.__organization = organization
-        self.__position = position
-        self.__language = language
-        self.__timezone = timezone
+    def __init__(self,data=None,sessionId=None): 
+        if data != None:
+            self.__sessionId = None
+            self.__userId = data[0]
+            self.__username = data[1] 
+            self.__password = data[2]
+            self.__firstname = data[3]
+            self.__lastName = data[4]
+            self.__emailAddress = data[5]
+            self.__phoneNumber = data[6]
+            self.__status = data[7]
+            self.__organization = data[8]
+            self.__position = data[9]
+            self.__language = data[10]
+            self.__timezone = data[11]
+                
         self.__db = Database()
-        
         if self.__db.connect():
-        
+            
             if sessionId == None:
                 self.__setSessionToken()
             else:

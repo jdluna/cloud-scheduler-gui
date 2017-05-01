@@ -24,23 +24,17 @@ print "Access-Control-Allow-Origin: *"
 print
 
 from AuthenticationManager import AuthenticationManager
+from JSONFormatter import JSONFormatter
 
 auth = AuthenticationManager()
 result = auth.authenticate(USERNAME,PASSWORD)
-jsonStr = '{ "result" : "' +str(result)+ '"'
+
+jsonFormatter = JSONFormatter()
+jsonStr = '{ "result" : "' +str(result)+ '",'
 
 if result :
-    sessionId = auth.getUser().getSessionToken()
-    jsonStr += ', "session_id" : "' + str(sessionId) + '"'
-    jsonStr += ', "firstname" : "' + str(auth.getUser().getFirstname()) + '"'
-    jsonStr += ', "lastname" : "' + str(auth.getUser().getLastname()) + '"'
-    jsonStr += ', "email_address" : "' + str(auth.getUser().getEmailAddress()) + '"'
-    jsonStr += ', "phone_number" : "' + str(auth.getUser().getPhoneNumber()) + '"'
-    jsonStr += ', "status" : "' + str(auth.getUser().getStatus()) + '"'
-    jsonStr += ', "organization" : "' + str(auth.getUser().getOrganization()) + '"'
-    jsonStr += ', "position" : "' + str(auth.getUser().getPosition()) + '"'
-    jsonStr += ', "language" : "' + str(auth.getUser().getLanguage()) + '"'
-    jsonStr += ', "timezone" : "' + str(auth.getUser().getTimezone()) + '"'
+    user = auth.getUser()
+    jsonStr += jsonFormatter.formatUser(user)
 
 jsonStr += ' }'
 

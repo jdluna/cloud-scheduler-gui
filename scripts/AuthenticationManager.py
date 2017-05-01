@@ -29,7 +29,7 @@ class AuthenticationManager:
         hashObject = hashlib.sha512(password)
         passwordDig = hashObject.hexdigest()
         
-        if self.getUser().getPassword() == passwordDig:
+        if self.getUser() != None and self.getUser().getPassword() == passwordDig:
             return True
         else:
             return False
@@ -71,7 +71,7 @@ class AuthenticationManager:
             data = db.getCursor().fetchone()
         
             if data != None:
-                self.__usr = User(username,data[0],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9],data[10],data[11])
+                self.__usr = User(data=data)
         
             db.close()
         
