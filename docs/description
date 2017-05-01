@@ -28,7 +28,10 @@ Component & Module
       - style (scss)
     - dependencies (important!)
       some module will work together. so, some function and variable will declare at root of component. in this case we declare in dashboardContainer.js 
-      
+
+Example:
+    - how to add new attributes (for example, GPU)
+    
       
 
 
