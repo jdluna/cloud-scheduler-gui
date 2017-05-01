@@ -74,7 +74,7 @@ class Reservation:
             for d in data:
                 siteId = d[1]
                 s = Site(site_id = siteId)
-                s.setStatus(d[4])
+                s.setStatus(d[2])
                        
                 #create site just for getting the amount of resource types
                 self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
@@ -84,7 +84,7 @@ class Reservation:
                 
                 for i in range(0,len(r)):
                     #d[2] = CPU, d[3] = Memory
-                    r[i].setAmount(d[2+i])
+                    r[i].setAmount(d[3+i])
                     
                 s.setResources(r)
                 

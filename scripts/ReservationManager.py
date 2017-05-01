@@ -126,13 +126,13 @@ class ReservationManager:
                 ### UPDATE `site_reserved` table
                 for i in range(0,len(self.__sitesId)):
                     sql = 'INSERT INTO `site_reserved` VALUES ('
-                    sql += '"'+str(self.__reservationID)+'","'+str(self.__sitesId[i])+'","'
+                    sql += '"'+str(self.__reservationID)+'","'+str(self.__sitesId[i])+'","waiting","'
                     
                     
                     for j in range(0,len(self.__resources[0])):
                         sql += str(self.__resources[i][j])+'","'
                     
-                    sql += 'waiting"'
+                    sql = sql[:-2]
                     sql += ');'
 
                     self.__db.execute(sql)
@@ -344,9 +344,9 @@ class ReservationManager:
                             r = site.getResources()
                             for i in range(0,len(site.getResources())):
                                 #d[2] = CPU, d[3] = Memory
-                                if int(r[i].getAvailableAmount()) <= int(d[2+i]):
+                                if int(r[i].getAvailableAmount()) <= int(d[3+i]):
                                     return False
-                                r[i].setAmount(d[2+i])
+                                r[i].setAmount(d[3+i])
                             
                             sites.append(site)
                                 
@@ -459,7 +459,7 @@ class ReservationManager:
                             
                         for i in range(0,len(r)):
                             #d[2] = CPU, d[3] = Memory
-                            r[i].setAmount(d[2+i])
+                            r[i].setAmount(d[3+i])
                         
                         sites.append(site)
                     

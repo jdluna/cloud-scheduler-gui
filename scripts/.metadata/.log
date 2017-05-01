@@ -8796,3 +8796,8 @@ project properties to the project you want (e.g.: Jython project).
 	at org.eclipse.core.internal.events.AutoBuildJob.doBuild(AutoBuildJob.java:137)
 	at org.eclipse.core.internal.events.AutoBuildJob.run(AutoBuildJob.java:235)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.core.resources 2 2 2017-05-01 16:10:50.010
+!MESSAGE Save operation warnings.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2017-05-01 16:10:50.010
+!MESSAGE The project description file (.project) for 'Python' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
