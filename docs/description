@@ -105,7 +105,7 @@ Example:
       - reservation function (reservation directory)
       ===========================
         - step1.js (update html)
-          - add new input element below
+          - add new input element below this element.
           <div className={Style.block}>
             <input ref={data.name.toLowerCase().replace(' ','')+'MEM'} ... onChange={this.props.reservationContainer.onEnterMEM}/>
           </div>
@@ -117,4 +117,74 @@ Example:
             <input ref={data.name.toLowerCase().replace(' ','')+'ADD--ATTRIBUTE--NAME'} name={key} value={this.props.reservationContainer.state.ADD--ATTRIBUTE--NAME[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterADD--ATTRIBUTE--NAME}/>
           </div>
           ---------------------------------------------------------
-    
+      
+      ===========================
+      - card (reservationBar directory)
+      ===========================
+        - card.js (update html)
+          - add new element below inner "<div className={style.chart}>" element.
+          ---------------------------------------------------------
+          <div>
+            <div className={style.innerlabel}>
+              <div className={style.label}>{this.props.cardContainer.state.site.ADD--ATTRIBUTE--NAME}</div>
+              <div className={style.minilabel}>GB</div>
+            </div>
+            <canvas className={style.padding} ref="ADD--ATTRIBUTE--NAME" width='70' height='70'></canvas>
+            <div className={style.label}>ADD--ATTRIBUTE--NAME</div>
+          </div>
+          ---------------------------------------------------------
+          - add new element below inner "<div className={style.resource}>" element
+          ---------------------------------------------------------
+          <div>
+            <span className={style...}></span>
+            <span className={style...}>ADD--ATTRIBUTE--NAME Available</span>
+            <span className={style...}> : {this.props.cardContainer.state.site.ADD--ATTRIBUTE--NAMEAvailable}</span><span>{' /'+this.props.cardContainer.state.site.ADD--ATTRIBUTE--NAMETotal}</span>
+          </div>
+          
+          in this case, you will add new style for this element in card.scss file
+          ---------------------------------------------------------
+          - in componentDidMount method, add new attribute DOM to setChartNode()
+          ---------------------------------------------------------
+          componentDidMount(){
+            this.props.cardContainer.setChartNode(this.refs.cpu,this.refs.ADD--ATTRIBUTE--NAME)
+          }
+          ---------------------------------------------------------
+        - cardContainer.js (update logic)
+          - first, add new attribute name to state of variable in constructor method.
+            ---------------------------------------------------------
+            this.state = {
+              nodeADD--ATTRIBUTE--NAME: '',
+              nodeCPU: {},
+              nodeMem: {},
+              ...
+              site: {
+                ADD--ATTRIBUTE--NAMETotal: 0,
+                ADD--ATTRIBUTE--NAMEAvailable: 0,
+                ...
+              }
+            }
+          ---------------------------------------------------------
+          - second, update querySite method. (set state and draw chart)
+          ---------------------------------------------------------
+          this.setState({
+              site: {
+                ADD--ATTRIBUTE--NAMETotal: site.ADD--ATTRIBUTE--NAME.total,
+                ADD--ATTRIBUTE--NAMEAvailable: site.ADD--ATTRIBUTE--NAME.available,
+                ...
+              }
+          })
+          let ADD--ATTRIBUTE--NAMEUsedData = (this.state.site.cpuTotal-this.state.site.cpuAvailable)
+          this.drawDoughnutChart(this.state.nodeADD--ATTRIBUTE--NAME,this.state.site.ADD--ATTRIBUTE--NAMEAvailable,ADD--ATTRIBUTE--NAMEUsedData,'#EFA430')
+          ---------------------------------------------------------
+          - third, update querySiteByDate method (as same as update querySite method)
+          - finally, update setChartNode method to receive new argument and set state. 
+          ---------------------------------------------------------
+            setChartNode(CPU,mem,ADD--ATTRIBUTE--NAME){
+               this.setState({
+                  nodeADD--ATTRIBUTE--NAME: ADD--ATTRIBUTE--NAME,
+                  nodeCPU: CPU,
+                  nodeMem: mem
+               })
+            }
+          ---------------------------------------------------------
+          
