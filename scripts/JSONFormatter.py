@@ -30,7 +30,7 @@ class JSONFormatter:
         #get site's image type
         jsonStr += '"image_type" : ['
         for img in s.getImageType():
-            jsonStr += '{"name" : "'+str(img)+'"},'
+            jsonStr += str(img).replace("'",'"')+','
             
         if len(s.getImageType()) != 0:
             jsonStr = jsonStr[:-1]        
@@ -40,7 +40,7 @@ class JSONFormatter:
         #get site's connection type
         jsonStr += '"connection_type" : ['
         for con in s.getConnectionType():
-            jsonStr += '{"name" : "'+str(con)+'"},'
+            jsonStr += str(con).replace("'",'"')+','
         
         if len(s.getConnectionType()) != 0:
             jsonStr = jsonStr[:-1]

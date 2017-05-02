@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2017 at 12:51 AM
+-- Generation Time: May 02, 2017 at 03:32 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `pragma`
@@ -40,25 +40,45 @@ CREATE TABLE `canceled_reservation` (
 
 CREATE TABLE `connection_type` (
   `site_id` bigint(20) UNSIGNED NOT NULL,
-  `connection_type` varchar(16) NOT NULL
+  `connection_type_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `connection_type`
 --
 
-INSERT INTO `connection_type` (`site_id`, `connection_type`) VALUES
-(1, 'IPOP'),
-(1, 'ENT'),
-(2, 'IPOP'),
-(2, 'ENT'),
-(3, 'IPOP'),
-(4, 'ENT'),
-(5, 'IPOP'),
-(5, 'ENT'),
-(6, 'IPOP'),
-(7, 'ENT'),
-(8, 'ENT');
+INSERT INTO `connection_type` (`site_id`, `connection_type_id`) VALUES
+(1, 2),
+(1, 1),
+(2, 2),
+(2, 1),
+(3, 2),
+(4, 1),
+(5, 2),
+(5, 1),
+(6, 2),
+(7, 1),
+(8, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `connection_type_desc`
+--
+
+CREATE TABLE `connection_type_desc` (
+  `connection_type_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `description` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `connection_type_desc`
+--
+
+INSERT INTO `connection_type_desc` (`connection_type_id`, `name`, `description`) VALUES
+(1, 'ENT', 'pragma ent'),
+(2, 'IPOP', 'ipop connection');
 
 -- --------------------------------------------------------
 
@@ -68,37 +88,59 @@ INSERT INTO `connection_type` (`site_id`, `connection_type`) VALUES
 
 CREATE TABLE `image_type` (
   `site_id` bigint(20) UNSIGNED NOT NULL,
-  `image_type` varchar(16) NOT NULL
+  `image_type_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `image_type`
 --
 
-INSERT INTO `image_type` (`site_id`, `image_type`) VALUES
-(1, 'centos7'),
-(1, 'hku_biolinux'),
-(2, 'centos7'),
-(2, 'hku_biolinux'),
-(3, 'centos7'),
-(3, 'hku_biolinux'),
-(3, 'rocks-basic'),
-(4, 'centos7'),
-(4, 'rocks-basic'),
-(5, 'centos7'),
-(5, 'rocks-basic'),
-(5, 'rocks-sge'),
-(6, 'centos7'),
-(6, 'rocks-basic'),
-(6, 'rocks-sge'),
-(7, 'centos7'),
-(7, 'rocks-sge'),
-(7, 'hku_biolinux'),
-(8, 'centos7'),
-(8, 'hku_biolinux'),
-(9, 'centos7'),
-(9, 'rocks-basic'),
-(10, 'centos7');
+INSERT INTO `image_type` (`site_id`, `image_type_id`) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2),
+(3, 1),
+(3, 2),
+(3, 3),
+(4, 1),
+(4, 3),
+(5, 1),
+(5, 3),
+(5, 4),
+(6, 1),
+(6, 3),
+(6, 4),
+(7, 1),
+(7, 4),
+(7, 2),
+(8, 1),
+(8, 2),
+(9, 1),
+(9, 3),
+(10, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `image_type_desc`
+--
+
+CREATE TABLE `image_type_desc` (
+  `image_type_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `description` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `image_type_desc`
+--
+
+INSERT INTO `image_type_desc` (`image_type_id`, `name`, `description`) VALUES
+(1, 'centos7', 'CentOS7'),
+(2, 'hku_biolinux', '-'),
+(3, 'rocks-basic', 'no description'),
+(4, 'rocks-sge', 'none');
 
 -- --------------------------------------------------------
 
@@ -253,14 +295,30 @@ ALTER TABLE `canceled_reservation`
 --
 ALTER TABLE `connection_type`
   ADD KEY `site_id` (`site_id`),
-  ADD KEY `image_type_id` (`connection_type`);
+  ADD KEY `image_type_id` (`connection_type_id`),
+  ADD KEY `site_id_2` (`site_id`);
+
+--
+-- Indexes for table `connection_type_desc`
+--
+ALTER TABLE `connection_type_desc`
+  ADD PRIMARY KEY (`connection_type_id`),
+  ADD UNIQUE KEY `connection_type_id` (`connection_type_id`);
 
 --
 -- Indexes for table `image_type`
 --
 ALTER TABLE `image_type`
   ADD KEY `site_id` (`site_id`),
-  ADD KEY `image_type_id` (`image_type`);
+  ADD KEY `image_type_id` (`image_type_id`);
+
+--
+-- Indexes for table `image_type_desc`
+--
+ALTER TABLE `image_type_desc`
+  ADD PRIMARY KEY (`image_type_id`),
+  ADD UNIQUE KEY `image_type_id_2` (`image_type_id`),
+  ADD KEY `image_type_id` (`name`);
 
 --
 -- Indexes for table `reservation`
@@ -306,6 +364,16 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `connection_type_desc`
+--
+ALTER TABLE `connection_type_desc`
+  MODIFY `connection_type_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `image_type_desc`
+--
+ALTER TABLE `image_type_desc`
+  MODIFY `image_type_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
@@ -335,6 +403,12 @@ ALTER TABLE `canceled_reservation`
 --
 ALTER TABLE `connection_type`
   ADD CONSTRAINT `connection_type_ibfk_1` FOREIGN KEY (`site_id`) REFERENCES `site` (`site_id`);
+
+--
+-- Constraints for table `connection_type_desc`
+--
+ALTER TABLE `connection_type_desc`
+  ADD CONSTRAINT `connection_type_desc_ibfk_1` FOREIGN KEY (`connection_type_id`) REFERENCES `connection_type` (`connection_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `image_type`

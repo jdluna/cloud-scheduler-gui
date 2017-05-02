@@ -108,13 +108,13 @@ class Site:
         
         db = Database()
         if db.connect() :
-            sql = "SELECT `image_type` FROM `image_type` WHERE `site_id` = '"+str(self.__siteId)+"';"
+            sql = "SELECT `name`, `description` FROM `image_type_desc` JOIN `image_type` ON `image_type`.`image_type_id` = `image_type_desc`.`image_type_id` WHERE `image_type`.`site_id` = '"+str(self.__siteId)+"';"
             
             if db.execute(sql) :
                 data = db.fetchall()
                 
                 for d in data:
-                    self.__image_types.append(d[0])
+                    self.__image_types.append({"name" : d[0], "description": d[1]})
                        
             db.close()
     
@@ -128,13 +128,13 @@ class Site:
     def __setConnectionType(self):        
         db = Database()
         if db.connect() :
-            sql = "SELECT `connection_type` FROM `connection_type` WHERE `site_id` = '"+str(self.__siteId)+"';"
-            
+            sql = "SELECT `name`, `description` FROM `connection_type_desc` JOIN `connection_type` ON `connection_type`.`connection_type_id` = `connection_type_desc`.`connection_type_id` WHERE `connection_type`.`site_id` = '"+str(self.__siteId)+"';"
+        
             if db.execute(sql) :
                 data = db.fetchall()
                 
                 for d in data:
-                    self.__connection_types.append(d[0])
+                    self.__connection_types.append({"name" : d[0], "description": d[1]})
                        
             db.close()
 
