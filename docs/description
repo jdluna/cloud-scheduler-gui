@@ -35,7 +35,7 @@ COMPONENT & MODULE
 Example:
     - how to add new attributes (for example, GPU)
       ===========================
-      - search function
+      - search function (search directory)
       ===========================
         - search.js (update html)
           - add new input element to form. below cpu and memory section. (above and first of "<div className={Style.divideblock2}>" element)
@@ -89,14 +89,229 @@ Example:
       ===========================
       - existing reservations & past reservations (history directory)
       ===========================
-        - add attribute name below "<div className={Style.space}>Memory reserved</div>"
+        - detail.js (update html)
+          - add attribute name below "<div className={Style.space}>Memory reserved</div>"
+            ---------------------------------------------------------
+            <div className={Style.space}>ADD--ATTRIBUTE--NAME</div>
+            ---------------------------------------------------------
+          - add new data element below "<div className={Style.space}>: {site.memory}</div>"
+            ---------------------------------------------------------
+            <div className={Style.space}>: {site.ADD--ATTRIBUTE--NAME}</div>
+
+            when: site... depend on response data from python script.
+            ---------------------------------------------------------
+
+      ===========================
+      - reservation function (reservation directory)
+      ===========================
+        - step1.js (update html)
+          - add new input element inner "<div className={Style.row} key={key}>" element.
           ---------------------------------------------------------
-          <div className={Style.space}>ADD--ATTRIBUTE--NAME</div>
+          <div className={Style.block}>
+            <span>ADD--ATTRIBUTE--NAME :</span>
+          </div>
+          <div className={Style.block}>
+            <input ref={data.name.toLowerCase().replace(' ','')+'ADD--ATTRIBUTE--NAME'} name={key} value={this.props.reservationContainer.state.ADD--ATTRIBUTE--NAME[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterADD--ATTRIBUTE--NAME}/>
+          </div>
           ---------------------------------------------------------
-        - add new data element below "<div className={Style.space}>: {site.memory}</div>"
+          - add new attribute DOM to state inner componentDidMount()
           ---------------------------------------------------------
-          <div className={Style.space}>: {site.ADD--ATTRIBUTE--NAME}</div>
+          ...
+          siteInputADD--ATTRIBUTE--NAMEDom = []
+          Object.keys(this.refs).map((data,key)=>{
+            if(key!=0){
+                if((key%2)==1){
+                    siteInputCPUDom.push(this.refs[data])
+                }else if((key%2)==0){
+                    siteInputMEMDom.push(this.refs[data])
+                }else{
+                  siteInputADD--ATTRIBUTE--NAMEDom.push(this.refs[data])
+                }
+            }
+          })
+          this.props.reservationContainer.setState({
+            siteInputCPUDom: siteInputCPUDom,
+            siteInputMEMDom: siteInputMEMDom,
+            siteInputADD--ATTRIBUTE--NAMEDom: siteInput
+          })
+          ---------------------------------------------------------
+        - step3.js (update html)
+          - add new attribute element to inner "<div className={Style.item} key={key}>" element.
+          ---------------------------------------------------------
+          <div className={Style.row}>
+            <div className={Style.column}>
+              <div className={Style.west}>ADD--ATTRIBUTE--NAME (GB):</div>
+              <div className={Style.east}>{(this.props.reservationContainer.state.ADD--ATTRIBUTE--NAME[key]!='') ? this.props.reservationContainer.state.ADD--ATTRIBUTE--NAME[key] : '0'}</div>
+            </div>
+          </div>
+          ---------------------------------------------------------
+        - reservationContainer.js
+          - first, add new attribute name to state of variable in constructor method.
+          ---------------------------------------------------------
+            this.state = {
+              ...
+              ADD--ATTRIBUTE--NAME: [],
+              siteInputADD--ATTRIBUTE--NAMEDom
+            }
+          ---------------------------------------------------------
+          - second, update setCpuAndMem method to below
+          ---------------------------------------------------------
+            setCPUAndMEM(index){
+              let {cpu,mem} = this.state
+              cpu[index] = ''
+              mem[index] = ''
+              ADD--ATTRIBUTE--NAME[ADD--ATTRIBUTE--NAME] = ''
+              this.setState({
+                  cpu: cpu,
+                  mem: mem,
+                  ADD--ATTRIBUTE--NAME: ADD--ATTRIBUTE--NAME
+              })
+            }
+          ---------------------------------------------------------
+          - third, add new method, that is onEnterADD--ATTRIBUTE--NAME()
+          ---------------------------------------------------------
+            onEnterADD--ATTRIBUTE--NAME(event){
+                let name = event.target.name
+                let value = event.target.value
+                let REGEX = /^\d+$/
+                if (value.match(REGEX)) {
+                    let {ADD--ATTRIBUTE--NAME} = this.state
+                    ADD--ATTRIBUTE--NAME[parseInt(name)] = value
+                    this.setState({
+                        ADD--ATTRIBUTE--NAME: ADD--ATTRIBUTE--NAME
+                    })
+                } else {
+                    if (value.length <= 1) {
+                        let {ADD--ATTRIBUTE--NAME} = this.state
+                        ADD--ATTRIBUTE--NAME[parseInt(name)] = ''
+                        this.setState({
+                            ADD--ATTRIBUTE--NAME: ADD--ATTRIBUTE--NAME
+                        })
+                    }
+                }
+              }
+            ---------------------------------------------------------
+            - fourth, add new attribute to for query inner queryCheckReservation method.
+            ---------------------------------------------------------
+              queryCheckReservation(){
+                ...
+                this.sites.map((data,key)=>{
+                    if(key==0){
+                        sitesId += data.id
+                        resources += this.state.cpu[key]+','+this.state.mem[key]+','+this.state.ADD--ATTRIBUTE--NAME[key]
+                    }else{
+                        sitesId += ','+data.id
+                        resources += '|'+this.state.cpu[key]+','+this.state.mem[key]+','+this.state.ADD--ATTRIBUTE--NAME[key]
+                    }
+                })
+                ...
+              }
+            ---------------------------------------------------------
+            - fiveth, add new attribute to for query inner queryConfirmReservation method.
+            ---------------------------------------------------------
+              queryConfirmReservation(){
+                ...
+                this.sites.map((data,key)=>{
+                    if(key==0){
+                        sitesId += data.id
+                        resources += this.state.cpu[key]+','+this.state.mem[key]+','+this.state.ADD--ATTRIBUTE--NAME[key]
+                    }else{
+                        sitesId += ','+data.id
+                        resources += '|'+this.state.cpu[key]+','+this.state.mem[key]+','+this.state.ADD--ATTRIBUTE--NAME[key]
+                    }
+                })
+                ...
+              }
+            ---------------------------------------------------------
+              
+      ===========================
+      - card (reservationBar directory)
+      ===========================
+        - card.js (update html)
+          - add new element below inner "<div className={style.chart}>" element.
+          ---------------------------------------------------------
+          <div>
+            <div className={style.innerlabel}>
+              <div className={style.label}>{this.props.cardContainer.state.site.ADD--ATTRIBUTE--NAME}</div>
+              <div className={style.minilabel}>GB</div>
+            </div>
+            <canvas className={style.padding} ref="ADD--ATTRIBUTE--NAME" width='70' height='70'></canvas>
+            <div className={style.label}>ADD--ATTRIBUTE--NAME</div>
+          </div>
+          ---------------------------------------------------------
+          - add new element below inner "<div className={style.resource}>" element
+          ---------------------------------------------------------
+          <div>
+            <span className={style...}></span>
+            <span className={style...}>ADD--ATTRIBUTE--NAME Available</span>
+            <span className={style...}> : {this.props.cardContainer.state.site.ADD--ATTRIBUTE--NAMEAvailable}</span><span>{' /'+this.props.cardContainer.state.site.ADD--ATTRIBUTE--NAMETotal}</span>
+          </div>
           
-          when: site... depend on response data from python script.
+          in this case, you will add new style for this element in card.scss file
+          ---------------------------------------------------------
+          - in componentDidMount method, add new attribute DOM to setChartNode()
+          ---------------------------------------------------------
+          componentDidMount(){
+            this.props.cardContainer.setChartNode(this.refs.cpu,this.refs.ADD--ATTRIBUTE--NAME)
+          }
+          ---------------------------------------------------------
+        - cardContainer.js (update logic)
+          - first, add new attribute name to state of variable in constructor method.
+            ---------------------------------------------------------
+            this.state = {
+              nodeADD--ATTRIBUTE--NAME: '',
+              nodeCPU: {},
+              nodeMem: {},
+              ...
+              site: {
+                ADD--ATTRIBUTE--NAMETotal: 0,
+                ADD--ATTRIBUTE--NAMEAvailable: 0,
+                ...
+              }
+            }
+          ---------------------------------------------------------
+          - second, update querySite method. (set state and draw chart)
+          ---------------------------------------------------------
+          this.setState({
+              site: {
+                ADD--ATTRIBUTE--NAMETotal: site.ADD--ATTRIBUTE--NAME.total,
+                ADD--ATTRIBUTE--NAMEAvailable: site.ADD--ATTRIBUTE--NAME.available,
+                ...
+              }
+          })
+          let ADD--ATTRIBUTE--NAMEUsedData = (this.state.site.cpuTotal-this.state.site.cpuAvailable)
+          this.drawDoughnutChart(this.state.nodeADD--ATTRIBUTE--NAME,this.state.site.ADD--ATTRIBUTE--NAMEAvailable,ADD--ATTRIBUTE--NAMEUsedData,'#EFA430')
+          ---------------------------------------------------------
+          - third, update querySiteByDate method (as same as update querySite method)
+          - finally, update setChartNode method to receive new argument and set state. 
+          ---------------------------------------------------------
+            setChartNode(CPU,mem,ADD--ATTRIBUTE--NAME){
+               this.setState({
+                  nodeADD--ATTRIBUTE--NAME: ADD--ATTRIBUTE--NAME,
+                  nodeCPU: CPU,
+                  nodeMem: mem
+               })
+            }
           ---------------------------------------------------------
           
+Example:
+    - how to add description to images.
+      for example. if you would like to move mouse over on the list and show description. you will do these.
+      ===========================
+      - search directory
+      ===========================
+        - first, update GUI in search.js file. you can add element to show when mouse over any where in return(<div>...</div>).
+        - add mouseOver attribute to call function when mouse over each image type inner "<select className={Style.inputtype} value={this.props.searchContainer.state.imageType} onChange={this.props.searchContainer.onImageTypeChange}>" element, such as.
+        ---------------------------------------------------------
+        <option value='centos7' mouseOver={this.props.searchContainer.SOME--FUNCTION}>centos7</option>
+        ---------------------------------------------------------
+        - second, add style for new element to search.scss
+        - third, create new function in searchContainer.js file to handle when mouse over image type.
+      ===========================
+      - reservation directory
+      ===========================
+        - you can edit as same as in search directory. but in reservation directory yo will edit
+          - first, update GUI in step1.js
+          - second, add style in reservation.scss
+          - third, create function in reservationContainer.js
+      because both directory will show list of image type. 
