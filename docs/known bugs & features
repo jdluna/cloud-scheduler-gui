@@ -5,24 +5,15 @@ Bug
 - on safari
 - date picker & time in reserve function
 - date picker & time in extend reservation
-
+- show popup on safari.
+- doughnut chart.
+- show image type on card (right panel).
+- first card can't check radio button.
 
 -----------------------
 Features
 -----------------------
 - concurrency (transaction)
-
-GUI
------------------------
-Bug
------------------------
-- show popup on safari.
-- doughnut chart.
-- show image type on card (right panel).
-- first card can't check radio button.
------------------------
-Features
------------------------
 - clear all cards after creating a reservation success.
 - create new timezone GUI.
 - auto update GUI. when add new attribute.
