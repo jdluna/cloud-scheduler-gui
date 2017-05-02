@@ -17,6 +17,7 @@ export default class reservationBarContainer extends Component {
 
     onReserveClick(event){
         event.preventDefault()
+        this.props.dashBoardContainer.state.reservationPanel.reserveBarNode.style.zIndex = 1
         let {app} = this.props.dashBoardContainer.props
         if(app.state.authen.isLogedIn){
             this.props.dashBoardContainer.onSelectMenu('ReservationSites')
