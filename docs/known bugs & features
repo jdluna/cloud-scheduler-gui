@@ -1,26 +1,27 @@
 -----------------------
 Bug
 -----------------------
-- search with additional network type        [done!] 
-- date picker & time in reserve function     [done!]
-- date picker & time in extend reservation
-- show popup on safari.
-- doughnut chart.
-- show image type on card (right panel).     [done!] 
-- first card can't select check box.
+H search with additional network type        [done!] 
+H date picker & time in reserve function     [done!]
+H first card can't select check box.
+M date picker & time in extend reservation
+M show popup on safari.
+M show network type on card (right panel).     [done!] 
+L doughnut chart.
 
 -----------------------
 Features
 -----------------------
-- concurrency (transaction)
-- clear all cards after creating a reservation success.
-- create new timezone GUI.
-- auto update GUI. when add new attribute.
-- add loading GUI.
-- if user click some menu and the system show login panel. system will auto show that function panel after login.
-- sort search result (available time).
-- tutorial menu.
-- forget password.
-- session.
-- show error popup if reserve more than 1 sites and the resource are not same connection type.
-- auto update of image type.
+H auto update of image type. Change to dynamic listing of images
+H forget password.Add simpel error message
+H session cookie.
+M (simple solution: only lock at step 3)  concurrency (transaction)
+M Single config file: auto update GUI. when add new attribute.
+M sort search result (available name, may be CPU and memory).
+M add help buttin search window and add explanation for resources attributes 
+L tutorial menu.
+L clear all cards after creating a reservation success.
+L create new timezone GUI.
+L show error popup if reserve more than 1 sites and the resource are not same connection type.
+L add loading GUI, updating between searches ( from usability suggestions)
+L if user click some menu and the system show login panel. system will auto show that function panel after login.
