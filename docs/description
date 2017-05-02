@@ -35,7 +35,7 @@ COMPONENT & MODULE
 Example:
     - how to add new attributes (for example, GPU)
       ===========================
-      - search function
+      - search function (search directory)
       ===========================
         - search.js (update html)
           - add new input element to form. below cpu and memory section. (above and first of "<div className={Style.divideblock2}>" element)
@@ -89,14 +89,32 @@ Example:
       ===========================
       - existing reservations & past reservations (history directory)
       ===========================
-        - add attribute name below "<div className={Style.space}>Memory reserved</div>"
+        - detail.js (update html)
+          - add attribute name below "<div className={Style.space}>Memory reserved</div>"
+            ---------------------------------------------------------
+            <div className={Style.space}>ADD--ATTRIBUTE--NAME</div>
+            ---------------------------------------------------------
+          - add new data element below "<div className={Style.space}>: {site.memory}</div>"
+            ---------------------------------------------------------
+            <div className={Style.space}>: {site.ADD--ATTRIBUTE--NAME}</div>
+
+            when: site... depend on response data from python script.
+            ---------------------------------------------------------
+
+      ===========================
+      - reservation function (reservation directory)
+      ===========================
+        - step1.js (update html)
+          - add new input element below
+          <div className={Style.block}>
+            <input ref={data.name.toLowerCase().replace(' ','')+'MEM'} ... onChange={this.props.reservationContainer.onEnterMEM}/>
+          </div>
           ---------------------------------------------------------
-          <div className={Style.space}>ADD--ATTRIBUTE--NAME</div>
+          <div className={Style.block}>
+            <span>ADD--ATTRIBUTE--NAME :</span>
+          </div>
+          <div className={Style.block}>
+            <input ref={data.name.toLowerCase().replace(' ','')+'ADD--ATTRIBUTE--NAME'} name={key} value={this.props.reservationContainer.state.ADD--ATTRIBUTE--NAME[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterADD--ATTRIBUTE--NAME}/>
+          </div>
           ---------------------------------------------------------
-        - add new data element below "<div className={Style.space}>: {site.memory}</div>"
-          ---------------------------------------------------------
-          <div className={Style.space}>: {site.ADD--ATTRIBUTE--NAME}</div>
-          
-          when: site... depend on response data from python script.
-          ---------------------------------------------------------
-          
+    
