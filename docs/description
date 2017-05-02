@@ -36,15 +36,51 @@ Example:
     - how to add new attributes (for example, GPU)
       - search function
         - search.js (update html)
+          - add new input element to form. below cpu and memory section. (above and first of "<div className={Style.divideblock2}>" element)
+            ---------------------------------------------------------
+            <div className={Style.row}>
+              <div className={Style.block}>
+                <div>Attrubute name:</div>
+                  <input className={Style.input} type='text' name='ADD--ATTRIBUTE--NAME' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.ADD--ATTRIBUTE--NAME}/>
+                </div>
+              </div>
+            </div>
+            ---------------------------------------------------------
         - foundTable.js (update html)
+          - add new attribute label to search detail (top of table). in the "<div className={Style.column1}>", add here.
+            ---------------------------------------------------------
+            <div>
+              <span>Attribute name : </span>
+              <span className={Style.hilight}>{this.props.searchContainer.state.ADD--ATTRIBUTE--NAME}</span>
+            </div>
+            ---------------------------------------------------------
+          - add new title name of table below "<div className={Style.text}>Available Memory (GB)</div>"
+            ---------------------------------------------------------
+            <div className={Style.text}>ADD--ATTRIBUTE--NAME</div>
+            ---------------------------------------------------------
+          - add new element to show data below "<div className={Style.text}>{data.memory.available}</div>"
+            ---------------------------------------------------------
+            <div className={Style.text}>{data.ADD--ATTRIBUTE--NAME}</div>
+            
+            when: data... depend on response data from python script.
+            ---------------------------------------------------------
         - notFoundTable.js (update html)
-        - searchContainer.js (update js)
-      
-    
-    
-      
-
-
- 
-  
-  
+          - add add new attribute label to search detail (top of table). in the column1 class name. (as same as foundTable.js)
+        - searchContainer.js (update logic)
+          - first, add new attribute name to state of variable in constructor method.
+            ---------------------------------------------------------
+            this.state = {
+              ADD--ATTRIBUTE--NAME: '',
+              cpu: '',
+              mem: '',
+              ...
+            }
+            ---------------------------------------------------------
+          - second, update parameter to query in onSearchSubmit method.
+            let params = {
+              params:{
+                resources: ...+','+((this.state.ADD--ATTRIBUTE--NAME=='') ? 0 : this.state.ADD--ATTRIBUTE--NAME),
+                ...
+              }
+            }
+          
