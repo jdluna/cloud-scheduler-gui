@@ -293,3 +293,25 @@ Example:
                })
             }
           ---------------------------------------------------------
+          
+Example:
+    - how to add description to images.
+      for example. if you would like to move mouse over on the list and show description. you will do these.
+      ===========================
+      - search directory
+      ===========================
+        - first, update GUI in search.js file. you can add element to show when mouse over any where in return(<div>...</div>).
+        - add mouseOver attribute to call function when mouse over each image type inner "<select className={Style.inputtype} value={this.props.searchContainer.state.imageType} onChange={this.props.searchContainer.onImageTypeChange}>" element, such as.
+        ---------------------------------------------------------
+        <option value='centos7' mouseOver={this.props.searchContainer.SOME--FUNCTION}>centos7</option>
+        ---------------------------------------------------------
+        - second, add style for new element to search.scss
+        - third, create new function in searchContainer.js file to handle when mouse over image type.
+      ===========================
+      - reservation directory
+      ===========================
+        - you can edit as same as in search directory. but in reservation directory yo will edit
+          - first, update GUI in step1.js
+          - second, add style in reservation.scss
+          - third, create function in reservationContainer.js
+      because both directory will show list of image type. 
