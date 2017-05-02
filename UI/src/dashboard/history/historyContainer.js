@@ -33,7 +33,9 @@ export default class HistoryContainer extends Component {
             reasonOfDelete: '',
             popup: null,
             extendStatus: '',
-            deleteStatus: ''
+            deleteStatus: '',
+            startDuration: this.timezone.format().slice(11,13)+':00',
+            endDuration: 23
         }
 
         this.onClose = this.onClose.bind(this)
