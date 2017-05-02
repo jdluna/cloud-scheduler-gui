@@ -41,8 +41,8 @@ class SiteManager:
     def getSites(self,resAmount=None,begin=None,end=None,allPeriod=True,days=0,hours=0,connectionType=None, imageType='Any'):
         #for search with criteria
     	
-	hours = int(hours)
-	days = int(days)
+        hours = int(hours)
+        days = int(days)
 	
         self.__sites = self.getAllSites()
         result = []
@@ -58,12 +58,22 @@ class SiteManager:
             imgStatus = False
             
             #check connection type
-            if connectionType == None or connectionType in s.getConnectionType() :
+            if connectionType == None:
                 conStatus = True
+            else:
+                for c in s.getConnectionType():
+                    if connectionType in c.get('name') :
+                        conStatus = True
+                        break
                 
             #check image type
-            if imageType == 'Any' or imageType in s.getImageType() :
+            if imageType == 'Any' :
                 imgStatus = True
+            else:
+                for i in s.getImageType():
+                    if imageType in i.get('name') :
+                        conStatus = True
+                        break
                 
                 
             if conStatus and imgStatus:
@@ -168,6 +178,7 @@ class SiteManager:
             self.__resultType = "None"
             
         return result
+        
         
     def getResultType(self):
         return self.__resultType
