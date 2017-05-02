@@ -1,0 +1,27 @@
+-----------------------
+Bug
+-----------------------
+- search with additional network type (done!)
+- on safari
+- date picker & time in reserve function
+- date picker & time in extend reservation
+- show popup on safari.
+- doughnut chart.
+- show image type on card (right panel).
+- first card can't check radio button.
+
+-----------------------
+Features
+-----------------------
+- concurrency (transaction)
+- clear all cards after creating a reservation success.
+- create new timezone GUI.
+- auto update GUI. when add new attribute.
+- add loading GUI.
+- if user click some menu and the system show login panel. system will auto show that function panel after login.
+- sort search result (available time).
+- tutorial menu.
+- forget password.
+- session.
+- show error popup if reserve more than 1 sites and the resource are not same connection type.
+- auto update of image type.

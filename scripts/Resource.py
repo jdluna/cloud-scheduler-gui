@@ -45,10 +45,10 @@ class Resource:
     def getSiteId(self):
         return self.__siteId  
     
-    def setAvailableAmount(self,db=None,typ=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+    def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
         begin = str(begin)
         end = str(end)
-
+        typ = self.getType()
         siteId = self.__siteId
         
         maxUsed = 0
@@ -104,7 +104,7 @@ class CPU(Resource,object):
         
     
     def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
-        self.__availableAmount = super(CPU,self).setAvailableAmount(db=db,typ='CPU',begin=begin,end=end)
+        self.__availableAmount = super(CPU,self).setAvailableAmount(db=db,begin=begin,end=end)
 
 
 
@@ -116,5 +116,5 @@ class Memory(Resource,object):
         super(Memory,self).setSiteId(siteId)
 
     def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
-        self.__availableAmount = super(Memory,self).setAvailableAmount(db=db,typ='Memory',begin=begin,end=end)
+        self.__availableAmount = super(Memory,self).setAvailableAmount(db=db,begin=begin,end=end)
     

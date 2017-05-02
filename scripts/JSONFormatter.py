@@ -12,8 +12,7 @@ cgitb.enable()
 class JSONFormatter:
     
     def formatSite(self,s):
-        jsonStr = ''
-        jsonStr += '{"id" : "'+str(s.getSiteId())+'",'
+        jsonStr = '{"id" : "'+str(s.getSiteId())+'",'
         jsonStr += '"name" : "'+str(s.getName())+'",'
         jsonStr += '"description" : "'+str(s.getDescription())+'",'
         jsonStr += '"contact" : "'+str(s.getContact())+'",'
@@ -31,7 +30,7 @@ class JSONFormatter:
         #get site's image type
         jsonStr += '"image_type" : ['
         for img in s.getImageType():
-            jsonStr += '{"name" : "'+str(img)+'"},'
+            jsonStr += str(img).replace("'",'"')+','
             
         if len(s.getImageType()) != 0:
             jsonStr = jsonStr[:-1]        
@@ -41,7 +40,7 @@ class JSONFormatter:
         #get site's connection type
         jsonStr += '"connection_type" : ['
         for con in s.getConnectionType():
-            jsonStr += '{"name" : "'+str(con)+'"},'
+            jsonStr += str(con).replace("'",'"')+','
         
         if len(s.getConnectionType()) != 0:
             jsonStr = jsonStr[:-1]
@@ -61,8 +60,7 @@ class JSONFormatter:
         return jsonStr
         
     def formatReservation(self,r):
-        jsonStr = ''
-        jsonStr += ' { "reservation_id" : "'+str(r.getReservationId())+'", '
+        jsonStr = ' { "reservation_id" : "'+str(r.getReservationId())+'", '
         jsonStr += '"title" : "'+str(r.getTitle())+'", '
         jsonStr += '"description" : "'+str(r.getDescription())+'", '
         jsonStr += '"begin" : "'+str(r.getStart())+'", '
@@ -88,6 +86,20 @@ class JSONFormatter:
         jsonStr += '}'
         
         return jsonStr
+        
+    def formatUser(self,u):
+        jsonStr = '"session_id" : "' + str(u.getSessionToken()) + '"'
+        jsonStr += ', "firstname" : "' + str(u.getFirstname()) + '"'
+        jsonStr += ', "lastname" : "' + str(u.getLastname()) + '"'
+        jsonStr += ', "email_address" : "' + str(u.getEmailAddress()) + '"'
+        jsonStr += ', "phone_number" : "' + str(u.getPhoneNumber()) + '"'
+        jsonStr += ', "status" : "' + str(u.getStatus()) + '"'
+        jsonStr += ', "organization" : "' + str(u.getOrganization()) + '"'
+        jsonStr += ', "position" : "' + str(u.getPosition()) + '"'
+        jsonStr += ', "language" : "' + str(u.getLanguage()) + '"'
+        jsonStr += ', "timezone" : "' + str(u.getTimezone()) + '"'
+        return jsonStr
+        
         
     def formatJson(self,name,data):
         return '"'+str(name)+'" : "'+str(data)+'"'
