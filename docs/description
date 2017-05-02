@@ -8,7 +8,7 @@ UI DIRECTORY
     - webpack.config.js (build configure file)
   after build source code and don't to edit anything. you can remove src, packages.json and webpack.config.js because build file will contained in dist directory, that is.
     - index.html
-    - index.js (contained all of javascript that compiled from react and included css that compiled from sass)
+    - app.js (contained all of javascript that compiled from react and included css that compiled from sass)
     - img (contained all image file)
 SRC DIRECTORY
   UI/src directory included seven directory and two file.
@@ -34,7 +34,9 @@ COMPONENT & MODULE
 
 Example:
     - how to add new attributes (for example, GPU)
+      ===========================
       - search function
+      ===========================
         - search.js (update html)
           - add new input element to form. below cpu and memory section. (above and first of "<div className={Style.divideblock2}>" element)
             ---------------------------------------------------------
@@ -83,4 +85,18 @@ Example:
                 ...
               }
             }
+            
+      ===========================
+      - existing reservations & past reservations (history directory)
+      ===========================
+        - add attribute name below "<div className={Style.space}>Memory reserved</div>"
+          ---------------------------------------------------------
+          <div className={Style.space}>ADD--ATTRIBUTE--NAME</div>
+          ---------------------------------------------------------
+        - add new data element below "<div className={Style.space}>: {site.memory}</div>"
+          ---------------------------------------------------------
+          <div className={Style.space}>: {site.ADD--ATTRIBUTE--NAME}</div>
+          
+          when: site... depend on response data from python script.
+          ---------------------------------------------------------
           
