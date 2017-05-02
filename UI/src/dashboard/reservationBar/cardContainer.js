@@ -79,12 +79,22 @@ export default class cardContainer extends Component {
         axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId).then(response =>{
             if(response.status==200){
                 let {running,site} = response.data
-                site.connection_type.map((data,key)=>{
-                    switch(data.name.toUpperCase()){
-                        case 'ENT' : this.setState({style:{ent:{backgroundColor:'#76FF03'}}}) ;break
-                        case 'IPOP' : this.setState({style:{ipop:{backgroundColor:'#76FF03'}}}) ;break
-                    }
-                })
+                if(site.connection_type.length>1){
+                    this.setState({
+                        style:{
+                            ent: {backgroundColor:'#76FF03'},
+                            ipop: {backgroundColor:'#76FF03'}
+                        }
+                    })
+                }else{
+                    site.connection_type.map((data,key)=>{
+                        switch(data.name.toUpperCase()){
+                            case 'ENT' : this.setState({style:{ent:{backgroundColor:'#76FF03'}}}) ;break
+                            case 'IPOP' : this.setState({style:{ipop:{backgroundColor:'#76FF03'}}}) ;break
+                        }
+                    })
+                }
+                
                 this.setState({
                     site: {
                         allData: site,
