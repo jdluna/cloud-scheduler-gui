@@ -135,17 +135,27 @@ Example:
             siteInputADD--ATTRIBUTE--NAMEDom: siteInput
           })
           ---------------------------------------------------------
+        - step3.js (update html)
+          - add new attribute element to inner "<div className={Style.item} key={key}>" element.
+          ---------------------------------------------------------
+          <div className={Style.row}>
+            <div className={Style.column}>
+              <div className={Style.west}>ADD--ATTRIBUTE--NAME (GB):</div>
+              <div className={Style.east}>{(this.props.reservationContainer.state.ADD--ATTRIBUTE--NAME[key]!='') ? this.props.reservationContainer.state.ADD--ATTRIBUTE--NAME[key] : '0'}</div>
+            </div>
+          </div>
+          ---------------------------------------------------------
         - reservationContainer.js
           - first, add new attribute name to state of variable in constructor method.
-            ---------------------------------------------------------
+          ---------------------------------------------------------
             this.state = {
               ...
               ADD--ATTRIBUTE--NAME: [],
               siteInputADD--ATTRIBUTE--NAMEDom
             }
-            ---------------------------------------------------------
+          ---------------------------------------------------------
           - second, update setCpuAndMem method to below
-            ---------------------------------------------------------
+          ---------------------------------------------------------
             setCPUAndMEM(index){
               let {cpu,mem} = this.state
               cpu[index] = ''
@@ -157,8 +167,9 @@ Example:
                   ADD--ATTRIBUTE--NAME: ADD--ATTRIBUTE--NAME
               })
             }
-            ---------------------------------------------------------
+          ---------------------------------------------------------
           - third, add new method, that is onEnterADD--ATTRIBUTE--NAME()
+          ---------------------------------------------------------
             onEnterADD--ATTRIBUTE--NAME(event){
                 let name = event.target.name
                 let value = event.target.value
@@ -178,7 +189,41 @@ Example:
                         })
                     }
                 }
-            }
+              }
+            ---------------------------------------------------------
+            - fourth, add new attribute to for query inner queryCheckReservation method.
+            ---------------------------------------------------------
+              queryCheckReservation(){
+                ...
+                this.sites.map((data,key)=>{
+                    if(key==0){
+                        sitesId += data.id
+                        resources += this.state.cpu[key]+','+this.state.mem[key]+','+this.state.ADD--ATTRIBUTE--NAME[key]
+                    }else{
+                        sitesId += ','+data.id
+                        resources += '|'+this.state.cpu[key]+','+this.state.mem[key]+','+this.state.ADD--ATTRIBUTE--NAME[key]
+                    }
+                })
+                ...
+              }
+            ---------------------------------------------------------
+            - fiveth, add new attribute to for query inner queryConfirmReservation method.
+            ---------------------------------------------------------
+              queryConfirmReservation(){
+                ...
+                this.sites.map((data,key)=>{
+                    if(key==0){
+                        sitesId += data.id
+                        resources += this.state.cpu[key]+','+this.state.mem[key]+','+this.state.ADD--ATTRIBUTE--NAME[key]
+                    }else{
+                        sitesId += ','+data.id
+                        resources += '|'+this.state.cpu[key]+','+this.state.mem[key]+','+this.state.ADD--ATTRIBUTE--NAME[key]
+                    }
+                })
+                ...
+              }
+            ---------------------------------------------------------
+              
       ===========================
       - card (reservationBar directory)
       ===========================
