@@ -35,11 +35,7 @@ export default class DashboardContainer extends Component {
                 reserveBarNode: {},
             },
             reserveMode: 'single',
-            modalName: '',
-            aboveSearchModal:{
-                open: false,
-                node: null
-            }
+            modalName: ''
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -65,11 +61,11 @@ export default class DashboardContainer extends Component {
 
     onSelectMenu(menu){
         switch(menu){
-            case 'Search'                   : this.setState({modal: <SearchContainer dashBoardContainer={this}/>});this.state.reservationPanel.reserveBarNode.style.zIndex = 8;break
+            case 'Search'                   : this.onCloseMoreInfo();this.setState({modal: <SearchContainer dashBoardContainer={this}/>, modalName: 'Search'});break
             case 'Existing reservations'    : this.onCloseMoreInfo();this.checkLogin(menu);break
             case 'Past reservations'        : this.onCloseMoreInfo();this.checkLogin(menu);break
-            case 'Settings'                 : this.onCloseMoreInfo();this.setState({modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>});break
-            case 'ReservationSites'         : this.onCloseMoreInfo();this.setState({modal: <ReservationContainer dashBoardContainer={this} app={this.props.app} sites={this.state.selectCard}/>});break
+            case 'Settings'                 : this.onCloseMoreInfo();this.checkLogin(menu);break
+            case 'ReservationSites'         : this.openReservationPanel();break
         }
     }
 
@@ -79,6 +75,11 @@ export default class DashboardContainer extends Component {
                 this.setState({
                     modal: <HistoryContainer dashBoardContainer={this}/>,
                     modalName: (menu=='Past reservations') ? 'history' : menu
+                })
+            }else if(menu=='Settings'){
+                this.setState({
+                    modal: <SettingsContainer dashBoardContainer={this} app={this.props.app}/>,
+                    modalName: 'Settings'
                 })
             }
         }else{
@@ -91,12 +92,8 @@ export default class DashboardContainer extends Component {
     onCloseModal(){
         this.setState({
             modal: [],
-            aboveSearchModal:{
-                open: false,
-                node: null
-            }
+            modalName: ''
         })
-        this.state.reservationPanel.reserveBarNode.style.zIndex = 1
     }
 
     onCloseMoreInfo(){
@@ -104,17 +101,21 @@ export default class DashboardContainer extends Component {
             cardDetail : {
                 panel: [],
                 data: {}
-            },
-            aboveSearchModal:{
-                open: false,
-                node: this.state.aboveSearchModal.node
             }
         })
-        if(this.state.aboveSearchModal.node!=null){
-            this.state.aboveSearchModal.node.style.visibility = 'hidden'
-        }else{
-            this.state.reservationPanel.reserveBarNode.style.zIndex = 1
-        }
+    }
+
+    openReservationPanel(){
+        this.setState({
+            cardDetail : {
+                panel: [],
+                data: {}
+            }
+        },()=>{
+            this.setState({
+                modal: <ReservationContainer dashBoardContainer={this} app={this.props.app} sites={this.state.selectCard}/>
+            })
+        })
     }
 
     onViewMoreInfo(data){
@@ -124,16 +125,8 @@ export default class DashboardContainer extends Component {
             cardDetail : {
                 panel: panel,
                 data: data
-            },
-            aboveSearchModal:{
-                open: true,
-                node: this.state.aboveSearchModal.node
             }
         })
-        if(this.state.aboveSearchModal.node!=null){
-            this.state.aboveSearchModal.node.style.visibility = 'visible'
-        }
-        this.state.reservationPanel.reserveBarNode.style.zIndex = 8;
     }
 
     setMarkerNode(marker){

@@ -5,6 +5,7 @@ export default class cardDescription extends Component {
     render(){
         return(
             <section>
+                <section className={(this.props.dashBoardContainer.state.modalName=='Search') ? style.halfmodalBg : null}></section>
                 <section className={style.wraper}>
                     <article className={style.article}>
                         <span className={style.title}>{this.props.dashBoardContainer.state.cardDetail.data.name}</span>

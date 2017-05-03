@@ -14,8 +14,9 @@ export default class reservationBar extends Component {
         })
     }
     render() {
+        let dashboard = this.props.dashBoardContainer
         return (
-            <section ref='reserveBar' id={style.panel}>
+            <section ref='reserveBar' id={style.panel} className={(dashboard.state.modalName=='Search'||dashboard.state.cardDetail.panel.length>0) ? style.highLayer : null}>
                 <section className={style.reserve}>
                     <form>
                         <div><span className={style.title}>RESERVATION</span></div>

@@ -9,7 +9,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <section className='modal'>
+            <section className={'modal '+Style.loginModal}>
                     <section className={Style.panel}>
                         <header><div>Login</div></header>
                         <section>

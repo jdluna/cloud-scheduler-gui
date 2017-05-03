@@ -1,6 +1,10 @@
 @import '../../sass/_colors.scss';
 @import '../../sass/_fonts.scss';
 
+.loginModal{
+    z-index: 10 !important;
+}
+
 .panel{
     width: 330px;
     height: 175px;

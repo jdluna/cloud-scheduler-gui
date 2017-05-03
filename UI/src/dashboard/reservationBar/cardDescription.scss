@@ -11,6 +11,15 @@
     }
 }
 
+.halfmodalBg{
+        position: absolute;
+        -webkit-backdrop-filter: blur(15px);
+        background-color: rgba(7,7,7,0.86);
+        width: calc(100% - 220px);
+        height: calc(100% - 49px);
+        z-index: 5;
+}
+
 .wraper{
         font-family: $font-primary;
         -webkit-backdrop-filter: blur(15px);
