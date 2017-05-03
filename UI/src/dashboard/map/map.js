@@ -49,7 +49,8 @@ export default class map extends Component {
     }
 
     render() {
-        let {search,minZoom,maxZoom,nowZoom} = this.props.container.state
+        let {search,minZoom,maxZoom,nowZoom,timezone} = this.props.container.state
+        let timezoneLabel =  this.props.container.state.timezone.split(' ')
         let cancelIcon
         if(search!=''){
             cancelIcon = <img className={style.cancelicon} src='img/ic_cancel_circle_white.svg' onClick={this.props.container.onClearSearch}/>
@@ -57,10 +58,13 @@ export default class map extends Component {
         return (
             <section id={style.map}>
                 <div className={style.timezone}>
-                    <img src='img/ic_access_time.svg'/>
-                    <div className={style.text}>
-                        <div className={style.time}>{this.props.container.state.date}</div>
-                        <div className={style.utc}>{this.props.container.state.timezone}</div>
+                    <div className={style.wrap}>
+                        <img className={style.icon} src='img/ic_access_time.svg'/>
+                        <div className={style.text}>
+                            <div className={style.time}>{this.props.container.state.date}</div>
+                            <div className={style.utc}>{timezoneLabel[0]}</div>
+                            <div className={style.utc}>{timezoneLabel[1]+' '+timezoneLabel[2]}</div>
+                        </div>
                     </div>
                 </div>
                 <div className={style.search}>

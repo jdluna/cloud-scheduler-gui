@@ -12,13 +12,15 @@ L doughnut chart.
 -----------------------
 Features
 -----------------------
-H auto update of image type. Change to dynamic listing of images [done!]
-H forget password.Add simpel error message    [done!]
-H session cookie.
+H auto update of image type. Change to dynamic listing of images            [done!]
+H forget password.Add simpel error message                                  [done!]
+H session cookie.                                                           [done!]       
 M (simple solution: only lock at step 3)  concurrency (transaction)
 M Single config file: auto update GUI. when add new attribute.
 M sort search result (available name, may be CPU and memory).
-M add help buttin search window and add explanation for resources attributes 
+M add help buttin search window and add explanation for resources attributes
+  add possible values range for the number of CPU and memory. For example CPU number
+  can be 2 - 32 (even numbers). Similar for memory, 8Gb, 16Gb, etc. 
 L tutorial menu.
 L clear all cards after creating a reservation success.
 L create new timezone GUI.
@@ -26,19 +28,15 @@ L show error popup if reserve more than 1 sites and the resource are not same co
 L add loading GUI, updating between searches ( from usability suggestions)
 L if user click some menu and the system show login panel. system will auto show that function panel after login.
 
-
 -------------------------------
 Comments from usability test
 -------------------------------
-- The font is too small.
-- The font color of available amount of CPU and memory on information card and time zone information is difficult to see.
-- Icon of existing reservation menu is not meaningful.
-- “Search” menu should be changed to distinguish from “Search by name” easier.
-- Should change the circle markers which represent to a group of marker to use the icon as same as
-regular markers but bigger and still put number inside.
-- Should have max range or guide for user about the number of CPU and memory that they can search. 
-(Maybe use a hint (?) icon after the label of textbox.)
-- Should have 2 mode of time format (12hrs/24hrs.) and let user can switch it because some user is
-more familiar with 12hours format.
-- Color of the reservation part on top right should be changed to another color which is different from
-the site’s information card.
+M The font is too small. Don't use smaller than 10pt. 
+  The font size for available amount of CPU/memory on information card is too small 
+M time zone information is difficult to see. Change color to orange
+M time and date on information card is too small. Change to larger font and to orange color.
+M Color of the reservation panel on top right should be changed to another color which is different from
+ the site's information card. Try light grey. 
+L Icon of existing reservation menu is not meaningful.
+L "Search" menu should be changed to distinguish from "Search by name" easier.
+L make markers  style consistent for a single marker or a group of markers, put number inside. 
