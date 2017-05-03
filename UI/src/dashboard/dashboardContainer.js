@@ -42,7 +42,7 @@ export default class DashboardContainer extends Component {
                 open: false,
                 node: null
             },
-            images: []
+            images: [],
             modalName: ''
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
