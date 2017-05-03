@@ -125,7 +125,6 @@ export default class SearchContainer extends Component {
                                 })
                             })
                         }else{
-                            console.log(this.state.minDate)
                             this.setState({
                                 endDate:{
                                     obj: moment(date).add(1,'days'),
@@ -170,9 +169,6 @@ export default class SearchContainer extends Component {
                     })
                 }
             }
-
-            console.log('start date : '+this.state.startDate.date)
-            console.log('end date : '+this.state.endDate.date)
         
         }) //end of this.setState for startDate
 
@@ -187,15 +183,12 @@ export default class SearchContainer extends Component {
                     date: moment(date).format('YYYY-MM-DD')
                 } 
             },()=>{
-                console.log('end date : '+this.state.endDate.date)
                 this.setStartEndDuration() 
             })
         }
     }
 
     onTimeStartChange(time){
-        
-        console.log('start time change:',time.target.value)
 
         this.setState({
             startTime: time.target.value

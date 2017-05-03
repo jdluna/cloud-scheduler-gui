@@ -35,7 +35,6 @@ export default class App extends Component {
                 timezone: this.getNameTimeZone()
            } 
         })
-        console.log(this.state.timezone.time)
     }
 
     authentication(props=null,menu=null){
@@ -55,7 +54,6 @@ export default class App extends Component {
     }
 
     onLogin(data,loginContainer){
-        console.log(loginContainer)
         let firstname = data.firstname.toLowerCase()
         let lastname = data.lastname.toLowerCase()
         firstname = firstname.charAt(0).toUpperCase()+firstname.slice(1)
