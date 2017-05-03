@@ -7,6 +7,8 @@ import LoginContainer from './login/loginContainer'
 import SearchContainer from './search/searchContainer'
 import ReservationContainer from './reservation/reservationContainer'
 import HistoryContainer from './history/historyContainer'
+import axios from 'axios'
+import {GET_ALL_IMAGES_ENDPOINT} from '../config/endpoints'
 
 export default class DashboardContainer extends Component {
     constructor(props){
@@ -39,7 +41,8 @@ export default class DashboardContainer extends Component {
             aboveSearchModal:{
                 open: false,
                 node: null
-            }
+            },
+            images: []
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -51,6 +54,7 @@ export default class DashboardContainer extends Component {
         this.setMarkerNode = this.setMarkerNode.bind(this)
         this.onSelectCard = this.onSelectCard.bind(this)
         this.onDeselectCard = this.onDeselectCard.bind(this)
+        this.setAllImages = this.setAllImages.bind(this)
         // this.setMapData = this.setMapData.bind(this)
     }
     
@@ -274,6 +278,24 @@ export default class DashboardContainer extends Component {
                 reserveMode: 'single'
             })
         }
+    }
+
+    setAllImages(){
+
+        axios.get(GET_ALL_IMAGES_ENDPOINT).then(response=>{
+            let {data,status} = response
+            if(status==200){
+
+                this.setState({
+                    images: data.image_type
+                },()=>{
+                    console.log(this.state.images[0])
+                })
+                
+            }
+        }).catch(error=>{
+            console.log('QUERY GET IMAGES ERROR: '+error)
+        })
     }
 
     render() {

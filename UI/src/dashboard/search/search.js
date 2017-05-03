@@ -54,6 +54,31 @@ const TimeList = (props) => {
     )
 }
 
+const ImageTypeList = (props) => {
+   
+    let images = props.i
+    if(images.length > 0 && images[0].name != 'Any'){
+        images.unshift({
+            name: 'Any',
+            description: 'Any'
+        })
+    }
+
+    return(
+        <select className={Style.inputtype} value={props.value} onChange={props.handle}>
+            {
+                images.map((data,key)=>{
+                    let d = data.name
+                    return(
+                        <option key={key} value={d}> {d} </option>
+                    )
+                })
+            }
+                    
+        </select>
+    )
+}
+
 export default class Search extends Component {
     componentDidMount(){
         this.props.searchContainer.setState({
@@ -86,6 +111,10 @@ export default class Search extends Component {
         let startEndDuration = this.props.searchContainer.state.startEndDuration
         let endEndDuration = this.props.searchContainer.state.endEndDuration
         let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.searchContainer.state.endTime} handle={this.props.searchContainer.onTimeEndChange}/>
+
+
+        let images = this.props.dashboardContainer.state.images
+        let imageTypeList = <ImageTypeList i={images} value={this.props.searchContainer.state.imageType} handle={this.props.searchContainer.onImageTypeChange}/>
 
         return (
             <div>
@@ -185,10 +214,7 @@ export default class Search extends Component {
                                 <div className={Style.row}>
                                     <div className={Style.block}>
                                         <div>Image type:</div>
-                                        <select className={Style.inputtype} value={this.props.searchContainer.state.imageType} onChange={this.props.searchContainer.onImageTypeChange}>
-                                            <option value='Any'>Any</option>
-                                            <option value='centos7'>centos7</option>
-                                        </select>
+                                        {imageTypeList}
                                     </div>
                                 </div>
                                 <div className={Style.searchbtn}>

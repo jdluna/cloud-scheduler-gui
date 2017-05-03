@@ -119,6 +119,8 @@ export default class mapContainer extends Component {
                 nowZoom: this.map.getZoom()
             })
         })
+
+        this.props.dashBoardContainer.setAllImages()
     }
 
     onZoomSliderChange(event){
