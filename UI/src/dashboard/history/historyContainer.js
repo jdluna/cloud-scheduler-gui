@@ -29,6 +29,10 @@ export default class HistoryContainer extends Component {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
             },
+            startExtendDate:{
+                obj: this.timezone,
+                date: this.timezone.format('YYYY-MM-DD')
+            },
             extendTime: this.timezone.format().slice(11,13)+':00',
             reasonOfDelete: '',
             popup: null,
@@ -139,6 +143,7 @@ export default class HistoryContainer extends Component {
     
     onViewReservationDetail(key,reservation_id){
         let end = this.state.reservationsItem[key].end
+        end = (parseInt(moment(end).format().slice(11,13))<23) ? moment(end) : moment(end).add(1,'days') 
         let time = (parseInt(moment(end).format().slice(11,13))<23) ? parseInt(moment(end).format().slice(11,13))+1 : '00'
         time = (time<10) ? '0'+time : time
         this.setState({
@@ -149,7 +154,12 @@ export default class HistoryContainer extends Component {
             extendTime: time+':00',
             viewDetail: true,
             reserveId: reservation_id,
-            viewDetailKey: key
+            viewDetailKey: key,
+            startExtendDate: {
+                obj: moment(end),
+                date: moment(end).format('YYYY-MM-DD')
+            },
+            startDuration : time+':00'
         })
     }
 
@@ -185,6 +195,20 @@ export default class HistoryContainer extends Component {
                 obj: date,
                 date: moment(date).format('YYYY-MM-DD')
             } 
+        },()=>{
+            
+            if(this.state.extendDate.date==this.state.startExtendDate.date){
+                //old end date
+                this.setState({
+                    startDuration: this.state.extendTime
+                })   
+            }
+            else{
+                this.setState({
+                    startDuration: 0
+                }) 
+            }
+            
         })
     }
 
