@@ -34,29 +34,60 @@ const TimeItem = (props) => (
     </select>
 )
 
-const EXTEND_CARD = (props) => (
-    <div>
-        <div className={Style.title}>
-            <div>Extend this reservation to end at :</div>
-            <img src='img/ic_close.svg' onClick={props.historyContainer.onClosePopup}/>
-        </div>
-        <div className={Style.content}>
-            <div className={Style.row}>
-                <div className={Style.block}>
-                    <DatePicker className={Style.inputdate} minDate={props.historyContainer.state.extendDate.obj} dateFormat='DD - MMM - YYYY' selected={props.historyContainer.state.extendDate.obj} onChange={props.historyContainer.onExtendDateChange} />
-                    <img className={Style.icon} src='img/ic_date_range.svg' />
-                    <TimeItem value={props.historyContainer.state.extendTime} handle={props.historyContainer.onExtendTimeChange} />
+const TimeList = (props) => {
+    let start = parseInt(props.s)
+    let end = parseInt(props.e)
+    let options = []
+    for(let i=start;i<=end;i++){
+        let time = ((i)>=10) ? (i)+':00' : '0'+(i)+':00'
+        options.push(time)
+    }
+    return(
+        <select className={Style.inputtime} value={props.value} onChange={props.handle}>
+            {
+                options.map((data,key)=>{
+                    let d = data.replace(':',' : ')
+                    return(
+                        <option key={key} value={data}> {d} </option>
+                    )
+                })
+            }
+                    
+        </select>
+    )
+}
+
+const EXTEND_CARD = (props) => {
+    
+    let startDuration = props.historyContainer.state.startDuration
+    let endDuration = props.historyContainer.state.endDuration
+    let timeList = <TimeList s={startDuration} e={endDuration} value={props.historyContainer.state.extendTime} handle={props.historyContainer.onExtendTimeChange}/>
+
+    return(
+        <div>
+            <div className={Style.title}>
+                <div>Extend this reservation to end at :</div>
+                <img src='img/ic_close.svg' onClick={props.historyContainer.onClosePopup}/>
+            </div>
+            <div className={Style.content}>
+                <div className={Style.row}>
+                    <div className={Style.block}>
+                        <DatePicker className={Style.inputdate} minDate={props.historyContainer.state.startExtendDate.obj} dateFormat='DD - MMM - YYYY' selected={props.historyContainer.state.extendDate.obj} onChange={props.historyContainer.onExtendDateChange} />
+                        <img className={Style.icon} src='img/ic_date_range.svg' />
+                        {timeList}
+                    </div>
+                </div>
+                <div className={Style.row}>
+                    <div className={Style.block}></div>
+                </div>
+                <div className={Style.searchbtn}>
+                    <button type='submit' className='btn' onClick={props.historyContainer.onExtendConfirm}>CONFIRM</button>
                 </div>
             </div>
-            <div className={Style.row}>
-                <div className={Style.block}></div>
-            </div>
-            <div className={Style.searchbtn}>
-                <button type='submit' className='btn' onClick={props.historyContainer.onExtendConfirm}>CONFIRM</button>
-            </div>
         </div>
-    </div>
-)
+    )
+    
+}
 
 export default class ExtendPopup extends Component {
     render() {

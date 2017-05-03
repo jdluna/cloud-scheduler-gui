@@ -72,7 +72,7 @@ class SiteManager:
             else:
                 for i in s.getImageType():
                     if imageType in i.get('name') :
-                        conStatus = True
+                        imgStatus = True
                         break
                 
                 

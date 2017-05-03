@@ -1,27 +1,44 @@
 -----------------------
 Bug
 -----------------------
-- search with additional network type (done!)
-- on safari
-- date picker & time in reserve function
-- date picker & time in extend reservation
-- show popup on safari.
-- doughnut chart.
-- show image type on card (right panel).
-- first card can't check radio button.
+H search with additional network type         [done!] 
+H date picker & time in reserve function      [done!]
+H first card can't select check box.
+M date picker & time in extend reservation    [done!]
+M show popup on safari.
+M show network type on card (right panel).    [done!] 
+L doughnut chart.
 
 -----------------------
 Features
 -----------------------
-- concurrency (transaction)
-- clear all cards after creating a reservation success.
-- create new timezone GUI.
-- auto update GUI. when add new attribute.
-- add loading GUI.
-- if user click some menu and the system show login panel. system will auto show that function panel after login.
-- sort search result (available time).
-- tutorial menu.
-- forget password.
-- session.
-- show error popup if reserve more than 1 sites and the resource are not same connection type.
-- auto update of image type.
+H auto update of image type. Change to dynamic listing of images
+H forget password.Add simpel error message
+H session cookie.
+M (simple solution: only lock at step 3)  concurrency (transaction)
+M Single config file: auto update GUI. when add new attribute.
+M sort search result (available name, may be CPU and memory).
+M add help buttin search window and add explanation for resources attributes 
+L tutorial menu.
+L clear all cards after creating a reservation success.
+L create new timezone GUI.
+L show error popup if reserve more than 1 sites and the resource are not same connection type.
+L add loading GUI, updating between searches ( from usability suggestions)
+L if user click some menu and the system show login panel. system will auto show that function panel after login.
+
+
+-------------------------------
+Comments from usability test
+-------------------------------
+- The font is too small.
+- The font color of available amount of CPU and memory on information card and time zone information is difficult to see.
+- Icon of existing reservation menu is not meaningful.
+- “Search” menu should be changed to distinguish from “Search by name” easier.
+- Should change the circle markers which represent to a group of marker to use the icon as same as
+regular markers but bigger and still put number inside.
+- Should have max range or guide for user about the number of CPU and memory that they can search. 
+(Maybe use a hint (?) icon after the label of textbox.)
+- Should have 2 mode of time format (12hrs/24hrs.) and let user can switch it because some user is
+more familiar with 12hours format.
+- Color of the reservation part on top right should be changed to another color which is different from
+the site’s information card.

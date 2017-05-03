@@ -13,7 +13,8 @@ export default class SearchContainer extends Component {
         this.dashboardContainer = this.props.dashBoardContainer
         this.timezone = moment.tz(this.appContainer.state.authen.timezone)
        
-        let tmp = this.timezone.add(2,'hours').format().slice(11,13)+':00'
+        this.tmp = this.timezone.add(1,'hours').format().slice(11,13)+':00'
+        this.tmp2 = this.timezone.add(1,'hours').format().slice(11,13)+':00'
         this.timezone.subtract(2,'hours').format().slice(11,13)+':00'
 
         this.state = {
@@ -27,8 +28,8 @@ export default class SearchContainer extends Component {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
             },
-            startTime: this.timezone.add(1,'hours').format().slice(11,13)+':00',
-            endTime: this.timezone.add(1,'hours').format().slice(11,13)+':00',
+            startTime: this.tmp,
+            endTime: this.tmp2,
             reservationLength: {
                 value: 'all',
                 days: '',
@@ -39,9 +40,9 @@ export default class SearchContainer extends Component {
             dataResult: null,
             resultTable: [],
             viewCardKey: null,
-            startBeginDuration: 0,
+            startBeginDuration: this.tmp,
             endBeginDuration: 23,
-            startEndDuration: tmp,
+            startEndDuration: this.tmp2,
             endEndDuration: 23,
             minDate: {
                 obj: this.timezone,
@@ -118,6 +119,7 @@ export default class SearchContainer extends Component {
                                 endTime: ((time)>=10) ? (time)+':00' : '0'+(time)+':00'
                             },()=>{
                                 this.setStartEndDuration()
+                                this.setStartBeginDuration()
                                 this.setState({
                                     minDate: this.state.endDate
                                 })
@@ -132,6 +134,7 @@ export default class SearchContainer extends Component {
                                 endTime: '00:00'
                             },()=>{
                                 this.setStartEndDuration()
+                                this.setStartBeginDuration()
                                 this.setState({
                                     minDate: this.state.endDate
                                 })
@@ -140,7 +143,8 @@ export default class SearchContainer extends Component {
                         }
 
                     }else{
-                        this.setStartEndDuration()   
+                        this.setStartEndDuration() 
+                        this.setStartBeginDuration()  
                         this.setState({
                             minDate: this.state.endDate
                         })
@@ -151,6 +155,8 @@ export default class SearchContainer extends Component {
             }//end if 
             else{
                 this.setStartEndDuration()
+                this.setStartBeginDuration()
+
                 if((startTime+1)<=23){
                     this.setState({
                         minDate: this.state.startDate
@@ -220,7 +226,6 @@ export default class SearchContainer extends Component {
                             endTime: '00:00',
                             minDate: this.state.endDate
                         },()=>{
-                            console.log('XX start time change:')
                             this.setStartEndDuration()
                             this.setState({
                                 minDate: this.state.endDate
@@ -246,13 +251,6 @@ export default class SearchContainer extends Component {
                     
                 }
 
-                
-
-                // console.log('start date : '+this.state.endDate.date)
-                // console.log('end date : '+this.state.endDate.date)
-                // console.log('start time : '+this.state.startTime)
-                // console.log('end time : '+this.state.endTime)
-
         })  
     
     }
@@ -264,6 +262,21 @@ export default class SearchContainer extends Component {
         this.setState({
             endTime: ((endTime)>=10) ? (endTime)+':00' : '0'+(endTime)+':00'
         })
+    }
+
+    setStartBeginDuration(){
+
+        if(this.state.startDate.date==this.timezone.format('YYYY-MM-DD')){
+            //start date = today
+            this.setState({
+                startBeginDuration : this.tmp
+            })
+        }else{
+            // not today
+            this.setState({
+                startBeginDuration : 0
+            })
+        }
     }
 
     setStartEndDuration(){

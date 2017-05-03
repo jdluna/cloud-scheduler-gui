@@ -32,6 +32,29 @@ const TimeItem = (props) => (
     </select>
 )
 
+const TimeList = (props) => {
+    let start = parseInt(props.s)
+    let end = parseInt(props.e)
+    let options = []
+    for(let i=start;i<=end;i++){
+        let time = ((i)>=10) ? (i)+':00' : '0'+(i)+':00'
+        options.push(time)
+    }
+    return(
+        <select className={Style.inputtime} value={props.value} onChange={props.handle}>
+            {
+                options.map((data,key)=>{
+                    let d = data.replace(':',' : ')
+                    return(
+                        <option key={key} value={data}> {d} </option>
+                    )
+                })
+            }
+                    
+        </select>
+    )
+}
+
 export default class Step1 extends Component {
     componentDidMount(){
         this.props.reservationContainer.setState({
@@ -64,6 +87,16 @@ export default class Step1 extends Component {
     }
 
     render() {
+        let startBeginDuration = this.props.reservationContainer.state.startBeginDuration
+        let endBeginDuration = this.props.reservationContainer.state.endBeginDuration
+        let timeStartList = <TimeList s={startBeginDuration} e={endBeginDuration} value={this.props.reservationContainer.state.startTime} handle={this.props.reservationContainer.onTimeStartChange}/>
+
+        
+        let startEndDuration = this.props.reservationContainer.state.startEndDuration
+        let endEndDuration = this.props.reservationContainer.state.endEndDuration
+        let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.reservationContainer.state.endTime} handle={this.props.reservationContainer.onTimeEndChange}/>
+
+
         return (
             <section className={Style.content}>
                 <div className={Style.alert}>
@@ -88,15 +121,15 @@ export default class Step1 extends Component {
                                 <div>Begin:</div>
                                 <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.startDate.obj} onChange={this.props.reservationContainer.onStartDateChange} />
                                 <img className={Style.icon} src='img/ic_date_range.svg' />
-                                <TimeItem name='startTime' value={this.props.reservationContainer.state.startTime} handle={this.props.reservationContainer.onTimeChange} />
+                                {timeStartList}
                             </div>
                         </div>
                         <div className={Style.row}>
                             <div className={Style.block}>
                                 <div>End:</div>
-                                <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.state.startDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.endDate.obj} onChange={this.props.reservationContainer.onEndDateChange} />
+                                <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.endDate.obj} onChange={this.props.reservationContainer.onEndDateChange} />
                                 <img className={Style.icon} src='img/ic_date_range.svg' />
-                                <TimeItem name='endTime' value={this.props.reservationContainer.state.endTime} handle={this.props.reservationContainer.onTimeChange} />
+                                {timeEndList}
                             </div>
                         </div>
                         <div className={Style.row}>
