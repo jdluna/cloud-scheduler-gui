@@ -1,6 +1,10 @@
 @import '../../sass/_colors.scss';
 @import '../../sass/_fonts.scss';
 
+.highLayer{
+    z-index: 8 !important;
+}
+
 #panel{
     -webkit-backdrop-filter: blur(10px);
     right: 0px;

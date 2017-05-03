@@ -68,7 +68,7 @@ export default class History extends Component {
             <section className='modal'>
                 <section className={Style.panel}>
                     <header>
-                        <div>{modalName}</div>
+                        <div>{(modalName=='history' ? 'Past reservations' : modalName)}</div>
                         <img src='img/ic_close.svg' onClick={this.props.historyContainer.onClose} />
                     </header>
                     <section className={Style.content}>

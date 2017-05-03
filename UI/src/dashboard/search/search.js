@@ -90,23 +90,12 @@ export default class Search extends Component {
             }
         })
         this.refs.cpu.focus()
-
-        if(this.props.dashboardContainer.state.aboveSearchModal.open==true){
-            this.refs.abovesearchmodal.style.visibility = 'visible'
-        }
-        this.props.dashboardContainer.setState({
-            aboveSearchModal:{
-                open: true,
-                node: this.refs.abovesearchmodal
-            }
-        })
     }
 
     render() {
         let startBeginDuration = this.props.searchContainer.state.startBeginDuration
         let endBeginDuration = this.props.searchContainer.state.endBeginDuration
         let timeStartList = <TimeList s={startBeginDuration} e={endBeginDuration} value={this.props.searchContainer.state.startTime} handle={this.props.searchContainer.onTimeStartChange}/>
-
         
         let startEndDuration = this.props.searchContainer.state.startEndDuration
         let endEndDuration = this.props.searchContainer.state.endEndDuration
@@ -118,7 +107,6 @@ export default class Search extends Component {
 
         return (
             <div>
-            <section ref='abovesearchmodal' className='halfmodal--hidden'></section>
             <section className='halfmodal'>
                 <section className={Style.panel}>
                     <header>
