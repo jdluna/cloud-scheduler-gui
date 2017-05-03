@@ -7,7 +7,7 @@
 
 .panel{
     width: 330px;
-    height: 175px;
+    height: 185px;
     font-family: $font-primary;
     border-radius: 3px;
     border: 1px solid #929296;
@@ -53,14 +53,17 @@
             color: #000000;
         }
         .user{
-            margin-top: 25px;
+            margin-top: 10px;
+            text-align: center;
         }
         .pass{
             margin-top: 10px;
+            text-align: center;
         }
         .btn{
                 width: 180px;
-                margin-top: 20px;
+                margin-top: 15px !important;
+                margin: 0 auto;
                 .cancel,.ok{
                     border-radius: 3px;
                     font-size: 9pt;
@@ -82,5 +85,25 @@
                     background-color: $bg-color-primary;
                 }
         }
+        .incorrect{
+            margin-top: 10px;
+            font-size: 9pt;
+            color: red;
+        }
     }
+    .alert{
+        height: 24px;
+        .text{
+            display: none;
+            box-sizing: border-box;
+            font-family: $font-primary;
+            font-size: 9pt;
+            // background-color: rgba(73,8,9,0.43);
+            background-color: #490809;
+            text-align: center;
+            padding: 5px;
+            color: #FFFFFF;
+        }
+    }
+
 }

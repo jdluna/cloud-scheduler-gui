@@ -8,7 +8,8 @@ export default class LoginContainer extends Component {
         super(props)
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            result: false
         }
         this.onSignIn = this.onSignIn.bind(this)
         this.onCancel = this.onCancel.bind(this)
@@ -40,16 +41,17 @@ export default class LoginContainer extends Component {
              let {data,status} = response
              if(status==200){
                  if(data.session_id){
-                    this.props.app.onLogin(data)
-                 }
+                    this.props.app.onLogin(data,this)
+                    this.state.alertNode.innerHTML = ''
+                    this.state.alertNode.style.display = 'none'
+                 }else{
+                    this.state.alertNode.innerHTML = 'Incorrect password. Please try again.'
+                    this.state.alertNode.style.display = 'block'
+                }
              }
          }).catch(error=>{
              console.log(error)
          })
-         this.setState({
-            username: '',
-            password: ''
-        })
     }
 
     onCancel(event){

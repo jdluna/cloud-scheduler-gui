@@ -2,6 +2,13 @@ import React,{Component} from 'react'
 import Style from './login.scss'
 
 export default class Login extends Component {
+
+    componentDidMount(){
+        this.props.loginContainer.setState({
+            alertNode: this.refs.alert
+        })
+    }
+
     constructor(props){
         super(props)
         this.handle = this.props.loginContainer
@@ -13,6 +20,9 @@ export default class Login extends Component {
                     <section className={Style.panel}>
                         <header><div>Login</div></header>
                         <section>
+                        <div className={Style.alert}>
+                            <div className={Style.text} ref='alert'>Incorrect password. Please try again.</div>
+                        </div>
                             <div className={Style.content}>
                                 <form>
                                     <div className={Style.user}>
@@ -26,6 +36,7 @@ export default class Login extends Component {
                                         <button className={Style.cancel} onClick={this.handle.onCancel}>CANCEL</button>
                                     </div>
                                 </form>
+
                             </div>
                         </section>
                     </section>

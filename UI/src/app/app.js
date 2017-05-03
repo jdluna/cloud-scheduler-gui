@@ -20,7 +20,8 @@ export default class App extends Component {
                 session: '',
                 timezone: moment.tz.guess()
             },
-            isOpenReserveModal: false
+            isOpenReserveModal: false,
+            loginContainer: null
         }
         this.authentication = this.authentication.bind(this)
         this.onLogin = this.onLogin.bind(this)
@@ -53,7 +54,8 @@ export default class App extends Component {
         }
     }
 
-    onLogin(data){
+    onLogin(data,loginContainer){
+        console.log(loginContainer)
         let firstname = data.firstname.toLowerCase()
         let lastname = data.lastname.toLowerCase()
         firstname = firstname.charAt(0).toUpperCase()+firstname.slice(1)
@@ -74,7 +76,8 @@ export default class App extends Component {
                     name: name,
                     session: data.session_id,
                     timezone: data.timezone
-                }
+                },
+                loginContainer: loginContainer
             })
         }
     }
@@ -94,6 +97,14 @@ export default class App extends Component {
                 timezone: moment.tz.guess()
             }
         })
+        
+        this.setState({
+            loginContainer : {
+                username: '',
+                password: ''
+            }
+        })
+        
     }
 
     setTimeZone(timezone){
