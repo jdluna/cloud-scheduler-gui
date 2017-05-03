@@ -13,7 +13,7 @@ L doughnut chart.
 Features
 -----------------------
 H auto update of image type. Change to dynamic listing of images [done!]
-H forget password.Add simpel error message
+H forget password.Add simpel error message    [done!]
 H session cookie.
 M (simple solution: only lock at step 3)  concurrency (transaction)
 M Single config file: auto update GUI. when add new attribute.
