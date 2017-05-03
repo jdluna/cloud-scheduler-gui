@@ -42,6 +42,7 @@ export default class ReservationContainer extends Component {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
             },
+            dashboardContainer: this.props.dashBoardContainer,
 
             // STEP2
             title: '',

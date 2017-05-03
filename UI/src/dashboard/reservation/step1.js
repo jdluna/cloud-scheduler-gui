@@ -55,6 +55,25 @@ const TimeList = (props) => {
     )
 }
 
+const ImageTypeList = (props) => {
+   
+    let images = props.i
+
+    return(
+        <select className={Style.inputtype} value={props.value} onChange={props.handle}>
+            {
+                images.map((data,key)=>{
+                    let d = data.name
+                    return(
+                        <option key={key} value={d}> {d} </option>
+                    )
+                })
+            }
+                    
+        </select>
+    )
+}
+
 export default class Step1 extends Component {
     componentDidMount(){
         this.props.reservationContainer.setState({
@@ -96,6 +115,9 @@ export default class Step1 extends Component {
         let endEndDuration = this.props.reservationContainer.state.endEndDuration
         let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.reservationContainer.state.endTime} handle={this.props.reservationContainer.onTimeEndChange}/>
 
+
+        let images = this.props.reservationContainer.state.dashboardContainer.state.images
+        let imageTypeList = <ImageTypeList i={images} value={this.props.reservationContainer.state.imageType} handle={this.props.reservationContainer.onImageTypeChange}/>
 
         return (
             <section className={Style.content}>
@@ -165,10 +187,7 @@ export default class Step1 extends Component {
                         <div className={Style.row}>
                             <div className={Style.block}>
                                 <div>Image type:</div>
-                                <select className={Style.inputtype} value={this.props.reservationContainer.state.imageType} onChange={this.props.reservationContainer.onImageTypeChange}>
-                                    <option value='Any'>Any</option>
-                                    <option value='centos7'>centos7</option>
-                                </select>
+                                {imageTypeList}
                             </div>
                         </div>
                     </form>
