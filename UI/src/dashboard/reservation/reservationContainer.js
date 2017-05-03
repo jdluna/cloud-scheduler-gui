@@ -31,6 +31,8 @@ export default class ReservationContainer extends Component {
             startTime: this.tmp,
             endTime: this.tmp2,
             reservationLength: '',
+            day: 0,
+            hour: 1,
             imageType: 'Any',
             cpu: [],
             mem: [],
@@ -90,7 +92,9 @@ export default class ReservationContainer extends Component {
             length = day+' Days, '+hour+' Hours'
         }
         this.setState({
-            reservationLength: length
+            reservationLength: length,
+            day: day,
+            hour: hour
         })
     }
 
@@ -121,6 +125,7 @@ export default class ReservationContainer extends Component {
                             },()=>{
                                 this.setStartEndDuration()
                                 this.setStartBeginDuration()
+                                this.setReservationLength()
                                 this.setState({
                                     minDate: this.state.endDate
                                 })
@@ -135,6 +140,7 @@ export default class ReservationContainer extends Component {
                             },()=>{
                                 this.setStartEndDuration()
                                 this.setStartBeginDuration()
+                                this.setReservationLength()
                                 this.setState({
                                     minDate: this.state.endDate
                                 })
@@ -145,6 +151,7 @@ export default class ReservationContainer extends Component {
                     }else{
                         this.setStartEndDuration() 
                         this.setStartBeginDuration()  
+                        this.setReservationLength()
                         this.setState({
                             minDate: this.state.endDate
                         })
@@ -156,6 +163,7 @@ export default class ReservationContainer extends Component {
             else{
                 this.setStartEndDuration()
                 this.setStartBeginDuration()
+                this.setReservationLength()
 
                 if((startTime+1)<=23){
                     this.setState({
@@ -185,6 +193,7 @@ export default class ReservationContainer extends Component {
                 } 
             },()=>{
                 this.setStartEndDuration() 
+                this.setReservationLength()
             })
         }
     }
@@ -207,6 +216,7 @@ export default class ReservationContainer extends Component {
                             endTime: ((t)>=10) ? (t)+':00' : '0'+(t)+':00'
                         },()=>{
                             this.setStartEndDuration()
+                            this.setReservationLength()
                             this.setState({
                                 minDate: this.state.endDate
                             })
@@ -221,6 +231,7 @@ export default class ReservationContainer extends Component {
                             minDate: this.state.endDate
                         },()=>{
                             this.setStartEndDuration()
+                            this.setReservationLength()
                             this.setState({
                                 minDate: this.state.endDate
                             })
@@ -229,6 +240,7 @@ export default class ReservationContainer extends Component {
                 
                 }else{
                     this.setStartEndDuration()
+                    this.setReservationLength()
 
                     if((startTime+1)<=23){
                         this.setState({
@@ -255,6 +267,8 @@ export default class ReservationContainer extends Component {
 
         this.setState({
             endTime: ((endTime)>=10) ? (endTime)+':00' : '0'+(endTime)+':00'
+        },()=>{
+            this.setReservationLength()
         })
     }
 
@@ -310,11 +324,19 @@ export default class ReservationContainer extends Component {
     }
 
     onNextStep(event){
-        switch(event.target.name){
-            case 'step1' : this.checkReservation();break
-            case 'step2' : this.setState({card: 'step3'});break
-            case 'step3' : this.queryConfirmReservation();break
+        if(this.state.day < 31 || (this.state.day == 31 && this.state.hour == 0)){
+            this.state.alertNode.innerHTML = ''
+            this.state.alertNode.style.display = 'none'
+            switch(event.target.name){
+                case 'step1' : this.checkReservation();break
+                case 'step2' : this.setState({card: 'step3'});break
+                case 'step3' : this.queryConfirmReservation();break
+            } 
+        }else{
+            this.state.alertNode.innerHTML = 'Cannot reserve any resources more than 1 month. Please try again.'
+            this.state.alertNode.style.display = 'block'
         }
+        
     }
 
     checkStep1Input(){
