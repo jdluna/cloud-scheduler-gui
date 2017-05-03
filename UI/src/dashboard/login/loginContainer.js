@@ -41,7 +41,7 @@ export default class LoginContainer extends Component {
              let {data,status} = response
              if(status==200){
                  if(data.session_id){
-                    this.props.app.onLogin(data,this)
+                    this.props.app.onLogin(data)
                     this.state.alertNode.innerHTML = ''
                     this.state.alertNode.style.display = 'none'
                  }else{
