@@ -61,7 +61,7 @@ const EXTEND_CARD = (props) => {
     
     let startDuration = props.historyContainer.state.startDuration
     let endDuration = props.historyContainer.state.endDuration
-    let timeList = <TimeList s={startDuration} e={endDuration} value={props.historyContainer.state.extendTime} handle={props.historyContainer.onExtendTimeChange}/>
+    let timeList = <TimeList s={startDuration} e={endDuration} value={props.historyContainer.state.startExtendTime} handle={props.historyContainer.onExtendTimeChange}/>
 
     return(
         <div>
@@ -72,13 +72,15 @@ const EXTEND_CARD = (props) => {
             <div className={Style.content}>
                 <div className={Style.row}>
                     <div className={Style.block}>
-                        <DatePicker className={Style.inputdate} minDate={props.historyContainer.state.startExtendDate.obj} dateFormat='DD - MMM - YYYY' selected={props.historyContainer.state.extendDate.obj} onChange={props.historyContainer.onExtendDateChange} />
+                        <DatePicker className={Style.inputdate} minDate={props.historyContainer.state.startExtendDate.obj} maxDate={props.historyContainer.state.maxExtendDate.obj} dateFormat='DD - MMM - YYYY' selected={props.historyContainer.state.extendDate.obj} onChange={props.historyContainer.onExtendDateChange} />
                         <img className={Style.icon} src='img/ic_date_range.svg' />
                         {timeList}
                     </div>
                 </div>
                 <div className={Style.row}>
-                    <div className={Style.block}></div>
+                    <div className={Style.block}>
+                        <div className={Style.hinttext}>*Cannot extend a reservation more than 1 month.</div>
+                    </div>
                 </div>
                 <div className={Style.searchbtn}>
                     <button type='submit' className='btn' onClick={props.historyContainer.onExtendConfirm}>CONFIRM</button>
