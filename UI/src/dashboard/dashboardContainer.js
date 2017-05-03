@@ -119,7 +119,8 @@ export default class DashboardContainer extends Component {
             cardDetail : {
                 panel: [],
                 data: {}
-            }
+            },
+            modalName: ''
         },()=>{
             this.setState({
                 modal: <ReservationContainer dashBoardContainer={this} app={this.props.app} sites={this.state.selectCard}/>
@@ -279,17 +280,12 @@ export default class DashboardContainer extends Component {
     }
 
     setAllImages(){
-
         axios.get(GET_ALL_IMAGES_ENDPOINT).then(response=>{
             let {data,status} = response
             if(status==200){
-
                 this.setState({
                     images: data.image_type
-                },()=>{
-                    console.log(this.state.images[0])
                 })
-                
             }
         }).catch(error=>{
             console.log('QUERY GET IMAGES ERROR: '+error)

@@ -61,7 +61,7 @@ export default class App extends Component {
 
         let {isLogedIn} = this.state.authen
         if(!isLogedIn){
-            this.setState({
+             let appState = {
                 loginDialog:{
                     open: false,
                     header: 'Log out',
@@ -74,7 +74,12 @@ export default class App extends Component {
                     session: data.session_id,
                     timezone: data.timezone
                 }
-            })
+            }
+            if(typeof(Storage)!=='undefined'){
+                sessionStorage.setItem('session',JSON.stringify(appState))
+            }
+
+            this.setState(appState)
         }
     }
 
@@ -93,7 +98,9 @@ export default class App extends Component {
                 timezone: moment.tz.guess()
             }
         })
-        
+        if(typeof(Storage)!=='undefined'){
+            sessionStorage.clear()
+        }
     }
 
     setTimeZone(timezone){
@@ -106,6 +113,15 @@ export default class App extends Component {
                 timezone: timezone
             }
         })
+    }
+
+    componentWillMount(){
+        if(typeof(Storage)!=='undefined'){
+            let appState = sessionStorage.getItem('session')
+            if(appState!=null){
+                this.setState(JSON.parse(appState))
+            }
+        }
     }
 
     render() {
