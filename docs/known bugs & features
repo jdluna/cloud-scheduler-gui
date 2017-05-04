@@ -32,7 +32,7 @@ L if user click some menu and the system show login panel. system will auto show
 Comments from usability test
 -------------------------------
 M The font is too small. Don't use smaller than 10pt. 
-  The font size for available amount of CPU/memory on information card is too small 
+  The font size for available amount of CPU/memory on information card is too small                         [done!]
 M time zone information is difficult to see. Change color to orange                                         [done! : light blue color]
 M time and date on information card is too small. Change to larger font and to orange color.                [done! : white color]
 M Color of the reservation panel on top right should be changed to another color which is different from
