@@ -179,35 +179,45 @@ class SiteManager:
             
         return result
         
-        
     def getResultType(self):
         return self.__resultType
         
-    def getSite(self,siteId = None, dateReq = datetime.now().strftime("%Y-%m-%d %H:00:00"), end = datetime.now().strftime("%Y-%m-%d %H:00:00")):
+    def getSite(self,siteId = None, dateReq = datetime.now().strftime("%Y-%m-%d %H:00:00"), end = datetime.now().strftime("%Y-%m-%d %H:00:00"),db=None):
         #to get site description specified by time              
         dateReq = str(dateReq)
         end = str(end)
+        site = None
         
         if datetime.strptime(dateReq, "%Y-%m-%d %H:00:00") - datetime.strptime(end, "%Y-%m-%d %H:00:00") > timedelta(hours=0) :
             end = dateReq
-         
-        db = Database()
-        if db.connect() and siteId != None:
-            db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
-            data = db.getCursor().fetchone()
-
-            site = Site(data)
-            res = site.getResources()
-
-            db.execute("START TRANSACTION;")   
-
-            for i in range(0,len(res)):
-                res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
-         
-            site.setRunningAmount(db,begin=dateReq)   
         
-            return site
-        else:
-            return None
-            
+        if db == None:
+            db = Database()
+            if db.connect() and siteId != None:
+                db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
+                data = db.getCursor().fetchone()
     
+                site = Site(data)
+                res = site.getResources()
+    
+                db.execute("START TRANSACTION;")   
+    
+                for i in range(0,len(res)):
+                    res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
+             
+                site.setRunningAmount(db,begin=dateReq)   
+        else:
+            if siteId != None:
+                db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
+                data = db.getCursor().fetchone()
+    
+                site = Site(site=data,db=db)
+                res = site.getResources()
+    
+                db.execute("START TRANSACTION;")   
+    
+                for i in range(0,len(res)):
+                    res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
+             
+                site.setRunningAmount(db=db,begin=dateReq)   
+        return site

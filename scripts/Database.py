@@ -19,6 +19,7 @@ HOST = "localhost"
 USER = "root"
 PWD = "" 
 DBNAME = "pragma"
+WAIT_TIMEOUT = 10
 ####################################
 
 class Database: 
@@ -56,6 +57,21 @@ class Database:
         
     def fetchall(self):
         return self.__cur.fetchall()
+        
+    def setTimeout(self):
+        self.execute('SET WAIT_TIMEOUT = '+str(WAIT_TIMEOUT)+';')
+        
+    def lock(self,dic):
+        self.setTimeout()
+        sql = 'LOCK TABLE '
+        for k, v in dic.iteritems():
+            sql += '`'+k+'` '+v+','
+        if len(dic) > 0:
+            sql = sql[:-1]
+        self.execute(sql)
+        
+    def unlock(self):
+        self.execute('UNLOCK TABLES')
         
     def close(self):
         self.__conn.close()
