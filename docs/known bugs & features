@@ -18,6 +18,8 @@ H session cookie.                                                           [don
 M (simple solution: only lock at step 3)  concurrency (transaction)
 M Single config file: auto update GUI. when add new attribute.
 M sort search result (available name, may be CPU and memory).
+M add SSH public key text field to user profile
+M add script for admin to query any user profile info
 M add help buttin search window and add explanation for resources attributes
   add possible values range for the number of CPU and memory. For example CPU number
   can be 2 - 32 (even numbers). Similar for memory, 8Gb, 16Gb, etc. 
