@@ -35,9 +35,9 @@
         }
         .title{
             float: left;
-            font-size: 8pt;
+            font-size: 9pt;
             padding-left: 5px;
-            margin-top: 6px;
+            margin-top: 5px;
         }
         .close{
             position: absolute;
@@ -63,8 +63,8 @@
                 cursor: pointer;
             }
             .date{
-                padding-top: 7px;
-                opacity: 0.5;
+                padding-top: 5px;
+                font-size: 9pt;
             }
         }
         .chart{
@@ -107,9 +107,11 @@
             // }
         }
         .resource{
+            font-size: 8pt;
+            padding-left: 5px;
             .cpu, .mem{
-                width: 10px;
-                height: 10px;
+                width: 11px;
+                height: 11px;
                 border-radius: 2px;
                 position: absolute;
             }
@@ -137,23 +139,24 @@
     }
     .section{
         display: flex;
-        font-size: 8pt;
-        height: 19px;
+        font-size: 9pt;
+        height: 21px;
         width: 100%;
         background-color: #464A5F;
         margin-top: 9px;
         .text{
             float: left;
-            margin-left: 5px;
+            margin-left: 10px;
             margin-top: 3px;
         }
         .type{
             width: 50%;
+            padding-left: 4px;
             border-left: 1px solid rgba(0, 0, 0, 0.16);
             .name{
                 float: left;
                 margin-left: 5px;
-                margin-top: 3px;
+                margin-top: 4px;
             }
             .deactive{
                 width: 8px;
@@ -162,7 +165,7 @@
                 background-color: #929294;
                 float: right;
                 margin-right: 10px;
-                margin-top: 5px;
+                margin-top: 6px;
             }
             .active{
                 width: 8px;
@@ -171,21 +174,22 @@
                 background-color: #76FF03;
                 float: right;
                 margin-right: 10px;
-                margin-top: 5px;
+                margin-top: 6px;
             }
         }
     }
     .desc{
-        padding-left: 5px;
+        padding-left: 10px;
         padding-right: 5px;
         padding-top: 9px;
         .title{
-            font-size: 8pt;
+            font-size: 9pt;
             padding-bottom: 5px;
         }
         .detail{
-            font-size: 7pt;
-            color: #929294;
+            font-size: 8pt;
+            color: #E0E0E0;
+            // color: #929294;
         }
     }
 }

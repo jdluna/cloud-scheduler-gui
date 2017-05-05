@@ -50,13 +50,13 @@ export default class card extends Component {
                         <div>
                             <span className={style.cpu}></span>
                             <span className={style.detail}>CPU Available</span>
-                            <span className={style.cpudetail}> : {this.props.cardContainer.state.site.cpuAvailable}</span><span>{' /'+this.props.cardContainer.state.site.cpuTotal}</span>
+                            <span> : </span><span className={style.cpudetail}>{this.props.cardContainer.state.site.cpuAvailable}</span><span>{' / '+this.props.cardContainer.state.site.cpuTotal}</span>
                         </div>
                         <div className={style.space}></div>
                         <div>
                             <span className={style.mem}></span>
                             <span className={style.detail}>Memory Available</span>
-                            <span className={style.memdetail}> : {this.props.cardContainer.state.site.memAvailable}</span><span>{' /'+this.props.cardContainer.state.site.memTotal}</span>
+                            <span> : </span><span className={style.memdetail}>{this.props.cardContainer.state.site.memAvailable}</span><span>{' / '+this.props.cardContainer.state.site.memTotal}</span>
                         </div>
                     </div>
                 </section>

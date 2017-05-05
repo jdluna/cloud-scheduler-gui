@@ -9,7 +9,9 @@ export default class NotFoundTable extends Component {
         let endDate = moment(data.endDate.date+' '+data.endTime).format('DD-MMM-YYYY HH:mm').toUpperCase() 
         let startDateLength = data.startDate.date+' '+data.startTime
         let endDateLength = data.endDate.date+' '+data.endTime
-
+        let {dataResult} = this.props.searchContainer.state
+        console.log(dataResult)
+        
         let {reservationLength} = this.props.searchContainer.state
         let time = reservationLength.days+' days '+reservationLength.hours+' hours'
         return (
@@ -56,11 +58,21 @@ export default class NotFoundTable extends Component {
                 <div className={Style.data}>
                     <div className={Style.header}>
                         <div className={Style.text}>
-                            <span>Name</span>
-                            <img className={Style.icon} src='img/ic_arrow_drop_down.svg' />
+                            <span className={Style.cursor}>
+                                <span>Name</span>
+                                <img className={Style.icon} src='img/ic_arrow_drop_up.svg' />
+                            </span>
                         </div>
-                        <div className={Style.text}>Available CPU</div>
-                        <div className={Style.text}>Available Memory (GB)</div>
+                        <div className={Style.text}>
+                            <span className={Style.cursor}>
+                                <span>Available CPU</span>
+                            </span>
+                        </div>
+                        <div className={Style.text}>
+                            <span className={Style.cursor}>
+                                <span>Available Memory (GB)</span>
+                            </span>
+                        </div>
                     </div>
                     <div className={Style.itemlist}>
                         {

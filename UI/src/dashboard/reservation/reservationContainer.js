@@ -70,10 +70,24 @@ export default class ReservationContainer extends Component {
         this.onEnterMEM = this.onEnterMEM.bind(this)
         this.setCPUAndMEM = this.setCPUAndMEM.bind(this)
         this.onEnterInputStep2 = this.onEnterInputStep2.bind(this)
+        this.checkStartTime()
     }
 
     onClose(){
         this.dashboardContainer.onCloseModal()
+    }
+
+    checkStartTime(){
+        let t = this.timezone
+        console.log(this.state.startTime)
+        if(this.state.startTime=='23:00'){
+            this.setState({
+                endDate: {
+                    obj: t.add(1,'day'),
+                    date: t.add(1,'day').format('YYYY-MM-DD')
+                }
+            },()=>{t.subtract(2,'day')})
+        }
     }
 
     setReservationLength(){
@@ -325,8 +339,10 @@ export default class ReservationContainer extends Component {
 
     onNextStep(event){
         if(this.state.day < 31 || (this.state.day == 31 && this.state.hour == 0)){
-            this.state.alertNode.innerHTML = ''
-            this.state.alertNode.style.display = 'none'
+            if(event.target.name=='step1'){
+                this.state.alertNode.innerHTML = ''
+                this.state.alertNode.style.display = 'none'
+            }
             switch(event.target.name){
                 case 'step1' : this.checkReservation();break
                 case 'step2' : this.setState({card: 'step3'});break

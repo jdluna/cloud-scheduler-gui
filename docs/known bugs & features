@@ -18,6 +18,9 @@ H session cookie.                                                           [don
 M (simple solution: only lock at step 3)  concurrency (transaction)
 M Single config file: auto update GUI. when add new attribute.
 M sort search result (available name, may be CPU and memory).
+M add SSH public key text field to user profile
+M add script for admin to query any user profile info
+M add script to update status of reservation
 M add help buttin search window and add explanation for resources attributes
   add possible values range for the number of CPU and memory. For example CPU number
   can be 2 - 32 (even numbers). Similar for memory, 8Gb, 16Gb, etc. 
@@ -32,9 +35,9 @@ L if user click some menu and the system show login panel. system will auto show
 Comments from usability test
 -------------------------------
 M The font is too small. Don't use smaller than 10pt. 
-  The font size for available amount of CPU/memory on information card is too small 
-M time zone information is difficult to see. Change color to orange
-M time and date on information card is too small. Change to larger font and to orange color.
+  The font size for available amount of CPU/memory on information card is too small                         [done! : information card]
+M time zone information is difficult to see. Change color to orange                                         [done! : light blue color]
+M time and date on information card is too small. Change to larger font and to orange color.                [done! : white color]
 M Color of the reservation panel on top right should be changed to another color which is different from
  the site's information card. Try light grey. 
 L Icon of existing reservation menu is not meaningful.
