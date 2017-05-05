@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2017 at 03:32 AM
+-- Generation Time: May 05, 2017 at 09:27 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -186,15 +186,6 @@ CREATE TABLE `session` (
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `session`
---
-
-INSERT INTO `session` (`user_id`, `session_id`, `last_login`) VALUES
-(3, 'B0XX6D', '2017-04-14 16:18:33'),
-(1, 'C6ZOSY', '2017-04-20 16:57:28'),
-(2, 'CUWF2D', '2017-04-28 22:44:49');
-
 -- --------------------------------------------------------
 
 --
@@ -268,17 +259,18 @@ CREATE TABLE `user` (
   `organization` varchar(16) NOT NULL,
   `position` varchar(16) NOT NULL,
   `language` varchar(3) NOT NULL,
-  `timezone` varchar(32) NOT NULL
+  `timezone` varchar(32) NOT NULL,
+  `public_key` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `status`, `organization`, `position`, `language`, `timezone`) VALUES
-(1, 'project401', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'nannapas', 'banluesombatkul', 'nannapas.blsbk@gmail.com', NULL, 'user', 'TU', 'student', 'TH', 'America/New_York'),
-(2, 'admin', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'prapansak', 'kaewlamul', 'prapansak.kaew@gmail.com', NULL, 'admin', 'TU', 'student', 'TH', 'America/New_York'),
-(3, 'test', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'pragma', '32', 'pragma@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York');
+INSERT INTO `user` (`user_id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `status`, `organization`, `position`, `language`, `timezone`, `public_key`) VALUES
+(1, 'project401', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'nannapas', 'banluesombatkul', 'nannapas.blsbk@gmail.com', NULL, 'user', 'TU', 'student', 'TH', 'America/New_York', 'AAAAAAA'),
+(2, 'admin', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'prapansak', 'kaewlamul', 'prapansak.kaew@gmail.com', NULL, 'admin', 'TU', 'student', 'TH', 'America/New_York', 'BBBBBBBB'),
+(3, 'test', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'pragma', '32', 'pragma@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC');
 
 --
 -- Indexes for dumped tables

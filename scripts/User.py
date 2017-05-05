@@ -51,6 +51,7 @@ class User:
             self.__position = data[9]
             self.__language = data[10]
             self.__timezone = data[11]
+            self.__publicKey = data[12]
                 
         self.__db = Database()
         if self.__db.connect():
@@ -119,8 +120,6 @@ class User:
             sql = "UPDATE `user` SET `timezone`='"+str(self.__timezone)+"' WHERE `user_id`= '"+str(self.__userId)+"';"     
             if self.__db.execute(sql):
                 self.__db.commit()
-                    
-
         
     def __setSessionToken(self):
         self.__sessionId = self.__idGenerator()
@@ -140,9 +139,7 @@ class User:
                     break
                 else:
                     #session_id is duplicated
-                    self.__sessionId = self.__idGenerator()        
-
-        
+                    self.__sessionId = self.__idGenerator()           
         
     def getSessionToken(self):   
         return self.__sessionId
@@ -222,4 +219,5 @@ class User:
             
         return False
                 
-                
+    def getPublicKey(self):
+        return self.__publicKey

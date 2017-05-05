@@ -98,6 +98,7 @@ class JSONFormatter:
         jsonStr += ', "position" : "' + str(u.getPosition()) + '"'
         jsonStr += ', "language" : "' + str(u.getLanguage()) + '"'
         jsonStr += ', "timezone" : "' + str(u.getTimezone()) + '"'
+        jsonStr += ', "public_key" : "' + str(u.getPublicKey()) + '"'
         return jsonStr
         
         
