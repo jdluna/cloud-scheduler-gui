@@ -36,7 +36,7 @@ class User:
     __language = None
     
     
-    def __init__(self,data=None,sessionId=None): 
+    def __init__(self,data=None,sessionId=None,getAnotherUserData=False): 
         if data != None:
             self.__sessionId = None
             self.__userId = data[0]
@@ -51,23 +51,31 @@ class User:
             self.__position = data[9]
             self.__language = data[10]
             self.__timezone = data[11]
+            self.__publicKey = data[12]
                 
         self.__db = Database()
         if self.__db.connect():
             
-            if sessionId == None:
-                self.__setSessionToken()
+            if sessionId == None :
+                if getAnotherUserData == False:
+                    #SIGN IN
+                    self.__setSessionToken()
+                else:
+                    #ADMIN REQUEST USER'S DATA
+                    sql = 'SELECT `session_id` FROM `session` WHERE `user_id` = "'+str(self.__userId)+'";'
+                    self.__db.execute(sql)
+                    sessionId = self.__db.getCursor().fetchone()
+                    if sessionId != None:
+                        self.__sessionId = sessionId[0]
             else:
+                #SET TIME ZONE
                 self.__sessionId = sessionId
-                
-            if self.__username == None:
-                #check session id and get user id
                 sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
-               
                 self.__db.execute(sql)
                 uid = self.__db.getCursor().fetchone()
                 if uid != None:
                     self.__userId = uid[0]
+                    
                 
     def getUserId(self):
         return self.__userId
@@ -112,8 +120,6 @@ class User:
             sql = "UPDATE `user` SET `timezone`='"+str(self.__timezone)+"' WHERE `user_id`= '"+str(self.__userId)+"';"     
             if self.__db.execute(sql):
                 self.__db.commit()
-                    
-
         
     def __setSessionToken(self):
         self.__sessionId = self.__idGenerator()
@@ -133,9 +139,7 @@ class User:
                     break
                 else:
                     #session_id is duplicated
-                    self.__sessionId = self.__idGenerator()        
-
-        
+                    self.__sessionId = self.__idGenerator()           
         
     def getSessionToken(self):   
         return self.__sessionId
@@ -215,4 +219,5 @@ class User:
             
         return False
                 
-                
+    def getPublicKey(self):
+        return self.__publicKey

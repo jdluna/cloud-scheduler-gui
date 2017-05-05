@@ -18,7 +18,7 @@ from Resource import CPU, Memory
 class Site:
     __resources = []
     
-    def __init__(self, site=None, site_id=None):   
+    def __init__(self, site=None, site_id=None, db=None):   
         self.__resources = []
         
         if site_id != None:
@@ -40,12 +40,15 @@ class Site:
             self.__latitude = site[12]
             self.__longitude = site[13]
             
-            db = Database()
-            if db.connect() :
-                db.execute("START TRANSACTION;")
+            if db ==  None:
+                db = Database()
+                if db.connect() :
+                    self.addResource(db,CPU(siteId=self.__siteId, total=site[14]))
+                    self.addResource(db,Memory(siteId=self.__siteId, total=site[15]))
+                    db.close
+            else:
                 self.addResource(db,CPU(siteId=self.__siteId, total=site[14]))
                 self.addResource(db,Memory(siteId=self.__siteId, total=site[15]))
-            db.close
             
         self.__image_types = []
         self.__connection_types = []
