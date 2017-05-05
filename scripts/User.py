@@ -36,7 +36,7 @@ class User:
     __language = None
     
     
-    def __init__(self,data=None,sessionId=None): 
+    def __init__(self,data=None,sessionId=None,getAnotherUserData=False): 
         if data != None:
             self.__sessionId = None
             self.__userId = data[0]
@@ -55,19 +55,26 @@ class User:
         self.__db = Database()
         if self.__db.connect():
             
-            if sessionId == None:
-                self.__setSessionToken()
+            if sessionId == None :
+                if getAnotherUserData == False:
+                    #SIGN IN
+                    self.__setSessionToken()
+                else:
+                    #ADMIN REQUEST USER'S DATA
+                    sql = 'SELECT `session_id` FROM `session` WHERE `user_id` = "'+str(self.__userId)+'";'
+                    self.__db.execute(sql)
+                    sessionId = self.__db.getCursor().fetchone()
+                    if sessionId != None:
+                        self.__sessionId = sessionId[0]
             else:
+                #SET TIME ZONE
                 self.__sessionId = sessionId
-                
-            if self.__username == None:
-                #check session id and get user id
                 sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
-               
                 self.__db.execute(sql)
                 uid = self.__db.getCursor().fetchone()
                 if uid != None:
                     self.__userId = uid[0]
+                    
                 
     def getUserId(self):
         return self.__userId

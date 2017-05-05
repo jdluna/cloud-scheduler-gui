@@ -62,7 +62,7 @@ class AuthenticationManager:
         return True
     
         
-    def createUser(self,username):
+    def createUser(self,username,getAnotherUserData=False):
 
         db = Database()
         if db.connect():
@@ -71,7 +71,7 @@ class AuthenticationManager:
             data = db.getCursor().fetchone()
         
             if data != None:
-                self.__usr = User(data=data)
+                self.__usr = User(data=data,getAnotherUserData=getAnotherUserData)
         
             db.close()
         
