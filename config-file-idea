@@ -1,0 +1,69 @@
+========================================================
+SINGLE CONFIG FILE IDEA (ADD NEW ATTRIBUTES)
+========================================================
+[STEP1] : i created config file in 'cloud-scheduler-gui/UI/src/config' directory.
+          the name of file is 'attributes.js' and the pattern to config look like below.
+
+export const NETWORK_TYPE = ['ENT','IPOP']
+export const RESOURCES = [{
+    name: 'CPU',
+    unit: 'GB',
+    parameter: 'cpu'
+},{
+    name: 'Memory',
+    unit: 'GB',
+    parameter: 'mem'
+}]
+
+WHEN :
+  name        : to show on GUI
+  unit        : to show on GUI
+  parameter   : variable name from python script (json)
+--------------------------------------------------------
+[STEP2] : modify presentation layer (html and scss). included 4 modules.
+         - search
+         - history
+         - reservation 
+         - reservationBar (card)
+--------------------------------------------------------
+[STEP3] : modify business logic layer (container). included 4 modules and 1 file.
+         - search
+         - history
+         - reservation 
+         - reservationBar
+         - dashboardContainer.js
+
+
+========================================================
+EXAMPLE : search panel (just left side)
+========================================================
+[STEP1] : just config.
+--------------------------------------------------------
+[STEP2] :  - don't use static of attributes name or elements. but using loop data (config file) to append it.
+             - looping to append input elements (cpu and memory).
+             - looping to append connection types check box.
+           - update scss style (can scroll)
+--------------------------------------------------------
+[STEP3] :  - don't use static of state variable. may be using array.
+             and length of array equal to amount of attributes (network type or resources)
+             
+             FROM                         TO
+             this.state = {               this.state = {
+                cpu: '',                      resources: [],
+                mem: '',                      ...
+                ...                       
+             }                            }
+             
+           - don't use static of state/parametor to query data. such as.
+           
+             FROM
+             params:{
+                resources: ((this.state.cpu=='') ? 0 : this.state.cpu)+','+((this.state.mem=='') ? 0 : this.state.mem)
+                ...
+             }
+             
+             TO
+             params:{
+                resources: this.state.resources.toString()
+                ...
+             }
