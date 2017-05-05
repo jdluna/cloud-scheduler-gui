@@ -39,31 +39,31 @@ EXAMPLE : search panel (just left side)
 ========================================================
 [STEP1] : just config.
 --------------------------------------------------------
-[STEP2] :  - don't use static of attributes name or elements. but using loop data (config file) to append it.
-             - looping to append input elements (cpu and memory).
-             - looping to append connection types check box.
-           - update scss style (can scroll)
+[STEP2] : - don't use static of attributes name or elements. but using loop data (config file) to append it.
+            - looping to append input elements (cpu and memory).
+            - looping to append connection types check box.
+          - update scss style (can scroll)
 --------------------------------------------------------
-[STEP3] :  - don't use static of state variable. may be using array.
-             and length of array equal to amount of attributes (network type or resources)
+[STEP3] : - don't use static of state variable. may be using array.
+            and length of array equal to amount of attributes (network type or resources)
              
-             FROM                         TO
-             this.state = {               this.state = {
-                cpu: '',                      resources: [],
-                mem: '',                      ...
-                ...                       
-             }                            }
+            FROM                         TO
+            this.state = {               this.state = {
+               cpu: '',                      resources: [],
+               mem: '',                      ...
+               ...                       
+            }                            }
              
-           - don't use static of state/parametor to query data. such as.
-           
-             FROM
-             params:{
-                resources: ((this.state.cpu=='') ? 0 : this.state.cpu)+','+((this.state.mem=='') ? 0 : this.state.mem)
-                ...
-             }
+          - don't use static of state/parametor to query data. such as.
+          
+            FROM
+            params:{
+              resources: ((this.state.cpu=='') ? 0 : this.state.cpu)+','+((this.state.mem=='') ? 0 : this.state.mem)
+              ...
+            }
              
-             TO
-             params:{
-                resources: this.state.resources.toString()
-                ...
-             }
+            TO
+            params:{
+              resources: this.state.resources.toString()
+              ...
+            }
