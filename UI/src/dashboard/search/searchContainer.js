@@ -386,6 +386,7 @@ export default class SearchContainer extends Component {
             let {data,status} = response
             if(status==200&&data.result_type){
                 if(data.result_type=='result'){
+                    this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
                         resultTable: <FoundTable data={data} searchContainer={this}/>
@@ -399,6 +400,34 @@ export default class SearchContainer extends Component {
             }
         }).catch(error=>{
             console.log('QUERY SEARCH RESOURCE ERROR: '+error)
+        })
+    }
+
+    getAscSort(data){
+        data.sites.sort((a,b)=>{
+            let first = a.name.toLowerCase().charCodeAt(0)
+            let second = b.name.toLowerCase().charCodeAt(0)
+            return first-second
+        })
+    }
+
+    getDescSort(data){
+        data.sites.sort((a,b)=>{
+            let first = a.name.toLowerCase().charCodeAt(0)
+            let second = b.name.toLowerCase().charCodeAt(0)
+            return second-first
+        })
+    }
+    
+    getDescSortByName(data){
+        data.sites.sort((a,b)=>{
+            return (a.name < b.name) ? 1 : ((b.name < a.name) ? -1 : 0)
+        })
+    }
+
+    getAscSortByName(data){
+        data.sites.sort((a,b)=>{
+            return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
         })
     }
 
