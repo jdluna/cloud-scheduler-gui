@@ -3,15 +3,39 @@ import Style from './search.scss'
 import moment from 'moment'
 
 export default class NotFoundTable extends Component {
+    constructor(props){
+        super(props)
+        this.container = this.props.searchContainer
+        this.state = {
+            dataResult: this.container.state.dataResult,
+            sort: {
+                select: 0,
+                asc: [true,true,true]
+            }
+        }
+    }
+
+    onSort(index){
+        let asc = this.state.sort.asc
+        asc[index] = !asc[index]
+        this.setState({
+            sort:{
+                select: index,
+                asc: asc
+            }
+        })
+        console.log(index)
+    }
+
     render() {
+        let {dataResult, sort} = this.state
+
         let data = this.props.searchContainer.state
         let startDate = moment(data.startDate.date+' '+data.startTime).format('DD-MMM-YYYY HH:mm').toUpperCase()
         let endDate = moment(data.endDate.date+' '+data.endTime).format('DD-MMM-YYYY HH:mm').toUpperCase() 
         let startDateLength = data.startDate.date+' '+data.startTime
         let endDateLength = data.endDate.date+' '+data.endTime
-        let {dataResult} = this.props.searchContainer.state
-        console.log(dataResult)
-        
+
         let {reservationLength} = this.props.searchContainer.state
         let time = reservationLength.days+' days '+reservationLength.hours+' hours'
         return (
@@ -58,25 +82,27 @@ export default class NotFoundTable extends Component {
                 <div className={Style.data}>
                     <div className={Style.header}>
                         <div className={Style.text}>
-                            <span className={Style.cursor}>
+                            <span className={Style.cursor} onClick={()=>this.onSort(0)}>
                                 <span>Name</span>
-                                <img className={Style.icon} src='img/ic_arrow_drop_up.svg' />
+                                {(sort.select==0) ? <img className={Style.icon} src={(sort.asc[0]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
                             </span>
                         </div>
                         <div className={Style.text}>
-                            <span className={Style.cursor}>
+                            <span className={Style.cursor} onClick={()=>this.onSort(1)}>
                                 <span>Available CPU</span>
+                                {(sort.select==1) ? <img className={Style.icon} src={(sort.asc[1]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
                             </span>
                         </div>
                         <div className={Style.text}>
-                            <span className={Style.cursor}>
+                            <span className={Style.cursor} onClick={()=>this.onSort(2)}>
                                 <span>Available Memory (GB)</span>
+                                {(sort.select==2) ? <img className={Style.icon} src={(sort.asc[2]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
                             </span>
                         </div>
                     </div>
                     <div className={Style.itemlist}>
                         {
-                            this.props.data.sites.map((data,key)=>{
+                            this.state.dataResult.sites.map((data,key)=>{
                             return(
                                 <div className={(this.props.searchContainer.viewCardKey==key) ? Style.itemactive : Style.item} key={key} onClick={()=>this.props.searchContainer.onSelectItem(data.name,key)}>
                                     <div className={Style.text}>{data.name}</div>
