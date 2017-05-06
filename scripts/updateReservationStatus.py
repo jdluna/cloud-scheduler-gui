@@ -16,6 +16,8 @@ form = cgi.FieldStorage()
 SESSION_ID = form.getvalue('session_id')
 RESERVATION_ID = form.getvalue('reservation_id')
 STATUS = form.getvalue('status')
+SITE_ID = form.getvalue('site_id')
+DESCRIPTION = form.getvalue('description')
 #############################
 
 print "Content-Type: text/html"     
@@ -26,7 +28,7 @@ from JSONFormatter import JSONFormatter
 from ReservationManager import ReservationManager
 
 resManager = ReservationManager()
-result = resManager.updateReservationStatus(sessionId = SESSION_ID, reservationId=RESERVATION_ID, status = STATUS)
+result = resManager.updateReservationStatus(sessionId = SESSION_ID, reservationId=RESERVATION_ID, siteId = SITE_ID, reservationStatus = STATUS, adminDescription = DESCRIPTION)
 
 jsonFormatter = JSONFormatter()
 

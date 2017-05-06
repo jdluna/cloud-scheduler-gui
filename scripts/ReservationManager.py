@@ -119,7 +119,7 @@ class ReservationManager:
             
             ### UPDATE `site_reserved` table
             for i in range(0,len(self.__sitesId)):
-                sql = 'INSERT INTO `site_reserved` VALUES ('
+                sql = 'INSERT INTO `site_reserved`(`reservation_id`, `site_id`, `status`, `cpu`, `memory`) VALUES ('
                 sql += '"'+str(self.__reservationID)+'","'+str(self.__sitesId[i])+'","waiting","'
                 
                 
@@ -241,7 +241,6 @@ class ReservationManager:
                 self.__db.execute(sql)
                 username = self.__db.getCursor().fetchone()[0]
                     
-                    
                 sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type`, `type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
                 self.__db.execute(sql)
                 data = self.__db.getCursor().fetchall()
@@ -322,7 +321,7 @@ class ReservationManager:
                     sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type`, `type` FROM `reservation` WHERE `reservation_id`="'+str(reservationId)+'";'   
                     self.__db.execute(sql)
                     data = self.__db.getCursor().fetchone()
-                    
+                   
                     r = Reservation(data)
                     r.setOwner(username)
                     
@@ -369,10 +368,10 @@ class ReservationManager:
                             #check resource available from end of this reservation to end of new reservation
                             r = site.getResources()
                             for i in range(0,len(site.getResources())):
-                                #d[2] = CPU, d[3] = Memory
-                                if int(r[i].getAvailableAmount()) <= int(d[3+i]):
+                                #d[4] = CPU, d[5] = Memory
+                                if int(r[i].getAvailableAmount()) <= int(d[4+i]):
                                     return False
-                                r[i].setAmount(d[3+i])
+                                r[i].setAmount(d[4+i])
                             
                             sites.append(site)
                                 
@@ -443,10 +442,11 @@ class ReservationManager:
                     self.__db.rollback()
                     return False
                 finally:
-                    self.__db.close() 
                     self.__db.unlock()
-          
-            self.__db.close() 
+                    self.__db.close() 
+                    
+            else:
+                self.__db.close() 
             
         return False
     
@@ -485,8 +485,8 @@ class ReservationManager:
                         r = site.getResources()
                             
                         for i in range(0,len(r)):
-                            #d[2] = CPU, d[3] = Memory
-                            r[i].setAmount(d[3+i])
+                            #d[4] = CPU, d[5] = Memory
+                            r[i].setAmount(d[4+i])
                         
                         sites.append(site)
                     
@@ -564,7 +564,7 @@ class ReservationManager:
  
         return False
         
-    def updateReservationStatus(self,sessionId,reservationId,status):
+    def updateReservationStatus(self,sessionId,reservationId,siteId,reservationStatus, adminDescription=''):
         self.__db = Database()        
         self.__sessionId = sessionId
         self.__allReservations = []
@@ -584,9 +584,20 @@ class ReservationManager:
                     return False
                 else:
                     #update site_reserved table
-                    sql = 'UPDATE `site_reserved` SET `status` = "stopped" WHERE `reservation_id` = "'+str(reservationId)+'";'
-                    if self.__db.execute(sql):
-                        self.__db.commit()
-                        return True
+                    sql = 'UPDATE `site_reserved` SET `status` = "'+str(reservationStatus)+'" WHERE `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
+                    sql2 = 'UPDATE `site_reserved` SET `admin_description` = "'+str(adminDescription)+'" WHERE `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
+
+                    if self.__db.execute(sql2):
+                        if self.__db.execute(sql):
+                            #update both site's status and admin's description
+                            self.__db.commit()
+                            return True
+                        else:
+                            #update an admin's description but site's status is as same as the previous version
+                            sql = 'SELECT * FROM `site_reserved` WHERE `status` = "'+str(reservationStatus)+'" AND `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
+                            if self.__db.execute(sql):
+                                if self.__db.getCursor().fetchone() != None:
+                                    self.__db.commit()
+                                    return True
 
         return False

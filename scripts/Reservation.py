@@ -75,6 +75,7 @@ class Reservation:
                 siteId = d[1]
                 s = Site(site_id = siteId)
                 s.setStatus(d[2])
+                s.setAdminDescription(d[3]) 
                        
                 #create site just for getting the amount of resource types
                 self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
@@ -83,13 +84,14 @@ class Reservation:
                 r = site.getResources()
                 
                 for i in range(0,len(r)):
-                    #d[2] = CPU, d[3] = Memory
-                    r[i].setAmount(d[3+i])
+                    #d[4] = CPU, d[5] = Memory
+                    r[i].setAmount(d[4+i])
                     
                 s.setResources(r)
                 
                 self.__db.execute('SELECT `name` FROM `site` WHERE `site_id`="'+str(siteId)+'"')            
-                s.setName(self.__db.getCursor().fetchone()[0])
+                s.setName(self.__db.getCursor().fetchone()[0])               
+                
                 self.__sites.append(s)
                 
         

@@ -19,7 +19,7 @@ HOST = "localhost"
 USER = "root"
 PWD = "" 
 DBNAME = "pragma"
-WAIT_TIMEOUT = 10
+WAIT_TIMEOUT = 180
 ####################################
 
 class Database: 
