@@ -185,3 +185,9 @@ class Site:
     def getStatus(self):
         return self.__status
         
+    def setAdminDescription(self,desc):
+        self.__adminDesc = desc
+        
+    def getAdminDescription(self):
+        return self.__adminDesc
+        

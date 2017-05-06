@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2017 at 09:27 PM
+-- Generation Time: May 06, 2017 at 02:24 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -186,6 +186,14 @@ CREATE TABLE `session` (
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `session`
+--
+
+INSERT INTO `session` (`user_id`, `session_id`, `last_login`) VALUES
+(1, 'HWOUYP', '2017-05-05 19:29:05'),
+(2, 'OH5KG9', '2017-05-05 19:57:28');
+
 -- --------------------------------------------------------
 
 --
@@ -237,6 +245,7 @@ CREATE TABLE `site_reserved` (
   `reservation_id` bigint(20) UNSIGNED NOT NULL,
   `site_id` bigint(20) UNSIGNED NOT NULL,
   `status` varchar(16) NOT NULL,
+  `admin_description` varchar(64) DEFAULT NULL,
   `cpu` int(11) NOT NULL,
   `memory` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -78,7 +78,8 @@ class JSONFormatter:
             for r in s.getResources():
                 jsonStr += '"'+str(r.getType())+'" : "'+str(r.getAmount())+'" ,'
             
-            jsonStr += '"status" : "'+str(s.getStatus())+'" },'
+            jsonStr += '"status" : "'+str(s.getStatus())+'" ,'
+            jsonStr += '"admin_description" : "'+str(s.getAdminDescription())+'" },'
         
         jsonStr = jsonStr[:-1]    
         jsonStr += ']' #end sites
