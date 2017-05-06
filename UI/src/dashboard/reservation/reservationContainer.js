@@ -518,13 +518,15 @@ export default class ReservationContainer extends Component {
                 img_type: this.state.imageType,
                 title: (this.state.title!='') ? this.state.title : '-',
                 description: (this.state.description!='') ? this.state.description : '-',
-                type: this.dashboardContainer.state.reserveMode
+                type: (this.dashboardContainer.state.reserveMode=='single') ? 'single cluster on single site' : 'single cluster spaning multiple sites'
             }
         }
-
+        console.log(params)
         axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
+            console.log(response)
             let {data,status} = response
             if(status==200&&data.result){
+                console.log(data.result)
                 if(data.result=='success'){
                     this.changeDialog('success')
                 }else{

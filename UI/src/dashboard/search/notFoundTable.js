@@ -10,6 +10,43 @@ const LABEL = ()=>(
 )
 
 export default class NotFoundTable extends Component {
+    constructor(props){
+        super(props)
+        this.container = this.props.searchContainer
+        this.state = {
+            dataResult: this.container.state.dataResult,
+            sort: {
+                select: 0,
+                asc: [true,true]
+            }
+        }
+    }
+
+    onSort(index, parameter=null){
+        let asc = this.state.sort.asc
+        asc[index] = !asc[index]
+        this.setState({
+            sort:{
+                select: index,
+                asc: asc
+            }
+        })
+
+        if(index==0){
+            if(asc[index]){
+                this.container.getAscSortByName(this.state.dataResult)
+            }else{
+                this.container.getDescSortByName(this.state.dataResult)
+            }
+        }else{
+            if(asc[index]){
+                this.container.getAscSort(this.state.dataResult, parameter)
+            }else{
+                this.container.getDescSort(this.state.dataResult, parameter)
+            }
+        }
+    }
+
     render() {
         let data = this.props.searchContainer.state
         let startDate = moment(data.startDate.date+' '+data.startTime).format('DD-MMM-YYYY HH:mm').toUpperCase()

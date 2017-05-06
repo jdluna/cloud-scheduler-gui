@@ -70,6 +70,10 @@ export default class SearchContainer extends Component {
         this.onSearchSubmit = this.onSearchSubmit.bind(this)
         this.onSelectItem = this.onSelectItem.bind(this)
         this.getReservationsLength = this.getReservationsLength.bind(this)
+        this.getDescSortByName = this.getDescSortByName.bind(this)
+        this.getAscSortByName = this.getAscSortByName.bind(this)
+        this.getAscSort = this.getAscSort.bind(this)
+        this.getDescSort = this.getDescSort.bind(this)
     }
 
     onClose() {
@@ -389,7 +393,7 @@ export default class SearchContainer extends Component {
                     this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
-                        resultTable: <FoundTable data={data} searchContainer={this}/>
+                        resultTable: <FoundTable searchContainer={this}/>
                     })
                 }else{
                     this.setState({
@@ -403,19 +407,15 @@ export default class SearchContainer extends Component {
         })
     }
 
-    getAscSort(data){
+    getAscSort(data, parameter){
         data.sites.sort((a,b)=>{
-            let first = a.name.toLowerCase().charCodeAt(0)
-            let second = b.name.toLowerCase().charCodeAt(0)
-            return first-second
+            return eval('a.'+parameter)-eval('b.'+parameter)
         })
     }
 
-    getDescSort(data){
+    getDescSort(data, parameter){
         data.sites.sort((a,b)=>{
-            let first = a.name.toLowerCase().charCodeAt(0)
-            let second = b.name.toLowerCase().charCodeAt(0)
-            return second-first
+            return eval('b.'+parameter)-eval('a.'+parameter)
         })
     }
     
