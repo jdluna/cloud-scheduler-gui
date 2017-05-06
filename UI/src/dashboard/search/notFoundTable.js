@@ -40,14 +40,16 @@ export default class NotFoundTable extends Component {
             }
         }else{
             if(asc[index]){
-                this.container.getAscSort(this.state.dataResult, parameter)
+                this.container.getAscSortByDate(this.state.dataResult, parameter)
             }else{
-                this.container.getDescSort(this.state.dataResult, parameter)
+                this.container.getDescSortByDate(this.state.dataResult, parameter)
             }
         }
     }
 
     render() {
+        let {dataResult, sort} = this.state
+        
         let data = this.props.searchContainer.state
         let startDate = moment(data.startDate.date+' '+data.startTime).format('DD-MMM-YYYY HH:mm').toUpperCase()
         let endDate = moment(data.endDate.date+' '+data.endTime).format('DD-MMM-YYYY HH:mm').toUpperCase() 
@@ -103,15 +105,22 @@ export default class NotFoundTable extends Component {
                 </div>
                 <div className={Style.data}>
                     <div className={Style.header}>
-                        <div className={Style.text}>Name</div>
                         <div className={Style.text}>
-                            <span>Available on</span>
-                            <img className={Style.icon} src='img/ic_arrow_drop_down.svg' />
+                            <span className={Style.cursor} onClick={()=>this.onSort(0)}>
+                                <span>Name</span>
+                                {(sort.select==0) ? <img className={Style.icon} src={(sort.asc[0]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
+                            </span>
+                        </div>
+                        <div className={Style.text}>
+                            <span className={Style.cursor} onClick={()=>this.onSort(1, 'time.begin')}>
+                                <span>Available on</span>
+                                {(sort.select==1) ? <img className={Style.icon} src={(sort.asc[1]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
+                            </span>
                         </div>
                     </div>
                     <div className={Style.itemlist}>
                         {
-                            this.props.data.sites.map((data,key)=>{
+                            this.state.dataResult.sites.map((data,key)=>{
                                 return(
                                     <div className={Style.item} key={key} onClick={()=>this.props.searchContainer.onSelectItem(data.name,key)}>
                                         <div className={Style.text}>{data.name}</div>

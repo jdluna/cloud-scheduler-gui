@@ -74,6 +74,8 @@ export default class SearchContainer extends Component {
         this.getAscSortByName = this.getAscSortByName.bind(this)
         this.getAscSort = this.getAscSort.bind(this)
         this.getDescSort = this.getDescSort.bind(this)
+        this.getAscSortByDate = this.getAscSortByDate.bind(this)
+        this.getDescByDate = this.getDescSortByDate.bind(this)
     }
 
     onClose() {
@@ -404,6 +406,18 @@ export default class SearchContainer extends Component {
             }
         }).catch(error=>{
             console.log('QUERY SEARCH RESOURCE ERROR: '+error)
+        })
+    }
+
+    getAscSortByDate(data, parameter){
+        data.sites.sort((a,b)=>{
+            return moment().diff(eval('a.'+parameter),'minutes')-moment().diff(eval('b.'+parameter),'minutes')
+        })
+    }
+
+    getDescSortByDate(data, parameter){
+        data.sites.sort((a,b)=>{
+            return moment().diff(eval('b.'+parameter),'minutes')-moment().diff(eval('a.'+parameter),'minutes')
         })
     }
 
