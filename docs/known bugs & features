@@ -43,3 +43,4 @@ M Color of the reservation panel on top right should be changed to another color
 L Icon of existing reservation menu is not meaningful.
 L "Search" menu should be changed to distinguish from "Search by name" easier.
 L make markers  style consistent for a single marker or a group of markers, put number inside. 
+- should have some way to go back to previuos state after zoom in the circle marker
