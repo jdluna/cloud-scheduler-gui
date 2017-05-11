@@ -17,7 +17,7 @@ H forget password.Add simpel error message                                  [don
 H session cookie.                                                           [done!]       
 M (simple solution: only lock at step 3)  concurrency (transaction)
 M Single config file: auto update GUI. when add new attribute.              
-M sort search result (available name, may be CPU and memory).               
+M sort search result (available name, may be CPU and memory).               [done!]
 M add SSH public key text field to user profile                             [done!]
 M add script for admin to query any user profile info                       [done!]
 M add script to update status of reservation                                [done!]
@@ -38,7 +38,7 @@ M The font is too small. Don't use smaller than 10pt.
   The font size for available amount of CPU/memory on information card is too small                         [done! : information card]
 M time zone information is difficult to see. Change color to orange                                         [done! : light blue color]
 M time and date on information card is too small. Change to larger font and to orange color.                [done! : white color]
-M Color of the reservation panel on top right should be changed to another color which is different from
+M Color of the reservation panel on top right should be changed to another color which is different from    [done! : not changed]
  the site's information card. Try light grey. 
 L Icon of existing reservation menu is not meaningful.
 L "Search" menu should be changed to distinguish from "Search by name" easier.
