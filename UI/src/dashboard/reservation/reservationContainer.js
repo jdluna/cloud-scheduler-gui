@@ -524,6 +524,7 @@ export default class ReservationContainer extends Component {
             if(status==200&&data.result){
                 if(data.result=='success'){
                     this.changeDialog('success')
+                    this.dashboardContainer.closeAllCard()
                 }else{
                     this.changeDialog('error')
                 }

@@ -42,8 +42,7 @@ export default class DashboardContainer extends Component {
                 open: false,
                 node: null
             },
-            images: [],
-            modalName: ''
+            images: []
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -56,6 +55,7 @@ export default class DashboardContainer extends Component {
         this.onSelectCard = this.onSelectCard.bind(this)
         this.onDeselectCard = this.onDeselectCard.bind(this)
         this.setAllImages = this.setAllImages.bind(this)
+        this.closeAllCard = this.closeAllCard.bind(this)
         // this.setMapData = this.setMapData.bind(this)
     }
     
@@ -185,6 +185,36 @@ export default class DashboardContainer extends Component {
                 }
             })
         }
+    }
+
+    closeAllCard(){
+        let {chooseSite} = this.state.map
+        chooseSite.map((data,key)=>{
+            let {marker,chooseSite,card} = this.state.map
+            let index = chooseSite.indexOf(parseInt(data))
+            
+            if(marker[index].icon=='img/marker.png'){
+                marker[index].node.setIcon('img/marker.png')
+            }else if(marker[index].icon=='img/marker_select.png'){
+                marker[index].node.setIcon('img/marker.png')
+            }else if(marker[index].icon=='img/marker_ent_select.png'){
+                marker[index].node.setIcon('img/marker_ent.png')
+            }else{
+                marker[index].node.setIcon('img/marker_ent.png')
+            }
+        })
+        this.setState({
+            map:{
+                marker: [],
+                chooseSite: [],
+                card: []
+            },
+            cardPanel: {
+                notfound: {display:'block'}
+            },
+            selectCard: []
+        })
+        this.changeMultipleTextColor()
     }
 
    onCloseCard(id){
