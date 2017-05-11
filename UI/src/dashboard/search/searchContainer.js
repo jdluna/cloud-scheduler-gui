@@ -395,12 +395,23 @@ export default class SearchContainer extends Component {
                     this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
-                        resultTable: <FoundTable searchContainer={this}/>
+                        resultTable: []
+                    },()=>{
+                        this.setState({
+                            resultTable: <FoundTable searchContainer={this}/>
+                        })
                     })
                 }else{
+                    if(data.amount>0){
+                        this.getAscSortByName(data)
+                    }
                     this.setState({
                         dataResult: data,
-                        resultTable: <NotFoundTable data={data} searchContainer={this}/>
+                        resultTable: []
+                    },()=>{
+                        this.setState({
+                            resultTable: <NotFoundTable data={data} searchContainer={this}/>
+                        })
                     })
                 }
             }

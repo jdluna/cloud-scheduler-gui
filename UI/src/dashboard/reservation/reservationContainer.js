@@ -337,7 +337,6 @@ export default class ReservationContainer extends Component {
     }
 
     onNextStep(event){
-        console.log(event.target.name)
         if(this.state.day < 31 || (this.state.day == 31 && this.state.hour == 0)){
             if(event.target.name=='step1'){
                 this.state.alertNode.innerHTML = ''
@@ -346,14 +345,12 @@ export default class ReservationContainer extends Component {
             switch(event.target.name){
                 case 'step1' : this.checkReservation();break
                 case 'step2' : this.setState({card: 'step3'});break
-                case 'step3' : this.queryConfirmReservation();
-                                console.log('heyy');break
+                case 'step3' : this.queryConfirmReservation();break
             } 
         }else{
             this.state.alertNode.innerHTML = 'Cannot reserve any resources more than 1 month. Please try again.'
             this.state.alertNode.style.display = 'block'
         }
-        
     }
 
     checkStep1Input(){
