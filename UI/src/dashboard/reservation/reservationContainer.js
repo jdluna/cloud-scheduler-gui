@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Reservation from './reservation'
 import axios from 'axios'
 import moment from 'moment'
-import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT,CHECK_CONNECTION_TYPE_ENDPOINT} from '../../config/endpoints'
+import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT} from '../../config/endpoints'
 import SuccessDialog from './successDialog'
 import ErrorDialog from './ErrorDialog'
 
@@ -52,7 +52,7 @@ export default class ReservationContainer extends Component {
 
             // OTHER
             card: 'step1',
-            dialog: 'main',
+            dialog: (this.dashboardContainer.state.isSameConnectionType) ? 'error-type' : 'main',
             alertNode: {},
             siteInputCPUDom: [],
             siteInputMEMDom: []
@@ -74,6 +74,9 @@ export default class ReservationContainer extends Component {
     }
 
     onClose(){
+        this.dashboardContainer.setState({
+            isSameConnectionType: false
+        })
         this.dashboardContainer.onCloseModal()
     }
 
@@ -194,8 +197,7 @@ export default class ReservationContainer extends Component {
         
         }) //end of this.setState for startDate
 
-    }
-        
+    }  
 
     onEndDateChange(date) {
         if(date.format()>=this.state.startDate.obj.format()){
@@ -439,57 +441,9 @@ export default class ReservationContainer extends Component {
         })
     }
 
-    queryCheckConnectionType(){
-        let {selectCard} = this.dashboardContainer.state
-        let type = ''
-        selectCard.map((data,key)=>{
-            let subType = ''
-            data.connection.map((subData,subKey)=>{
-                if(subKey==0){
-                    subType += subData.name
-                }else{
-                    subType += ','+subData.name
-                }
-            })
-            if(key==0){
-                type += (subType=='') ? '-' : subType
-            }else{
-                type += '|'+((subType=='') ? '-' : subType)
-            }
-        })
-
-        let params = {
-            params:{
-                connection_type: type
-            }
-        }
-        axios.get(CHECK_CONNECTION_TYPE_ENDPOINT,params).then(response=>{
-            let {data,status} = response
-            if(status==200&&data.result){
-                if(data.result=='True'){
-                    this.queryCheckReservation()
-                }else{
-                    this.state.alertNode.innerHTML = 'The resource are not same connection type. Please try again.'
-                    this.state.alertNode.style.display = 'block'
-                }
-            }
-        }).catch(error=>{
-            console.log('QUERRY CHECK CONNECTION TYPE ERROR: ',+error)
-        })
-    }
-
     checkReservation(){
         if(this.checkStep1Input()==false){
-            let {selectCard,reserveMode} = this.dashboardContainer.state
-            if(selectCard.length>1){
-                if(reserveMode=='multiple'){
-                    this.queryCheckConnectionType()
-                }else{
-                    this.queryCheckReservation()
-                }
-            }else{
-                this.queryCheckReservation()
-            }
+            this.queryCheckReservation()
         }
     }
 
@@ -586,7 +540,7 @@ export default class ReservationContainer extends Component {
     }
 
     onCloseDialog(){
-        this.dashboardContainer.onCloseModal()
+        this.onClose()
     }
 
     render() {
@@ -594,14 +548,13 @@ export default class ReservationContainer extends Component {
         switch(this.state.dialog){
             case 'main' : dialog = <Reservation reservationContainer={this}/>;break;
             case 'success' : dialog = <SuccessDialog onCloseDialog={()=>this.onCloseDialog()}/>;break;
-            case 'error' : dialog = <ErrorDialog onCloseDialog={()=>this.onCloseDialog()}/>;break;
+            case 'error' : dialog = <ErrorDialog msg='Reservation Error!' onCloseDialog={()=>this.onCloseDialog()}/>;break;
+            case 'error-type' : dialog = <ErrorDialog msg='The resource are not same connection type!' onCloseDialog={()=>this.onCloseDialog()}/>;break;
         }
         return (
-            // <section>
             <section className='modal'>
                 {dialog}
             </section>
-            // </section>
         )
     }
 }

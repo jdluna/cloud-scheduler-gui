@@ -12,7 +12,7 @@ export default class ErrorDialog extends Component {
                             <img className={Style.success}src='img/ic_cancel_circle.svg'/>   
                         </div>
                         <div className={Style.text}>
-                            <div>Reservation Error!</div>    
+                            <div>{this.props.msg}</div>    
                             <div>Please try again.</div> 
                         </div>
                         <div className={Style.btn}>

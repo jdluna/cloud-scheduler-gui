@@ -9,6 +9,7 @@ export default class MenuBar extends Component{
                 <div className={style.menu2} onClick={()=>this.props.menubarContainer.onSelectMenu('Existing reservations')} onMouseOver={()=>this.props.menubarContainer.onReserveOver()} onMouseOut={()=>this.props.menubarContainer.onReserveOut()}><img src='img/ic_play.svg' /><span className={style.text}>{this.props.menubarContainer.state.reservation}</span></div>
                 <div className={style.menu3} onClick={()=>this.props.menubarContainer.onSelectMenu('Past reservations')} onMouseOver={()=>this.props.menubarContainer.onHistoryOver()} onMouseOut={()=>this.props.menubarContainer.onHistoryOut()}><img src='img/ic_history.svg' /><span className={style.text}>{this.props.menubarContainer.state.history}</span></div>
                 <div className={style.menu4} onClick={()=>this.props.menubarContainer.onSelectMenu('Settings')} onMouseOver={()=>this.props.menubarContainer.onSettingOver()} onMouseOut={()=>this.props.menubarContainer.onSettingOut()}><img src='img/ic_settings.svg' /><span className={style.text}>{this.props.menubarContainer.state.setting}</span></div>
+                <div className={style.menu5} onClick={()=>this.props.menubarContainer.onSelectMenu('Helps')} onMouseOver={()=>this.props.menubarContainer.onHelpsOver()} onMouseOut={()=>this.props.menubarContainer.onHelpsOut()}><img src='img/ic_help.svg' /><span className={style.text}>{this.props.menubarContainer.state.tutorial}</span></div>
             </nav>
         )
     }
