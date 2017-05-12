@@ -27,7 +27,7 @@ M add help buttin search window and add explanation for resources attributes
 L tutorial menu.
 L clear all cards after creating a reservation success.                                                           [done!]
 L create new timezone GUI.
-L show error popup if reserve more than 1 sites and the resource are not same connection type.
+L show error popup if reserve more than 1 sites and the resource are not same connection type.                    [done!]
 L add loading GUI, updating between searches ( from usability suggestions)
 L if user click some menu and the system show login panel. system will auto show that function panel after login.
 
