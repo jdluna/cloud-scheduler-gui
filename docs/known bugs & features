@@ -25,7 +25,7 @@ M add help buttin search window and add explanation for resources attributes
   add possible values range for the number of CPU and memory. For example CPU number
   can be 2 - 32 (even numbers). Similar for memory, 8Gb, 16Gb, etc. 
 L tutorial menu.
-L clear all cards after creating a reservation success.
+L clear all cards after creating a reservation success.                                                           [done!]
 L create new timezone GUI.
 L show error popup if reserve more than 1 sites and the resource are not same connection type.
 L add loading GUI, updating between searches ( from usability suggestions)
