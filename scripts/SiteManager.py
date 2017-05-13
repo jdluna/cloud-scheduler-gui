@@ -194,36 +194,31 @@ class SiteManager:
         end = str(end)
         site = None
         
+        if siteId == None:
+            return None
+        
         if datetime.strptime(dateReq, "%Y-%m-%d %H:00:00") - datetime.strptime(end, "%Y-%m-%d %H:00:00") > timedelta(hours=0) :
             end = dateReq
         
         if db == None:
             db = Database()
-            if db.connect() and siteId != None:
-                db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
-                data = db.getCursor().fetchone()
-    
-                site = Site(data)
-                res = site.getResources()
-    
-                db.execute("START TRANSACTION;")   
-    
-                for i in range(0,len(res)):
-                    res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
-             
-                site.setRunningAmount(db,begin=dateReq)   
-        else:
-            if siteId != None:
+            if db.connect():
+                dbStatus = True
+                
+        if dbStatus :
+            try:
+                db.lock({'site':'READ','schedule':'READ','reservation':'READ','site_reserved':'READ'})
                 db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
                 data = db.getCursor().fetchone()
     
                 site = Site(site=data,db=db)
                 res = site.getResources()
     
-                db.execute("START TRANSACTION;")   
-    
                 for i in range(0,len(res)):
                     res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
              
                 site.setRunningAmount(db=db,begin=dateReq)   
-        return site
+                db.unlock()
+            finally:
+                db.close()
+                return site
