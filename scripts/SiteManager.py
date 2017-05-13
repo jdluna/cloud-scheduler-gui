@@ -28,15 +28,21 @@ class SiteManager:
 
         db = Database()
         if db.connect():
-            db.execute("SELECT * FROM `site`;")
-            data = db.getCursor().fetchall()
-            for d in data:
-                site = Site(d)              
-                self.__sites.append(site)
-                
-            return self.__sites
+            try :
+                db.lock({'site':'READ','schedule':'READ'})
+                db.execute("SELECT * FROM `site`;")
+                data = db.getCursor().fetchall()
+                for d in data:
+                    site = Site(site=d,db=db)              
+                    self.__sites.append(site)
+                db.unlock()
+                return self.__sites
+            except:
+                return []
+            finally:
+                db.close()
         else:
-            return None
+            return []
 
     def getSites(self,resAmount=None,begin=None,end=None,allPeriod=True,days=0,hours=0,connectionType=None, imageType='Any'):
         #for search with criteria
