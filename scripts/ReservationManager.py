@@ -226,47 +226,51 @@ class ReservationManager:
         
         if self.__db.connect():
             
-            if userId == None:
-                #check session id and get user id
-                sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
-                self.__db.execute(sql)
-                uid = self.__db.getCursor().fetchone()
-                if uid != None:
-                    self.__userId = uid[0]
-            else:
-                self.__userId = userId
+            try:
+                if userId == None:
+                    #check session id and get user id
+                    sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
+                    self.__db.execute(sql)
+                    uid = self.__db.getCursor().fetchone()
+                    if uid != None:
+                        self.__userId = uid[0]
+                else:
+                    self.__userId = userId
+                    
+                if self.__userId != None:
+                    sql = 'SELECT `username` FROM `user` WHERE `user_id`="'+str(self.__userId)+'";'
+                    self.__db.execute(sql)
+                    username = self.__db.getCursor().fetchone()[0]
+                    self.__db.lock({'reservation':'READ'})
+                    sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type`, `type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
+                    self.__db.execute(sql)
+                    data = self.__db.getCursor().fetchall()
+                    currentTime = datetime.now()
+                    
+                    for d in data:
+                        end = d[4]
+                        diff = currentTime - end
+                        
+                        r = Reservation(d)
+                        r.setOwner(username)
+                        
+                        r.setReservationsSite() 
+                        status = r.getReservationsSite()[0].getStatus()
+                        
+                        if ended:
+                            #history (already ended)
+                            if diff >= timedelta(hours=0) or status == 'cancel':
+                                self.__reservations.append(r)
+                        
+                        else:
+                            #see reservations which havn't ended
+                            if diff < timedelta(hours=0) and status != 'cancel':                   
+                                self.__reservations.append(r)     
+                                
+                    self.__db.unlock()
+            finally:
+                self.__db.close()
                 
-            if self.__userId != None:
-                sql = 'SELECT `username` FROM `user` WHERE `user_id`="'+str(self.__userId)+'";'
-                self.__db.execute(sql)
-                username = self.__db.getCursor().fetchone()[0]
-                    
-                sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type`, `type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
-                self.__db.execute(sql)
-                data = self.__db.getCursor().fetchall()
-                currentTime = datetime.now()
-                
-                for d in data:
-                    end = d[4]
-                    diff = currentTime - end
-                    
-                    r = Reservation(d)
-                    r.setOwner(username)
-                    
-                    r.setReservationsSite() 
-                    status = r.getReservationsSite()[0].getStatus()
-                    
-                    if ended:
-                        #history (already ended)
-                        if diff >= timedelta(hours=0) or status == 'cancel':
-                            self.__reservations.append(r)
-                    
-                    else:
-                        #see reservations which havn't ended
-                        if diff < timedelta(hours=0) and status != 'cancel':                   
-                            self.__reservations.append(r)        
-                
-                    
         return self.__reservations
     
     def getAllReservations(self, sessionId, ended = True):
