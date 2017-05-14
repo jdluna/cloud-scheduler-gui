@@ -6,73 +6,86 @@
     flex-direction: column;
     font-family: $font-primary;
     height: 100%;
-    .article{
-        font-size: 9pt;
-        margin: 10px;
-        color: #FFFFFF;
-        background-color: rgba(85,89,106,0.69);
-        .text{
-            margin: 5px;
-        }
-    }
     .content{
         display: flex;
+        flex-direction: column;
         margin: 10px;
         width: calc(100% - 20px);
         height: 100%;
-        .data{
-            height: 100%;
-            width: 50%;
+        .top{
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 70%;
             position: relative;
-            .width{
-                width: 85%;
+        }
+        .bottom{
+            display: flex;
+            height: 30%;
+            width: 100%;
+            padding-top: 10px;
+            .left,.right{
+                height: 100%;
+                width: 50%;
+                position: relative;
             }
-            .time{
-                margin-top: 10px;
-                color: #739aaf;
-                font-size: 16pt;
+            .left{
+                text-align: right;
+                padding-right: 10px;
             }
-            .date{
-                margin-top: 5px;
-                color: #739aaf;
-                font-size: 9pt;
+            .right{
+                text-align: left;
+                padding-left: 10px;
             }
-            .list{
-                margin-top: 10px;
-                width: 100%;
-                height: 20px;
-                background-color: #464a5f;
-                color: #FFFFFF;
-                border: none;
-                font-size: 9pt;
-                outline: none;
-            }
-            .btn{
-                position: absolute;
-                bottom: 10px;
-                .cancel,.ok{
-                    border-radius: 3px;
-                    font-size: 9pt;
-                    padding: 4px;
-                    outline: none;
-                    border: none;
+                .width{
+                    width: 89%;
+                }
+                .time{
+                    margin-top: 10px;
+                    color: #EFA430;
+                    font-size: 20pt;
+                }
+                .date{
                     margin-top: 5px;
+                    color: #cccdce;
+                    font-size: 9pt;
+                }
+                .list{
+                    margin-top: 10px;
+                    width: 100%;
+                    height: 20px;
+                    background-color: #464a5f;
                     color: #FFFFFF;
-                    width: 80px;
+                    border: none;
+                    font-size: 9pt;
+                    outline: none;
                 }
-                .cancel{
-                    float: left;
-                    background-color: #ef303e;
+                .btn{
+                    position: absolute;
+                    bottom: 10px;
+                    .cancel,.ok{
+                        border-radius: 3px;
+                        font-size: 9pt;
+                        padding: 4px;
+                        outline: none;
+                        border: none;
+                        margin-top: 5px;
+                        color: #FFFFFF;
+                        width: 80px;
+                    }
+                    .cancel{
+                        float: left;
+                        background-color: #ef303e;
+                    }
+                    .ok{
+                        float: right;
+                        margin-left: 15px;
+                        background-color: #739aaf;
+                    }
+                    .cancel:hover,.ok:hover{
+                        background-color: $bg-color-primary;
+                    }
                 }
-                .ok{
-                    float: right;
-                    margin-left: 15px;
-                    background-color: #739aaf;
-                }
-                .cancel:hover,.ok:hover{
-                    background-color: $bg-color-primary;
-                }
-            }
         }
     }
 }
