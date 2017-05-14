@@ -34,10 +34,14 @@ else:
 jsonFormatter = JSONFormatter()
 
 jsonStr = '{ "site" :' 
-jsonStr += jsonFormatter.formatSite(s)
-
-#get amount of running clusters
-jsonStr += ', "running" : "'+str(s.getRunningAmount())+'" '
+if s != None:
+    jsonStr += jsonFormatter.formatSite(s)
+    
+    #get amount of running clusters
+    jsonStr += ', "running" : "'+str(s.getRunningAmount())+'" '
+else:
+    jsonStr += '"None"'
+    
 jsonStr += '}'
 
 print jsonStr
