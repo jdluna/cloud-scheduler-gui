@@ -112,6 +112,17 @@ export default class App extends Component {
                 session: this.state.authen.session,
                 timezone: timezone
             }
+        },()=>{
+            let {loginDialog,authen} = this.state
+            if(authen.isLogedIn){
+                let appState = {
+                    loginDialog: loginDialog,
+                    authen: authen
+                }
+                if(typeof(Storage)!=='undefined'){
+                    sessionStorage.setItem('session',JSON.stringify(appState))
+                }
+            }
         })
     }
 
