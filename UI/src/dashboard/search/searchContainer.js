@@ -515,6 +515,10 @@ export default class SearchContainer extends Component {
         return leftDate
     }
 
+    helpSearch(){
+        helpComponent.style.visibility = visible;
+    }
+
     render() {
         return (
             <section>
