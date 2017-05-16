@@ -5,7 +5,7 @@ import TimezoneContainer from './timezoneContainer'
 export default class Settings extends Component {
     render() {
         return (
-            <section className='modal'>
+            <section>
                     <section className={Style.panel}>
                         <header>
                             <div>Settings</div>

@@ -11,7 +11,7 @@ export default class Help extends Component {
                         <img src='img/ic_close.svg' onClick={()=>this.props.container.onClose()}/>
                     </header>
                     <section className={Style.content}>
-
+                        
                     </section>
                 </section>
             </section>

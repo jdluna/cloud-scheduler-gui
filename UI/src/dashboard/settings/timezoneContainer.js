@@ -92,10 +92,13 @@ export default class TimezoneContainer extends Component {
                 let {data,status} = response
                 if(status==200&&data.result=='True'){
                     this.props.app.setTimeZone(this.state.selectTimezone)
-                    this.props.settingContainer.onClose()
+                    this.props.settingContainer.showStatus('success')
+                }else{
+                    this.props.settingContainer.showStatus('error')
                 }
             }).catch(error=>{
                 console.log('SETTING TIMEZONE: '+error)
+                this.props.settingContainer.showStatus('error')
             })
         }
     }
