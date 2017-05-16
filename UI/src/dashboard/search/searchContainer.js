@@ -53,7 +53,9 @@ export default class SearchContainer extends Component {
                 hoursInput: null,
                 daysLabel: null,
                 hoursLabel: null
-            }
+            },
+            helpComponent: null,
+            helpIcon: null
         }
 
 
@@ -76,6 +78,10 @@ export default class SearchContainer extends Component {
         this.getDescSort = this.getDescSort.bind(this)
         this.getAscSortByDate = this.getAscSortByDate.bind(this)
         this.getDescByDate = this.getDescSortByDate.bind(this)
+        this.helpSearch = this.helpSearch.bind(this)
+        this.helpIconOver = this.helpIconOver.bind(this)
+        this.helpIconOut = this.helpIconOut.bind(this)
+        this.onHelpClose = this.onHelpClose.bind(this)
     }
 
     onClose() {
@@ -516,7 +522,27 @@ export default class SearchContainer extends Component {
     }
 
     helpSearch(){
-        helpComponent.style.visibility = visible;
+        let helpComponent = this.state.helpComponent
+        if(helpComponent.style.display==='block'){
+            helpComponent.style.display = 'none'
+        }else{
+            helpComponent.style.display = 'block'
+        }  
+    }
+
+    helpIconOver(){
+        let helpIcon = this.state.helpIcon
+        helpIcon.src = 'img/ic_help_white.svg'
+    }
+
+    helpIconOut(){
+        let helpIcon = this.state.helpIcon
+        helpIcon.src = 'img/ic_help_outline.svg'
+    }
+
+    onHelpClose(){
+        let helpComponent = this.state.helpComponent
+        helpComponent.style.display = 'none' 
     }
 
     render() {

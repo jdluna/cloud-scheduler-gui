@@ -243,13 +243,20 @@
     position: relative;
     font-size: 10pt;
     color: #EFA430;
-    visibility: visible;
+    display: none;
     
     .helpHeader{
       padding-top: 6px;
       padding-left: 35%;
       font-weight: bold;
+      img{
+        position: absolute;
+        top: 4px;
+        right: 30px;
+        width: 20px;
+      }
     }
+    
     .horizontalline{
         width: 53%;
         margin-top: 8px;
@@ -281,7 +288,6 @@
         height: 105px;
         margin-top: 15px;
         border-radius: 3px;
-        // border: 1px solid #EFA430;
         border: 1px solid #FFFFFF;
         background-color: rgba(0,0,0,0.66);
         font-size: 9pt;

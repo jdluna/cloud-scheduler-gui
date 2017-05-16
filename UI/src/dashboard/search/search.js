@@ -87,7 +87,9 @@ export default class Search extends Component {
                 hoursInput: this.refs.hoursInput,
                 daysLabel: this.refs.daysLabel,
                 hoursLabel: this.refs.hoursLabel
-            }
+            },
+            helpComponent: this.refs.helpComponent,
+            helpIcon: this.refs.helpIcon,
         })
         this.refs.cpu.focus()
     }
@@ -112,6 +114,7 @@ export default class Search extends Component {
                 <div className={Style.helpContent} ref='helpComponent' >
                     <div className={Style.helpHeader}>
                         Help (?)
+                        <img src='img/ic_close.svg' onClick={this.props.searchContainer.onHelpClose} />
                     </div>
                     <div className={Style.horizontalline}></div>
                     <div className={Style.helpResource}>
@@ -127,7 +130,7 @@ export default class Search extends Component {
                         Please specify begin and end date time. <br/>
                         <br/>- The first option, <b>'From begin to end'</b>, is for searching resources which are <b>available from begin to end date time. </b><br/>
                         <br/>- The second option <b>(..days ..hours)</b> is for searching resources which are available for the specified reservation length 
-                        <b>on some period from begin to end date time</b>.
+                        <b> on some period from begin to end date time</b>.
                     </div>
                     <div className={Style.helpDurationArrow}>
                         <img src='img/ic_arrow_right.svg' /> 
@@ -242,7 +245,7 @@ export default class Search extends Component {
                                     </div>
                                 </div>
                                 <div className={Style.helpbtn}>
-                                    <img src='img/ic_help_white.svg' onClick={this.props.searchContainer.helpSearch} />
+                                    <img src='img/ic_help_outline.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon'/>
                                 </div>    
                                 <div className={Style.searchbtn}>
                                     <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>
