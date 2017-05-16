@@ -1,4 +1,4 @@
-#!/opt/python/bin/python
+#!/Python27/python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 01 23:57:57 2017
@@ -299,8 +299,6 @@ class ReservationManager:
                     
                     for d in data:
                         self.__allReservations.append(self.getReservations(userId=d[0],ended=ended))
-                        
-            self.__db.close()
               
         return self.__allReservations
         
