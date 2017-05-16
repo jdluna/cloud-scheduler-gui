@@ -245,7 +245,7 @@ export default class Search extends Component {
                                     </div>
                                 </div>
                                 <div className={Style.helpbtn}>
-                                    <img src='img/ic_help_outline.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon'/>
+                                    <img src='img/ic_help_outline_white.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon'/>
                                 </div>    
                                 <div className={Style.searchbtn}>
                                     <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>

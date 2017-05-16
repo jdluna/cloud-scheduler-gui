@@ -542,7 +542,7 @@ export default class SearchContainer extends Component {
 
     helpIconOut(){
         let helpIcon = this.state.helpIcon
-        helpIcon.src = 'img/ic_help_outline.svg'
+        helpIcon.src = 'img/ic_help_outline_white.svg'
     }
 
     onHelpClose(){
