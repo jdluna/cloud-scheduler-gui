@@ -31,6 +31,7 @@
         display: flex;
         height: calc(100% - 29px);
         width: 100%;
+        position: relative;
         .searchinput{
             width: calc(32% - 5px);
             padding: 15px 5px 15px 15px;
@@ -48,6 +49,10 @@
                 width: 100%;
                 margin: 7px 12px 0px 10px;
                 border-top: 1px solid #464a5f;
+            }
+            .helpbtn{
+              position: absolute;
+              bottom: 10px;
             }
             .searchbtn{
               width: 55%;
@@ -229,6 +234,77 @@
         }
     }
 }
+.helpContent{
+    width: 260px;
+    height: 460px;
+    font-family: $font-primary;
+    border-radius: 3px;
+    text-align: left;
+    position: relative;
+    font-size: 10pt;
+    color: #EFA430;
+    visibility: visible;
+    
+    .helpHeader{
+      padding-top: 6px;
+      padding-left: 35%;
+      font-weight: bold;
+    }
+    .horizontalline{
+        width: 53%;
+        margin-top: 8px;
+        border-top: 1px solid #FFFFFF;
+        padding-left: 35%;
+    }
+    .helpResource{
+        width: 220px;
+        height: 50px;
+        margin-top: 15px;
+        border-radius: 3px;
+        border: 1px solid #FFFFFF;
+        background-color: rgba(0,0,0,0.66);
+        font-size: 9pt;
+        padding: 8px 0px 0px 8px;
+    }
+    .helpDuration{
+        width: 210px;
+        height: 160px;
+        margin-top: 15px;
+        border-radius: 3px;
+        border: 1px solid #FFFFFF;
+        background-color: rgba(0,0,0,0.66);
+        font-size: 9pt;
+        padding: 8px 8px 0px 8px;
+    }
+    .helpOthers{
+        width: 210px;
+        height: 105px;
+        margin-top: 15px;
+        border-radius: 3px;
+        // border: 1px solid #EFA430;
+        border: 1px solid #FFFFFF;
+        background-color: rgba(0,0,0,0.66);
+        font-size: 9pt;
+        padding: 8px 8px 0px 8px;
+    }
+    .helpResourceArrow{
+      position: absolute;
+      right: 2px;
+      top: 65px;
+    }
+    .helpDurationArrow{
+      position: absolute;
+      right: 2px;
+      top: 190px;
+    }
+    .helpOthersArrow{
+      position: absolute;
+      right: 2px;
+      top: 345px;
+    }
+}
+
+
 
 
 :global .react-datepicker__tether-element-attached-top .react-datepicker__triangle, :global .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, :global .react-datepicker__year-read-view--down-arrow, :global .react-datepicker__month-read-view--down-arrow {

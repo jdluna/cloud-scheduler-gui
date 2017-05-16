@@ -108,11 +108,47 @@ export default class Search extends Component {
         return (
             <div>
             <section className='halfmodal'>
+                
+                <div className={Style.helpContent} ref='helpComponent' >
+                    <div className={Style.helpHeader}>
+                        Help (?)
+                    </div>
+                    <div className={Style.horizontalline}></div>
+                    <div className={Style.helpResource}>
+                        Please input number of resources. <br/>
+                        CPU : <b>2 - 128</b> <br/>
+                        Memory (GB) : <b>1 - 512</b> <br/>
+                    </div>
+                    <div className={Style.helpResourceArrow}>
+                        <img src='img/ic_arrow_right.svg' /> 
+                    </div>
+                    
+                    <div className={Style.helpDuration}>
+                        Please specify begin and end date time. <br/>
+                        <br/>- The first option, <b>'From begin to end'</b>, is for searching resources which are <b>available from begin to end date time. </b><br/>
+                        <br/>- The second option <b>(..days ..hours)</b> is for searching resources which are available for the specified reservation length 
+                        <b>on some period from begin to end date time</b>.
+                    </div>
+                    <div className={Style.helpDurationArrow}>
+                        <img src='img/ic_arrow_right.svg' /> 
+                    </div>
+                    <div className={Style.helpOthers}>
+                        Please specify other criterias. <br/><br/>
+                        - <b> Additional network : </b> <br/>
+                        ENT = ENT-enabled site <br/>
+                        IPOP = IPOP-enabled site <br/><br/>
+                        - <b> Image type : </b> available image for VM <br/>
+                    </div>
+                    <div className={Style.helpOthersArrow}>
+                        <img src='img/ic_arrow_right.svg' /> 
+                    </div>
+                </div>
                 <section className={Style.panel}>
                     <header>
                         <div>Search by Criteria</div>
                         <img src='img/ic_close.svg' onClick={this.props.searchContainer.onClose} />
                     </header>
+                    
                     <section className={Style.content}>
                         <div className={Style.searchinput}>
                             <form>
@@ -205,11 +241,16 @@ export default class Search extends Component {
                                         {imageTypeList}
                                     </div>
                                 </div>
+                                <div className={Style.helpbtn}>
+                                    <img src='img/ic_help_white.svg' onClick={this.props.searchContainer.helpSearch} />
+                                </div>    
                                 <div className={Style.searchbtn}>
                                     <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>
                                 </div>
                             </form>
+
                         </div>
+
                         <div className={Style.searchresult}>
                             {this.props.searchContainer.state.resultTable}
                         </div>
