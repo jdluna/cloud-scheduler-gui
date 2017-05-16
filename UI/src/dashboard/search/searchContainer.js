@@ -5,6 +5,7 @@ import moment from 'moment'
 import {SEARCH_RESOURCE_ENDPOINT} from '../../config/endpoints'
 import NotFoundTable from './notFoundTable'
 import FoundTable from './foundTable'
+import Loading from './loading.js'
 
 export default class SearchContainer extends Component {
     constructor(props) {
@@ -388,6 +389,10 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
+        this.setState({
+            resultTable: <Loading/>
+        })
+
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result_type){
