@@ -299,8 +299,6 @@ class ReservationManager:
                     
                     for d in data:
                         self.__allReservations.append(self.getReservations(userId=d[0],ended=ended))
-                        
-            self.__db.close()
               
         return self.__allReservations
         

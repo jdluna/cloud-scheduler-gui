@@ -9,8 +9,8 @@ Created on Thu Feb 09 16:44:00 2017
 import cgitb
 cgitb.enable()
 
-
 from datetime import datetime,timedelta
+NOW = datetime.utcnow()
 
 MONTH29DAYS = [2]
 MONTH30DAYS = [4,6,9,11]
@@ -45,7 +45,7 @@ class Resource:
     def getSiteId(self):
         return self.__siteId  
     
-    def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+    def setAvailableAmount(self,db=None,begin=NOW.strftime("%Y-%m-%d %H:00:00"),end=NOW.strftime("%Y-%m-%d %H:00:00")):
         begin = str(begin)
         end = str(end)
         typ = self.getType()
@@ -103,7 +103,7 @@ class CPU(Resource,object):
         super(CPU,self).setSiteId(siteId)
         
     
-    def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+    def setAvailableAmount(self,db=None,begin=NOW.strftime("%Y-%m-%d %H:00:00"),end=NOW.strftime("%Y-%m-%d %H:00:00")):
         self.__availableAmount = super(CPU,self).setAvailableAmount(db=db,begin=begin,end=end)
 
 
@@ -115,6 +115,6 @@ class Memory(Resource,object):
         super(Memory,self).setTotal(total)
         super(Memory,self).setSiteId(siteId)
 
-    def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+    def setAvailableAmount(self,db=None,begin=NOW.strftime("%Y-%m-%d %H:00:00"),end=NOW.strftime("%Y-%m-%d %H:00:00")):
         self.__availableAmount = super(Memory,self).setAvailableAmount(db=db,begin=begin,end=end)
     
