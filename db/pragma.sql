@@ -138,7 +138,7 @@ CREATE TABLE `image_type_desc` (
 
 INSERT INTO `image_type_desc` (`image_type_id`, `name`, `description`) VALUES
 (1, 'centos7', 'CentOS7'),
-(2, 'hku_biolinux', '-'),
+(2, 'biolinux', '-'),
 (3, 'rocks-basic', 'no description'),
 (4, 'rocks-sge', 'none');
 
