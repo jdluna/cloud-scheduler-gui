@@ -564,11 +564,12 @@ class ReservationManager:
  
         return False
         
-    def updateReservationStatus(self,sessionId,reservationId,siteId,reservationStatus, adminDescription=''):
+    def updateReservationStatus(self,sessionId,reservationId,siteId,reservationStatus, adminDescription=None):
         self.__db = Database()        
         self.__sessionId = sessionId
         self.__allReservations = []
         
+        f = open("/tmp/cloud.log", "w")
         if self.__db.connect():
             #check session id and get user id
             sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
@@ -584,20 +585,24 @@ class ReservationManager:
                     return False
                 else:
                     #update site_reserved table
-                    sql = 'UPDATE `site_reserved` SET `status` = "'+str(reservationStatus)+'" WHERE `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
-                    sql2 = 'UPDATE `site_reserved` SET `admin_description` = "'+str(adminDescription)+'" WHERE `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
+                    fieldUpdates = []
+                    if adminDescription is not None:
+                        fieldUpdates.append('`admin_description` = "%s"' % str(adminDescription))
+                    if reservationStatus is not None:
+                        fieldUpdates.append('`status` = "%s"' % str(reservationStatus))
+                    if len(fieldUpdates) < 1:
+                        return False
 
-                    if self.__db.execute(sql2):
-                        if self.__db.execute(sql):
-                            #update both site's status and admin's description
-                            self.__db.commit()
-                            return True
-                        else:
-                            #update an admin's description but site's status is as same as the previous version
-                            sql = 'SELECT * FROM `site_reserved` WHERE `status` = "'+str(reservationStatus)+'" AND `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
-                            if self.__db.execute(sql):
-                                if self.__db.getCursor().fetchone() != None:
-                                    self.__db.commit()
-                                    return True
+                    sql = 'UPDATE `site_reserved` SET ' + ', '.join(fieldUpdates) + ' WHERE `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
+
+                    f.write(sql+"\n")
+
+                    try:
+                      self.__db.execute(sql)
+                      self.__db.commit()
+                      return True
+                    except Exception as e:
+                        f.write("%s\n" % (str(e)))
+                        return False
 
         return False
