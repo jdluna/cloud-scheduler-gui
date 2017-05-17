@@ -8,6 +8,7 @@ Created on Fri Apr 28 11:54:47 2017
 
 import cgitb
 cgitb.enable()
+import json
 
 class JSONFormatter:
     
@@ -62,7 +63,7 @@ class JSONFormatter:
     def formatReservation(self,r):
         jsonStr = ' { "reservation_id" : "'+str(r.getReservationId())+'", '
         jsonStr += '"title" : "'+str(r.getTitle())+'", '
-        jsonStr += '"description" : "'+str(r.getDescription())+'", '
+        jsonStr += '"description" : '+json.dumps(r.getDescription())+', '
         jsonStr += '"begin" : "'+str(r.getStart())+'", '
         jsonStr += '"end" : "'+str(r.getEnd())+'", '
         jsonStr += '"owner" : "'+str(r.getOwner())+'", '
@@ -73,13 +74,13 @@ class JSONFormatter:
         
         sites = r.getReservationsSite()
         for s in sites:
-            jsonStr += ' { "site_name" : "'+str(s.getName())+'", '
+            jsonStr += ' { "site_id": ' + str(s.getSiteId()) + ', "site_name" : "'+str(s.getName())+'", '
             
             for r in s.getResources():
                 jsonStr += '"'+str(r.getType())+'" : "'+str(r.getAmount())+'" ,'
             
             jsonStr += '"status" : "'+str(s.getStatus())+'" ,'
-            jsonStr += '"admin_description" : "'+str(s.getAdminDescription())+'" },'
+            jsonStr += '"admin_description" : '+json.dumps(s.getAdminDescription())+' },'
         
         jsonStr = jsonStr[:-1]    
         jsonStr += ']' #end sites
