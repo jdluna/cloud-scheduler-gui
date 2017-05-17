@@ -4,6 +4,7 @@ import Table from './table'
 import Detail from './detail'
 import ExtendPopup from './extendPopup'
 import DeletePopup from './deletePopup'
+import Loading from './loading'
 
 const TAB_MENU = (props) => {
     if(props.historyContainer.state.tab=='all'){
@@ -75,7 +76,7 @@ export default class History extends Component {
                         <div className={Style.result}>
                             {tabMenu}
                             <div ref='wrap' className={Style.data}>
-                                <Table historyContainer={this.props.historyContainer}/>
+                                {(this.props.historyContainer.state.loading==true) ? <Loading/> : <Table historyContainer={this.props.historyContainer}/>} 
                             </div>
                             {footerTable}
                         </div>

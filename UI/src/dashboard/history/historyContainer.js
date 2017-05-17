@@ -44,7 +44,8 @@ export default class HistoryContainer extends Component {
             extendStatus: '',
             deleteStatus: '',
             startDuration: this.timezone.format().slice(11,13)+':00',
-            endDuration: 23
+            endDuration: 23,
+            loading: true
         }
 
         this.onClose = this.onClose.bind(this)
@@ -185,7 +186,9 @@ export default class HistoryContainer extends Component {
             this.queryReservationsItem(ALL_ENDED_RESERVATIONS_ENDPOINT)
         }
         this.setState({
-            viewDetail: false
+            viewDetail: false,
+            loading: true,
+            tab: 'all'
         })
     }
 
@@ -198,7 +201,9 @@ export default class HistoryContainer extends Component {
             this.queryReservationsItem(MY_ENDED_RESERVATIONS_ENDPOINT,'my')
         }
         this.setState({
-            viewDetail: false
+            viewDetail: false,
+            loading: true,
+            tab: 'my'
         })
     }
 
@@ -297,7 +302,8 @@ export default class HistoryContainer extends Component {
                     // viewDetail: false,
                     tab: TAB,
                     viewDetailKey: (RM_TAB==true) ? -1 : this.state.viewDetailKey,
-                    reservationsItem: data.result
+                    reservationsItem: data.result,
+                    loading: false
                 })
             }
         }).catch(error=>{

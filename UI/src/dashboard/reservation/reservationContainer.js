@@ -470,7 +470,7 @@ export default class ReservationContainer extends Component {
                 img_type: this.state.imageType,
                 title: (this.state.title!='') ? this.state.title : '-',
                 description: (this.state.description!='') ? this.state.description : '-',
-                type: (this.dashboardContainer.state.reserveMode=='single') ? 'single cluster on single site' : 'single cluster spaning multiple sites'
+                type: (this.dashboardContainer.state.reserveMode=='single') ? 'single cluster on single site' : 'single cluster spanning multiple sites'
             }
         }
         axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{

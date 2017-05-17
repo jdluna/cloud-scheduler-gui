@@ -26,7 +26,7 @@ export default class reservationBar extends Component {
                         </div>
                         <div className={style.choose}>
                             <input type='radio' name='type' value='multiple' checked={this.props.dashBoardContainer.state.reserveMode=='multiple'} onChange={this.props.reservationBarContainer.onReserveModeChange} disabled={this.props.dashBoardContainer.state.selectCard.length<2}/>
-                            <span ref='multiple' className={style.multipletext}>Single cluster spaning multiple sites</span>
+                            <span ref='multiple' className={style.multipletext}>Single cluster spanning multiple sites</span>
                         </div>
                         <span className={style.select}>Selected : {this.props.dashBoardContainer.state.selectCard.length}</span>
                         <span className='tooltip' >
