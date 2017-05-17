@@ -67,7 +67,7 @@ export default class DashboardContainer extends Component {
             case 'Existing reservations'    : this.onCloseMoreInfo();this.checkLogin(menu);break
             case 'Past reservations'        : this.onCloseMoreInfo();this.checkLogin(menu);break
             case 'Settings'                 : this.onCloseMoreInfo();this.checkLogin(menu);break
-            case 'Helps'                    : this.onCloseMoreInfo();this.setState({modal: <HelpContainer dashBoardContainer={this}/>, modalName: 'Helps'});break
+            case 'Help'                     : this.onCloseMoreInfo();this.setState({modal: <HelpContainer dashBoardContainer={this}/>, modalName: 'Helps'});break
             case 'ReservationSites'         : this.checkConnectionType();break
         }
     }

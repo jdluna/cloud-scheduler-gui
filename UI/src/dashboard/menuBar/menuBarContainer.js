@@ -62,7 +62,7 @@ export default class MenuBarContainer extends Component{
 
     onHelpsOver(){
         this.setState({
-            tutorial: 'Helps'
+            tutorial: 'Help'
         })
     }
 

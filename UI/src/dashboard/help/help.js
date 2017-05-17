@@ -7,11 +7,11 @@ export default class Help extends Component {
             <section className='modal'>
                 <section className={Style.panel}>
                     <header>
-                        <div>Helps</div>
+                        <div>Help</div>
                         <img src='img/ic_close.svg' onClick={()=>this.props.container.onClose()}/>
                     </header>
                     <section className={Style.content}>
-                        
+                        {this.props.container.state.card}
                     </section>
                 </section>
             </section>
