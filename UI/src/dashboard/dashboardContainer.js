@@ -7,8 +7,9 @@ import LoginContainer from './login/loginContainer'
 import SearchContainer from './search/searchContainer'
 import ReservationContainer from './reservation/reservationContainer'
 import HistoryContainer from './history/historyContainer'
+import HelpContainer from './help/helpContainer'
 import axios from 'axios'
-import {GET_ALL_IMAGES_ENDPOINT} from '../config/endpoints'
+import {GET_ALL_IMAGES_ENDPOINT,CHECK_CONNECTION_TYPE_ENDPOINT} from '../config/endpoints'
 
 export default class DashboardContainer extends Component {
     constructor(props){
@@ -43,7 +44,7 @@ export default class DashboardContainer extends Component {
                 node: null
             },
             images: [],
-            modalName: ''
+            isSameConnectionType: false
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -56,17 +57,9 @@ export default class DashboardContainer extends Component {
         this.onSelectCard = this.onSelectCard.bind(this)
         this.onDeselectCard = this.onDeselectCard.bind(this)
         this.setAllImages = this.setAllImages.bind(this)
-        // this.setMapData = this.setMapData.bind(this)
+        this.closeAllCard = this.closeAllCard.bind(this)
+        this.queryCheckConnectionType = this.queryCheckConnectionType.bind(this)
     }
-    
-    // setMapData(data){
-    //     this.setState({
-    //         map: {
-    //             sites: data,
-    //             chooseSite: []
-    //         }
-    //     })
-    // }
 
     onSelectMenu(menu){
         switch(menu){
@@ -74,7 +67,8 @@ export default class DashboardContainer extends Component {
             case 'Existing reservations'    : this.onCloseMoreInfo();this.checkLogin(menu);break
             case 'Past reservations'        : this.onCloseMoreInfo();this.checkLogin(menu);break
             case 'Settings'                 : this.onCloseMoreInfo();this.checkLogin(menu);break
-            case 'ReservationSites'         : this.openReservationPanel();break
+            case 'Help'                     : this.onCloseMoreInfo();this.setState({modal: <HelpContainer dashBoardContainer={this}/>, modalName: 'Helps'});break
+            case 'ReservationSites'         : this.checkConnectionType();break
         }
     }
 
@@ -112,6 +106,15 @@ export default class DashboardContainer extends Component {
                 data: {}
             }
         })
+    }
+
+    checkConnectionType(){
+        let {reserveMode} = this.state
+        if(reserveMode=='multiple'){
+            this.queryCheckConnectionType()
+        }else{
+            this.openReservationPanel()
+        }
     }
 
     openReservationPanel(){
@@ -185,6 +188,36 @@ export default class DashboardContainer extends Component {
                 }
             })
         }
+    }
+
+    closeAllCard(){
+        let {chooseSite} = this.state.map
+        chooseSite.map((data,key)=>{
+            let {marker,chooseSite,card} = this.state.map
+            let index = chooseSite.indexOf(parseInt(data))
+            
+            if(marker[index].icon=='img/marker.png'){
+                marker[index].node.setIcon('img/marker.png')
+            }else if(marker[index].icon=='img/marker_select.png'){
+                marker[index].node.setIcon('img/marker.png')
+            }else if(marker[index].icon=='img/marker_ent_select.png'){
+                marker[index].node.setIcon('img/marker_ent.png')
+            }else{
+                marker[index].node.setIcon('img/marker_ent.png')
+            }
+        })
+        this.setState({
+            map:{
+                marker: [],
+                chooseSite: [],
+                card: []
+            },
+            cardPanel: {
+                notfound: {display:'block'}
+            },
+            selectCard: []
+        })
+        this.changeMultipleTextColor()
     }
 
    onCloseCard(id){
@@ -289,6 +322,48 @@ export default class DashboardContainer extends Component {
             }
         }).catch(error=>{
             console.log('QUERY GET IMAGES ERROR: '+error)
+        })
+    }
+
+    queryCheckConnectionType(){
+        let {selectCard} = this.state
+        let type = ''
+        selectCard.map((data,key)=>{
+            let subType = ''
+            data.connection.map((subData,subKey)=>{
+                if(subKey==0){
+                    subType += subData.name
+                }else{
+                    subType += ','+subData.name
+                }
+            })
+            if(key==0){
+                type += (subType=='') ? '-' : subType
+            }else{
+                type += '|'+((subType=='') ? '-' : subType)
+            }
+        })
+
+        let params = {
+            params:{
+                connection_type: type
+            }
+        }
+        axios.get(CHECK_CONNECTION_TYPE_ENDPOINT,params).then(response=>{
+            let {data,status} = response
+            if(status==200&&data.result){
+                if(data.result=='False'){
+                    this.setState({
+                        isSameConnectionType: true
+                    },()=>{
+                        this.openReservationPanel()
+                    })
+                }else{
+                    this.openReservationPanel()
+                }
+            }
+        }).catch(error=>{
+            console.log('QUERRY CHECK CONNECTION TYPE ERROR: ',+error)
         })
     }
 

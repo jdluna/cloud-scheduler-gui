@@ -28,8 +28,9 @@ jsonStr += ', "sites" : ['
 for s in sites:
     jsonStr += jsonFormatter.formatSite(s)
     jsonStr += ','
-    
-jsonStr = jsonStr[:-1]    
+
+if len(sites)>0:
+    jsonStr = jsonStr[:-1]    
 jsonStr += ']}'
 
 print jsonStr

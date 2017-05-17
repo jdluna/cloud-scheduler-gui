@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Reservation from './reservation'
 import axios from 'axios'
 import moment from 'moment'
-import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT,CHECK_CONNECTION_TYPE_ENDPOINT} from '../../config/endpoints'
+import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT} from '../../config/endpoints'
 import SuccessDialog from './successDialog'
 import ErrorDialog from './ErrorDialog'
 
@@ -52,7 +52,7 @@ export default class ReservationContainer extends Component {
 
             // OTHER
             card: 'step1',
-            dialog: 'main',
+            dialog: (this.dashboardContainer.state.isSameConnectionType) ? 'error-type' : 'main',
             alertNode: {},
             siteInputCPUDom: [],
             siteInputMEMDom: []
@@ -74,6 +74,9 @@ export default class ReservationContainer extends Component {
     }
 
     onClose(){
+        this.dashboardContainer.setState({
+            isSameConnectionType: false
+        })
         this.dashboardContainer.onCloseModal()
     }
 
@@ -194,8 +197,7 @@ export default class ReservationContainer extends Component {
         
         }) //end of this.setState for startDate
 
-    }
-        
+    }  
 
     onEndDateChange(date) {
         if(date.format()>=this.state.startDate.obj.format()){
@@ -337,7 +339,6 @@ export default class ReservationContainer extends Component {
     }
 
     onNextStep(event){
-        console.log(event.target.name)
         if(this.state.day < 31 || (this.state.day == 31 && this.state.hour == 0)){
             if(event.target.name=='step1'){
                 this.state.alertNode.innerHTML = ''
@@ -346,14 +347,12 @@ export default class ReservationContainer extends Component {
             switch(event.target.name){
                 case 'step1' : this.checkReservation();break
                 case 'step2' : this.setState({card: 'step3'});break
-                case 'step3' : this.queryConfirmReservation();
-                                console.log('heyy');break
+                case 'step3' : this.queryConfirmReservation();break
             } 
         }else{
             this.state.alertNode.innerHTML = 'Cannot reserve any resources more than 1 month. Please try again.'
             this.state.alertNode.style.display = 'block'
         }
-        
     }
 
     checkStep1Input(){
@@ -442,57 +441,9 @@ export default class ReservationContainer extends Component {
         })
     }
 
-    queryCheckConnectionType(){
-        let {selectCard} = this.dashboardContainer.state
-        let type = ''
-        selectCard.map((data,key)=>{
-            let subType = ''
-            data.connection.map((subData,subKey)=>{
-                if(subKey==0){
-                    subType += subData.name
-                }else{
-                    subType += ','+subData.name
-                }
-            })
-            if(key==0){
-                type += (subType=='') ? '-' : subType
-            }else{
-                type += '|'+((subType=='') ? '-' : subType)
-            }
-        })
-
-        let params = {
-            params:{
-                connection_type: type
-            }
-        }
-        axios.get(CHECK_CONNECTION_TYPE_ENDPOINT,params).then(response=>{
-            let {data,status} = response
-            if(status==200&&data.result){
-                if(data.result=='True'){
-                    this.queryCheckReservation()
-                }else{
-                    this.state.alertNode.innerHTML = 'The resource are not same connection type. Please try again.'
-                    this.state.alertNode.style.display = 'block'
-                }
-            }
-        }).catch(error=>{
-            console.log('QUERRY CHECK CONNECTION TYPE ERROR: ',+error)
-        })
-    }
-
     checkReservation(){
         if(this.checkStep1Input()==false){
-            let {selectCard,reserveMode} = this.dashboardContainer.state
-            if(selectCard.length>1){
-                if(reserveMode=='multiple'){
-                    this.queryCheckConnectionType()
-                }else{
-                    this.queryCheckReservation()
-                }
-            }else{
-                this.queryCheckReservation()
-            }
+            this.queryCheckReservation()
         }
     }
 
@@ -519,7 +470,7 @@ export default class ReservationContainer extends Component {
                 img_type: this.state.imageType,
                 title: (this.state.title!='') ? this.state.title : '-',
                 description: (this.state.description!='') ? this.state.description : '-',
-                type: (this.dashboardContainer.state.reserveMode=='single') ? 'single cluster on single site' : 'single cluster spaning multiple sites'
+                type: (this.dashboardContainer.state.reserveMode=='single') ? 'single cluster on single site' : 'single cluster spanning multiple sites'
             }
         }
         axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
@@ -527,6 +478,7 @@ export default class ReservationContainer extends Component {
             if(status==200&&data.result){
                 if(data.result=='success'){
                     this.changeDialog('success')
+                    this.dashboardContainer.closeAllCard()
                 }else{
                     this.changeDialog('error')
                 }
@@ -588,7 +540,7 @@ export default class ReservationContainer extends Component {
     }
 
     onCloseDialog(){
-        this.dashboardContainer.onCloseModal()
+        this.onClose()
     }
 
     render() {
@@ -596,14 +548,13 @@ export default class ReservationContainer extends Component {
         switch(this.state.dialog){
             case 'main' : dialog = <Reservation reservationContainer={this}/>;break;
             case 'success' : dialog = <SuccessDialog onCloseDialog={()=>this.onCloseDialog()}/>;break;
-            case 'error' : dialog = <ErrorDialog onCloseDialog={()=>this.onCloseDialog()}/>;break;
+            case 'error' : dialog = <ErrorDialog msg='Reservation Error!' onCloseDialog={()=>this.onCloseDialog()}/>;break;
+            case 'error-type' : dialog = <ErrorDialog msg='The resource are not same connection type!' onCloseDialog={()=>this.onCloseDialog()}/>;break;
         }
         return (
-            // <section>
             <section className='modal'>
                 {dialog}
             </section>
-            // </section>
         )
     }
 }

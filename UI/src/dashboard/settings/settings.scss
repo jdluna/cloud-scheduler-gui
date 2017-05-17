@@ -15,23 +15,29 @@
         text-align: center;
         height: 28px;
         background-color: #161923;
+        position: relative;
         div{
             color: #FFFFFF;
             padding-top: 7px;
+        }
+        img{
+            position: absolute;
+            top: 3px;
+            right: 5px;
+            width: 20px;
         }
     }
     nav{
         float: left;
         width: 20%;
         height: calc(100% - 29px);
-        background-color: rgba(85,89,106,0.69);
-        // background-color: rgba(20,22,25,0.76);
+        border-right: 1px solid #929296;
+        box-sizing: border-box;
         .menu{
             display: block;
             height: 90px;
             width: 100%;
-            background-color: rgba(85,85,106,0.69);
-            // background-color: rgba(31,33,39,0.77);
+            background-color: rgba(239,164,48,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -39,6 +45,10 @@
                 font-size: 8pt;
                 color: #FFFFFF;
             }
+        }
+        .menu:hover{
+            background-color: rgba(239,164,48,0.5);
+            cursor: pointer;
         }
     }
     .content{

@@ -9,7 +9,8 @@ export default class MenuBarContainer extends Component{
             select: '',
             reservation: '',
             history: '',
-            setting: ''
+            setting: '',
+            tutorial: ''
         }
     }
 
@@ -56,6 +57,18 @@ export default class MenuBarContainer extends Component{
     onSettingOver(){
         this.setState({
             setting: 'Settings'
+        })
+    }
+
+    onHelpsOver(){
+        this.setState({
+            tutorial: 'Help'
+        })
+    }
+
+    onHelpsOut(){
+        this.setState({
+            tutorial: ''
         })
     }
 

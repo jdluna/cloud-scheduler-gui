@@ -5,6 +5,7 @@ import moment from 'moment'
 import {SEARCH_RESOURCE_ENDPOINT} from '../../config/endpoints'
 import NotFoundTable from './notFoundTable'
 import FoundTable from './foundTable'
+import Loading from './loading.js'
 
 export default class SearchContainer extends Component {
     constructor(props) {
@@ -53,7 +54,9 @@ export default class SearchContainer extends Component {
                 hoursInput: null,
                 daysLabel: null,
                 hoursLabel: null
-            }
+            },
+            helpComponent: null,
+            helpIcon: null
         }
 
 
@@ -76,6 +79,10 @@ export default class SearchContainer extends Component {
         this.getDescSort = this.getDescSort.bind(this)
         this.getAscSortByDate = this.getAscSortByDate.bind(this)
         this.getDescByDate = this.getDescSortByDate.bind(this)
+        this.helpSearch = this.helpSearch.bind(this)
+        this.helpIconOver = this.helpIconOver.bind(this)
+        this.helpIconOut = this.helpIconOut.bind(this)
+        this.onHelpClose = this.onHelpClose.bind(this)
     }
 
     onClose() {
@@ -388,6 +395,10 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
+        this.setState({
+            resultTable: <Loading/>
+        })
+
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result_type){
@@ -395,12 +406,23 @@ export default class SearchContainer extends Component {
                     this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
-                        resultTable: <FoundTable searchContainer={this}/>
+                        resultTable: []
+                    },()=>{
+                        this.setState({
+                            resultTable: <FoundTable searchContainer={this}/>
+                        })
                     })
                 }else{
+                    if(data.amount>0){
+                        this.getAscSortByName(data)
+                    }
                     this.setState({
                         dataResult: data,
-                        resultTable: <NotFoundTable data={data} searchContainer={this}/>
+                        resultTable: []
+                    },()=>{
+                        this.setState({
+                            resultTable: <NotFoundTable data={data} searchContainer={this}/>
+                        })
                     })
                 }
             }
@@ -502,6 +524,30 @@ export default class SearchContainer extends Component {
             }
         }
         return leftDate
+    }
+
+    helpSearch(){
+        let helpComponent = this.state.helpComponent
+        if(helpComponent.style.display==='block'){
+            helpComponent.style.display = 'none'
+        }else{
+            helpComponent.style.display = 'block'
+        }  
+    }
+
+    helpIconOver(){
+        let helpIcon = this.state.helpIcon
+        helpIcon.src = 'img/ic_help_white.svg'
+    }
+
+    helpIconOut(){
+        let helpIcon = this.state.helpIcon
+        helpIcon.src = 'img/ic_help_outline_white.svg'
+    }
+
+    onHelpClose(){
+        let helpComponent = this.state.helpComponent
+        helpComponent.style.display = 'none' 
     }
 
     render() {

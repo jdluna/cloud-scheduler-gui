@@ -10,7 +10,7 @@ export default class TimezoneContainer extends Component {
         super(props)
         this.state = {
             timezones: [],
-            selectTimezone: '',
+            selectTimezone: this.props.app.state.authen.timezone,
             time: '',
             date: '',
             nowTimezone: this.props.app.state.authen.timezone
@@ -28,17 +28,18 @@ export default class TimezoneContainer extends Component {
 
     getTime(){
         let zone = moment.tz(this.state.nowTimezone)
-        let zoneTime = zone.format().slice(11,16)
-        return zoneTime
+        let zoneTime = zone.format().slice(11,19)
+        return zoneTime.replace(/:/g,' : ')
     }
 
     setDateThick(){
-        this.thick = setInterval(()=>{
+        let thick = setInterval(()=>{
             this.setState({
                 time: this.getTime(),
                 date: this.getDateTimeZone()
             })
         },1000)
+        this.props.settingContainer.setTimezoneThick(thick)
     }
 
     onSelectTimezone(event){
@@ -46,7 +47,6 @@ export default class TimezoneContainer extends Component {
             selectTimezone: event.target.value,
             nowTimezone: event.target.value
         })
-        // let group = event.target.value.split('/')
     }
 
     setListTimezones(){
@@ -91,19 +91,20 @@ export default class TimezoneContainer extends Component {
             axios.get(SET_TIMEZONE_ENDPOINT,options).then(response=>{
                 let {data,status} = response
                 if(status==200&&data.result=='True'){
-                    clearInterval(this.thick)
                     this.props.app.setTimeZone(this.state.selectTimezone)
-                    this.props.dashBoardContainer.onCloseModal()
+                    this.props.settingContainer.showStatus('success')
+                }else{
+                    this.props.settingContainer.showStatus('error')
                 }
             }).catch(error=>{
                 console.log('SETTING TIMEZONE: '+error)
+                this.props.settingContainer.showStatus('error')
             })
         }
     }
 
     onCloseSettings(){
-        this.props.dashBoardContainer.onCloseModal()
-        clearInterval(this.thick)
+        this.props.settingContainer.onClose()
     }
 
     render() {

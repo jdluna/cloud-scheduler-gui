@@ -6,14 +6,14 @@
     position: absolute;
     top: 48px;
     bottom: 0;
-    height: 170px;
+    height: 212px;
     width: 40px;
     background-color: $bg-overlay-primary;
     z-index: 1;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: 1px 1px rgba(10, 13, 20, 0.7);
-    .menu1,.menu2,.menu3,.menu4{
+    .menu1,.menu2,.menu3,.menu4,.menu5{
         padding-top: 5px;
         padding-bottom: 5px;
         padding-left: 8px;
@@ -50,6 +50,12 @@
     .menu4:hover{
         background-color: rgba(10, 13, 20,0.8);
         width: 100px;
+        border-bottom-right-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+    .menu5:hover{
+        background-color: rgba(10, 13, 20,0.8);
+        width: 90px;
         border-bottom-right-radius: 5px;
         border-top-right-radius: 5px;
     }

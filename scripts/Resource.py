@@ -9,8 +9,8 @@ Created on Thu Feb 09 16:44:00 2017
 import cgitb
 cgitb.enable()
 
-
 from datetime import datetime,timedelta
+NOW = datetime.utcnow()
 
 MONTH29DAYS = [2]
 MONTH30DAYS = [4,6,9,11]
@@ -45,21 +45,20 @@ class Resource:
     def getSiteId(self):
         return self.__siteId  
     
-    def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+    def setAvailableAmount(self,db=None,begin=NOW.strftime("%Y-%m-%d %H:00:00"),end=NOW.strftime("%Y-%m-%d %H:00:00")):
         begin = str(begin)
         end = str(end)
         typ = self.getType()
-        siteId = self.__siteId
-        
+        siteId = self.__siteId 
         maxUsed = 0
         
         if begin == end:
             #get dashboard => get only one hour
             sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(begin)+"';"
-
             if db.execute(sql2) :
-                maxUsed = db.fetchone()[0]
-                
+                maxUsed = db.fetchone()
+                if maxUsed != None:
+                    maxUsed = maxUsed[0]
         
         else:
             #function 'search'
@@ -69,18 +68,19 @@ class Resource:
 
             while tmpBegin != tmpEnd:
                 """ one round = one hour """        
-                
-                sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(tmpBegin.strftime("%Y-%m-%d %H:00:00"))+"';"                                
 
-                if db.execute(sql2) :
-                    used = db.fetchone()[0]
+                sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(tmpBegin.strftime("%Y-%m-%d %H:00:00"))+"';" 
+                if db.execute("SELECT `cpu` FROM `schedule` WHERE `site_id` = '1' AND `start` = '2017-04-25 15:00:00';") :
+                    used = db.fetchone()
+                    if used != None:
+                        used = used[0]
                     if used > maxUsed:
                         maxUsed = used
                 else:
                     used = 0
                     
                 tmpBegin = tmpBegin + timedelta(hours=1)
-                    
+                 
         
         self.__availableAmount = int(self.getTotal())-int(maxUsed)
         
@@ -103,7 +103,7 @@ class CPU(Resource,object):
         super(CPU,self).setSiteId(siteId)
         
     
-    def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+    def setAvailableAmount(self,db=None,begin=NOW.strftime("%Y-%m-%d %H:00:00"),end=NOW.strftime("%Y-%m-%d %H:00:00")):
         self.__availableAmount = super(CPU,self).setAvailableAmount(db=db,begin=begin,end=end)
 
 
@@ -115,6 +115,6 @@ class Memory(Resource,object):
         super(Memory,self).setTotal(total)
         super(Memory,self).setSiteId(siteId)
 
-    def setAvailableAmount(self,db=None,begin=datetime.now().strftime("%Y-%m-%d %H:00:00"),end=datetime.now().strftime("%Y-%m-%d %H:00:00")):
+    def setAvailableAmount(self,db=None,begin=NOW.strftime("%Y-%m-%d %H:00:00"),end=NOW.strftime("%Y-%m-%d %H:00:00")):
         self.__availableAmount = super(Memory,self).setAvailableAmount(db=db,begin=begin,end=end)
     

@@ -42,7 +42,7 @@ export default class FoundTable extends Component {
 
     render() {
         let {dataResult, sort} = this.state
-
+        
         let data = this.props.searchContainer.state
         let startDate = moment(data.startDate.date+' '+data.startTime).format('DD-MMM-YYYY HH:mm').toUpperCase()
         let endDate = moment(data.endDate.date+' '+data.endTime).format('DD-MMM-YYYY HH:mm').toUpperCase() 
