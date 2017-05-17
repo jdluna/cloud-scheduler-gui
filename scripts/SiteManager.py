@@ -15,6 +15,8 @@ from Database import Database
 from Site import Site
 from datetime import datetime,timedelta
 
+NOW = datetime.utcnow()
+
 class SiteManager:
     
     __sites = []
@@ -201,7 +203,7 @@ class SiteManager:
     def getResultType(self):
         return self.__resultType
         
-    def getSite(self,siteId = None, dateReq = datetime.now().strftime("%Y-%m-%d %H:00:00"), end = datetime.now().strftime("%Y-%m-%d %H:00:00"),db=None):
+    def getSite(self,siteId = None, dateReq = NOW.strftime("%Y-%m-%d %H:00:00"), end = NOW.strftime("%Y-%m-%d %H:00:00"),db=None):
         #to get site description specified by time              
         dateReq = str(dateReq)
         end = str(end)
