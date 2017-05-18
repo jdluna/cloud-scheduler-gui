@@ -124,7 +124,8 @@ export default class NotFoundTable extends Component {
                                 return(
                                     <div className={Style.item} key={key} onClick={()=>this.props.searchContainer.onSelectItem(data.name,key)}>
                                         <div className={Style.text}>{data.name}</div>
-                                        <div className={Style.text}>{moment(data.time.begin).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
+                                        {/*<div className={Style.text}>{moment(data.time.begin).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>*/}
+                                        <div className={Style.text}>{moment(data.time.begin+" +0000").tz(this.props.searchContainer.state.timezone).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
                                     </div>
                                 )
                             })
