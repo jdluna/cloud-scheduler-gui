@@ -44,7 +44,8 @@ export default class DashboardContainer extends Component {
                 node: null
             },
             images: [],
-            isSameConnectionType: false
+            isSameConnectionType: false,
+            dialogAfterLogin: null
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -86,6 +87,9 @@ export default class DashboardContainer extends Component {
                 })
             }
         }else{
+            this.setState({
+                dialogAfterLogin: menu
+            })
             this.props.app.setState({
                 isOpenReserveModal: true
             },this.props.app.authentication)
@@ -366,6 +370,16 @@ export default class DashboardContainer extends Component {
             console.log('QUERRY CHECK CONNECTION TYPE ERROR: ',+error)
         })
     }
+
+    componentWillUpdate(){
+        let {dialogAfterLogin} = this.state
+        if(this.props.app.state.authen.isLogedIn&&dialogAfterLogin!=null){
+            this.onSelectMenu(dialogAfterLogin)
+            this.setState({
+                dialogAfterLogin: null
+            })
+        }
+    }   
 
     render() {
         return (
