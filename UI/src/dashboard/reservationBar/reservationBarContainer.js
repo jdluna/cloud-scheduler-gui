@@ -22,6 +22,9 @@ export default class reservationBarContainer extends Component {
         if(app.state.authen.isLogedIn){
             this.props.dashBoardContainer.onSelectMenu('ReservationSites')
         }else{
+            this.props.dashBoardContainer.setState({
+                dialogAfterLogin: 'ReservationSites'
+            })
             app.setState({
                 isOpenReserveModal: true
             },app.authentication)
