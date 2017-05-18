@@ -34,7 +34,7 @@ export default class DeletePopup extends Component {
         if(deleteStatus=='success'){
             card = <SuccessCard onClose={this.props.historyContainer.onClosePopup}/>
         }else if(deleteStatus=='fail'){
-            card = <ErrorCard onClose={this.props.historyContainer.onClosePopup}/>
+            card = <ErrorCard msg='Error!' onClose={this.props.historyContainer.onClosePopup}/>
         }else{
             card = <DELETE_CARD historyContainer={this.props.historyContainer}/>
         }

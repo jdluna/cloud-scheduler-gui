@@ -379,6 +379,9 @@ export default class SearchContainer extends Component {
         this.setState({
             viewCardKey: key
         })
+        this.props.dashBoardContainer.setState({
+            dateForCard: this.state.startDate.obj             
+        })
         let markerNode = this.dashboardContainer.state.markerNode
         for(let i=0;i<markerNode.length;i++){
             if(markerNode[i].name.toLowerCase()==name.toLowerCase()){
