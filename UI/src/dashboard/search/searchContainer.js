@@ -498,8 +498,6 @@ export default class SearchContainer extends Component {
         
         let startDateUTC = moment(startDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
         let endDateUTC = moment(endDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
-        console.log(startDateUTC)
-        console.log(endDateUTC)
 
         let params = {
             params:{

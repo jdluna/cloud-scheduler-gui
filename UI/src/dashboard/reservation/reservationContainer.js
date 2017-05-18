@@ -501,11 +501,36 @@ export default class ReservationContainer extends Component {
             }
         })
 
+        let {startDate,endDate,startTime,endTime} = this.state
+        let startDateLength = startDate.date+' '+startTime
+        let endDateLength = endDate.date+' '+endTime
+
+        let timezoneOffset = parseInt(moment.tz(this.appContainer.state.authen.timezone).utcOffset()) / 60
+
+        if(timezoneOffset >=10 || timezoneOffset<=-10){
+            if(timezoneOffset < 0){
+                timezoneOffset = timezoneOffset.toString() +'00'
+            }else{
+                timezoneOffset = '+'+timezoneOffset.toString() +'00'
+            }
+        }else{
+            if(timezoneOffset < 0){
+                timezoneOffset = timezoneOffset.toString()
+                timezoneOffset = timezoneOffset.slice(0,1)+'0'+timezoneOffset.slice(1,2)+'00'
+            }else{
+                timezoneOffset = timezoneOffset.toString()
+                timezoneOffset = '+0'+timezoneOffset.toString()+'00'
+            }
+        }
+        
+        let startDateUTC = moment(startDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
+        let endDateUTC = moment(endDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
+
         let params = {
             params:{
                 session_id: this.appContainer.state.authen.session,
-                begin: this.state.startDate.date+' '+this.state.startTime+':00',
-                end: this.state.endDate.date+' '+this.state.endTime+':00',
+                begin: startDateUTC,
+                end: endDateUTC,
                 sites_id: sitesId,
                 resources: resources,
                 img_type: this.state.imageType
