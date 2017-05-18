@@ -29,7 +29,7 @@ L clear all cards after creating a reservation success.                         
 L create new timezone GUI.                                                                                        [done!]
 L show error popup if reserve more than 1 sites and the resource are not same connection type.                    [done!]
 L add loading GUI, updating between searches ( from usability suggestions)                                        [done!]
-L if user click some menu and the system show login panel. system will auto show that function panel after login.
+L if user click some menu and the system show login panel. system will auto show that function panel after login. [done!]
 
 -------------------------------
 Comments from usability test
