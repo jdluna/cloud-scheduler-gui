@@ -10,7 +10,7 @@ export default class Help1 extends Component {
                     <img width='75%' height='100%' src='img/tutorial-1.png'/>
                 </div>
                 <div className={Style.detail}>
-                    <div>This system visualizes all sitets on the map</div>
+                    <div>This system visualizes all sites on the map</div>
                     <div>refering from each site location.</div>
                 </div>
                 <div className={Style.btn}>

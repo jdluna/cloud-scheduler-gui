@@ -45,7 +45,8 @@ export default class DashboardContainer extends Component {
             },
             images: [],
             isSameConnectionType: false,
-            dialogAfterLogin: null
+            dialogAfterLogin: null,
+            dateForCard: null
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)

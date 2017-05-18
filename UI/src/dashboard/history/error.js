@@ -13,7 +13,7 @@ export default class Error extends Component {
                         <img className={Style.iconstatus} src='img/ic_cancel_circle.svg'/>
                     </div>
                     <div className={Style.row}>
-                        Error!
+                        {this.props.msg}
                     </div>
                 </div>
             </div>

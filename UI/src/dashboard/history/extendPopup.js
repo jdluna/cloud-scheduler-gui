@@ -98,7 +98,7 @@ export default class ExtendPopup extends Component {
         if(extendStatus=='success'){
             card = <SuccessCard onClose={this.props.historyContainer.onClosePopup}/>
         }else if(extendStatus=='fail'){
-            card = <ErrorCard onClose={this.props.historyContainer.onClosePopup}/>
+            card = <ErrorCard msg='Resources are not enough for extending reservation.' onClose={this.props.historyContainer.onClosePopup}/>
         }else{
             card = <EXTEND_CARD historyContainer={this.props.historyContainer}/>
         }
