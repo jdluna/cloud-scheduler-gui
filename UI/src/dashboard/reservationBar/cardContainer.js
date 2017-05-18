@@ -119,9 +119,7 @@ export default class cardContainer extends Component {
     }
 
     querySiteByDate(){
-        // let dateTime = date.getDateTimeForRequest(this.currentDateStamp)
-        // let dateTime = this.currentDateStamp.format('YYYY-MM-DD h:00:00')
-        let dateTime = moment.utc().add(1,'days').format('YYYY-MM-DD h:00:00')
+        let dateTime = this.currentDateStamp.utc().format('YYYY-MM-DD h:00:00')
         axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId+'&date_req='+dateTime).then(response =>{
             // console.log(response)
             if(response.status==200){
