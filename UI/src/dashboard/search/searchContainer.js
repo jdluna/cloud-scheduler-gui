@@ -474,6 +474,27 @@ export default class SearchContainer extends Component {
         let endDateLength = endDate.date+' '+endTime
         let time = this.getReservationsLength(startDateLength,endDateLength).split(' ')
 
+        let timezoneOffset = parseInt(moment.tz(this.appContainer.state.authen.timezone).utcOffset()) / 60
+
+        if(timezoneOffset >=10 || timezoneOffset<=-10){
+            if(timezoneOffset < 0){
+                timezoneOffset = timezoneOffset.toString() +'00'
+            }else{
+                timezoneOffset = '+'+timezoneOffset.toString() +'00'
+            }
+        }else{
+            if(timezoneOffset < 0){
+                timezoneOffset = timezoneOffset.toString()
+                timezoneOffset = timezoneOffset.slice(0,1)+'0'+timezoneOffset.slice(1,2)+'00'
+            }else{
+                timezoneOffset = timezoneOffset.toString()
+                timezoneOffset = '+0'+timezoneOffset.toString()+'00'
+            }
+        }
+        
+        let startDateUTC = moment(startDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm');
+        let endDateUTC = moment(endDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm');
+
         let params = {
             params:{
                 resources: ((this.state.cpu=='') ? 0 : this.state.cpu)+','+((this.state.mem=='') ? 0 : this.state.mem),
@@ -481,8 +502,8 @@ export default class SearchContainer extends Component {
                 // memory_amt: (this.state.mem=='') ? 0 : this.state.mem,
                 connection_type: this.state.additionalNetwork,
                 image_type: this.state.imageType,
-                begin: this.state.startDate.date+' '+this.state.startTime+':00',
-                end: this.state.endDate.date+' '+this.state.endTime+':00',
+                begin: startDateUTC,
+                end: endDateUTC,
                 all_period: (this.state.reservationLength.value=='all') ? 'True' : 'False',
                 days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
                 hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours)
