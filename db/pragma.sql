@@ -138,7 +138,7 @@ CREATE TABLE `image_type_desc` (
 
 INSERT INTO `image_type_desc` (`image_type_id`, `name`, `description`) VALUES
 (1, 'centos7', 'CentOS7'),
-(2, 'hku_biolinux', '-'),
+(2, 'biolinux', '-'),
 (3, 'rocks-basic', 'no description'),
 (4, 'rocks-sge', 'none');
 
@@ -245,7 +245,7 @@ CREATE TABLE `site_reserved` (
   `reservation_id` bigint(20) UNSIGNED NOT NULL,
   `site_id` bigint(20) UNSIGNED NOT NULL,
   `status` varchar(16) NOT NULL,
-  `admin_description` varchar(64) DEFAULT NULL,
+  `admin_description` longtext DEFAULT NULL,
   `cpu` int(11) NOT NULL,
   `memory` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
