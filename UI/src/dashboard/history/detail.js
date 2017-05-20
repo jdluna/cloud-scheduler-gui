@@ -14,6 +14,11 @@ export default class Detail extends Component {
         }else{
             leftDateElement = <span className={Style.warning}>{leftDate}</span>
         }
+
+        let userTimezone = this.props.historyContainer.dashboardContainer.getUserTimeZone()
+        let b = moment(data.begin+' +0000', "YYYY-MM-DD HH:mm Z").tz(userTimezone).format('YYYY-MM-DD HH:mm');
+        let e = moment(data.end+' +0000', "YYYY-MM-DD HH:mm Z").tz(userTimezone).format('YYYY-MM-DD HH:mm');
+
         return (
             <section>
                 <div className={Style.top}>
@@ -29,8 +34,8 @@ export default class Detail extends Component {
                     <div className={Style.col2}>
                         <div className={Style.space}>: {data.title}</div>
                         <div className={Style.space}>: {data.description}</div>
-                        <div className={Style.space}>: {moment(data.begin).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
-                        <div className={Style.space}>: {moment(data.end).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
+                        <div className={Style.space}>: {b.toUpperCase()}</div>
+                        <div className={Style.space}>: {e.toUpperCase()}</div>
                         <div className={Style.space}>: {data.image_type}</div>
                         <div className={Style.space}>: {(data.type!='') ? data.type.charAt(0).toUpperCase()+data.type.slice(1) : '-'}</div>
                         <div>: {leftDateElement}</div>
