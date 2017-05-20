@@ -343,6 +343,13 @@ export default class ReservationContainer extends Component {
             if(event.target.name=='step1'){
                 this.state.alertNode.innerHTML = ''
                 this.state.alertNode.style.display = 'none'
+
+                if(this.state.imageType == 'Any'){
+                    let images = this.dashboardContainer.state.images
+                    this.setState({
+                        imageType: images[0].name
+                    })
+                }   
             }
             switch(event.target.name){
                 case 'step1' : this.checkReservation();break
