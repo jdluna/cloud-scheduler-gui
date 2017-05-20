@@ -51,14 +51,40 @@ RESOURCES = list(RESOURCES)
 ################################## 
 
 
+####prepare connection criteria###
+#SITES_ID will be a list of sites(id)
+spl = SITES_ID.split(',')
+SITES_ID = []
+for s in spl:
+    SITES_ID.append(s)
+SITES_ID = list(SITES_ID)
+    
+#RESOURCES will be a 2D list of resources
+#example format: RESOURCES = '12,16|4,6'
+#->RESOURCES[0] = resources of SITES_ID[0]
+#->RESOURCES[0][0] = amount of resource type 1st (CPU) of SITE_ID[0]
+spl = RESOURCES.split('|')
+RESOURCES = []
+for s in spl:
+    spl2 = s.split(',')
+    res = []
+    for i in spl2:
+        res.append(i)
+    RESOURCES.append(res)
+RESOURCES = list(RESOURCES)
+################################## 
+
+
 from ReservationManager import ReservationManager
 reservationManager = ReservationManager()
 
-result = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
+result = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE, 1)
 
 jsonStr = '{ "result" : "' +str(result)+ '",'
 
 if result == False:
+    jsonStr += ' "isImageTypeError" : "' + str(reservationManager.getImageTypeError()) + '",'
+    
     resError = reservationManager.getResourceError()
     resErrorStatus = len(resError) > 0
     siteError = reservationManager.getSiteError()

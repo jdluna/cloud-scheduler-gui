@@ -574,11 +574,17 @@ export default class ReservationContainer extends Component {
             let {data,status} = response
             if(status==200&&data.result){
                 if(data.result=='True'){
-                    this.state.alertNode.innerHTML = 'The resource are not available enough. Please try again.'
+                    this.state.alertNode.innerHTML = ''
                     this.state.alertNode.style.display = 'none'
                     this.setState({card: 'step2'})
-                }else{
+                }else if(data.isResourceError=='True'){
                     this.state.alertNode.innerHTML = 'The resource are not available enough. Please try again.'
+                    this.state.alertNode.style.display = 'block'
+                }else if(data.isImageTypeError == 'True'){
+                    this.state.alertNode.innerHTML = 'This image type is not available on these sites. Please try again.'
+                    this.state.alertNode.style.display = 'block'
+                }else{
+                    this.state.alertNode.innerHTML = 'Network connection failed. Please try again later.'
                     this.state.alertNode.style.display = 'block'
                 }
             }
