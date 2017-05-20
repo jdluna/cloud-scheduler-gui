@@ -153,14 +153,14 @@ export default class DashboardContainer extends Component {
         })
     }
     
-    onSelectMarker(id,markerNode){
+    onSelectMarker(id,markerNode,searchDate=null){
         let {marker,chooseSite} = this.state.map
         if(chooseSite.indexOf(parseInt(id))==-1){
             marker.push(markerNode)
             chooseSite.push(parseInt(id))
             let card = []
             chooseSite.map((data,key)=>{
-                card.unshift(<CardContainer dashBoardContainer={this} siteId={data} key={data}/>)
+                card.unshift(<CardContainer searchDate={searchDate} dashBoardContainer={this} siteId={data} key={data}/>)
             })
             this.setState({
                 map:{

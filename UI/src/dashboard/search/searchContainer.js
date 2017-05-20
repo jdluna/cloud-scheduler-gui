@@ -86,6 +86,9 @@ export default class SearchContainer extends Component {
     }
 
     onClose() {
+        this.props.dashBoardContainer.setState({
+            dateForCard: null             
+        })
         this.props.dashBoardContainer.onCloseModal()
     }
 
@@ -378,9 +381,6 @@ export default class SearchContainer extends Component {
         this.setState({
             viewCardKey: key
         })
-        this.props.dashBoardContainer.setState({
-            dateForCard: this.state.startDate.obj             
-        })
         let markerNode = this.dashboardContainer.state.markerNode
         for(let i=0;i<markerNode.length;i++){
             if(markerNode[i].name.toLowerCase()==name.toLowerCase()){
@@ -401,7 +401,6 @@ export default class SearchContainer extends Component {
         this.setState({
             resultTable: <Loading/>
         })
-
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result_type){
@@ -472,6 +471,9 @@ export default class SearchContainer extends Component {
 
     onSearchSubmit(event){
         event.preventDefault()
+        this.dashboardContainer.setState({
+            dateForCard: this.state.startDate.date+' '+this.state.startTime
+        })
         let {startDate,endDate,startTime,endTime} = this.state
         let startDateLength = startDate.date+' '+startTime
         let endDateLength = endDate.date+' '+endTime
@@ -505,8 +507,8 @@ export default class SearchContainer extends Component {
                 // memory_amt: (this.state.mem=='') ? 0 : this.state.mem,
                 connection_type: this.state.additionalNetwork,
                 image_type: this.state.imageType,
-                begin: startDateUTC,
-                end: endDateUTC,
+                begin: startDateUTC+':00',
+                end: endDateUTC+':00',
                 all_period: (this.state.reservationLength.value=='all') ? 'True' : 'False',
                 days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
                 hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours)
