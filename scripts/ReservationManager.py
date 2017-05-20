@@ -1,4 +1,4 @@
-#!/Python27/python
+#!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
 Created on Wed Mar 01 23:57:57 2017
@@ -17,6 +17,8 @@ import string
 import random
 from datetime import datetime,timedelta
 from Reservation import Reservation
+
+NOW = datetime.utcnow()
 
 
 class ReservationManager:
@@ -245,7 +247,7 @@ class ReservationManager:
                     sql = 'SELECT `reservation_id`, `title`, `description`, `start`, `end`, `image_type`, `type` FROM `reservation` WHERE `user_id`="'+str(self.__userId)+'";'
                     self.__db.execute(sql)
                     data = self.__db.getCursor().fetchall()
-                    currentTime = datetime.now()
+                    currentTime = NOW
                     
                     for d in data:
                         end = d[4]
@@ -365,7 +367,7 @@ class ReservationManager:
                             
                             #one round = one site
                             siteId = d[1]
-                            site = siteManager.getSite(siteId=siteId,dateReq=endOld,end=end,db=self.__db)
+                            site = siteManager.getSite(siteId=siteId,dateReq=endOld,end=end,db=self.__db,locked=True)
                             
                             #check resource available from end of this reservation to end of new reservation
                             r = site.getResources()
@@ -437,16 +439,16 @@ class ReservationManager:
                             beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                     
                     
-                        self.__db.commit()
+                        #self.__db.commit()
                         return True
-               
+                
                 except:
                     self.__db.rollback()
                     return False
                 finally:
                     self.__db.unlock()
                     self.__db.close() 
-                    
+                  
             else:
                 self.__db.close() 
             
@@ -457,7 +459,6 @@ class ReservationManager:
         self.__db = Database() 
         
         if self.__db.connect():
-           
             try:
                 sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(sessionId)+'";'
                 self.__db.execute(sql)
@@ -495,7 +496,7 @@ class ReservationManager:
                     
                     #---set new the reservation table data---
                     #reservation table
-                    newEnd = datetime.now().strftime("%Y-%m-%d %H:00:00") 
+                    newEnd = NOW.strftime("%Y-%m-%d %H:00:00") 
                     sql = 'UPDATE `reservation` SET `end`="'+str(newEnd)+'" WHERE `reservation_id` = "'+str(reservationId)+'";'   
                     self.__db.execute(sql)                      
                         
@@ -503,17 +504,18 @@ class ReservationManager:
                     sql = 'UPDATE `site_reserved` SET `status`="cancel" WHERE `reservation_id` = "'+str(reservationId)+'";'
                     self.__db.execute(sql)
                     
-                    self.__db.lock({'canceled_reservation','WRITE'})
+                    
                     #canceled_reservation table
                     sql = 'INSERT INTO `canceled_reservation` VALUES ( "'+str(reservationId)+'", "'+str(reason)+'", "'+str(end)+'");'             
                     self.__db.execute(sql)
                     
                     
-                    #schedule table   
-                    diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-datetime.now()
+                    #schedule table 
+                    self.__db.lock({'schedule':'WRITE'})
+                    diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-NOW
                     if diff < timedelta(hours=0):
                         #running reservation
-                        tmpBegin = (datetime.now() + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")                                                                    
+                        tmpBegin = (NOW + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")                                                                    
                     else:
                         #havn't start yet
                         tmpBegin = begin
@@ -521,15 +523,14 @@ class ReservationManager:
                     beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                         
                     while beginToEnd>=timedelta(hours=1):
-                        
                         tmpEnd = (datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")+timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")
                             
                         for i in range(0,len(sites)):
                             
                             siteId = sites[i].getSiteId()
                             r = sites[i].getResources()
-                            
-                            self.__db.execute('SELECT * FROM `schedule` WHERE `site_id` = "'+str(siteId)+'" and `start` = "'+str(tmpBegin)+'";')
+                            sql = 'SELECT * FROM `schedule` WHERE `site_id` = "'+str(siteId)+'" and `start` = "'+str(tmpBegin)+'";'
+                            self.__db.execute(sql)
                             data = self.__db.getCursor().fetchone()
                             
                             usedAmount = []
@@ -547,7 +548,6 @@ class ReservationManager:
                              
                             sql = sql[:-1]
                             sql += ' WHERE `site_id` = "'+str(siteId)+'" AND `start` = "'+str(tmpBegin)+'";'
-                            
              
                             self.__db.execute(sql)
                          
@@ -557,21 +557,20 @@ class ReservationManager:
                     
                     self.__db.commit()
                     return True
-                    
+                
             except:
                 self.__db.rollback()
                 return False
             finally:
                 self.__db.close()
- 
+            
         return False
         
-    def updateReservationStatus(self,sessionId,reservationId,siteId,reservationStatus, adminDescription=None):
+    def updateReservationStatus(self,sessionId,reservationId,siteId,reservationStatus, adminDescription=''):
         self.__db = Database()        
         self.__sessionId = sessionId
         self.__allReservations = []
         
-        f = open("/tmp/cloud.log", "w")
         if self.__db.connect():
             #check session id and get user id
             sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
@@ -587,24 +586,20 @@ class ReservationManager:
                     return False
                 else:
                     #update site_reserved table
-                    fieldUpdates = []
-                    if adminDescription is not None:
-                        fieldUpdates.append('`admin_description` = "%s"' % str(adminDescription))
-                    if reservationStatus is not None:
-                        fieldUpdates.append('`status` = "%s"' % str(reservationStatus))
-                    if len(fieldUpdates) < 1:
-                        return False
+                    sql = 'UPDATE `site_reserved` SET `status` = "'+str(reservationStatus)+'" WHERE `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
+                    sql2 = 'UPDATE `site_reserved` SET `admin_description` = "'+str(adminDescription)+'" WHERE `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
 
-                    sql = 'UPDATE `site_reserved` SET ' + ', '.join(fieldUpdates) + ' WHERE `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
-
-                    f.write(sql+"\n")
-
-                    try:
-                      self.__db.execute(sql)
-                      self.__db.commit()
-                      return True
-                    except Exception as e:
-                        f.write("%s\n" % (str(e)))
-                        return False
+                    if self.__db.execute(sql2):
+                        if self.__db.execute(sql):
+                            #update both site's status and admin's description
+                            self.__db.commit()
+                            return True
+                        else:
+                            #update an admin's description but site's status is as same as the previous version
+                            sql = 'SELECT * FROM `site_reserved` WHERE `status` = "'+str(reservationStatus)+'" AND `reservation_id` = "'+str(reservationId)+'" AND `site_id` = "'+str(siteId)+'";'
+                            if self.__db.execute(sql):
+                                if self.__db.getCursor().fetchone() != None:
+                                    self.__db.commit()
+                                    return True
 
         return False
