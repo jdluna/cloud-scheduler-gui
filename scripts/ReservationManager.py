@@ -439,7 +439,7 @@ class ReservationManager:
                             beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                     
                     
-                        #self.__db.commit()
+                        self.__db.commit()
                         return True
                 
                 except:
