@@ -48,9 +48,13 @@ export default class Table extends Component {
                             }else{
                                 leftDateElement = <span className={Style.warning}>{leftDate}</span>
                             }
+                            
+                            let userTimezone = this.props.historyContainer.dashboardContainer.getUserTimeZone()
+                            let e = moment(data.end+' +0000', "YYYY-MM-DD HH:mm Z").tz(userTimezone).format('YYYY-MM-DD HH:mm:00');
+
                             return(
                                 <div className={(this.props.historyContainer.state.viewDetailKey==key) ? Style.itemactive : Style.item} key={key} onClick={()=>this.props.historyContainer.onViewReservationDetail(key,data.reservation_id)}>
-                                    <div className={Style.text}>{moment(data.end).format('DD-MMM-YYYY HH:mm').toUpperCase()}</div>
+                                    <div className={Style.text}>{e.toUpperCase()}</div>
                                     <div className={Style.text}>{data.title}</div>
                                     <div className={Style.text}>{data.owner}</div>
                                     <div className={Style.text}>
