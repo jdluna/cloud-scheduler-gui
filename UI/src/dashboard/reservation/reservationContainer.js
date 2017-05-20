@@ -578,7 +578,7 @@ export default class ReservationContainer extends Component {
                     this.state.alertNode.style.display = 'none'
                     this.setState({card: 'step2'})
                 }else if(data.isResourceError=='True'){
-                    this.state.alertNode.innerHTML = 'The resource are not available enough. Please try again.'
+                    this.state.alertNode.innerHTML = 'The resources are not available enough. Please try again.'
                     this.state.alertNode.style.display = 'block'
                 }else if(data.isImageTypeError == 'True'){
                     this.state.alertNode.innerHTML = 'This image type is not available on these sites. Please try again.'
