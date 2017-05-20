@@ -9,16 +9,20 @@ const date = new DateTime()
 export default class cardContainer extends Component {
     constructor(props){
         super(props)
+        const dateForCard = this.props.dashBoardContainer.state.dateForCard
         this.appContainer = this.props.dashBoardContainer.props.app
-        this.currentDateStamp = moment.tz(this.appContainer.state.authen.timezone)
+        this.currentDateStamp = (dateForCard!=null) ? moment.tz(dateForCard,this.appContainer.state.authen.timezone) : moment.tz(this.appContainer.state.authen.timezone)
         this.nowDate = moment.tz(this.appContainer.state.authen.timezone)
-        // this.currentDateStamp = new Date()
 
-        this.querySite()
+        if(dateForCard!=null){
+            this.querySiteByDate()
+        }else{
+            this.querySite()
+        }
+        
         this.state = {
             nodeCPU: {},
             nodeMem: {},
-            // date: date.getDate(),
             date: this.currentDateStamp.format('DD-MMM-YYYY').toUpperCase(),
             site: {
                 allData: {},
@@ -121,7 +125,6 @@ export default class cardContainer extends Component {
     querySiteByDate(){
         let dateTime = this.currentDateStamp.utc().format('YYYY-MM-DD HH:00:00')
         axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId+'&date_req='+dateTime).then(response =>{
-            // console.log(response)
             if(response.status==200){
                 let {running,site} = response.data
                 this.setState({
@@ -193,24 +196,13 @@ export default class cardContainer extends Component {
     }
 
     onNextDate(){
-        // this.currentDateStamp = date.getNextDateTimeStamp(this.currentDateStamp)
         this.setState({
-            // date: date.getDate(this.currentDateStamp)
             date: this.currentDateStamp.add(1,'days').format('DD-MMM-YYYY').toUpperCase()
         })
         this.querySiteByDate()
     }
 
     onPreviousDate(){
-        // let tempPreviousTimeStamp = date.getPreviousDateTimeStamp(this.currentDateStamp)
-        // let temp = date.getDate(tempPreviousTimeStamp)
-        // if(date.convertDateToTimeStamp(tempPreviousTimeStamp)>=date.getNowTimeStamp()||temp==date.getDate()){
-        //     this.currentDateStamp = tempPreviousTimeStamp
-        //     this.setState({
-        //         date: date.getDate(this.currentDateStamp)
-        //     })
-        //     this.querySiteByDate()
-        // }
         let now = this.nowDate.format('DD-MMM-YYYY').toUpperCase()
         let previous = this.currentDateStamp.format('DD-MMM-YYYY').toUpperCase()
         if(now!=previous){
