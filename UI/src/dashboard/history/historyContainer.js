@@ -246,7 +246,7 @@ export default class HistoryContainer extends Component {
     }
 
     getReservationsCountDown(endDate){
-        let start = this.timezone.format('YYYY-MM-DD HH:mm')
+        let start = moment.utc().format('YYYY-MM-DD HH:mm')
         let end = moment(endDate,'YYYY-MM-DD HH:mm')
         
         let day = end.diff(start,'days')

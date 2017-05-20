@@ -173,7 +173,7 @@ class SiteManager:
                             else:
                                 durationLength = timedelta(days=days,hours=hours)
                             
-                            tmpBegin = datetime.now().strftime("%Y-%m-%d %H:00:00")
+                            tmpBegin = NOW.strftime("%Y-%m-%d %H:00:00")
                             tmpEnd = (datetime.strptime(begin, "%Y-%m-%d %H:00:00")+durationLength).strftime("%Y-%m-%d %H:00:00")
                             
                             while False in resStatus:
@@ -203,11 +203,12 @@ class SiteManager:
     def getResultType(self):
         return self.__resultType
         
-    def getSite(self,siteId = None, dateReq = NOW.strftime("%Y-%m-%d %H:00:00"), end = NOW.strftime("%Y-%m-%d %H:00:00"),db=None):
+    def getSite(self,siteId = None, dateReq = NOW.strftime("%Y-%m-%d %H:00:00"), end = NOW.strftime("%Y-%m-%d %H:00:00"),db=None,locked=False):
         #to get site description specified by time              
         dateReq = str(dateReq)
         end = str(end)
         site = None
+        dbStatus = False
         
         if siteId == None:
             return None
@@ -219,10 +220,14 @@ class SiteManager:
             db = Database()
             if db.connect():
                 dbStatus = True
+        else:
+            dbStatus = True
                 
         if dbStatus :
             try:
-                db.lock({'site':'READ','schedule':'READ','reservation':'READ','site_reserved':'READ'})
+                if not locked :
+                    db.lock({'site':'READ','schedule':'READ','reservation':'READ','site_reserved':'READ'})
+                
                 db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(siteId)+'";')
                 data = db.getCursor().fetchone()
     
@@ -235,5 +240,6 @@ class SiteManager:
                 site.setRunningAmount(db=db,begin=dateReq)   
                 db.unlock()
             finally:
-                db.close()
+                if not locked :
+                    db.close()
                 return site
