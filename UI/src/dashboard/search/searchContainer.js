@@ -508,8 +508,8 @@ export default class SearchContainer extends Component {
                 // memory_amt: (this.state.mem=='') ? 0 : this.state.mem,
                 connection_type: this.state.additionalNetwork,
                 image_type: this.state.imageType,
-                begin: startDateUTC+':00',
-                end: endDateUTC+':00',
+                begin: startDateUTC,
+                end: endDateUTC,
                 all_period: (this.state.reservationLength.value=='all') ? 'True' : 'False',
                 days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
                 hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours)
