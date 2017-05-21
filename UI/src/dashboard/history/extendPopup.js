@@ -61,7 +61,7 @@ const EXTEND_CARD = (props) => {
     
     let startDuration = props.historyContainer.state.startDuration
     let endDuration = props.historyContainer.state.endDuration
-    let timeList = <TimeList s={startDuration} e={endDuration} value={props.historyContainer.state.startExtendTime} handle={props.historyContainer.onExtendTimeChange}/>
+    let timeList = <TimeList s={startDuration} e={endDuration} value={props.historyContainer.state.extendTime} handle={props.historyContainer.onExtendTimeChange}/>
 
     return(
         <div>

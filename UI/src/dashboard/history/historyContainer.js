@@ -45,7 +45,8 @@ export default class HistoryContainer extends Component {
             deleteStatus: '',
             startDuration: this.timezone.format().slice(11,13)+':00',
             endDuration: 23,
-            loading: true
+            loading: true,
+            extendTime: this.timezone.format().slice(11,13)+':00'
         }
 
         this.onClose = this.onClose.bind(this)
@@ -74,10 +75,32 @@ export default class HistoryContainer extends Component {
     }
 
     onExtendConfirm(){
+        let extendDateTime = this.state.extendDate.date+' '+this.state.extendTime
+
+        let timezoneOffset = parseInt(moment.tz(this.appContainer.state.authen.timezone).utcOffset()) / 60
+
+        if(timezoneOffset >=10 || timezoneOffset<=-10){
+            if(timezoneOffset < 0){
+                timezoneOffset = timezoneOffset.toString() +'00'
+            }else{
+                timezoneOffset = '+'+timezoneOffset.toString() +'00'
+            }
+        }else{
+            if(timezoneOffset < 0){
+                timezoneOffset = timezoneOffset.toString()
+                timezoneOffset = timezoneOffset.slice(0,1)+'0'+timezoneOffset.slice(1,2)+'00'
+            }else{
+                timezoneOffset = timezoneOffset.toString()
+                timezoneOffset = '+0'+timezoneOffset.toString()+'00'
+            }
+        }
+        
+        let extendDateTimeUTC = moment(extendDateTime+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
+
         let params = {
             params:{
                 session_id: this.appContainer.state.authen.session,
-                end: this.state.extendDate.date+' '+this.state.startExtendTime+':00',
+                end: extendDateTimeUTC,
                 reservation_id: this.state.reserveId
             }
         }
@@ -149,31 +172,36 @@ export default class HistoryContainer extends Component {
     
     onViewReservationDetail(key,reservation_id){
         let end = this.state.reservationsItem[key].end
-        end = (parseInt(moment(end).format().slice(11,13))<23) ? moment(end) : moment(end).add(1,'days') 
+        end = (parseInt(moment(end).format().slice(11,13))<23) ? end : moment(end).add(1,'days').format('YYYY-MM-DD')
         let time = (parseInt(moment(end).format().slice(11,13))<23) ? parseInt(moment(end).format().slice(11,13))+1 : '00'
         time = (time<10) ? '0'+time : time
         let timeMax = time - 1
         timeMax = (timeMax<10) ? '0'+timeMax : timeMax
+        
 
         this.setState({
             extendDate:{
                 obj: moment(end),
                 date: moment(end).format('YYYY-MM-DD')
             },
-            startExtendTime: time+':00',
-            maxExtendTime: timeMax+':00',
+            startExtendTime: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'hours').format('HH:00'),
+            maxExtendTime: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).subtract(2,'hours').format('HH:00'),
             viewDetail: true,
             reserveId: reservation_id,
             viewDetailKey: key,
             startExtendDate: {
-                obj: moment(end),
-                date: moment(end).format('YYYY-MM-DD')
+                obj: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone),
+                date: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).format('YYYY-MM-DD')
             },
             maxExtendDate: {
-                obj: moment(end).add(1,'month'),
-                date: moment(end).add(1,'month').format('YYYY-MM-DD')
+                obj: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'month'),
+                date: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'month').format('YYYY-MM-DD')
             },
-            startDuration : time+':00'
+            startDuration : moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'hours').format('HH:00')
+        },()=>{
+            this.setState({
+                extendTime: this.state.startExtendTime
+            })
         })
     }
 
@@ -241,7 +269,7 @@ export default class HistoryContainer extends Component {
 
     onExtendTimeChange(event){
         this.setState({
-            startExtendTime: event.target.value
+            extendTime: event.target.value
         })
     }
 

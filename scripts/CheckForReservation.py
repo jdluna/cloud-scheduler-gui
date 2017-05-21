@@ -54,11 +54,13 @@ RESOURCES = list(RESOURCES)
 from ReservationManager import ReservationManager
 reservationManager = ReservationManager()
 
-result = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
+result = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE, 1)
 
 jsonStr = '{ "result" : "' +str(result)+ '",'
 
 if result == False:
+    jsonStr += ' "isImageTypeError" : "' + str(reservationManager.getImageTypeError()) + '",'
+    
     resError = reservationManager.getResourceError()
     resErrorStatus = len(resError) > 0
     siteError = reservationManager.getSiteError()

@@ -25,7 +25,7 @@ class ReservationManager:
     
     def __init__(self):
         self.__isComplete = False
-        self.__imgTypeError = False
+        self.__imgTypeError = True
         self.__db = None
         self.__siteError = []
         self.__resError = []
@@ -68,7 +68,15 @@ class ReservationManager:
                     #sitesId = list of all site user selected.
                     self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(sitesId[i])+'";')
                     data = self.__db.getCursor().fetchone()
-                    site = Site(site=data,db=self.__db)             
+                    site = Site(site=data,db=self.__db)        
+                    
+                    #-> check image type
+                    for img in site.getImageType():
+                        if str(self.__imgType) in img.get('name'):
+                            self.__imgTypeError = False
+                            
+                    if self.__imgTypeError :
+                        return False
                         
                     #-> check available resources in site from begin to end
                     res = site.getResources()
@@ -208,6 +216,9 @@ class ReservationManager:
         
     def getResourceError(self):
         return self.__resError
+        
+    def getImageTypeError(self):
+        return self.__imgTypeError
 
     def getReservationID(self):
         return self.__reservationID
@@ -439,7 +450,7 @@ class ReservationManager:
                             beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
                     
                     
-                        #self.__db.commit()
+                        self.__db.commit()
                         return True
                 
                 except:
