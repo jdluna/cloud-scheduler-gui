@@ -2,7 +2,8 @@
 @import '../../sass/_fonts.scss';
 
 .panel{
-    width: 730px;
+    width: 790px;
+    // width: 730px;
     height: 460px;
     font-family: $font-primary;
     border-radius: 3px;
@@ -37,6 +38,8 @@
             padding: 15px 5px 15px 15px;
             color: #FFFFFF;
             font-size: 9pt;
+            overflow-y: auto;
+            box-sizing: border-box;
             .divideblock,.divideblock2{
                 display: flex;
                 margin-bottom: 5px;
@@ -50,9 +53,12 @@
                 margin: 7px 12px 0px 10px;
                 border-top: 1px solid #464a5f;
             }
+            .footerwrap{
+              position: relative;
+            }
             .helpbtn{
               position: absolute;
-              bottom: 10px;
+              bottom: 1px;
             }
             .searchbtn{
               width: 55%;
@@ -144,6 +150,19 @@
                     color: #000000;
                 }
             }
+        }
+        .searchinput::-webkit-scrollbar-track{
+            border-radius: 10px;
+            background-color: rgba(35,41,57,0.84);
+        }
+        .searchinput::-webkit-scrollbar{
+            width: 5px;
+            border-radius: 10px;
+            background-color: rgba(35,41,57,0.84);
+        }
+        .searchinput::-webkit-scrollbar-thumb{
+            border-radius: 10px;
+            background-color: rgba(18, 18, 19,0.76);
         }
         .searchresult{
             width: calc(68% + 5px);
