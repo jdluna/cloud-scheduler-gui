@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Style from './search.scss'
 import DatePicker from 'react-datepicker'
-import { NETWORK_TYPE } from '../../config/attributes'
+import { RESOURCES,NETWORK_TYPE } from '../../config/attributes'
 
 const TimeItem = (props) => (
     <select name={props.name} className={Style.inputtime} value={props.value} onChange={props.handle}>
@@ -117,7 +117,7 @@ export default class Search extends Component {
             helpComponent: this.refs.helpComponent,
             helpIcon: this.refs.helpIcon,
         })
-        this.refs.cpu.focus()
+        // this.refs.cpu.focus()
     }
 
     render() {
@@ -186,14 +186,20 @@ export default class Search extends Component {
                                         <div className={Style.horizontalline}></div>
                                     </div>
                                     <div className={Style.row}>
-                                        <div className={Style.block}>
-                                            <div>CPU:</div>
-                                            <input ref='cpu' className={Style.input} type='text' name='cpu' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.cpu} autoFocus />
-                                        </div>
-                                        <div className={Style.block}>
-                                            <div>Memory (GB):</div>
-                                            <input className={Style.input} type='text' name='mem' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.mem} />
-                                        </div>
+                                        {
+                                            RESOURCES.map((data,key)=>{
+                                                let name = data.name
+                                                if(data.unit!=null){
+                                                    name = name+' ('+data.unit+')'
+                                                }
+                                                return(
+                                                    <div className={Style.block+' '+Style.bottomspace} key={key}>
+                                                        <div>{name}:</div>
+                                                        <input className={Style.input} type='text' name={key} onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.resource[key]} autoFocus={(key==0)}/>
+                                                    </div>
+                                                )
+                                            })
+                                        }
                                     </div>
                                     <div className={Style.divideblock2}>
                                         <div>Duration</div>

@@ -46,7 +46,7 @@
                 font-weight: bold;
             }
             .divideblock2{
-                margin-top: 15px;
+                margin-top: 10px;
             }
             .horizontalline{
                 width: 100%;
@@ -67,6 +67,9 @@
             }
             .row{
                 margin-bottom: 5px;
+                .bottomspace{
+                  margin-bottom: 5px;
+                }
                 .block{
                     display: inline-block;
                     margin-right: 10px;
@@ -178,6 +181,8 @@
                     display: flex;
                     margin: 10px 0px 10px 0px;
                     padding-left: 40px;
+                    height: 70px;
+                    overflow-y: auto;
                     .column1{
                       width: 55%;
                       
@@ -192,60 +197,72 @@
                       color: #EFA430;
                     }
                 }
+                .detaillabel::-webkit-scrollbar-track{
+                    border-radius: 10px;
+                    background-color: rgba(35,41,57,0.84);
+                }
+                .detaillabel::-webkit-scrollbar{
+                    width: 5px;
+                    border-radius: 10px;
+                    background-color: rgba(35,41,57,0.84);
+                }
+                .detaillabel::-webkit-scrollbar-thumb{
+                    border-radius: 10px;
+                    background-color: rgba(18, 18, 19,0.76);
+                }
             }
             .data{
                 width: 100%;
-                .header{
-                    display: flex;
-                    position: relative;
-                    background-color: rgba(35,41,57,0.84);
-                    padding: 5px 10px 5px 15px;
-                    margin-bottom: 5px;
+                .container{
+                    width: 100%;
+                    overflow: auto;
+                    white-space: nowrap;
+                    height: 262px;
+                    table{
+                      width: 100%;
+                    }
+                    thead{
+                        background-color: rgba(35,41,57,0.84);
+                    }
+                    th{
+                        text-align: left;
+                        position: relative;
+                        padding: 5px 10px 5px 15px;
+                    }
+                    td{
+                        padding: 5px 10px 5px 15px;
+                    }
+                    th, td {
+                        display: inline-block;
+                        width: 177px;
+                        box-sizing: border-box;
+                    }
                     .cursor{
                         cursor: pointer;
-                    }
-                    .text{
-                        width: 50%;
                     }
                     .icon{
                        position: absolute;
                        top: 0px;
                     }
-                }
-                .itemlist{
-                    height: 240px;
-                    overflow-y: auto;
-                    margin-top: 1px;
-                    .item{
-                        display: flex;
-                        padding: 5px 10px 5px 15px;
-                        .text{
-                            width: 50%;
-                        }
-                    }
                     .itemactive{
                         background-color: rgba(239,164,48,0.4);
-                        display: flex;
-                        padding: 5px 10px 5px 15px;
-                        .text{
-                            width: 50%;
-                        }
                     }
                     .item:hover{
                         background-color: rgba(239,164,48,0.4);
                         cursor: default;
                     }
                 }
-                .itemlist::-webkit-scrollbar-track{
+                .container::-webkit-scrollbar-track{
                     border-radius: 10px;
                     background-color: rgba(35,41,57,0.84);
                 }
-                .itemlist::-webkit-scrollbar{
+                .container::-webkit-scrollbar{
                     width: 5px;
+                    height: 5px;
                     border-radius: 10px;
                     background-color: rgba(35,41,57,0.84);
                 }
-                .itemlist::-webkit-scrollbar-thumb{
+                .container::-webkit-scrollbar-thumb{
                     border-radius: 10px;
                     background-color: rgba(18, 18, 19,0.76);
                 }

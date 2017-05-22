@@ -6,6 +6,7 @@ import {SEARCH_RESOURCE_ENDPOINT} from '../../config/endpoints'
 import NotFoundTable from './notFoundTable'
 import FoundTable from './foundTable'
 import Loading from './loading.js'
+import { RESOURCES } from '../../config/attributes'
 
 export default class SearchContainer extends Component {
     constructor(props) {
@@ -18,7 +19,12 @@ export default class SearchContainer extends Component {
         this.tmp2 = this.timezone.add(1,'hours').format().slice(11,13)+':00'
         this.timezone.subtract(2,'hours').format().slice(11,13)+':00'
 
+        let resource = []
+        RESOURCES.map((data,key)=>{
+            resource.push('')
+        })
         this.state = {
+            resource: resource,
             cpu: '',
             mem: '',
             startDate: {
@@ -94,21 +100,42 @@ export default class SearchContainer extends Component {
     }
 
     onResourceChange(event) {
-        let name = event.target.name
+        let index = parseInt(event.target.name)
         let value = event.target.value
         let REGEX = /^\d+$/
         if (value.match(REGEX)) {
+            let data = this.state.resource
+            data[index] = value
             this.setState({
-                [name]: value
+                resource: data
             })
         } else {
             if (value.length <= 1) {
+                let data = this.state.resource
+                data[index] = ''
                 this.setState({
-                    [name]: ''
+                    resource: data
                 })
             }
         }
     }
+
+    // onResourceChange(event) {
+    //     let name = event.target.name
+    //     let value = event.target.value
+    //     let REGEX = /^\d+$/
+    //     if (value.match(REGEX)) {
+    //         this.setState({
+    //             [name]: value
+    //         })
+    //     } else {
+    //         if (value.length <= 1) {
+    //             this.setState({
+    //                 [name]: ''
+    //             })
+    //         }
+    //     }
+    // }
 
     onStartDateChange(date) {
 
@@ -448,13 +475,21 @@ export default class SearchContainer extends Component {
 
     getAscSort(data, parameter){
         data.sites.sort((a,b)=>{
-            return eval('a.'+parameter)-eval('b.'+parameter)
+            try{
+                return eval('a.'+parameter)-eval('b.'+parameter)
+            }catch(error){
+                
+            }
         })
     }
 
     getDescSort(data, parameter){
         data.sites.sort((a,b)=>{
-            return eval('b.'+parameter)-eval('a.'+parameter)
+            try{
+                return eval('b.'+parameter)-eval('a.'+parameter)
+            }catch(error){
+                
+            }
         })
     }
     
@@ -501,11 +536,17 @@ export default class SearchContainer extends Component {
         let startDateUTC = moment(startDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
         let endDateUTC = moment(endDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
 
+        let resource = []
+        this.state.resource.map((data,key)=>{
+            if(data==''){
+                resource.push(0)
+            }else{
+                resource.push(data)
+            }
+        })
         let params = {
             params:{
-                resources: ((this.state.cpu=='') ? 0 : this.state.cpu)+','+((this.state.mem=='') ? 0 : this.state.mem),
-                // cpu_amt: (this.state.cpu=='') ? 0 : this.state.cpu,
-                // memory_amt: (this.state.mem=='') ? 0 : this.state.mem,
+                resources: resource.toString(),
                 connection_type: this.state.additionalNetwork,
                 image_type: this.state.imageType,
                 begin: startDateUTC,
