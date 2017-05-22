@@ -55,6 +55,7 @@
             }
             .footerwrap{
               position: relative;
+              padding-top: 7px;
             }
             .helpbtn{
               position: absolute;
@@ -172,6 +173,7 @@
             border-left: 1px solid #929296;
             color: #FFFFFF;
             font-size: 9pt;
+            box-sizing: border-box;
             .label{
                 padding: 15px;
                 .secondlabel{
@@ -217,9 +219,9 @@
                     width: 100%;
                     overflow: auto;
                     white-space: nowrap;
-                    height: 262px;
+                    height: 282px;
                     table{
-                      width: 100%;
+                        width: 100%;
                     }
                     thead{
                         background-color: rgba(35,41,57,0.84);
