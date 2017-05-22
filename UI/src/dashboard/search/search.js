@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Style from './search.scss'
 import DatePicker from 'react-datepicker'
+import { RESOURCES,NETWORK_TYPE } from '../../config/attributes'
 
 const TimeItem = (props) => (
     <select name={props.name} className={Style.inputtime} value={props.value} onChange={props.handle}>
@@ -31,58 +32,83 @@ const TimeItem = (props) => (
     </select>
 )
 
+const NetworkList = (props) => {
+    return(
+        <section>
+        <div className={Style.block}>
+            <div className={Style.choose}>
+                <input type='radio' name='network' value='None' checked={props.value=='None'} onChange={props.handle}/>
+                <span className={Style.text}>None</span>
+            </div>
+        </div>
+        {
+           NETWORK_TYPE.map((data,key)=>{
+               return(
+                <div className={Style.block} key={key}>
+                    <div className={Style.choose}>
+                        <input type='radio' name='network' value={data} checked={props.value==data} onChange={props.handle} />
+                        <span className={Style.text}>{data}</span>
+                    </div>
+                </div>
+               )
+           })
+        }
+        </section>
+    )
+}
+
 const TimeList = (props) => {
     let start = parseInt(props.s)
     let end = parseInt(props.e)
     let options = []
-    for(let i=start;i<=end;i++){
-        let time = ((i)>=10) ? (i)+':00' : '0'+(i)+':00'
+    for (let i = start; i <= end; i++) {
+        let time = ((i) >= 10) ? (i) + ':00' : '0' + (i) + ':00'
         options.push(time)
     }
-    return(
+    return (
         <select className={Style.inputtime} value={props.value} onChange={props.handle}>
             {
-                options.map((data,key)=>{
-                    let d = data.replace(':',' : ')
-                    return(
+                options.map((data, key) => {
+                    let d = data.replace(':', ' : ')
+                    return (
                         <option key={key} value={data}> {d} </option>
                     )
                 })
             }
-                    
+
         </select>
     )
 }
 
 const ImageTypeList = (props) => {
-   
+
     let images = props.i
-    if(images.length > 0 && images[0].name != 'Any'){
+    if (images.length > 0 && images[0].name != 'Any') {
         images.unshift({
             name: 'Any',
             description: 'Any'
         })
     }
 
-    return(
+    return (
         <select className={Style.inputtype} value={props.value} onChange={props.handle}>
             {
-                images.map((data,key)=>{
+                images.map((data, key) => {
                     let d = data.name
-                    return(
+                    return (
                         <option key={key} value={d}> {d} </option>
                     )
                 })
             }
-                    
+
         </select>
     )
 }
 
 export default class Search extends Component {
-    componentDidMount(){
+    componentDidMount() {
         this.props.searchContainer.setState({
-            reservationLengthNode:{
+            reservationLengthNode: {
                 daysInput: this.refs.daysInput,
                 hoursInput: this.refs.hoursInput,
                 daysLabel: this.refs.daysLabel,
@@ -91,175 +117,164 @@ export default class Search extends Component {
             helpComponent: this.refs.helpComponent,
             helpIcon: this.refs.helpIcon,
         })
-        this.refs.cpu.focus()
+        // this.refs.cpu.focus()
     }
 
     render() {
         let startBeginDuration = this.props.searchContainer.state.startBeginDuration
         let endBeginDuration = this.props.searchContainer.state.endBeginDuration
-        let timeStartList = <TimeList s={startBeginDuration} e={endBeginDuration} value={this.props.searchContainer.state.startTime} handle={this.props.searchContainer.onTimeStartChange}/>
-        
+        let timeStartList = <TimeList s={startBeginDuration} e={endBeginDuration} value={this.props.searchContainer.state.startTime} handle={this.props.searchContainer.onTimeStartChange} />
+
         let startEndDuration = this.props.searchContainer.state.startEndDuration
         let endEndDuration = this.props.searchContainer.state.endEndDuration
-        let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.searchContainer.state.endTime} handle={this.props.searchContainer.onTimeEndChange}/>
+        let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.searchContainer.state.endTime} handle={this.props.searchContainer.onTimeEndChange} />
 
 
         let images = this.props.dashboardContainer.state.images
-        let imageTypeList = <ImageTypeList i={images} value={this.props.searchContainer.state.imageType} handle={this.props.searchContainer.onImageTypeChange}/>
-
+        let imageTypeList = <ImageTypeList i={images} value={this.props.searchContainer.state.imageType} handle={this.props.searchContainer.onImageTypeChange} />
+        let networkList = <NetworkList value={this.props.searchContainer.state.additionalNetwork} handle={this.props.searchContainer.onAdditionNetwordChange}/>
         return (
             <div>
-            <section className='halfmodal'>
-                
-                <div className={Style.helpContent} ref='helpComponent' >
-                    <div className={Style.helpHeader}>
-                        Help (?)
+                <section className='halfmodal'>
+
+                    <div className={Style.helpContent} ref='helpComponent' >
+                        <div className={Style.helpHeader}>
+                            Help (?)
                         <img src='img/ic_close.svg' onClick={this.props.searchContainer.onHelpClose} />
-                    </div>
-                    <div className={Style.horizontalline}></div>
-                    <div className={Style.helpResource}>
-                        Please input number of resources. <br/>
-                        CPU : <b>2 - 128</b> <br/>
-                        Memory (GB) : <b>1 - 512</b> <br/>
-                    </div>
-                    <div className={Style.helpResourceArrow}>
-                        <img src='img/ic_arrow_right.svg' /> 
-                    </div>
-                    
-                    <div className={Style.helpDuration}>
-                        Please specify begin and end date time. <br/>
-                        <br/>- The first option, <b>'From begin to end'</b>, is for searching resources which are <b>available from begin to end date time. </b><br/>
-                        <br/>- The second option <b>(..days ..hours)</b> is for searching resources which are available for the specified reservation length 
+                        </div>
+                        <div className={Style.horizontalline}></div>
+                        <div className={Style.helpResource}>
+                            Please input number of resources. <br />
+                            CPU : <b>2 - 128</b> <br />
+                            Memory (GB) : <b>1 - 512</b> <br />
+                        </div>
+                        <div className={Style.helpResourceArrow}>
+                            <img src='img/ic_arrow_right.svg' />
+                        </div>
+
+                        <div className={Style.helpDuration}>
+                            Please specify begin and end date time. <br />
+                            <br />- The first option, <b>'From begin to end'</b>, is for searching resources which are <b>available from begin to end date time. </b><br />
+                            <br />- The second option <b>(..days ..hours)</b> is for searching resources which are available for the specified reservation length
                         <b> on some period from begin to end date time</b>.
                     </div>
-                    <div className={Style.helpDurationArrow}>
-                        <img src='img/ic_arrow_right.svg' /> 
-                    </div>
-                    <div className={Style.helpOthers}>
-                        Please specify other criterias. <br/><br/>
-                        - <b> Additional network : </b> <br/>
-                        ENT = ENT-enabled site <br/>
-                        IPOP = IPOP-enabled site <br/><br/>
-                        - <b> Image type : </b> available image for VM <br/>
-                    </div>
-                    <div className={Style.helpOthersArrow}>
-                        <img src='img/ic_arrow_right.svg' /> 
-                    </div>
-                </div>
-                <section className={Style.panel}>
-                    <header>
-                        <div>Search by Criteria</div>
-                        <img src='img/ic_close.svg' onClick={this.props.searchContainer.onClose} />
-                    </header>
-                    
-                    <section className={Style.content}>
-                        <div className={Style.searchinput}>
-                            <form>
-                                <div className={Style.divideblock}>
-                                    <div>Resources</div>
-                                    <div className={Style.horizontalline}></div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.block}>
-                                        <div>CPU:</div>
-                                        <input ref='cpu' className={Style.input} type='text' name='cpu' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.cpu} autoFocus/>
-                                    </div>
-                                    <div className={Style.block}>
-                                        <div>Memory (GB):</div>
-                                        <input className={Style.input} type='text' name='mem' onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.mem}/>
-                                    </div>
-                                </div>
-                                <div className={Style.divideblock2}>
-                                    <div>Duration</div>
-                                    <div className={Style.horizontalline}></div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.block}>
-                                        <div>Begin:</div>
-                                        <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
-                                        <img className={Style.icon} src='img/ic_date_range.svg'/>
-                                        {timeStartList}
-                                        </div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.block}>
-                                        <div>End:</div>
-                                        <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
-                                        <img className={Style.icon} src='img/ic_date_range.svg'/>
-                                        {timeEndList}
-                                    </div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.block}>
-                                        <div className={Style.reservespace}>Reservation length:</div>
-                                        <div className={Style.choose} onClick={()=>this.props.searchContainer.onReserveLengthChange('all')}>
-                                            <input type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value=='all'} onChange={()=>this.props.searchContainer.onReserveLengthChange('all')}/>
-                                            <span className={Style.text}>From begin to end</span>
-                                        </div>
-                                    </div>
-                                    <div className={Style.block}>
-                                        <div className={Style.choose} onClick={()=>this.props.searchContainer.onReserveLengthChange('time')}>
-                                            <input className={Style.marginradio} type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value=='time'} onChange={()=>this.props.searchContainer.onReserveLengthChange('time')}/>
-                                            <div className={Style.block}>
-                                                <input ref='daysInput' className={Style.inputradio} type='text' name='days' disabled={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.days}/>
-                                                <span ref='daysLabel' className={Style.unittext}> days</span>
-                                            </div>
-                                            <div className={Style.block}>
-                                                <input ref='hoursInput' className={Style.inputradio} type='text' name='hours' disabled={this.props.searchContainer.state.reservationLength.value=='all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.hours}/>
-                                                <span ref='hoursLabel' className={Style.unittext}> hours</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={Style.divideblock2}>
-                                    <div>Others</div>
-                                    <div className={Style.horizontalline}></div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.block}>
-                                        <div>Additional Network:</div>
-                                        <div className={Style.block}>
-                                            <div className={Style.choose}>
-                                                <input type='radio' name='network' value='None' checked={this.props.searchContainer.state.additionalNetwork=='None'} onChange={this.props.searchContainer.onAdditionNetwordChange}/>
-                                                <span className={Style.text}>None</span>
-                                            </div>
-                                        </div>
-                                        <div className={Style.block}>
-                                            <div className={Style.choose}>
-                                                <input type='radio' name='network' value='ENT' checked={this.props.searchContainer.state.additionalNetwork=='ENT'} onChange={this.props.searchContainer.onAdditionNetwordChange}/>
-                                                <span className={Style.text}>ENT</span>
-                                            </div>
-                                        </div>
-                                        <div className={Style.block}>
-                                            <div className={Style.choose}>
-                                                <input type='radio' name='network' value='IPOP' checked={this.props.searchContainer.state.additionalNetwork=='IPOP'} onChange={this.props.searchContainer.onAdditionNetwordChange}/>
-                                                <span className={Style.text}>IPOP</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className={Style.row}>
-                                    <div className={Style.block}>
-                                        <div>Image type:</div>
-                                        {imageTypeList}
-                                    </div>
-                                </div>
-                                <div className={Style.helpbtn}>
-                                    <img src='img/ic_help_outline_white.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon'/>
-                                </div>    
-                                <div className={Style.searchbtn}>
-                                    <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>
-                                </div>
-                            </form>
-
+                        <div className={Style.helpDurationArrow}>
+                            <img src='img/ic_arrow_right.svg' />
                         </div>
-
-                        <div className={Style.searchresult}>
-                            {this.props.searchContainer.state.resultTable}
+                        <div className={Style.helpOthers}>
+                            Please specify other criterias. <br /><br />
+                            - <b> Additional network : </b> <br />
+                            ENT = ENT-enabled site <br />
+                            IPOP = IPOP-enabled site <br /><br />
+                            - <b> Image type : </b> available image for VM <br />
                         </div>
+                        <div className={Style.helpOthersArrow}>
+                            <img src='img/ic_arrow_right.svg' />
+                        </div>
+                    </div>
+                    <section className={Style.panel}>
+                        <header>
+                            <div>Search by Criteria</div>
+                            <img src='img/ic_close.svg' onClick={this.props.searchContainer.onClose} />
+                        </header>
+
+                        <section className={Style.content}>
+                            <div className={Style.searchinput}>
+                                <form>
+                                    <div className={Style.divideblock}>
+                                        <div>Resources</div>
+                                        <div className={Style.horizontalline}></div>
+                                    </div>
+                                    <div className={Style.row}>
+                                        {
+                                            RESOURCES.map((data,key)=>{
+                                                let name = data.name
+                                                if(data.unit!=null){
+                                                    name = name+' ('+data.unit+')'
+                                                }
+                                                return(
+                                                    <div className={Style.block+' '+Style.bottomspace} key={key}>
+                                                        <div>{name}:</div>
+                                                        <input className={Style.input} type='text' name={key} onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.resource[key]} autoFocus={(key==0)}/>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                    <div className={Style.divideblock2}>
+                                        <div>Duration</div>
+                                        <div className={Style.horizontalline}></div>
+                                    </div>
+                                    <div className={Style.row}>
+                                        <div className={Style.block}>
+                                            <div>Begin:</div>
+                                            <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
+                                            <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            {timeStartList}
+                                        </div>
+                                    </div>
+                                    <div className={Style.row}>
+                                        <div className={Style.block}>
+                                            <div>End:</div>
+                                            <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
+                                            <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            {timeEndList}
+                                        </div>
+                                    </div>
+                                    <div className={Style.row}>
+                                        <div className={Style.block}>
+                                            <div className={Style.reservespace}>Reservation length:</div>
+                                            <div className={Style.choose} onClick={() => this.props.searchContainer.onReserveLengthChange('all')}>
+                                                <input type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={() => this.props.searchContainer.onReserveLengthChange('all')} />
+                                                <span className={Style.text}>From begin to end</span>
+                                            </div>
+                                        </div>
+                                        <div className={Style.block}>
+                                            <div className={Style.choose} onClick={() => this.props.searchContainer.onReserveLengthChange('time')}>
+                                                <input className={Style.marginradio} type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value == 'time'} onChange={() => this.props.searchContainer.onReserveLengthChange('time')} />
+                                                <div className={Style.block}>
+                                                    <input ref='daysInput' className={Style.inputradio} type='text' name='days' disabled={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.days} />
+                                                    <span ref='daysLabel' className={Style.unittext}> days</span>
+                                                </div>
+                                                <div className={Style.block}>
+                                                    <input ref='hoursInput' className={Style.inputradio} type='text' name='hours' disabled={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.hours} />
+                                                    <span ref='hoursLabel' className={Style.unittext}> hours</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={Style.divideblock2}>
+                                        <div>Others</div>
+                                        <div className={Style.horizontalline}></div>
+                                    </div>
+                                    <div className={Style.row}>
+                                        <div className={Style.block}>
+                                            <div>Additional Network:</div>
+                                            {networkList}
+                                        </div>
+                                    </div>
+                                    <div className={Style.row}>
+                                        <div className={Style.block}>
+                                            <div>Image type:</div>
+                                            {imageTypeList}
+                                        </div>
+                                    </div>
+                                    <div className={Style.footerwrap}>
+                                        <div className={Style.helpbtn}>
+                                            <img src='img/ic_help_outline_white.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon' />
+                                        </div>
+                                        <div className={Style.searchbtn}>
+                                            <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className={Style.searchresult}>
+                                {this.props.searchContainer.state.resultTable}
+                            </div>
+                        </section>
                     </section>
                 </section>
-            </section>
             </div>
         )
     }

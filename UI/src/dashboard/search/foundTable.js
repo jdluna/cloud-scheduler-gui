@@ -1,18 +1,32 @@
 import React, { Component } from 'react'
 import Style from './search.scss'
 import moment from 'moment'
+import { RESOURCES } from '../../config/attributes'
 
 export default class FoundTable extends Component {
     constructor(props){
         super(props)
         this.container = this.props.searchContainer
+
+        let ascTemp = [true]
+        RESOURCES.map((data,key)=>{
+            ascTemp.push(true)
+        })
         this.state = {
             dataResult: this.container.state.dataResult,
             sort: {
                 select: 0,
-                asc: [true,true,true]
-            }
+                asc: ascTemp
+            },
+            hover: null
         }
+    }
+
+    onSelect(name,key){
+        this.setState({
+            hover: key
+        })
+        this.props.searchContainer.onSelectItem(name,key)
     }
 
     onSort(index, parameter=null){
@@ -58,12 +72,12 @@ export default class FoundTable extends Component {
                     <div className={Style.detaillabel}>
                         <div className={Style.column1}>
                             <div>
-                                <span>CPU : </span>
-                                <span className={Style.hilight}>{(data.cpu!='') ? data.cpu : 0}</span>
-                            </div>
-                            <div>
                                 <span>Begin : </span>
                                 <span className={Style.hilight}>{startDate}</span>
+                            </div>
+                            <div>
+                                <span>End : </span>
+                                <span className={Style.hilight}>{endDate}</span>
                             </div>
                             <div>
                                 <span>Reservation length : </span>
@@ -73,57 +87,79 @@ export default class FoundTable extends Component {
                                 <span>Additional network : </span>
                                 <span className={Style.hilight}>{data.additionalNetwork}</span>
                             </div>
-                        </div>
-                        <div className={Style.column2}>
-                            <div>
-                                <span>Memory : </span>
-                                <span className={Style.hilight}>{(data.mem!='') ? data.mem : 0}</span>
-                            </div>
-                            <div>
-                                <span>End : </span>
-                                <span className={Style.hilight}>{endDate}</span>
-                            </div>
-                            <div className={Style.empty}></div>
                             <div>
                                 <span>Image type : </span>
                                 <span className={Style.hilight}>{data.imageType}</span>
                             </div>
+                        </div>
+                        <div className={Style.column2}>
+                            {   
+                                RESOURCES.map((resource,key)=>{
+                                    return(
+                                        <div key={key}>
+                                            <span>{resource.name} : </span>
+                                            <span className={Style.hilight}>{(data.resource[key]!='') ? data.resource[key] : 0}</span>
+                                        </div>
+                                    )
+                                })
+                            }
+                            {/*<div className={Style.empty}></div>*/}
                         </div>    
                     </div>
                     <div className={Style.secondlabel}>Click on site's name for more description.</div>
                 </div>
                 <div className={Style.data}>
-                    <div className={Style.header}>
-                        <div className={Style.text}>
-                            <span className={Style.cursor} onClick={()=>this.onSort(0)}>
-                                <span>Name</span>
-                                {(sort.select==0) ? <img className={Style.icon} src={(sort.asc[0]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
-                            </span>
-                        </div>
-                        <div className={Style.text}>
-                            <span className={Style.cursor} onClick={()=>this.onSort(1, 'CPU.available')}>
-                                <span>Available CPU</span>
-                                {(sort.select==1) ? <img className={Style.icon} src={(sort.asc[1]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
-                            </span>
-                        </div>
-                        <div className={Style.text}>
-                            <span className={Style.cursor} onClick={()=>this.onSort(2, 'memory.available')}>
-                                <span>Available Memory (GB)</span>
-                                {(sort.select==2) ? <img className={Style.icon} src={(sort.asc[2]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
-                            </span>
-                        </div>
-                    </div>
-                    <div className={Style.itemlist}>
-                        {
-                            this.state.dataResult.sites.map((data,key)=>{
-                            return(
-                                <div className={(this.props.searchContainer.viewCardKey==key) ? Style.itemactive : Style.item} key={key} onClick={()=>this.props.searchContainer.onSelectItem(data.name,key)}>
-                                    <div className={Style.text}>{data.name}</div>
-                                    <div className={Style.text}>{data.CPU.available}</div>
-                                    <div className={Style.text}>{data.memory.available}</div>
-                                </div>
-                            )
-                        })}
+                    <div className={Style.container}>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span className={Style.cursor} onClick={()=>this.onSort(0)}>
+                                            <span>Name</span>
+                                            {(sort.select==0) ? <img className={Style.icon} src={(sort.asc[0]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
+                                        </span>
+                                    </th>
+                                    {
+                                        RESOURCES.map((data,key)=>{
+                                            let unit = (data.unit!=null) ? '('+data.unit+')' : ''
+                                            return(
+                                                <th key={key}>
+                                                    <span className={Style.cursor} onClick={()=>this.onSort((key+1), (data.parameter+'.available'))}>
+                                                        <span>Available {data.name+' '+unit}</span>
+                                                        {(sort.select==(key+1)) ? <img className={Style.icon} src={(sort.asc[(key+1)]==true) ? 'img/ic_arrow_drop_up.svg' : 'img/ic_arrow_drop_down.svg'} /> : null}
+                                                    </span>
+                                                </th>
+                                            )
+                                        })
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    this.state.dataResult.sites.map((data,key)=>{
+                                        let list = []
+                                        RESOURCES.map((temp,key)=>{
+                                            try{
+                                                let tempData = data[temp.parameter]["available"]
+                                                if(typeof(tempData)!='undefined'){
+                                                    list.push(<td key={key}>{tempData}</td>)
+                                                }else{
+                                                    list.push(<td key={key}>-</td>)
+                                                }
+                                            }catch(error){
+                                                list.push(<td key={key}>-</td>)
+                                            }
+                                        })
+                                        return(
+                                            <tr className={(this.state.hover==key) ? Style.itemactive : Style.item} key={key} onClick={()=>this.onSelect(data.name,key)}>
+                                                <td>{data.name}</td>
+                                                {list}
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
