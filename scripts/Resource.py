@@ -70,7 +70,7 @@ class Resource:
                 """ one round = one hour """        
 
                 sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(tmpBegin.strftime("%Y-%m-%d %H:00:00"))+"';" 
-                if db.execute("SELECT `cpu` FROM `schedule` WHERE `site_id` = '1' AND `start` = '2017-04-25 15:00:00';") :
+                if db.execute(sql2) :
                     used = db.fetchone()
                     if used != None:
                         used = used[0]
