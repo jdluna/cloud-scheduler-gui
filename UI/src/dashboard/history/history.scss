@@ -358,6 +358,7 @@
         }
         .col2{
             width: 50%;
+            position: relative;
         }
     }  
     .detaillabel{
@@ -366,5 +367,38 @@
         flex-direction: column;
         align-items: center;
         height: 100%;
+    }
+    .greenCircle{
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: #76FF03;
+        float: left;
+        margin-right: 5px;
+        margin-top: 4px;
+        margin-left: 5px;
+    }
+    .yellowCircle{
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: #FF8F00;
+        float: left;
+        margin-right: 5px;
+        margin-top: 4px;
+        margin-left: 5px;
+    }
+    .redCircle{
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: #ef303e;
+        float: left;
+        margin-right: 5px;
+        margin-top: 4px;
+        margin-left: 5px;
+    }
+    .colon{
+        float: left;
     }
 }
