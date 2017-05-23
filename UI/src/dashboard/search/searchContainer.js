@@ -25,8 +25,6 @@ export default class SearchContainer extends Component {
         })
         this.state = {
             resource: resource,
-            cpu: '',
-            mem: '',
             startDate: {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
