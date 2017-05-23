@@ -75,7 +75,7 @@
         .steptext{
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             .text{
                 display: inline-block;
                 font-family: $font-primary;
@@ -114,7 +114,8 @@
             }
         }
         .form{
-            width: 380px;
+            // min-width: 380px;
+            width: 477px;
             height: 200px;
             margin: auto;
             color: #FFFFFF;
@@ -137,8 +138,9 @@
             box-sizing: border-box;
         }
             .sitelist{
-                margin: 10px 0px 10px 0px;
-                max-height: 80px;
+                margin: 10px 0px 5px 0px;
+                // max-height: 80px;
+                height: 95px;
                 box-sizing: border-box;
                 overflow-y: auto;
             }
@@ -181,6 +183,48 @@
                 border-radius: 10px;
                 background-color: rgba(18, 18, 19,0.76);
             }  
+
+            .card{
+                width: 150px;
+                height: 88px;
+                border-radius: 3px;
+                border: 1px solid #464a5f;
+                float: left;
+                margin: 0px 5px 5px 0px;
+                .header{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 20px;
+                    border-bottom: 1px solid #464a5f;
+                }
+                .content{
+                    height: 66px;
+                    overflow: auto;
+                }
+                .content::-webkit-scrollbar-track{
+                    border-radius: 10px;
+                    background-color: rgba(35,41,57,0.84);
+                }
+                .content::-webkit-scrollbar{
+                    width: 5px;
+                    border-radius: 10px;
+                    background-color: rgba(35,41,57,0.84);
+                }
+                .content::-webkit-scrollbar-thumb{
+                    border-radius: 10px;
+                    background-color: rgba(18, 18, 19,0.76);
+                } 
+                .rowcard{
+                    display: flex;
+                    padding: 7px 0px 0px 5px;
+                    .space{
+                        display: flex;
+                        align-items: center;
+                        flex-grow: 1;
+                    }
+                }
+            }
 
             .row{
                 margin-bottom: 5px;
@@ -234,6 +278,7 @@
                        margin-top: 9px;
                      }
                 }
+            }
                 .input,.inputdate,.inputtime,.inputradio,.inputtype,.inputtitle,.textarea{
                     background-color: #464a5f;
                     border-radius: 3px;
@@ -326,7 +371,5 @@
                     border-radius: 10px;
                     background-color: rgba(18, 18, 19,0.76);
                 }    
-            }
-
     }
 }
