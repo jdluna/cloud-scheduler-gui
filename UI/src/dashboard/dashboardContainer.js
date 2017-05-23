@@ -77,7 +77,7 @@ export default class DashboardContainer extends Component {
     checkLogin(menu){
         if(this.props.app.state.authen.isLogedIn){
             if(menu=='Existing reservations'||menu=='Past reservations'){
-                this.setState({
+                this.setState({ 
                     modal: <HistoryContainer dashBoardContainer={this}/>,
                     modalName: (menu=='Past reservations') ? 'history' : menu
                 })

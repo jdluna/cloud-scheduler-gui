@@ -58,6 +58,13 @@ const TimeList = (props) => {
 const ImageTypeList = (props) => {
    
     let images = props.i
+    
+    if (images[0].name == 'Any') {
+        images.shift({
+            name: 'Any',
+            description: 'Any'
+        })
+    }
 
     return(
         <select className={Style.inputtype} value={props.value} onChange={props.handle}>

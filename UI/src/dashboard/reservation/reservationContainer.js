@@ -339,23 +339,29 @@ export default class ReservationContainer extends Component {
     }
 
     onNextStep(event){
+        let step = event.target.name
         if(this.state.day < 31 || (this.state.day == 31 && this.state.hour == 0)){
-            if(event.target.name=='step1'){
+            if(step=='step1'){
                 this.state.alertNode.innerHTML = ''
                 this.state.alertNode.style.display = 'none'
 
+                
                 if(this.state.imageType == 'Any'){
                     let images = this.dashboardContainer.state.images
                     this.setState({
                         imageType: images[0].name
+                    },()=>{
+                        this.checkReservation();
                     })
+                }else{
+                    this.checkReservation();
                 }   
+            }else if(step=='step2'){
+                this.setState({card: 'step3'});
+            }else if(step=='step3'){
+                this.queryConfirmReservation();
             }
-            switch(event.target.name){
-                case 'step1' : this.checkReservation();break
-                case 'step2' : this.setState({card: 'step3'});break
-                case 'step3' : this.queryConfirmReservation();break
-            } 
+            
         }else{
             this.state.alertNode.innerHTML = 'Cannot reserve any resources more than 1 month. Please try again.'
             this.state.alertNode.style.display = 'block'
