@@ -23,6 +23,7 @@ export default class Login extends Component {
                         <div className={Style.alert}>
                             <div className={Style.text} ref='alert'>Incorrect password. Please try again.</div>
                         </div>
+                        
                             <div className={Style.content}>
                                 <form>
                                     <div className={Style.user}>
@@ -36,6 +37,7 @@ export default class Login extends Component {
                                         <button className={Style.cancel} onClick={this.handle.onCancel}>CANCEL</button>
                                     </div>
                                 </form>
+                                <button className={Style.forget} onClick={this.handle.onSignIn}>FORGET PASSWORD</button>
 
                             </div>
                         </section>

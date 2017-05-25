@@ -7,7 +7,7 @@
 
 .panel{
     width: 330px;
-    height: 185px;
+    height: 210px;
     font-family: $font-primary;
     border-radius: 3px;
     border: 1px solid #929296;
@@ -63,7 +63,6 @@
         .btn{
                 width: 180px;
                 margin-top: 15px !important;
-                margin: 0 auto;
                 .cancel,.ok{
                     border-radius: 3px;
                     font-size: 9pt;
@@ -71,7 +70,7 @@
                     outline: none;
                     border: none;
                     color: #FFFFFF;
-                    width: 80px;
+                    width: 85px;
                 }
                 .cancel{
                     float: right;
@@ -84,6 +83,22 @@
                 .cancel:hover,.ok:hover{
                     background-color: $bg-color-primary;
                 }
+                
+        }
+        .forget{
+            text-align: center;
+            background-color: #EFA430;
+            border-radius: 3px;
+            margin-top: 10px !important;
+            font-size: 9pt;
+            outline: none;
+            width: 180px;
+            border: none;
+            height: 20px;
+            color: #FFFFFF;
+        }
+        .forget:hover{
+            background-color: $bg-color-primary;
         }
         .incorrect{
             margin-top: 10px;
