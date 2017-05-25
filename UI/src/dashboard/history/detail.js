@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Style from './history.scss'
 import moment from 'moment'
+import {RESOURCES} from '../../config/attributes'
 
 export default class Detail extends Component {
     render() {
@@ -57,14 +58,30 @@ export default class Detail extends Component {
                             <div className={Style.site} key={key}>
                                 <div className={Style.col1}>
                                     <div  className={Style.space}>Name</div>
-                                    <div  className={Style.space}>CPU reserved</div>
-                                    <div  className={Style.space}>Memory reserved</div>
+                                    {
+                                        RESOURCES.map((data,key)=>{
+                                            return(
+                                                <div className={Style.space} key={key}>{data.name} reserved</div>
+                                            )
+                                        })
+                                    }
                                     <div>Status</div>
                                 </div>
                                 <div className={Style.col2}>
                                     <div  className={Style.space}>: {site.site_name}</div>
-                                    <div  className={Style.space}>: {site.CPU}</div>
-                                    <div  className={Style.space}>: {site.memory}</div>
+                                    {
+                                        RESOURCES.map((data,key)=>{
+                                            let dataTemp
+                                            try{
+                                                dataTemp = site[data.parameter]
+                                            }catch(error){
+                                                dataTemp = '-'
+                                            }
+                                            return(
+                                                <div className={Style.space} key={key}>: {dataTemp}</div>
+                                            )
+                                        })
+                                    }
                                     {statusElement}
                                 </div>
                             </div>
