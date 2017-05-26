@@ -5,6 +5,7 @@ import moment from 'moment'
 import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT} from '../../config/endpoints'
 import SuccessDialog from './successDialog'
 import ErrorDialog from './ErrorDialog'
+import { RESOURCES } from '../../config/attributes'
 
 export default class ReservationContainer extends Component {
     constructor(props){
@@ -13,13 +14,23 @@ export default class ReservationContainer extends Component {
         this.dashboardContainer = this.props.dashBoardContainer
         this.timezone = moment.tz(this.appContainer.state.authen.timezone)
         this.sites = this.props.sites
-       
+      
         this.tmp = this.timezone.add(1,'hours').format().slice(11,13)+':00'
         this.tmp2 = this.timezone.add(1,'hours').format().slice(11,13)+':00'
         this.timezone.subtract(2,'hours').format().slice(11,13)+':00'
 
+        let resource = []
+        let siteInputDom = []
+        this.sites.map((data,key)=>{
+            let attr = []
+            RESOURCES.map((dataSub,keySub)=>{
+                attr.push('')
+            })
+            resource.push(attr)
+        })
         this.state = {
             // STEP1
+            resource: resource,
             startDate: {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
@@ -34,8 +45,6 @@ export default class ReservationContainer extends Component {
             day: 0,
             hour: 1,
             imageType: 'Any',
-            cpu: [],
-            mem: [],
             startBeginDuration: this.tmp,
             endBeginDuration: 23,
             startEndDuration: this.tmp2,
@@ -54,8 +63,7 @@ export default class ReservationContainer extends Component {
             card: 'step1',
             dialog: (this.dashboardContainer.state.isSameConnectionType) ? 'error-type' : 'main',
             alertNode: {},
-            siteInputCPUDom: [],
-            siteInputMEMDom: []
+            siteInputDom: siteInputDom
         }
 
         this.onStartDateChange = this.onStartDateChange.bind(this)
@@ -66,10 +74,8 @@ export default class ReservationContainer extends Component {
         this.onPreviousStep = this.onPreviousStep.bind(this)
         this.onNextStep = this.onNextStep.bind(this)
         this.onClose = this.onClose.bind(this)
-        this.onEnterCPU = this.onEnterCPU.bind(this)
-        this.onEnterMEM = this.onEnterMEM.bind(this)
-        this.setCPUAndMEM = this.setCPUAndMEM.bind(this)
         this.onEnterInputStep2 = this.onEnterInputStep2.bind(this)
+        this.onEnterResource = this.onEnterResource.bind(this)
         this.checkStartTime()
     }
 
@@ -370,78 +376,40 @@ export default class ReservationContainer extends Component {
 
     checkStep1Input(){
         let empty = false
-        this.state.siteInputCPUDom.map((data)=>{
-            if(data.value==''){
-                if(empty==false){
-                    data.focus()
+        this.state.resource.map((data,key)=>{
+            data.map((dataSub,keySub)=>{
+                if(dataSub==''){
+                    if(empty==false){
+                        this.state.siteInputDom[key][keySub].focus()
+                    }
+                    empty = true
+                    this.state.siteInputDom[key][keySub].style.border = '1px solid red'
+                }else{
+                    this.state.siteInputDom[key][keySub].style.border = '1px solid #464a5f'
                 }
-                data.style.border = '1px solid red'
-                empty = true
-            }else{
-                data.style.border = '1px solid #464a5f'
-            }
-        })
-        this.state.siteInputMEMDom.map((data)=>{
-            if(data.value==''){
-                if(empty==false){
-                    data.focus()
-                }
-                empty = true
-                data.style.border = '1px solid red'
-            }else{
-                data.style.border = '1px solid #464a5f'
-            }
+            })
         })
         return empty
     }
 
-    setCPUAndMEM(index){
-        let {cpu,mem} = this.state
-        cpu[index] = ''
-        mem[index] = ''
-        this.setState({
-            cpu: cpu,
-            mem: mem
-        })
-    }
-
-    onEnterCPU(event){
+    onEnterResource(event){
         let name = event.target.name
         let value = event.target.value
         let REGEX = /^\d+$/
         if (value.match(REGEX)) {
-            let {cpu} = this.state
-            cpu[parseInt(name)] = value
+            let {resource} = this.state
+            let index = name.split('-')
+            resource[parseInt(index[0])][parseInt(index[1])] = value
             this.setState({
-                cpu: cpu
+                resource: resource
             })
         } else {
             if (value.length <= 1) {
-                let {cpu} = this.state
-                cpu[parseInt(name)] = ''
+                let {resource} = this.state
+                let index = name.split('-')
+                resource[parseInt(index[0])][parseInt(index[1])] = ''
                 this.setState({
-                    cpu: cpu
-                })
-            }
-        }
-    }
-
-    onEnterMEM(event){
-        let name = event.target.name
-        let value = event.target.value
-        let REGEX = /^\d+$/
-        if (value.match(REGEX)) {
-            let {mem} = this.state
-            mem[parseInt(name)] = value
-            this.setState({
-                mem: mem
-            })
-        } else {
-            if (value.length <= 1) {
-                let {mem} = this.state
-                mem[parseInt(name)] = ''
-                this.setState({
-                    mem: mem
+                    resource: resource
                 })
             }
         }
@@ -463,14 +431,26 @@ export default class ReservationContainer extends Component {
     queryConfirmReservation(){
         let sitesId = ''
         let resources = ''
+
         this.sites.map((data,key)=>{
             if(key==0){
                 sitesId += data.id
-                resources += this.state.cpu[key]+','+this.state.mem[key]
             }else{
                 sitesId += ','+data.id
-                resources += '|'+this.state.cpu[key]+','+this.state.mem[key]
             }
+        })
+
+        this.state.resource.map((data,key)=>{
+            if(key!=0){
+                resources+="|"
+            }
+            data.map((d,k)=>{
+                if(k==0){
+                    resources+=d
+                }else{
+                    resources+=','+d
+                }
+            })
         })
 
         let {startDate,endDate,startTime,endTime} = this.state
@@ -511,7 +491,7 @@ export default class ReservationContainer extends Component {
                 type: (this.dashboardContainer.state.reserveMode=='single') ? 'single cluster on single site' : 'single cluster spanning multiple sites'
             }
         }
-        
+  
         axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result){
@@ -530,15 +510,28 @@ export default class ReservationContainer extends Component {
     queryCheckReservation(){
         let sitesId = ''
         let resources = ''
+
         this.sites.map((data,key)=>{
             if(key==0){
                 sitesId += data.id
-                resources += this.state.cpu[key]+','+this.state.mem[key]
             }else{
                 sitesId += ','+data.id
-                resources += '|'+this.state.cpu[key]+','+this.state.mem[key]
             }
         })
+
+        this.state.resource.map((data,key)=>{
+            if(key!=0){
+                resources+="|"
+            }
+            data.map((d,k)=>{
+                if(k==0){
+                    resources+=d
+                }else{
+                    resources+=','+d
+                }
+            })
+        })
+
 
         let {startDate,endDate,startTime,endTime} = this.state
         let startDateLength = startDate.date+' '+startTime
@@ -586,6 +579,16 @@ export default class ReservationContainer extends Component {
                 }else if(data.isResourceError=='True'){
                     this.state.alertNode.innerHTML = 'The resources are not available enough. Please try again.'
                     this.state.alertNode.style.display = 'block'
+                    if(data.site_error){
+                        data.site_error.map((rs,key)=>{
+                            let id = parseInt(rs.site_id)
+                            this.sites.map((d,k)=>{
+                                if(id==parseInt(d.id)){
+                                    this.state.siteInputDom[k][parseInt(rs.resource_index)].style.border = '1px solid red'
+                                }
+                            })
+                        })
+                    }
                 }else if(data.isImageTypeError == 'True'){
                     this.state.alertNode.innerHTML = 'This image type is not available on these sites. Please try again.'
                     this.state.alertNode.style.display = 'block'

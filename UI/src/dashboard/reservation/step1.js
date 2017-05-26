@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Style from './reservation.scss'
 import DatePicker from 'react-datepicker'
 import ReactDOM from 'react-dom'
+import { RESOURCES } from '../../config/attributes'
 
 const TimeItem = (props) => (
     <select name={props.name} className={Style.inputtime} value={props.value} onChange={props.handle}>
@@ -86,30 +87,19 @@ export default class Step1 extends Component {
         this.props.reservationContainer.setState({
             alertNode: this.refs.alert
         })
-        let siteInputCPUDom = []
-        let siteInputMEMDom = []
-        Object.keys(this.refs).map((data, key) => {
-            if (key != 0) {
-                if ((key % 2) == 1) {
-                    siteInputCPUDom.push(this.refs[data])
-                } else if ((key % 2) == 0) {
-                    siteInputMEMDom.push(this.refs[data])
-                }
-            }
+
+        let siteInputDom = []
+        this.props.reservationContainer.sites.map((data,key)=>{
+            let dom = []
+            RESOURCES.map((dataSub,keySub)=>{
+                let name = key+'-'+keySub
+                dom.push(this.refs[name])
+            })
+            siteInputDom.push(dom)
         })
         this.props.reservationContainer.setState({
-            siteInputCPUDom: siteInputCPUDom,
-            siteInputMEMDom: siteInputMEMDom
+            siteInputDom: siteInputDom
         })
-    }
-
-    componentWillMount() {
-        let { cpu, mem } = this.props.reservationContainer.state
-        if (cpu.length == 0 || mem.length == 0) {
-            this.props.reservationContainer.dashboardContainer.state.selectCard.map((data, key) => {
-                this.props.reservationContainer.setCPUAndMEM(key)
-            })
-        }
     }
 
     render() {
@@ -167,83 +157,28 @@ export default class Step1 extends Component {
                             </div>
                         </div>
                         <div className={Style.sitelist}>
-                            <div className={Style.card}>
-                                <div className={Style.header}>Name</div>
-                                <div className={Style.content}>
-                                    <div className={Style.rowcard}>
-                                        <span className={Style.space}>CPU</span>
-                                        <span>: <input className={Style.inputradio} type='text'/></span>
-                                    </div>
-                                    <div className={Style.rowcard}>
-                                        <span className={Style.space}>Memory (GB)</span>
-                                        <span>: <input className={Style.inputradio} type='text'/></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={Style.card}>
-                                <div className={Style.header}>Name</div>
-                                <div className={Style.content}>
-                                    <div className={Style.rowcard}>
-                                        <span className={Style.space}>CPU</span>
-                                        <span>: <input className={Style.inputradio} type='text'/></span>
-                                    </div>
-                                    <div className={Style.rowcard}>
-                                        <span className={Style.space}>Memory (GB)</span>
-                                        <span>: <input className={Style.inputradio} type='text'/></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={Style.card}>
-                                <div className={Style.header}>Name</div>
-                                <div className={Style.content}>
-                                    <div className={Style.rowcard}>
-                                        <span className={Style.space}>CPU</span>
-                                        <span>: <input className={Style.inputradio} type='text'/></span>
-                                    </div>
-                                    <div className={Style.rowcard}>
-                                        <span className={Style.space}>Memory (GB)</span>
-                                        <span>: <input className={Style.inputradio} type='text'/></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={Style.card}>
-                                <div className={Style.header}>Name</div>
-                                <div className={Style.content}>
-                                    <div className={Style.rowcard}>
-                                        <span className={Style.space}>CPU</span>
-                                        <span>: <input className={Style.inputradio} type='text'/></span>
-                                    </div>
-                                    <div className={Style.rowcard}>
-                                        <span className={Style.space}>Memory (GB)</span>
-                                        <span>: <input className={Style.inputradio} type='text'/></span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            {/*{
+                            {
                                 this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
                                     return(
-                                        <div className={Style.row} key={key}>
-                                            <div className={Style.block}>
-                                                <div className={Style.siteblock}><span>{data.name}</span></div>
+                                        <div className={Style.card} key={key}>
+                                            <div className={Style.header}>{data.name}</div>
+                                            <div className={Style.content}>
+                                                {
+                                                    RESOURCES.map((dataSub,keySub)=>{
+                                                        let unit = (dataSub.unit!=null) ? '('+dataSub.unit+')' : ''
+                                                        return(
+                                                            <div className={Style.rowcard} key={keySub}>
+                                                                <span className={Style.space}>{dataSub.name+' '+unit}</span>
+                                                                <span>: <input className={Style.inputradio} type='text' value={this.props.reservationContainer.state.resource[key][keySub]} ref={key+'-'+keySub} name={key+'-'+keySub} onChange={this.props.reservationContainer.onEnterResource}/></span>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
                                             </div>
-                                            <div className={Style.block}>
-                                                <span>CPUs :</span>
-                                            </div>
-                                            <div className={Style.block}>
-                                                <input ref={data.name.toLowerCase().replace(' ','')+'CPU'} name={key} value={this.props.reservationContainer.state.cpu[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterCPU}/>
-                                            </div>
-                                            <div className={Style.block}>
-                                                <span>Memory (GB) :</span>
-                                            </div>
-                                            <div className={Style.block}>
-                                                <input ref={data.name.toLowerCase().replace(' ','')+'MEM'} name={key} value={this.props.reservationContainer.state.mem[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterMEM}/>
-                                            </div>
-                                        </div>
+                                        </div>  
                                     )
                                 })
-                            }*/}
+                            }
                         </div>
                         <div className={Style.row}>
                             <div className={Style.block}>
