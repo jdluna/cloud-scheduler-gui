@@ -17,6 +17,7 @@ import string
 import random
 from datetime import datetime,timedelta
 from Reservation import Reservation
+from AuthenticationManager import AuthenticationManager
 
 NOW = datetime.utcnow()
 
@@ -25,7 +26,7 @@ class ReservationManager:
     
     def __init__(self):
         self.__isComplete = False
-        self.__imgTypeError = True
+        self.__imgTypeError = False
         self.__db = None
         self.__siteError = []
         self.__resError = []
@@ -46,14 +47,13 @@ class ReservationManager:
         self.__sitesId = sitesId 
         self.__resources = resources
         self.__imgType = imgType
-
-        if self.__db.connect():
         
+        if self.__db.connect():
+            
             #check session id and get user id
-            self.__db.execute('SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";')
-            uid = self.__db.getCursor().fetchone()
-            if uid != None:
-                self.__userId = uid[0]
+            auth = AuthenticationManager()
+            if auth.isSessionIdCorrect(self.__sessionId):
+                self.__userId = auth.getUser().getUserId()
                 
                 #check available resources in sites
                 siteStatus = [False]*len(sitesId)
@@ -71,6 +71,7 @@ class ReservationManager:
                     site = Site(site=data,db=self.__db)        
                     
                     #-> check image type
+                    self.__imgTypeError = True
                     for img in site.getImageType():
                         if str(self.__imgType) in img.get('name'):
                             self.__imgTypeError = False
@@ -103,6 +104,7 @@ class ReservationManager:
                     return True
                              
         return False             
+        
           
             
     def createReservation(self, title, description, reserveType):
@@ -242,11 +244,9 @@ class ReservationManager:
             try:
                 if userId == None:
                     #check session id and get user id
-                    sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
-                    self.__db.execute(sql)
-                    uid = self.__db.getCursor().fetchone()
-                    if uid != None:
-                        self.__userId = uid[0]
+                    auth = AuthenticationManager()
+                    if auth.isSessionIdCorrect(self.__sessionId):
+                        self.__userId = auth.getUser().getUserId()
                 else:
                     self.__userId = userId
                     
@@ -293,11 +293,9 @@ class ReservationManager:
         
         if self.__db.connect():
             #check session id and get user id
-            sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
-            self.__db.execute(sql)
-            uid = self.__db.getCursor().fetchone()
-            if uid != None:
-                self.__userId = uid[0]
+            auth = AuthenticationManager()
+            if auth.isSessionIdCorrect(self.__sessionId):
+                self.__userId = auth.getUser().getUserId()
                 sql = 'SELECT `status` FROM `user` WHERE `user_id` = "'+str(self.__userId)+'";'
                 self.__db.execute(sql)
                 status = self.__db.getCursor().fetchone()[0]
@@ -321,11 +319,9 @@ class ReservationManager:
         
         if self.__db.connect():
             #check session id and get user id
-            sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
-            self.__db.execute(sql)
-            uid = self.__db.getCursor().fetchone()
-            if uid != None:
-                self.__userId = uid[0]
+            auth = AuthenticationManager()
+            if auth.isSessionIdCorrect(self.__sessionId):
+                self.__userId = auth.getUser().getUserId()
                 sql = 'SELECT `username`, `status` FROM `user` WHERE `user_id` = "'+str(self.__userId)+'";'
                 self.__db.execute(sql)
                 u = self.__db.getCursor().fetchone()
@@ -354,10 +350,10 @@ class ReservationManager:
         
         if self.__db.connect():
             
-            sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(sessionId)+'";'
-            self.__db.execute(sql)
-            uid = self.__db.getCursor().fetchone()
-            if uid != None:
+            #check session id and get user id
+            auth = AuthenticationManager()
+            if auth.isSessionIdCorrect(self.__sessionId):
+                self.__userId = auth.getUser().getUserId()
                 
                 try:
                     self.__db.lock({'site':'READ','schedule':'WRITE','site_reserved':'READ','reservation':'WRITE'})
@@ -471,10 +467,10 @@ class ReservationManager:
         
         if self.__db.connect():
             try:
-                sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(sessionId)+'";'
-                self.__db.execute(sql)
-                uid = self.__db.getCursor().fetchone()
-                if uid != None:                 
+                #check session id and get user id
+                auth = AuthenticationManager()
+                if auth.isSessionIdCorrect(self.__sessionId):
+                    self.__userId = auth.getUser().getUserId()               
                     
                     #---get start and end time of reservation---
                     sql = 'SELECT `start`, `end` FROM `reservation` WHERE `reservation_id` = "'+str(reservationId)+'";'
@@ -584,11 +580,9 @@ class ReservationManager:
         
         if self.__db.connect():
             #check session id and get user id
-            sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
-            self.__db.execute(sql)
-            uid = self.__db.getCursor().fetchone()
-            if uid != None:
-                self.__userId = uid[0]
+            auth = AuthenticationManager()
+            if auth.isSessionIdCorrect(self.__sessionId):
+                self.__userId = auth.getUser().getUserId()
                 sql = 'SELECT `status` FROM `user` WHERE `user_id` = "'+str(self.__userId)+'";'
                 self.__db.execute(sql)
                 status = self.__db.getCursor().fetchone()[0]

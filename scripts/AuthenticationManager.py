@@ -74,5 +74,12 @@ class AuthenticationManager:
                 self.__usr = User(data=data,getAnotherUserData=getAnotherUserData)
         
             db.close()
+    
+    def isSessionIdCorrect(self, sessionId):
+        self.__usr = User(sessionId = sessionId)
         
+        if self.__usr.getUserId() != None:
+            return True
+            
+        return False
                 
