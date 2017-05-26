@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2017 at 02:24 AM
+-- Generation Time: May 26, 2017 at 03:52 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `pragma`
@@ -138,7 +138,7 @@ CREATE TABLE `image_type_desc` (
 
 INSERT INTO `image_type_desc` (`image_type_id`, `name`, `description`) VALUES
 (1, 'centos7', 'CentOS7'),
-(2, 'biolinux', '-'),
+(2, 'hku_biolinux', '-'),
 (3, 'rocks-basic', 'no description'),
 (4, 'rocks-sge', 'none');
 
@@ -156,7 +156,7 @@ CREATE TABLE `reservation` (
   `start` datetime NOT NULL,
   `end` datetime NOT NULL,
   `reference_number` varchar(32) NOT NULL,
-  `image_type` varchar(16) NOT NULL,
+  `image_type` bigint(20) UNSIGNED NOT NULL,
   `type` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -185,14 +185,6 @@ CREATE TABLE `session` (
   `session_id` varchar(16) NOT NULL,
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `session`
---
-
-INSERT INTO `session` (`user_id`, `session_id`, `last_login`) VALUES
-(1, 'HWOUYP', '2017-05-05 19:29:05'),
-(2, 'OH5KG9', '2017-05-05 19:57:28');
 
 -- --------------------------------------------------------
 
@@ -245,7 +237,7 @@ CREATE TABLE `site_reserved` (
   `reservation_id` bigint(20) UNSIGNED NOT NULL,
   `site_id` bigint(20) UNSIGNED NOT NULL,
   `status` varchar(16) NOT NULL,
-  `admin_description` longtext DEFAULT NULL,
+  `admin_description` varchar(64) DEFAULT NULL,
   `cpu` int(11) NOT NULL,
   `memory` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -353,6 +345,13 @@ ALTER TABLE `site`
   ADD UNIQUE KEY `site_id` (`site_id`);
 
 --
+-- Indexes for table `site_reserved`
+--
+ALTER TABLE `site_reserved`
+  ADD KEY `site_id` (`site_id`),
+  ADD KEY `reservation_id` (`reservation_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -418,6 +417,12 @@ ALTER TABLE `image_type`
   ADD CONSTRAINT `image_type_ibfk_1` FOREIGN KEY (`site_id`) REFERENCES `site` (`site_id`);
 
 --
+-- Constraints for table `image_type_desc`
+--
+ALTER TABLE `image_type_desc`
+  ADD CONSTRAINT `image_type_desc_ibfk_1` FOREIGN KEY (`image_type_id`) REFERENCES `image_type` (`image_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `reservation`
 --
 ALTER TABLE `reservation`
@@ -434,6 +439,13 @@ ALTER TABLE `schedule`
 --
 ALTER TABLE `session`
   ADD CONSTRAINT `session_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Constraints for table `site_reserved`
+--
+ALTER TABLE `site_reserved`
+  ADD CONSTRAINT `site_reserved_ibfk_1` FOREIGN KEY (`site_id`) REFERENCES `site` (`site_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `site_reserved_ibfk_2` FOREIGN KEY (`reservation_id`) REFERENCES `reservation` (`reservation_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
