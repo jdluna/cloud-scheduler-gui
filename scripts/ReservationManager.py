@@ -124,6 +124,11 @@ class ReservationManager:
                     if data == None:
                         break
                 
+                sql = 'SELECT `image_type_id` FROM `image_type_desc` WHERE `name` = "'+str(self.__imgType)+'";'
+                self.__db.execute(sql)
+                self.__imgType = self.__db.getCursor().fetchone()[0]
+                
+                
                 sql = 'INSERT INTO `reservation`(`user_id`, `title`, `description`, `start`, `end`, `reference_number`, `image_type`, `type`) VALUES ("'+str(self.__userId)+'","'+str(self.__title)+'","'+str(self.__description)+'","'+str(self.__begin)+'","'+str(self.__end)+'","'+str(ref)+'","'+str(self.__imgType)+'","'+str(self.__reservedType)+'");'
                 self.__db.execute(sql)
                 
@@ -192,6 +197,7 @@ class ReservationManager:
                 self.__db.commit()
                 self.__isComplete = True
                 self.__db.unlock()
+                
             except:
                 self.__db.rollback()
                 self.__isComplete = False         

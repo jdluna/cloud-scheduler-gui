@@ -58,7 +58,8 @@ RESOURCES = list(RESOURCES)
 from ReservationManager import ReservationManager
 reservationManager = ReservationManager()
 
-reservation = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE)
+
+reservation = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SITES_ID, RESOURCES, IMG_TYPE, 3)
 result = 'fail'
 
 if reservation :
@@ -69,6 +70,8 @@ if reservation :
 jsonStr = '{ "result" : "' +str(result)+ '",'
 
 if result == 'fail':
+    jsonStr += ' "isImageTypeError" : "' + str(reservationManager.getImageTypeError()) + '",'
+    
     resError = reservationManager.getResourceError()
     resErrorStatus = len(resError) > 0
     siteError = reservationManager.getSiteError()

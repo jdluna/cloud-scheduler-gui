@@ -58,7 +58,17 @@ class Reservation:
         return self.__end
         
     def setImageType(self, imageType):
-        self.__imageType = imageType
+        self.__db = Database()
+        self.__imageType = None
+        try:
+            if self.__db.connect():
+                sql = 'SELECT `name` FROM `image_type_desc` WHERE `image_type_id` = "'+str(imageType)+'";'
+                self.__db.execute(sql)
+                self.__imageType = self.__db.getCursor().fetchone()[0]
+                self.__db.close()
+        except:
+            pass
+                
         
     def getImageType(self):
         return self.__imageType
