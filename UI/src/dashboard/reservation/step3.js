@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Style from './reservation.scss'
+import { RESOURCES } from '../../config/attributes'
 
 export default class Step3 extends Component {
     componentDidMount(){
@@ -86,18 +87,19 @@ export default class Step3 extends Component {
                                 this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
                                     return(
                                         <div className={Style.item} key={key}>
-                                            <div className={Style.row}>
-                                                <div className={Style.column}>
-                                                    <div className={Style.west}>{data.name} CPUs:</div>
-                                                    <div className={Style.east}>{(this.props.reservationContainer.state.cpu[key]!='') ? this.props.reservationContainer.state.cpu[key] : '0'}</div>
-                                                </div>
-                                            </div>
-                                            <div className={Style.row}>
-                                                <div className={Style.column}>
-                                                    <div className={Style.west}>Memory (GB):</div>
-                                                    <div className={Style.east}>{(this.props.reservationContainer.state.mem[key]!='') ? this.props.reservationContainer.state.mem[key] : '0'}</div>
-                                                </div>
-                                            </div>
+                                            {
+                                                RESOURCES.map((attr,k)=>{
+                                                    let unit = (attr.unit!=null) ? '('+attr.unit+')' : ''
+                                                    return(
+                                                        <div className={Style.row} key={k}>
+                                                            <div className={Style.column}>
+                                                                <div className={Style.west}>{((k==0) ? data.name : '')+' '+attr.name+' '+unit}:</div>
+                                                                <div className={Style.east}>{this.props.reservationContainer.state.resource[key][k]}</div>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
                                         </div>        
                                     )
                                 })
