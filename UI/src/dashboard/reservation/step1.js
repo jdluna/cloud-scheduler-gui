@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Style from './reservation.scss'
 import DatePicker from 'react-datepicker'
 import ReactDOM from 'react-dom'
+import { RESOURCES } from '../../config/attributes'
 
 const TimeItem = (props) => (
     <select name={props.name} className={Style.inputtime} value={props.value} onChange={props.handle}>
@@ -36,29 +37,29 @@ const TimeList = (props) => {
     let start = parseInt(props.s)
     let end = parseInt(props.e)
     let options = []
-    for(let i=start;i<=end;i++){
-        let time = ((i)>=10) ? (i)+':00' : '0'+(i)+':00'
+    for (let i = start; i <= end; i++) {
+        let time = ((i) >= 10) ? (i) + ':00' : '0' + (i) + ':00'
         options.push(time)
     }
-    return(
+    return (
         <select className={Style.inputtime} value={props.value} onChange={props.handle}>
             {
-                options.map((data,key)=>{
-                    let d = data.replace(':',' : ')
-                    return(
+                options.map((data, key) => {
+                    let d = data.replace(':', ' : ')
+                    return (
                         <option key={key} value={data}> {d} </option>
                     )
                 })
             }
-                    
+
         </select>
     )
 }
 
 const ImageTypeList = (props) => {
-   
+
     let images = props.i
-    
+
     if (images[0].name == 'Any') {
         images.shift({
             name: 'Any',
@@ -66,65 +67,54 @@ const ImageTypeList = (props) => {
         })
     }
 
-    return(
+    return (
         <select className={Style.inputtype} value={props.value} onChange={props.handle}>
             {
-                images.map((data,key)=>{
+                images.map((data, key) => {
                     let d = data.name
-                    return(
+                    return (
                         <option key={key} value={d}> {d} </option>
                     )
                 })
             }
-                    
+
         </select>
     )
 }
 
 export default class Step1 extends Component {
-    componentDidMount(){
+    componentDidMount() {
         this.props.reservationContainer.setState({
             alertNode: this.refs.alert
         })
-        let siteInputCPUDom = []
-        let siteInputMEMDom = []
-        Object.keys(this.refs).map((data,key)=>{
-            if(key!=0){
-                if((key%2)==1){
-                    siteInputCPUDom.push(this.refs[data])
-                }else if((key%2)==0){
-                    siteInputMEMDom.push(this.refs[data])
-                }
-            }
+
+        let siteInputDom = []
+        this.props.reservationContainer.sites.map((data,key)=>{
+            let dom = []
+            RESOURCES.map((dataSub,keySub)=>{
+                let name = key+'-'+keySub
+                dom.push(this.refs[name])
+            })
+            siteInputDom.push(dom)
         })
         this.props.reservationContainer.setState({
-            siteInputCPUDom: siteInputCPUDom,
-            siteInputMEMDom: siteInputMEMDom
+            siteInputDom: siteInputDom
         })
-    }
-
-    componentWillMount(){
-        let {cpu,mem} = this.props.reservationContainer.state
-        if(cpu.length==0||mem.length==0){
-            this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
-                this.props.reservationContainer.setCPUAndMEM(key)
-            })
-        }
     }
 
     render() {
         let startBeginDuration = this.props.reservationContainer.state.startBeginDuration
         let endBeginDuration = this.props.reservationContainer.state.endBeginDuration
-        let timeStartList = <TimeList s={startBeginDuration} e={endBeginDuration} value={this.props.reservationContainer.state.startTime} handle={this.props.reservationContainer.onTimeStartChange}/>
+        let timeStartList = <TimeList s={startBeginDuration} e={endBeginDuration} value={this.props.reservationContainer.state.startTime} handle={this.props.reservationContainer.onTimeStartChange} />
 
-        
+
         let startEndDuration = this.props.reservationContainer.state.startEndDuration
         let endEndDuration = this.props.reservationContainer.state.endEndDuration
-        let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.reservationContainer.state.endTime} handle={this.props.reservationContainer.onTimeEndChange}/>
+        let timeEndList = <TimeList s={startEndDuration} e={endEndDuration} value={this.props.reservationContainer.state.endTime} handle={this.props.reservationContainer.onTimeEndChange} />
 
 
         let images = this.props.reservationContainer.state.dashboardContainer.state.images
-        let imageTypeList = <ImageTypeList i={images} value={this.props.reservationContainer.state.imageType} handle={this.props.reservationContainer.onImageTypeChange}/>
+        let imageTypeList = <ImageTypeList i={images} value={this.props.reservationContainer.state.imageType} handle={this.props.reservationContainer.onImageTypeChange} />
 
         return (
             <section className={Style.content}>
@@ -170,23 +160,22 @@ export default class Step1 extends Component {
                             {
                                 this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
                                     return(
-                                        <div className={Style.row} key={key}>
-                                            <div className={Style.block}>
-                                                <div className={Style.siteblock}><span>{data.name}</span></div>
+                                        <div className={Style.card} key={key}>
+                                            <div className={Style.header}>{data.name}</div>
+                                            <div className={Style.content}>
+                                                {
+                                                    RESOURCES.map((dataSub,keySub)=>{
+                                                        let unit = (dataSub.unit!=null) ? '('+dataSub.unit+')' : ''
+                                                        return(
+                                                            <div className={Style.rowcard} key={keySub}>
+                                                                <span className={Style.space}>{dataSub.name+' '+unit}</span>
+                                                                <span>: <input className={Style.inputradio} type='text' value={this.props.reservationContainer.state.resource[key][keySub]} ref={key+'-'+keySub} name={key+'-'+keySub} onChange={this.props.reservationContainer.onEnterResource}/></span>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
                                             </div>
-                                            <div className={Style.block}>
-                                                <span>CPUs :</span>
-                                            </div>
-                                            <div className={Style.block}>
-                                                <input ref={data.name.toLowerCase().replace(' ','')+'CPU'} name={key} value={this.props.reservationContainer.state.cpu[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterCPU}/>
-                                            </div>
-                                            <div className={Style.block}>
-                                                <span>Memory (GB) :</span>
-                                            </div>
-                                            <div className={Style.block}>
-                                                <input ref={data.name.toLowerCase().replace(' ','')+'MEM'} name={key} value={this.props.reservationContainer.state.mem[key]} className={Style.inputradio} type='text' onChange={this.props.reservationContainer.onEnterMEM}/>
-                                            </div>
-                                        </div>
+                                        </div>  
                                     )
                                 })
                             }
