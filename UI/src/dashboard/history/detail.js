@@ -48,9 +48,12 @@ export default class Detail extends Component {
                     data.sites.map((site,key)=>{
                         let statusElement
                         switch(site.status){
-                            case 'running'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.greenCircle}> </span> {site.status} </div>;break
                             case 'waiting'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.yellowCircle}> </span> {site.status} </div>;break
-                            case 'canceled'   : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
+                            case 'created'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.yellowCircle}> </span> {site.status} </div>;break
+                            case 'starting'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.greenCircle}> </span> {site.status} </div>;break
+                            case 'running'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.greenCircle}> </span> {site.status} </div>;break
+                            case 'cancel'   : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
+                            case 'stopping'   : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
                             case 'stopped'   : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
                             default : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
                         }
