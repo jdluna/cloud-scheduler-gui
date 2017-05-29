@@ -7,7 +7,7 @@
 
 .panel{
     width: 330px;
-    height: 210px;
+    height: 200px;
     font-family: $font-primary;
     border-radius: 3px;
     border: 1px solid #929296;
@@ -87,18 +87,14 @@
         }
         .forget{
             text-align: center;
-            background-color: #EFA430;
-            border-radius: 3px;
-            margin-top: 10px !important;
+            margin-top: 10px; 
             font-size: 9pt;
             outline: none;
-            width: 180px;
-            border: none;
-            height: 20px;
-            color: #FFFFFF;
+            color: #929296;
         }
         .forget:hover{
-            background-color: $bg-color-primary;
+            cursor: pointer;
+            border-bottom: 1px solid #929296;
         }
         .incorrect{
             margin-top: 10px;

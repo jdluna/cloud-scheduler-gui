@@ -37,8 +37,8 @@ export default class Login extends Component {
                                         <button className={Style.cancel} onClick={this.handle.onCancel}>CANCEL</button>
                                     </div>
                                 </form>
-                                <button className={Style.forget} onClick={this.handle.onSignIn}>FORGET PASSWORD</button>
-
+                                {/*<button className={Style.forget} onClick={this.handle.onSignIn}>FORGET PASSWORD</button>*/}
+                                <span className={Style.forget} onClick={this.handle.onSignIn}>Forget password?</span>
                             </div>
                         </section>
                     </section>
