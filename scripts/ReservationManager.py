@@ -358,7 +358,7 @@ class ReservationManager:
             
             #check session id and get user id
             auth = AuthenticationManager()
-            if auth.isSessionIdCorrect(self.__sessionId):
+            if auth.isSessionIdCorrect(sessionId):
                 self.__userId = auth.getUser().getUserId()
                 
                 try:
