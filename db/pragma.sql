@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2017 at 03:52 PM
+-- Generation Time: May 30, 2017 at 09:23 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -237,7 +237,7 @@ CREATE TABLE `site_reserved` (
   `reservation_id` bigint(20) UNSIGNED NOT NULL,
   `site_id` bigint(20) UNSIGNED NOT NULL,
   `status` varchar(16) NOT NULL,
-  `admin_description` varchar(64) DEFAULT NULL,
+  `admin_description` longtext,
   `cpu` int(11) NOT NULL,
   `memory` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
