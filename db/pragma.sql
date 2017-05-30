@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2017 at 09:23 AM
+-- Generation Time: May 30, 2017 at 09:28 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -271,7 +271,10 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `status`, `organization`, `position`, `language`, `timezone`, `public_key`) VALUES
 (1, 'project401', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'nannapas', 'banluesombatkul', 'nannapas.blsbk@gmail.com', NULL, 'user', 'TU', 'student', 'TH', 'America/New_York', 'AAAAAAA'),
 (2, 'admin', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'prapansak', 'kaewlamul', 'prapansak.kaew@gmail.com', NULL, 'admin', 'TU', 'student', 'TH', 'America/New_York', 'BBBBBBBB'),
-(3, 'test', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'pragma', '32', 'pragma@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC');
+(3, 'test', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'pragma', '32', 'pragma@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC'),
+(4, 'user1', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER1', 'TEST', 'user1@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC'),
+(5, 'user2', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER2', 'TEST', 'user2@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC'),
+(6, 'user3', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER3', 'TEST', 'user3@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC');
 
 --
 -- Indexes for dumped tables
@@ -387,7 +390,7 @@ ALTER TABLE `site`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- Constraints for dumped tables
 --
