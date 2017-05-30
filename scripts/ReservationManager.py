@@ -386,7 +386,7 @@ class ReservationManager:
                             r = site.getResources()
                             for i in range(0,len(site.getResources())):
                                 #d[4] = CPU, d[5] = Memory
-                                if int(r[i].getAvailableAmount()) <= int(d[4+i]):
+                                if int(r[i].getAvailableAmount()) < int(d[4+i]):
                                     return False
                                 r[i].setAmount(d[4+i])
                             

@@ -35,6 +35,8 @@ jsonStr = '{ "result" : "' +str(result)+ '",'
 if result :
     user = auth.getUser()
     jsonStr += jsonFormatter.formatUser(user)
+else:
+    jsonStr = jsonStr[:-1]
 
 jsonStr += ' }'
 
