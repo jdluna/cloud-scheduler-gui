@@ -184,14 +184,14 @@ export default class HistoryContainer extends Component {
                 obj: moment(end),
                 date: moment(end).format('YYYY-MM-DD')
             },
-            startExtendTime: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'hours').format('HH:00'),
-            maxExtendTime: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).subtract(2,'hours').format('HH:00'),
+            startExtendTime: moment(moment.utc().format('YYYY-MM-DD HH:mm')+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'hours').format('HH:00'),
+            maxExtendTime: moment(moment.utc().format('YYYY-MM-DD HH:mm')+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).subtract(2,'hours').format('HH:00'),
             viewDetail: true,
             reserveId: reservation_id,
             viewDetailKey: key,
             startExtendDate: {
-                obj: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone),
-                date: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).format('YYYY-MM-DD')
+                obj: moment(moment.utc().format('YYYY-MM-DD HH:mm')+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone),
+                date: moment(moment.utc().format('YYYY-MM-DD HH:mm')+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).format('YYYY-MM-DD')
             },
             maxExtendDate: {
                 obj: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'month'),
