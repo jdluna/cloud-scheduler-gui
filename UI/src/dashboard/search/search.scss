@@ -4,7 +4,7 @@
 .panel{
     width: 790px;
     // width: 730px;
-    height: 460px;
+    height: 477px;
     font-family: $font-primary;
     border-radius: 3px;
     border: 1px solid #929296;
@@ -100,6 +100,13 @@
                        margin-top: 9px;
                      }
                 }
+                .hinttext{
+                    font-size: 8pt;
+                    // color: #ef303e;
+                    color: #EFA430;
+                    padding-left: 25px;
+                    padding-top: 5px;
+                }
                 .input,.inputdate,.inputtime,.inputradio,.inputtype{
                     background-color: #464a5f;
                     border-radius: 3px;
@@ -143,7 +150,7 @@
                 }
                 .inputradio{
                     width: 38px;
-                    margin-right: 5px;
+                    margin-right: 1px;
                     text-align: right;
                     opacity: 0.5;
                 }

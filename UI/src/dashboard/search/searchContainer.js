@@ -61,7 +61,9 @@ export default class SearchContainer extends Component {
             },
             helpComponent: null,
             helpIcon: null,
-            timezone: moment.tz(this.appContainer.state.authen.timezone)
+            timezone: moment.tz(this.appContainer.state.authen.timezone),
+            maxLengthDate: 0,
+            maxLengthHour: 1
         }
 
 
@@ -134,6 +136,16 @@ export default class SearchContainer extends Component {
     //         }
     //     }
     // }
+
+    setMaxLength(){
+        let {startDate, endDate, startTime, endTime} = this.state
+        let diffDate = moment(endDate.date+' '+endTime).diff(moment(startDate.date+' '+startTime),'days')
+        let diffTime = moment(endDate.date+' '+endTime).diff(moment(startDate.date+' '+startTime),'hours')-(24*diffDate)
+        this.setState({
+            maxLengthDate: diffDate,
+            maxLengthHour: diffTime
+        })
+    }
 
     onStartDateChange(date) {
 
@@ -296,7 +308,7 @@ export default class SearchContainer extends Component {
 
         this.setState({
             endTime: ((endTime)>=10) ? (endTime)+':00' : '0'+(endTime)+':00'
-        })
+        },()=>{this.setMaxLength()})
     }
 
     setStartBeginDuration(){
@@ -305,12 +317,12 @@ export default class SearchContainer extends Component {
             //start date = today
             this.setState({
                 startBeginDuration : this.tmp
-            })
+            },()=>{this.setMaxLength()})
         }else{
             // not today
             this.setState({
                 startBeginDuration : 0
-            })
+            },()=>{this.setMaxLength()})
         }
     }
 
@@ -321,17 +333,17 @@ export default class SearchContainer extends Component {
             if((startTime+1)<=23){
                 this.setState({
                     startEndDuration : startTime+1
-                })
+                },()=>{this.setMaxLength()})
             }else{
                 this.setState({
                     startEndDuration : 0
-                })
+                },()=>{this.setMaxLength()})
             }
         }else{
             //end day after begin
             this.setState({
                 startEndDuration : 0
-            })
+            },()=>{this.setMaxLength()})
         }
     }
         
@@ -350,6 +362,9 @@ export default class SearchContainer extends Component {
             hoursInput.style.opacity = '0.5'
             daysLabel.style.opacity = '0.5'
             hoursLabel.style.opacity = '0.5'
+            
+            daysInput.style.border = '0px';
+            hoursInput.style.border = '0px';
         }else{
             this.setState({
                 reservationLength: {
@@ -505,56 +520,73 @@ export default class SearchContainer extends Component {
 
     onSearchSubmit(event){
         event.preventDefault()
-        this.dashboardContainer.setState({
-            dateForCard: this.state.startDate.date+' '+this.state.startTime
-        })
-        let {startDate,endDate,startTime,endTime} = this.state
-        let startDateLength = startDate.date+' '+startTime
-        let endDateLength = endDate.date+' '+endTime
-        let time = this.getReservationsLength(startDateLength,endDateLength).split(' ')
 
-        let timezoneOffset = parseInt(moment.tz(this.appContainer.state.authen.timezone).utcOffset()) / 60
+        let {startDate,endDate,startTime,endTime,maxLengthDate,maxLengthHour,reservationLength} = this.state
 
-        if(timezoneOffset >=10 || timezoneOffset<=-10){
-            if(timezoneOffset < 0){
-                timezoneOffset = timezoneOffset.toString() +'00'
-            }else{
-                timezoneOffset = '+'+timezoneOffset.toString() +'00'
-            }
+        if(reservationLength.days>maxLengthDate || (reservationLength.days==maxLengthDate&&reservationLength.hours>maxLengthHour))
+        {
+            let {daysInput, hoursInput} = this.state.reservationLengthNode
+            daysInput.style.border = '1.5px solid #ef303e';
+            hoursInput.style.border = '1.5px solid #ef303e';
+            console.log('clear search result')
         }else{
-            if(timezoneOffset < 0){
-                timezoneOffset = timezoneOffset.toString()
-                timezoneOffset = timezoneOffset.slice(0,1)+'0'+timezoneOffset.slice(1,2)+'00'
-            }else{
-                timezoneOffset = timezoneOffset.toString()
-                timezoneOffset = '+0'+timezoneOffset.toString()+'00'
-            }
-        }
-        
-        let startDateUTC = moment(startDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
-        let endDateUTC = moment(endDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
 
-        let resource = []
-        this.state.resource.map((data,key)=>{
-            if(data==''){
-                resource.push(0)
+            let {daysInput, hoursInput} = this.state.reservationLengthNode
+            daysInput.style.border = '0px';
+            hoursInput.style.border = '0px';
+
+            this.dashboardContainer.setState({
+                dateForCard: this.state.startDate.date+' '+this.state.startTime
+            })
+            let startDateLength = startDate.date+' '+startTime
+            let endDateLength = endDate.date+' '+endTime
+            let time = this.getReservationsLength(startDateLength,endDateLength).split(' ')
+
+            let timezoneOffset = parseInt(moment.tz(this.appContainer.state.authen.timezone).utcOffset()) / 60
+
+            if(timezoneOffset >=10 || timezoneOffset<=-10){
+                if(timezoneOffset < 0){
+                    timezoneOffset = timezoneOffset.toString() +'00'
+                }else{
+                    timezoneOffset = '+'+timezoneOffset.toString() +'00'
+                }
             }else{
-                resource.push(data)
+                if(timezoneOffset < 0){
+                    timezoneOffset = timezoneOffset.toString()
+                    timezoneOffset = timezoneOffset.slice(0,1)+'0'+timezoneOffset.slice(1,2)+'00'
+                }else{
+                    timezoneOffset = timezoneOffset.toString()
+                    timezoneOffset = '+0'+timezoneOffset.toString()+'00'
+                }
             }
-        })
-        let params = {
-            params:{
-                resources: resource.toString(),
-                connection_type: this.state.additionalNetwork,
-                image_type: this.state.imageType,
-                begin: startDateUTC,
-                end: endDateUTC,
-                all_period: (this.state.reservationLength.value=='all') ? 'True' : 'False',
-                days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
-                hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours)
+            
+            let startDateUTC = moment(startDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
+            let endDateUTC = moment(endDateLength+" "+timezoneOffset, "YYYY-MM-DD HH:mm Z").tz("UTC").format('YYYY-MM-DD HH:mm:00');
+
+            let resource = []
+            this.state.resource.map((data,key)=>{
+                if(data==''){
+                    resource.push(0)
+                }else{
+                    resource.push(data)
+                }
+            })
+            let params = {
+                params:{
+                    resources: resource.toString(),
+                    connection_type: this.state.additionalNetwork,
+                    image_type: this.state.imageType,
+                    begin: startDateUTC,
+                    end: endDateUTC,
+                    all_period: (this.state.reservationLength.value=='all') ? 'True' : 'False',
+                    days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
+                    hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours)
+                }
             }
+            this.queryResource(params)
         }
-        this.queryResource(params)
+
+       
     }
 
     getReservationsLength(startDate,endDate){

@@ -241,6 +241,7 @@ export default class Search extends Component {
                                                     <span ref='hoursLabel' className={Style.unittext}> hours</span>
                                                 </div>
                                             </div>
+                                            <div className={Style.hinttext}>* Maximum length : {this.props.searchContainer.state.maxLengthDate} days {this.props.searchContainer.state.maxLengthHour} hours</div>
                                         </div>
                                     </div>
                                     <div className={Style.divideblock2}>
