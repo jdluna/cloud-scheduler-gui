@@ -236,7 +236,7 @@ class ReservationManager:
         return ''.join(random.choice(chars) for self._ in range(size))
         
         
-    def getReservations(self, sessionId = None, userId = None, ended = True):
+    def getReservations(self, sessionId = None, userId = None, ended = None):
         
         if sessionId == None and userId == None:
             return None
@@ -276,7 +276,11 @@ class ReservationManager:
                         r.setReservationsSite() 
                         status = r.getReservationsSite()[0].getStatus()
                         
-                        if ended:
+                        if ended == None:
+                            #for pcc
+                            self.__reservations.append(r)
+                            
+                        elif ended:
                             #history (already ended)
                             if diff >= timedelta(hours=0) or status == 'cancel':
                                 self.__reservations.append(r)
@@ -284,7 +288,7 @@ class ReservationManager:
                         else:
                             #see reservations which havn't ended
                             if diff < timedelta(hours=0) and status != 'cancel':                   
-                                self.__reservations.append(r)     
+                                self.__reservations.append(r)  
                                 
                     self.__db.unlock()
             finally:
@@ -292,11 +296,38 @@ class ReservationManager:
                 
         return self.__reservations
     
-    def getAllReservations(self, sessionId, ended = True):
+    def getAllRunningReservations(self, sessionId, ended):
         self.__db = Database()        
         self.__sessionId = sessionId
         self.__allReservations = []
         
+        if self.__db.connect():
+            #check session id and get user id
+            auth = AuthenticationManager()
+            if auth.isSessionIdCorrect(self.__sessionId):
+                self.__userId = auth.getUser().getUserId()
+                sql = 'SELECT `status` FROM `user` WHERE `user_id` = "'+str(self.__userId)+'";'
+                self.__db.execute(sql)
+                status = self.__db.getCursor().fetchone()[0]
+                
+                if str(status).lower() != 'admin':
+                    return False
+                else:
+                    #get all reservations in the system
+                    sql = 'SELECT `user_id` FROM `user`;'
+                    self.__db.execute(sql)
+                    data = self.__db.getCursor().fetchall()
+                    
+                    for d in data:
+                        self.__allReservations.append(self.getReservations(userId=d[0],ended=ended))
+              
+        return self.__allReservations
+        
+    def getAllReservations(self, sessionId, ended = None):
+        self.__db = Database()        
+        self.__sessionId = sessionId
+        self.__allReservations = []
+
         if self.__db.connect():
             #check session id and get user id
             auth = AuthenticationManager()
@@ -472,6 +503,7 @@ class ReservationManager:
         self.__db = Database() 
         
         if self.__db.connect():
+            
             try:
                 #check session id and get user id
                 auth = AuthenticationManager()
@@ -570,7 +602,7 @@ class ReservationManager:
                     
                     self.__db.commit()
                     return True
-                
+               
             except:
                 self.__db.rollback()
                 return False
@@ -612,5 +644,9 @@ class ReservationManager:
                                 if self.__db.getCursor().fetchone() != None:
                                     self.__db.commit()
                                     return True
+                    elif self.__db.execute(sql):
+                        #update a site's status only but description is as same as the previous version
+                        self.__db.commit()
+                        return True
 
         return False

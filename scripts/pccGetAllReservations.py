@@ -1,18 +1,16 @@
 #!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
-Created on Wed Mar 08 23:11:57 2017
+Created on Thu Jun 01 22:15:55 2017
 
 @author: bamboojfc
 """
-
 
 import cgitb
 cgitb.enable()
 
 import cgi
 form = cgi.FieldStorage()
-
 
 ###variable from front-end###
 SESSION_ID = form.getvalue('session_id')
@@ -26,7 +24,7 @@ from JSONFormatter import JSONFormatter
 from ReservationManager import ReservationManager
 
 resManager = ReservationManager()
-reservations = resManager.getAllRunningReservations(sessionId = SESSION_ID, ended = False)
+reservations = resManager.getAllReservations(sessionId = SESSION_ID)
 
 jsonFormatter = JSONFormatter()
 

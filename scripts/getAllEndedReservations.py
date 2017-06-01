@@ -25,7 +25,7 @@ print
 from JSONFormatter import JSONFormatter
 from ReservationManager import ReservationManager
 resManager = ReservationManager()
-reservations = resManager.getAllReservations(sessionId = SESSION_ID, ended = True)
+reservations = resManager.getAllRunningReservations(sessionId = SESSION_ID, ended = True)
 
 jsonFormatter = JSONFormatter()
 jsonStr = '{ "result" : [' 
