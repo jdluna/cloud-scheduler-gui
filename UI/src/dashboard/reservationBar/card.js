@@ -25,25 +25,29 @@ export default class card extends Component {
                         <img className={style.icon} src='img/ic_navigate_next.svg' onClick={this.props.cardContainer.onNextDate}/>
                     </div>
                     <div className={style.chart}>
-                        <div>
-                            <div className={style.innerlabel}>
-                                <div className={style.label}>{this.props.cardContainer.state.site.cpuAvailable}</div>
-                                <div className={style.minilabel}>CPUs</div>
+                        <div className={style.chartWrap}>
+                            <div className={style.wrap}>
+                                <div className={style.innerlabel}>
+                                    <div className={style.label}>{this.props.cardContainer.state.site.cpuAvailable}</div>
+                                    <div className={style.minilabel}>CPUs</div>
+                                </div>
+                                {/*<div className={style.chartwrap}>*/}
+                                    <canvas className={style.padding} ref="cpu" width='70' height='70'></canvas>
+                                {/*</div>*/}
+                                <div className={style.label}>CPU</div>
                             </div>
-                            {/*<div className={style.chartwrap}>*/}
-                                <canvas className={style.padding} ref="cpu" width='70' height='70'></canvas>
-                            {/*</div>*/}
-                            <div className={style.label}>CPU</div>
                         </div>
-                        <div>
-                            <div className={style.innerlabel}>
-                                <div className={style.label}>{this.props.cardContainer.state.site.memAvailable}</div>
-                                <div className={style.minilabel}>GB</div>
+                        <div className={style.chartWrap}>
+                            <div className={style.wrap}>
+                                <div className={style.innerlabel}>
+                                    <div className={style.label}>{this.props.cardContainer.state.site.memAvailable}</div>
+                                    <div className={style.minilabel}>GB</div>
+                                </div>
+                                {/*<div  className={style.chartwrap}>*/}
+                                    <canvas className={style.padding} ref="mem" width='70' height='70'></canvas>
+                                {/*</div>*/}
+                                <div className={style.label}>Memory</div>
                             </div>
-                            {/*<div  className={style.chartwrap}>*/}
-                                <canvas className={style.padding} ref="mem" width='70' height='70'></canvas>
-                            {/*</div>*/}
-                            <div className={style.label}>Memory</div>
                         </div>
                     </div>
                     <div className={style.resource}>
