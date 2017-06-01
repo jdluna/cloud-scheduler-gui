@@ -1,6 +1,16 @@
 @import '../../sass/_colors.scss';
 @import '../../sass/_fonts.scss';
 
+@keyframes wraper_animate{
+    from {
+        margin-right: -25px;
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .panel{
     width: 790px;
     // width: 730px;
@@ -283,6 +293,10 @@
     color: #EFA430;
     display: none;
     
+    animation-name: wraper_animate;
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
+
     .helpHeader{
       padding-top: 6px;
       padding-left: 35%;
@@ -313,13 +327,13 @@
     }
     .helpDuration{
         width: 210px;
-        height: 160px;
+        min-height: 160px;
         margin-top: 15px;
         border-radius: 3px;
         border: 1px solid #FFFFFF;
         background-color: rgba(0,0,0,0.66);
         font-size: 9pt;
-        padding: 8px 8px 0px 8px;
+        padding: 8px 8px 8px 8px;
     }
     .helpOthers{
         width: 210px;

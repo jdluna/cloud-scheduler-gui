@@ -93,6 +93,9 @@
             width: 100%;
             font-size: 9pt;
             display: flex;
+            .spaceCenter{
+                width: 24px;
+            }
             .data{
                 display: flex;
                 flex-direction: column;

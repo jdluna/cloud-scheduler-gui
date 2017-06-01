@@ -5,16 +5,18 @@ export default class Help2 extends Component {
     render() {
         return (
             <section className={Style.cardwrap}>
-                <div className={Style.title}></div>
+                <div className={Style.title}>PRAGMA Cloud Testbed services</div>
                 <div className={Style.content2}>
                     <div className={Style.img}><div className={Style.border2}><img width='100%' height='100%' src='img/tutorial-2-1.png'/></div></div>
+                    <img src='img/ic_arrow_forward.svg'/>
                     <div className={Style.img}><div className={Style.border2}><img width='100%' height='100%' src='img/tutorial-2-2.png'/></div></div>
                 </div>
                 <div className={Style.detail2}>
                     <div className={Style.data}>
                         <span>A circle marker on the map represents to a group of sites.</span>
-                        <span>Number inside the circle shows th amount of site in that group.</span>
+                        <span>Number inside the circle shows the amount of site in that group.</span>
                     </div>
+                    <div className={Style.spaceCenter}></div>
                     <div className={Style.data}>
                         <span>After clicking on the circle marker or zoom in the map,</span>
                         <span>it seperates to regular markers in that group.</span>

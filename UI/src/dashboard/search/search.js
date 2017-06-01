@@ -140,7 +140,7 @@ export default class Search extends Component {
                     <div className={Style.helpContent} ref='helpComponent' >
                         <div className={Style.helpHeader}>
                             Help (?)
-                        <img src='img/ic_close.svg' onClick={this.props.searchContainer.onHelpClose} />
+                            <img src='img/ic_close.svg' onClick={this.props.searchContainer.onHelpClose} />
                         </div>
                         <div className={Style.horizontalline}></div>
                         <div className={Style.helpResource}>
@@ -156,8 +156,9 @@ export default class Search extends Component {
                             Please specify begin and end date time. <br />
                             <br />- The first option, <b>'From begin to end'</b>, is for searching resources which are <b>available from begin to end date time. </b><br />
                             <br />- The second option <b>(..days ..hours)</b> is for searching resources which are available for the specified reservation length
-                        <b> on some period from begin to end date time</b>.
-                    </div>
+                            <b> on some period from begin to end date time</b>.
+                        </div>
+                        
                         <div className={Style.helpDurationArrow}>
                             <img src='img/ic_arrow_right.svg' />
                         </div>
