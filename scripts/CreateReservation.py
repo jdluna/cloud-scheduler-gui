@@ -63,7 +63,7 @@ reservation = reservationManager.canCreateReservation(SESSION_ID, BEGIN, END, SI
 result = 'fail'
 
 if reservation :
-    reservationManager.createReservation(TITLE, DESCRIPTION, TYPE)
+    t = reservationManager.createReservation(TITLE, DESCRIPTION, TYPE)
     result = reservationManager.getCreateReservationStatus()
     
     
@@ -87,7 +87,10 @@ if result == 'fail':
         jsonStr += ']'
         
 else:
-    jsonStr += ' "reserve_id" : "'+str(reservationManager.getReservationID()) + '"'
+    jsonStr += ' "reserve_id" : "'+str(reservationManager.getReservationID()) + '",'
+    jsonStr += ' "request" : "'+str(reservationManager.returnRequestLock()) + '",'
+    jsonStr += ' "getlock" : "'+str(reservationManager.returnGetLock()) + '",'
+    jsonStr += ' "unlock" : "'+str(t) + '"'
 
 jsonStr += '}'
 

@@ -58,12 +58,17 @@ class ReservationManager:
                 #check available resources in sites
                 siteStatus = [False]*len(sitesId)
                 
+                n = datetime.now()
+                self.__requestLock = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond                
+                
                 #get data of this site
                 if step == 1:
                     self.__db.lock({ 'site' : 'READ', 'schedule':'READ' })
                 else:
                     self.__db.lock({ 'site' : 'READ', 'schedule':'WRITE', 'site_reserved' : 'WRITE', 'reservation':'WRITE' })
                 
+                n = datetime.now()
+                self.__getLock = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond
                 for i in range(0,len(sitesId)):
                     #sitesId = list of all site user selected.
                     self.__db.execute('SELECT * FROM `site` WHERE `site_id` = "'+str(sitesId[i])+'";')
@@ -196,7 +201,10 @@ class ReservationManager:
                 
                 self.__db.commit()
                 self.__isComplete = True
+                n= datetime.now()
+                t = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond
                 self.__db.unlock()
+                return t
                 
             except:
                 self.__db.rollback()
@@ -206,7 +214,15 @@ class ReservationManager:
         else:
            self.__isComplete = False 
     
+    def returnGetLock(self):
+        return self.__getLock
     
+    def returnUnlock(self):    
+        return self.__unLock
+    
+    def returnRequestLock(self):       
+        return self.__requestLock
+        
     def getCreateReservationStatus(self):
         if self.__isComplete:
             return 'success'
@@ -362,7 +378,11 @@ class ReservationManager:
                 self.__userId = auth.getUser().getUserId()
                 
                 try:
+                    n = datetime.now()
+                    self.__requestLock = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond
                     self.__db.lock({'site':'READ','schedule':'WRITE','site_reserved':'READ','reservation':'WRITE'})
+                    n = datetime.now()
+                    self.__getLock = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond
                     sql = 'SELECT `end` FROM `reservation` WHERE `reservation_id`="'+str(reservationId)+'";'
                     self.__db.execute(sql)
                     data = self.__db.getCursor().fetchone()            
@@ -460,6 +480,8 @@ class ReservationManager:
                     return False
                 finally:
                     self.__db.unlock()
+                    n = datetime.now()
+                    self.__unLock = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond
                     self.__db.close() 
                   
             else:
@@ -522,9 +544,12 @@ class ReservationManager:
                     sql = 'INSERT INTO `canceled_reservation` VALUES ( "'+str(reservationId)+'", "'+str(reason)+'", "'+str(end)+'");'             
                     self.__db.execute(sql)
                     
-                    
+                    n = datetime.now()
+                    self.__requestLock = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond  
                     #schedule table 
                     self.__db.lock({'schedule':'WRITE'})
+                    n = datetime.now()
+                    self.__getLock = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond
                     diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-NOW
                     if diff < timedelta(hours=0):
                         #running reservation
@@ -575,6 +600,9 @@ class ReservationManager:
                 self.__db.rollback()
                 return False
             finally:
+                self.__db.unlock()
+                n = datetime.now()
+                self.__unLock = n.strftime("%Y-%m-%d %H:%M:%S:")+ '%d' % n.microsecond
                 self.__db.close()
             
         return False

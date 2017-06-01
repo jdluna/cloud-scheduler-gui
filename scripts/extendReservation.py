@@ -32,6 +32,10 @@ reservationManager = ReservationManager()
 reservation = reservationManager.extend(SESSION_ID, END, RESERVATION_ID)
 
     
-jsonStr = '{ "result" : "' +str(reservation)+ '" }'
-
+jsonStr = '{ "result" : "' +str(reservation)+ '",'
+if reservation:
+    jsonStr += '"request" : "' + reservationManager.returnRequestLock() + '", "getlock" : "'+ reservationManager.returnGetLock() + '", "unlock" : "' + reservationManager.returnUnlock() +'" }'
+else:
+    jsonStr = jsonStr[:-1]
+    jsonStr += '}'
 print jsonStr

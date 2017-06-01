@@ -27,7 +27,10 @@ from ReservationManager import ReservationManager
 reservationManager = ReservationManager()
 reservation = reservationManager.cancel(SESSION_ID, RESERVATION_ID, REASON)
 
-    
-jsonStr = '{ "result" : "' +str(reservation)+ '" }'
-
+jsonStr = '{ "result" : "' +str(reservation)+ '",'
+if reservation:
+    jsonStr += '"request" : "' + reservationManager.returnRequestLock() + '", "getlock" : "'+ reservationManager.returnGetLock() + '", "unlock" : "' + reservationManager.returnUnlock() +'" }'
+else:
+    jsonStr = jsonStr[:-1]
+    jsonStr += '}'
 print jsonStr
