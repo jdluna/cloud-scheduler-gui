@@ -44,6 +44,7 @@ export default class ReservationContainer extends Component {
             reservationLength: '',
             day: 0,
             hour: 1,
+            month: 0,
             imageType: 'Any',
             startBeginDuration: this.tmp,
             endBeginDuration: 23,
@@ -105,6 +106,7 @@ export default class ReservationContainer extends Component {
         let start = moment(startDate+' '+startTime,'YYYY-MM-DD HH:mm')
         let end = moment(endDate+' '+endTime,'YYYY-MM-DD HH:mm')
 
+        let month = end.diff(start,'months')
         let day = end.diff(start,'days')
         let hour = end.diff(start,'hours')
         let length = ''
@@ -116,7 +118,8 @@ export default class ReservationContainer extends Component {
         this.setState({
             reservationLength: length,
             day: day,
-            hour: hour
+            hour: hour,
+            month: month
         })
     }
 
@@ -346,7 +349,13 @@ export default class ReservationContainer extends Component {
 
     onNextStep(event){
         let step = event.target.name
-        if(this.state.day < 31 || (this.state.day == 31 && this.state.hour == 0)){
+
+        let {startDate,endDate,startTime,endTime} = this.state
+        let startDateObj = moment(startDate.date+' '+startTime).add(1,'months')
+        let endDateLengthObj = moment(endDate.date+' '+endTime)
+        let diff = endDateLengthObj.diff(startDateObj,'hours')
+        
+        if(diff<=0){
             if(step=='step1'){
                 this.state.alertNode.innerHTML = ''
                 this.state.alertNode.style.display = 'none'
