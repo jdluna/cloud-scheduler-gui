@@ -27,7 +27,7 @@ try :
         for a in attr:
             var = a.split('=')
             if len(var) == 2:  
-                vName = var[0]
+                vName = var[0].replace(' ','')
                 vValue = var[1]
                 vValue=vValue.replace('\n','')
                 jsonStr += '"'+str(vName)+'":'+str(vValue)+','
