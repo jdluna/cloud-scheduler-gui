@@ -62,16 +62,26 @@ class AuthenticationManager:
         return True
     
         
-    def createUser(self,username,getAnotherUserData=False):
-
+    def createUser(self,username=None,getAnotherUserData=False,email=None):
+        
         db = Database()
         if db.connect():
-            sql = "SELECT * FROM `user` WHERE `username` = '"+str(username)+"';"
-            db.execute(sql)
-            data = db.getCursor().fetchone()
-        
-            if data != None:
-                self.__usr = User(data=data,getAnotherUserData=getAnotherUserData)
+            if email!=None:
+                #forget password
+                sql = "SELECT * FROM `user` WHERE `email` = '"+str(email)+"';"
+                db.execute(sql)
+                data = db.getCursor().fetchone()
+            
+                if data != None:
+                    self.__usr = User(data=data,getAnotherUserData=getAnotherUserData)
+                
+            else:
+                sql = "SELECT * FROM `user` WHERE `username` = '"+str(username)+"';"
+                db.execute(sql)
+                data = db.getCursor().fetchone()
+            
+                if data != None:
+                    self.__usr = User(data=data,getAnotherUserData=getAnotherUserData)
         
             db.close()
     

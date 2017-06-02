@@ -53,6 +53,12 @@ export default class LoginContainer extends Component {
              console.log(error)
          })
     }
+        
+    onForgetPassword(event){
+         event.preventDefault()
+         
+         
+    }
 
     onCancel(event){
         event.preventDefault()

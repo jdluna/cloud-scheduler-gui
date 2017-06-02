@@ -15,3 +15,4 @@ export const ALL_ENDED_RESERVATIONS_ENDPOINT = API_SERVER+'/getAllEndedReservati
 export const EXTEND_RESERVATION_ENDPOINT = API_SERVER+'/extendReservation.py'
 export const DELETE_RESERVATION_ENDPOINT = API_SERVER+'/cancelReservation.py'
 export const GET_ALL_IMAGES_ENDPOINT = API_SERVER+'/getAllImages.py'
+export const FORGET_PASSWORD_ENDPOINT = API_SERVER+'/forgetPassword.py'
