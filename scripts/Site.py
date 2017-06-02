@@ -22,7 +22,6 @@ class Site:
     
     def __init__(self, site=None, site_id=None, db=None):   
         self.__resources = []
-        self.__allresources = []
         
         with open(CONFIG_FILE,'r') as data_file:    
             jsonObj = json.load(data_file)
