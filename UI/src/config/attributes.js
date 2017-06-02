@@ -1,4 +1,4 @@
-export const NETWORK_TYPE = ['ENT','IPOP']
+export const NETWORK_TYPE = [{name:'ENT'},{name:'IPOP'}]
 export const RESOURCES = [{
     name: 'CPU',
     unit: null,

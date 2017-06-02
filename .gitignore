@@ -3,3 +3,4 @@ UI/.vscode
 UI/dist
 scripts/.metadata
 scripts/Python
+scripts/config/attributes.json
