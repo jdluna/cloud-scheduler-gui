@@ -51,7 +51,7 @@ class Site:
                 db.connect()
                     
             for i in range(0,len(jsonObj['RESOURCES'])):
-                self.addResource(db,Resource(siteId=self.__siteId,typ=jsonObj['RESOURCES'][i]['name'], total=site[14+i]))
+                self.addResource(db,Resource(siteId=self.__siteId,typ=jsonObj['RESOURCES'][i]['parameter'], total=site[14+i]))
             
         self.__image_types = []
         self.__connection_types = []
