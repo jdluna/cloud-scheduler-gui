@@ -12,7 +12,9 @@ cgitb.enable()
 
 
 from Database import Database
-from Resource import CPU, Memory
+from Resource import Resource
+import json
+CONFIG_FILE = 'config/attributes.json'
 
 
 class Site:
@@ -20,6 +22,10 @@ class Site:
     
     def __init__(self, site=None, site_id=None, db=None):   
         self.__resources = []
+        self.__allresources = []
+        
+        with open(CONFIG_FILE,'r') as data_file:    
+            jsonObj = json.load(data_file)
         
         if site_id != None:
             self.__siteId = site_id
@@ -42,13 +48,10 @@ class Site:
             
             if db ==  None:
                 db = Database()
-                if db.connect() :
-                    self.addResource(db,CPU(siteId=self.__siteId, total=site[14]))
-                    self.addResource(db,Memory(siteId=self.__siteId, total=site[15]))
-                    db.close
-            else:
-                self.addResource(db,CPU(siteId=self.__siteId, total=site[14]))
-                self.addResource(db,Memory(siteId=self.__siteId, total=site[15]))
+                db.connect()
+                    
+            for i in range(0,len(jsonObj['RESOURCES'])):
+                self.addResource(db,Resource(siteId=self.__siteId,typ=jsonObj['RESOURCES'][i]['name'], total=site[14+i]))
             
         self.__image_types = []
         self.__connection_types = []

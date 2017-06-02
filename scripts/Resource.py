@@ -9,6 +9,7 @@ Created on Thu Feb 09 16:44:00 2017
 import cgitb
 cgitb.enable()
 
+
 from datetime import datetime,timedelta
 NOW = datetime.utcnow()
 
@@ -94,27 +95,4 @@ class Resource:
     def getAmount(self):
         return self.__amount 
         
-
-class CPU(Resource,object):
-    
-    def __init__(self,siteId=None,total=None,availAmount=None):
-        super(CPU,self).setType("CPU")
-        super(CPU,self).setTotal(total)
-        super(CPU,self).setSiteId(siteId)
-        
-    
-    def setAvailableAmount(self,db=None,begin=NOW.strftime("%Y-%m-%d %H:00:00"),end=NOW.strftime("%Y-%m-%d %H:00:00")):
-        self.__availableAmount = super(CPU,self).setAvailableAmount(db=db,begin=begin,end=end)
-
-
-
-class Memory(Resource,object):
-
-    def __init__(self,siteId=None,total=None,availAmount=None):
-        super(Memory,self).setType("memory")
-        super(Memory,self).setTotal(total)
-        super(Memory,self).setSiteId(siteId)
-
-    def setAvailableAmount(self,db=None,begin=NOW.strftime("%Y-%m-%d %H:00:00"),end=NOW.strftime("%Y-%m-%d %H:00:00")):
-        self.__availableAmount = super(Memory,self).setAvailableAmount(db=db,begin=begin,end=end)
     
