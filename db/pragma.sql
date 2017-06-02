@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2017 at 09:28 AM
+-- Generation Time: Jun 02, 2017 at 12:35 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -79,6 +79,19 @@ CREATE TABLE `connection_type_desc` (
 INSERT INTO `connection_type_desc` (`connection_type_id`, `name`, `description`) VALUES
 (1, 'ENT', 'pragma ent'),
 (2, 'IPOP', 'ipop connection');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `forget_password`
+--
+
+CREATE TABLE `forget_password` (
+  `id` varchar(16) NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -194,7 +207,7 @@ CREATE TABLE `session` (
 
 CREATE TABLE `site` (
   `site_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(16) NOT NULL,
+  `name` varchar(32) NOT NULL,
   `description` varchar(64) NOT NULL,
   `contact` varchar(32) NOT NULL,
   `location` varchar(64) NOT NULL,
@@ -218,11 +231,11 @@ CREATE TABLE `site` (
 INSERT INTO `site` (`site_id`, `name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory`) VALUES
 (1, 'NCHC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 16, 32),
 (2, 'AIST Cloud', 'Cloudstack. Hosting Virtual clusters and virtual machines.', 'jh.haga@aist.go.jp', 'Cloudstack. Hosting Virtual clusters and virtual machines.', '/home/ssmallen/pragma_boot', 2, '-', '/home/ssmallen/pcc', 'ssmallen', 'Rocks KVM', 'pragma.aist.org', 36.060839, 140.137303, 32, 64),
-(3, 'ABCD cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 41.8339042, -88.0123419, 128, 32),
-(4, 'A1 cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 42.7364923, -78.0523389, 64, 64),
+(3, 'Indiana University cloud', 'Rocks 6.2 KVM. Hosting Virtual clusters and virtual machines.', 'quzhou@umail.iu.edu', 'Indiana University', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma8.cs.indiana.edu', 39.1704, -86.5143, 16, 64),
+(4, 'NAIST cloud', 'Rocks 6.2 KVM. Hosting Virtual clusters and virtual machines.', 'sd-rocks00.naist.jp', 'NAIST', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'sd-rocks00.naist.jp', 34.6853, -135.8328, 92, 192),
 (5, 'TOS cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 30.5621124, -86.1100215, 64, 32),
 (6, 'TP cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.7849113, 90.3579546, 32, 64),
-(7, 'UCSD cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 32.8248175, -115.1879546, 64, 128),
+(7, 'UCSD cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'calit2-119-121.ucsd.edu', 32.8248175, -115.1879546, 64, 128),
 (8, 'TW cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 23.4790323, 120.4142769, 64, 64),
 (9, 'B1 cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 55.1879546, 65.1879546, 32, 32),
 (10, 'CC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 47.1879546, 8.0834012, 16, 16);
@@ -269,12 +282,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `firstname`, `lastname`, `email`, `phone`, `status`, `organization`, `position`, `language`, `timezone`, `public_key`) VALUES
-(1, 'project401', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'nannapas', 'banluesombatkul', 'nannapas.blsbk@gmail.com', NULL, 'user', 'TU', 'student', 'TH', 'America/New_York', 'AAAAAAA'),
-(2, 'admin', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'prapansak', 'kaewlamul', 'prapansak.kaew@gmail.com', NULL, 'admin', 'TU', 'student', 'TH', 'America/New_York', 'BBBBBBBB'),
-(3, 'test', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'pragma', '32', 'pragma@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC'),
-(4, 'user1', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER1', 'TEST', 'user1@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC'),
-(5, 'user2', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER2', 'TEST', 'user2@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC'),
-(6, 'user3', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER3', 'TEST', 'user3@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'CCCCCCCC');
+(1, 'project401', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'nannapas', 'banluesombatkul', 'bamboojfc@gmail.com', NULL, 'admin', 'TU', 'student', 'TH', 'America/New_York', 'AAAAB3NzaC1yc2EAAAABJQAAAQEA2sl4a0TnLMUmqBUqOaiYiAq83aYwfvMFjekYOqHhS2O9jczt+8hbZsZo6FnwMec5SVpTSkh1R2BB+ForkhWK/XEhKIziGv3xoK3mc7ebAHptl5Uv8zUaittWIFH4AlZoLSmztcWM8MwWucpJ8cO67nZUn/07IVMOdIcjD0uYAdiWJ6HHu/EVJn9S4FegcaF76ha48sTZl9SXy2W0guVzazEjI6u47fPfK844ZLvd6J2XgYLcRuPMRm9Zii17YIdYQ9lr0HaPvidw1Gn920b1Rkz4HdMfwnhB1NDm4T3IXglAM0LZ/yvmlGAsRyAMSNdYMzBMP7Ep7WbUa+gPMojnJQ=='),
+(2, 'admin', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'prapansak', 'kaewlamul', 'prapansak.kaew@gmail.com', NULL, 'admin', 'TU', 'student', 'TH', 'America/New_York', 'AAAAB3NzaC1yc2EAAAABJQAAAQEA2sl4a0TnLMUmqBUqOaiYiAq83aYwfvMFjekYOqHhS2O9jczt+8hbZsZo6FnwMec5SVpTSkh1R2BB+ForkhWK/XEhKIziGv3xoK3mc7ebAHptl5Uv8zUaittWIFH4AlZoLSmztcWM8MwWucpJ8cO67nZUn/07IVMOdIcjD0uYAdiWJ6HHu/EVJn9S4FegcaF76ha48sTZl9SXy2W0guVzazEjI6u47fPfK844ZLvd6J2XgYLcRuPMRm9Zii17YIdYQ9lr0HaPvidw1Gn920b1Rkz4HdMfwnhB1NDm4T3IXglAM0LZ/yvmlGAsRyAMSNdYMzBMP7Ep7WbUa+gPMojnJQ=='),
+(3, 'test', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'pragma', '32', 'nannapas.blsbk@gmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'AAAAB3NzaC1yc2EAAAABJQAAAQEA2sl4a0TnLMUmqBUqOaiYiAq83aYwfvMFjekYOqHhS2O9jczt+8hbZsZo6FnwMec5SVpTSkh1R2BB+ForkhWK/XEhKIziGv3xoK3mc7ebAHptl5Uv8zUaittWIFH4AlZoLSmztcWM8MwWucpJ8cO67nZUn/07IVMOdIcjD0uYAdiWJ6HHu/EVJn9S4FegcaF76ha48sTZl9SXy2W0guVzazEjI6u47fPfK844ZLvd6J2XgYLcRuPMRm9Zii17YIdYQ9lr0HaPvidw1Gn920b1Rkz4HdMfwnhB1NDm4T3IXglAM0LZ/yvmlGAsRyAMSNdYMzBMP7Ep7WbUa+gPMojnJQ=='),
+(4, 'user1', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER1', 'TEST', 'snp_vsd_bam@icloud.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'AAAAB3NzaC1yc2EAAAABJQAAAQEA2sl4a0TnLMUmqBUqOaiYiAq83aYwfvMFjekYOqHhS2O9jczt+8hbZsZo6FnwMec5SVpTSkh1R2BB+ForkhWK/XEhKIziGv3xoK3mc7ebAHptl5Uv8zUaittWIFH4AlZoLSmztcWM8MwWucpJ8cO67nZUn/07IVMOdIcjD0uYAdiWJ6HHu/EVJn9S4FegcaF76ha48sTZl9SXy2W0guVzazEjI6u47fPfK844ZLvd6J2XgYLcRuPMRm9Zii17YIdYQ9lr0HaPvidw1Gn920b1Rkz4HdMfwnhB1NDm4T3IXglAM0LZ/yvmlGAsRyAMSNdYMzBMP7Ep7WbUa+gPMojnJQ=='),
+(5, 'user2', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER2', 'TEST', 'prapansak.kaew@hotmail.com', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'AAAAB3NzaC1yc2EAAAABJQAAAQEA2sl4a0TnLMUmqBUqOaiYiAq83aYwfvMFjekYOqHhS2O9jczt+8hbZsZo6FnwMec5SVpTSkh1R2BB+ForkhWK/XEhKIziGv3xoK3mc7ebAHptl5Uv8zUaittWIFH4AlZoLSmztcWM8MwWucpJ8cO67nZUn/07IVMOdIcjD0uYAdiWJ6HHu/EVJn9S4FegcaF76ha48sTZl9SXy2W0guVzazEjI6u47fPfK844ZLvd6J2XgYLcRuPMRm9Zii17YIdYQ9lr0HaPvidw1Gn920b1Rkz4HdMfwnhB1NDm4T3IXglAM0LZ/yvmlGAsRyAMSNdYMzBMP7Ep7WbUa+gPMojnJQ=='),
+(6, 'user3', 'd404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db', 'USER-NUMBER3', 'TEST', 'nannapas.banl@dome.tu.ac.th', NULL, 'user', '-', 'professor', 'EN', 'America/New_York', 'AAAAB3NzaC1yc2EAAAABJQAAAQEA2sl4a0TnLMUmqBUqOaiYiAq83aYwfvMFjekYOqHhS2O9jczt+8hbZsZo6FnwMec5SVpTSkh1R2BB+ForkhWK/XEhKIziGv3xoK3mc7ebAHptl5Uv8zUaittWIFH4AlZoLSmztcWM8MwWucpJ8cO67nZUn/07IVMOdIcjD0uYAdiWJ6HHu/EVJn9S4FegcaF76ha48sTZl9SXy2W0guVzazEjI6u47fPfK844ZLvd6J2XgYLcRuPMRm9Zii17YIdYQ9lr0HaPvidw1Gn920b1Rkz4HdMfwnhB1NDm4T3IXglAM0LZ/yvmlGAsRyAMSNdYMzBMP7Ep7WbUa+gPMojnJQ==');
 
 --
 -- Indexes for dumped tables
@@ -300,6 +313,13 @@ ALTER TABLE `connection_type`
 ALTER TABLE `connection_type_desc`
   ADD PRIMARY KEY (`connection_type_id`),
   ADD UNIQUE KEY `connection_type_id` (`connection_type_id`);
+
+--
+-- Indexes for table `forget_password`
+--
+ALTER TABLE `forget_password`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `image_type`
@@ -412,6 +432,12 @@ ALTER TABLE `connection_type`
 --
 ALTER TABLE `connection_type_desc`
   ADD CONSTRAINT `connection_type_desc_ibfk_1` FOREIGN KEY (`connection_type_id`) REFERENCES `connection_type` (`connection_type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `forget_password`
+--
+ALTER TABLE `forget_password`
+  ADD CONSTRAINT `forget_password_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `image_type`
