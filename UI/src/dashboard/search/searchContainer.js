@@ -528,7 +528,10 @@ export default class SearchContainer extends Component {
             let {daysInput, hoursInput} = this.state.reservationLengthNode
             daysInput.style.border = '1.5px solid #ef303e';
             hoursInput.style.border = '1.5px solid #ef303e';
-            console.log('clear search result')
+
+            this.setState({
+                resultTable: []
+            })
         }else{
 
             let {daysInput, hoursInput} = this.state.reservationLengthNode
