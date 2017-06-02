@@ -11,7 +11,8 @@
     "start": "webpack-dev-server --hot --inline --content-base src",
     "clean-unix": "rm -rf dist",
     "copy-unix": "mkdir dist && cp src/index.html dist && cp -r src/img dist/img",
-    "prebuild-unix": "npm run clean-unix && npm run copy-unix",
+    "create-config-file": "/opt/python/bin/python ../scripts/config/createConfigFile.py",
+    "prebuild-unix": "npm run clean-unix && npm run copy-unix && npm run create-config-file",
     "build-unix": "webpack --display-error-details"
   },
   "repository": {
