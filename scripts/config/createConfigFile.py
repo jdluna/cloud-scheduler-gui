@@ -13,16 +13,20 @@ print "Content-Type: text/html"
 print "Access-Control-Allow-Origin: *"  
 print
 
-ATTRIBUTE_JS = '../../UI/src/config'
+#ATTRIBUTE_JS = '/var/www/html/cloud-scheduler-gui/UI/src/config'
+ATTRIBUTE_JS = './src/config'
 ATTRIBUTE_JSON = ''
 
 
 try :
+    import os
+    cwd = os.getcwd()
+    print cwd
     jsonStr = ''
     isExist = False
     with open(ATTRIBUTE_JS+'/attributes.js', 'r') as f:
         text = f.read().split('/*')[0]
-        jsonStr += '{'
+	jsonStr += '{'
         attr=text.split('export const ')
         for a in attr:
             var = a.split('=')
