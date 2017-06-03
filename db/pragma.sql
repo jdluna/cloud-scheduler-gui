@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 02, 2017 at 12:35 PM
+-- Generation Time: Jun 03, 2017 at 11:43 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -90,7 +90,7 @@ CREATE TABLE `forget_password` (
   `id` varchar(16) NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `password` varchar(128) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `timestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -111,27 +111,44 @@ CREATE TABLE `image_type` (
 INSERT INTO `image_type` (`site_id`, `image_type_id`) VALUES
 (1, 1),
 (1, 2),
+(1, 3),
+(1, 4),
 (2, 1),
 (2, 2),
+(2, 3),
+(2, 4),
 (3, 1),
 (3, 2),
 (3, 3),
+(3, 4),
 (4, 1),
+(4, 2),
 (4, 3),
+(4, 4),
 (5, 1),
+(5, 2),
 (5, 3),
 (5, 4),
 (6, 1),
+(6, 2),
 (6, 3),
 (6, 4),
 (7, 1),
-(7, 4),
 (7, 2),
+(7, 3),
+(7, 4),
 (8, 1),
 (8, 2),
+(8, 3),
+(8, 4),
 (9, 1),
+(9, 2),
 (9, 3),
-(10, 1);
+(9, 4),
+(10, 1),
+(10, 2),
+(10, 3),
+(10, 4);
 
 -- --------------------------------------------------------
 
@@ -238,7 +255,7 @@ INSERT INTO `site` (`site_id`, `name`, `description`, `contact`, `location`, `pr
 (7, 'UCSD cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'calit2-119-121.ucsd.edu', 32.8248175, -115.1879546, 64, 128),
 (8, 'TW cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 23.4790323, 120.4142769, 64, 64),
 (9, 'B1 cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 55.1879546, 65.1879546, 32, 32),
-(10, 'CC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 47.1879546, 8.0834012, 16, 16);
+(10, 'CC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/pragma_boot', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 47.1879546, 8.0834012, 128, 64);
 
 -- --------------------------------------------------------
 
