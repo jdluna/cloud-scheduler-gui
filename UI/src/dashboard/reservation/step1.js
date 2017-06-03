@@ -138,16 +138,20 @@ export default class Step1 extends Component {
                         <div className={Style.row}>
                             <div className={Style.block}>
                                 <div>Begin:</div>
-                                <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.startDate.obj} onChange={this.props.reservationContainer.onStartDateChange} />
-                                <img className={Style.icon} src='img/ic_date_range.svg' />
+                                <label>
+                                    <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.startDate.obj} onChange={this.props.reservationContainer.onStartDateChange} />
+                                    <img className={Style.icon} src='img/ic_date_range.svg' />
+                                </label>
                                 {timeStartList}
                             </div>
                         </div>
                         <div className={Style.row}>
                             <div className={Style.block}>
                                 <div>End:</div>
-                                <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.endDate.obj} onChange={this.props.reservationContainer.onEndDateChange} />
-                                <img className={Style.icon} src='img/ic_date_range.svg' />
+                                <label>
+                                    <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.endDate.obj} onChange={this.props.reservationContainer.onEndDateChange} />
+                                    <img className={Style.icon} src='img/ic_date_range.svg' />
+                                </label>
                                 {timeEndList}
                             </div>
                         </div>

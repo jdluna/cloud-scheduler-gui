@@ -209,16 +209,20 @@ export default class Search extends Component {
                                     <div className={Style.row}>
                                         <div className={Style.block}>
                                             <div>Begin:</div>
-                                            <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
-                                            <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            <label>
+                                                <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
+                                                <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            </label>
                                             {timeStartList}
                                         </div>
                                     </div>
                                     <div className={Style.row}>
                                         <div className={Style.block}>
                                             <div>End:</div>
-                                            <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
-                                            <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            <label>
+                                                <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
+                                                <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            </label>
                                             {timeEndList}
                                         </div>
                                     </div>
