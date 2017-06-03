@@ -61,7 +61,6 @@ class Resource:
                 maxUsed = db.fetchone()
                 if maxUsed != None:
                     maxUsed = maxUsed[0]
-		    print maxUsed
         
         else:
             #function 'search'
