@@ -1,42 +1,46 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react'
 import Card from './card'
 import DateTime from '../../lib/dateTime'
 import axios from 'axios'
-import {CARD_ENDPOINT} from '../../config/endpoints'
+import { CARD_ENDPOINT } from '../../config/endpoints'
 import moment from 'moment'
+import ChartData from './chart'
+import { RESOURCES } from '../../config/attributes'
 
 const date = new DateTime()
 export default class cardContainer extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         const dateForCard = this.props.dashBoardContainer.state.dateForCard
         this.appContainer = this.props.dashBoardContainer.props.app
-        this.currentDateStamp = (dateForCard!=null) ? moment.tz(dateForCard,this.appContainer.state.authen.timezone) : moment.tz(this.appContainer.state.authen.timezone)
+        this.currentDateStamp = (dateForCard != null) ? moment.tz(dateForCard, this.appContainer.state.authen.timezone) : moment.tz(this.appContainer.state.authen.timezone)
         this.nowDate = moment.tz(this.appContainer.state.authen.timezone)
 
-        if(dateForCard!=null){
+        if (dateForCard != null) {
             this.querySiteByDate()
-        }else{
+        } else {
             this.querySite()
         }
-        
+
         this.state = {
+            chart: this.setChartData(),
+            chartIndex: 0,
             nodeCPU: {},
             nodeMem: {},
             date: this.currentDateStamp.format('DD-MMM-YYYY').toUpperCase(),
             site: {
                 allData: {},
                 name: 'N/A',
-                cpuTotal: 0,
-                cpuAvailable: 0,
-                memTotal: 0,
-                memAvailable: 0,
+                // cpuTotal: 0,
+                // cpuAvailable: 0,
+                // memTotal: 0,
+                // memAvailable: 0,
                 desc: '',
                 running: 0
             },
-            style:{
-                ent: {backgroundColor:'#929294'},
-                ipop: {backgroundColor:'#929294'},
+            style: {
+                ent: { backgroundColor: '#929294' },
+                ipop: { backgroundColor: '#929294' },
                 card: {},
                 cardTitle: {}
             },
@@ -49,15 +53,79 @@ export default class cardContainer extends Component {
         this.onCloseCard = this.onCloseCard.bind(this)
         this.onCheckBoxChange = this.onCheckBoxChange.bind(this)
         this.onMoreInfoClick = this.onMoreInfoClick.bind(this)
+        this.onNextChart = this.onNextChart.bind(this)
+        this.onPreviousChart = this.onPreviousChart.bind(this)
     }
 
-    drawDoughnutChart(node,available,used,color='#EFA430'){
-        let myChart = new Chart(node,{
+    drawChart(){
+        let cpuUsedData = 0
+        let memUsedData = 0
+        let { chart, chartIndex } = this.state
+        try {
+            cpuUsedData = chart[chartIndex][0].total - chart[chartIndex][0].available
+            memUsedData = chart[chartIndex][1].total - chart[chartIndex][1].available
+            this.drawDoughnutChart(this.state.nodeCPU, chart[chartIndex][0].available, cpuUsedData, '#EFA430')
+            this.drawDoughnutChart(this.state.nodeMem, chart[chartIndex][1].available, memUsedData, '#9CCBE5')
+        } catch (error) {
+            this.drawDoughnutChart(this.state.nodeCPU, 0, 1, '#EFA430')
+        }
+    }
+
+    onNextChart() {
+        let { chart, chartIndex } = this.state
+        if ((chartIndex + 1) < chart.length) {
+            this.setState({
+                chartIndex: (chartIndex + 1)
+            },()=>{
+                this.drawChart()
+            })
+        }
+    }
+
+    onPreviousChart() {
+        let { chartIndex } = this.state
+        if ((chartIndex) > 0) {
+            this.setState({
+                chartIndex: (chartIndex - 1)
+            },()=>{
+                this.drawChart()
+            })
+        }
+        this.drawChart()
+    }
+
+    setChartData(response = null) {
+        let chart = []
+        let temp = []
+        RESOURCES.map((data, key) => {
+            if (temp.length < 2) {
+                let available
+                let total
+                try {
+                    available = (response != null) ? response[data.parameter]['available'] : 0
+                    total = (response != null) ? response[data.parameter]['total'] : 0
+                } catch (error) {
+                    available = 0
+                    total = 0
+                }
+                let c = new ChartData(data.name, data.unit, data.parameter, total, available)
+                temp.push(c)
+            }
+            if (temp.length >= 2 || RESOURCES.length == (key + 1)) {
+                chart.push(temp)
+                temp = []
+            }
+        })
+        return chart
+    }
+
+    drawDoughnutChart(node, available, used, color = '#EFA430') {
+        let myChart = new Chart(node, {
             type: 'doughnut',
             data: {
-                labels: ['Available','Used'],
+                labels: ['Available', 'Used'],
                 datasets: [{
-                    data: [available,used],
+                    data: [available, used],
                     backgroundColor: [
                         color,
                         '#464A5F'
@@ -79,148 +147,153 @@ export default class cardContainer extends Component {
         })
     }
 
-    querySite(){
-        axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId).then(response =>{
-            if(response.status==200){
-                let {running,site} = response.data
-                if(site.connection_type.length>1){
+    querySite() {
+        axios.get(CARD_ENDPOINT + '?site_id=' + this.props.siteId).then(response => {
+            if (response.status == 200) {
+                let { running, site } = response.data
+                if (site.connection_type.length > 1) {
                     this.setState({
-                        style:{
-                            ent: {backgroundColor:'#76FF03'},
-                            ipop: {backgroundColor:'#76FF03'}
+                        style: {
+                            ent: { backgroundColor: '#76FF03' },
+                            ipop: { backgroundColor: '#76FF03' }
                         }
                     })
-                }else{
-                    site.connection_type.map((data,key)=>{
-                        switch(data.name.toUpperCase()){
-                            case 'ENT' : this.setState({style:{ent:{backgroundColor:'#76FF03'}}}) ;break
-                            case 'IPOP' : this.setState({style:{ipop:{backgroundColor:'#76FF03'}}}) ;break
+                } else {
+                    site.connection_type.map((data, key) => {
+                        switch (data.name.toUpperCase()) {
+                            case 'ENT': this.setState({ style: { ent: { backgroundColor: '#76FF03' } } }); break
+                            case 'IPOP': this.setState({ style: { ipop: { backgroundColor: '#76FF03' } } }); break
                         }
                     })
                 }
-                
+
                 this.setState({
+                    chart: this.setChartData(response.data.site),
                     site: {
                         allData: site,
                         name: site.name,
-                        cpuTotal: site.CPU.total,
-                        cpuAvailable: site.CPU.available,
-                        memTotal: site.memory.total,
-                        memAvailable: site.memory.available,
+                        // cpuTotal: site.CPU.total,
+                        // cpuAvailable: site.CPU.available,
+                        // memTotal: site.memory.total,
+                        // memAvailable: site.memory.available,
                         desc: site.description,
                         running: running
                     }
                 })
-                let cpuUsedeData = (this.state.site.cpuTotal-this.state.site.cpuAvailable)
-                let memUsedData = (this.state.site.memTotal-this.state.site.memAvailable)
-                this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAvailable,cpuUsedeData,'#EFA430')
-                this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAvailable,memUsedData,'#9CCBE5')
-                
-            }else{
+                this.drawChart()
+
+                // let cpuUsedeData = (this.state.site.cpuTotal-this.state.site.cpuAvailable)
+                // let memUsedData = (this.state.site.memTotal-this.state.site.memAvailable)
+                // this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAvailable,cpuUsedeData,'#EFA430')
+                // this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAvailable,memUsedData,'#9CCBE5')
+            } else {
                 console.warn('query card failed!')
             }
         })
     }
 
-    querySiteByDate(){
+    querySiteByDate() {
         let dateTime = this.currentDateStamp.utc().format('YYYY-MM-DD HH:00:00')
-        axios.get(CARD_ENDPOINT+'?site_id='+this.props.siteId+'&date_req='+dateTime).then(response =>{
-            if(response.status==200){
-                let {running,site} = response.data
+        axios.get(CARD_ENDPOINT + '?site_id=' + this.props.siteId + '&date_req=' + dateTime).then(response => {
+            if (response.status == 200) {
+                let { running, site } = response.data
                 this.setState({
+                    chart: this.setChartData(response.data.site),
                     site: {
                         allData: site,
                         name: site.name,
-                        cpuTotal: site.CPU.total,
-                        cpuAvailable: site.CPU.available,
-                        memTotal: site.memory.total,
-                        memAvailable: site.memory.available,
+                        // cpuTotal: site.CPU.total,
+                        // cpuAvailable: site.CPU.available,
+                        // memTotal: site.memory.total,
+                        // memAvailable: site.memory.available,
                         desc: site.description,
                         running: running
                     }
                 })
-                let cpuUsedeData = (this.state.site.cpuTotal-this.state.site.cpuAvailable)
-                let memUsedData = (this.state.site.memTotal-this.state.site.memAvailable)
-                this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAvailable,cpuUsedeData,'#EFA430')
-                this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAvailable,memUsedData,'#9CCBE5')             
-            }else{
+                this.drawChart()
+
+                // let cpuUsedeData = (this.state.site.cpuTotal-this.state.site.cpuAvailable)
+                // let memUsedData = (this.state.site.memTotal-this.state.site.memAvailable)
+                // this.drawDoughnutChart(this.state.nodeCPU,this.state.site.cpuAvailable,cpuUsedeData,'#EFA430')
+                // this.drawDoughnutChart(this.state.nodeMem,this.state.site.memAvailable,memUsedData,'#9CCBE5')             
+            } else {
                 console.warn('query site on next date failed!')
             }
         })
     }
 
-    setChartNode(CPU,mem){
+    setChartNode(CPU, mem) {
         this.setState({
             nodeCPU: CPU,
             nodeMem: mem
         })
     }
 
-    onCheckBoxChange(event){
+    onCheckBoxChange(event) {
         event.stopPropagation()
         let entStyle = this.state.style.ent
         let ipoptyle = this.state.style.ipop
-        if(this.state.select==false){
+        if (this.state.select == false) {
             this.setState({
-                style:{
+                style: {
                     ent: entStyle,
                     ipop: ipoptyle,
                     card: {
-                        border:'1px solid #191E2C'
+                        border: '1px solid #191E2C'
                     },
-                    cardTitle: {backgroundColor: '#191E2C'}
+                    cardTitle: { backgroundColor: '#191E2C' }
                 },
                 select: true
             })
-            let {id,name,connection_type} = this.state.site.allData
-            this.props.dashBoardContainer.onSelectCard({id:id,name:name,connection:connection_type})
-        }else{
+            let { id, name, connection_type } = this.state.site.allData
+            this.props.dashBoardContainer.onSelectCard({ id: id, name: name, connection: connection_type })
+        } else {
             this.setState({
-                style:{
+                style: {
                     ent: entStyle,
                     ipop: ipoptyle,
                     card: {}
                 },
                 select: false
             })
-            let {id,name,connection_type} = this.state.site.allData
-            this.props.dashBoardContainer.onDeselectCard({id:id,name:name,connection:connection_type})
-        } 
+            let { id, name, connection_type } = this.state.site.allData
+            this.props.dashBoardContainer.onDeselectCard({ id: id, name: name, connection: connection_type })
+        }
     }
 
-    onCloseCard(event){
+    onCloseCard(event) {
         event.stopPropagation()
         this.props.dashBoardContainer.onCloseCard(this.props.siteId)
-        let {id,name,connection_type} = this.state.site.allData
-        this.props.dashBoardContainer.onDeselectCard({id:id,name:name,connection:connection_type})
+        let { id, name, connection_type } = this.state.site.allData
+        this.props.dashBoardContainer.onDeselectCard({ id: id, name: name, connection: connection_type })
     }
 
-    onNextDate(){
+    onNextDate() {
         this.setState({
-            date: this.currentDateStamp.add(1,'days').format('DD-MMM-YYYY').toUpperCase()
+            date: this.currentDateStamp.add(1, 'days').format('DD-MMM-YYYY').toUpperCase()
         })
         this.querySiteByDate()
     }
 
-    onPreviousDate(){
+    onPreviousDate() {
         let now = this.nowDate.format('DD-MMM-YYYY').toUpperCase()
         let previous = this.currentDateStamp.format('DD-MMM-YYYY').toUpperCase()
-        if(now!=previous){
+        if (now != previous) {
             this.setState({
-                date: this.currentDateStamp.subtract(1,'days').format('DD-MMM-YYYY').toUpperCase()
+                date: this.currentDateStamp.subtract(1, 'days').format('DD-MMM-YYYY').toUpperCase()
             })
             this.querySiteByDate()
         }
     }
 
-    onMoreInfoClick(){
+    onMoreInfoClick() {
         this.props.dashBoardContainer.onViewMoreInfo(this.state.site.allData)
     }
 
     render() {
         return (
             <section>
-                <Card cardContainer={this}/>
+                <Card cardContainer={this} />
             </section>
         )
     }

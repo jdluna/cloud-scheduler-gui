@@ -2,14 +2,20 @@ import style from './card.scss'
 import React,{Component} from 'react'
 import Chart from 'chart.js'
 
+
 export default class card extends Component {
     componentDidMount(){
         this.props.cardContainer.setChartNode(this.refs.cpu,this.refs.mem)
+
         // this.props.cardContainer.drawDoughnutChart(this.refs.cpu,'#EFA430')
         // this.props.cardContainer.drawDoughnutChart(this.refs.mem,'#9CCBE5')
     }
 
     render() {
+        let numChart = this.props.cardContainer.state.chart.length
+        let {chartIndex} = this.props.cardContainer.state
+        let chart = (typeof(this.props.cardContainer.state.chart[chartIndex])!=='undefined') ? this.props.cardContainer.state.chart[chartIndex] : []
+
         return (
             <section style={this.props.cardContainer.state.style.card} className={style.card}>
                 <article style={this.props.cardContainer.state.style.cardTitle} className={style.article} onClick={this.props.cardContainer.onCheckBoxChange}>
@@ -17,6 +23,10 @@ export default class card extends Component {
                     <span className={style.title}>Select for reservation</span>
                     <img width='18' className={style.close} src='img/ic_close.svg' onClick={this.props.cardContainer.onCloseCard}/>
                 </article>
+
+                <img className={(numChart>=2) ? style.chartIcon1 : style.disbleChart} src='img/ic_navigate_before.svg' onClick={this.props.cardContainer.onPreviousChart}/>
+                <img className={(numChart>=2) ? style.chartIcon2 : style.disbleChart} src='img/ic_navigate_next.svg' onClick={this.props.cardContainer.onNextChart}/>
+
                 <section className={style.data}>
                     <div className={style.cardname}>{this.props.cardContainer.state.site.name}</div>
                     <div className={style.calendar}>
@@ -25,15 +35,34 @@ export default class card extends Component {
                         <img className={style.icon} src='img/ic_navigate_next.svg' onClick={this.props.cardContainer.onNextDate}/>
                     </div>
                     <div className={style.chart}>
-                        <div className={style.chartWrap}>
+                        <div className={(chart.length>=1) ? style.chartWrap : style.disbleChart}>
+                            <div className={style.wrap}>
+                                <div className={style.innerlabel}>
+                                    <div className={style.label}>{(chart.length>=1) ? chart[0].available : ''}</div>
+                                    <div className={style.minilabel}>{(chart.length>=1) ? chart[0].unit : ''}</div>
+                                </div>
+                                <canvas className={style.padding} ref="cpu" width='70' height='70'></canvas>
+                                <div className={style.label}>{(chart.length>=1) ? chart[0].name : ''}</div>
+                            </div>
+                        </div>
+                        <div className={(chart.length>=2) ? style.chartWrap : style.visibleChart2}>
+                            <div className={style.wrap}>
+                                <div className={style.innerlabel}>
+                                    <div className={style.label}>{(chart.length>=2) ? chart[1].available : ''}</div>
+                                    <div className={style.minilabel}>{(chart.length>=2) ? chart[1].unit : ''}</div>
+                                </div>
+                                <canvas className={style.padding} ref="mem" width='70' height='70'></canvas>
+                                <div className={style.label}>{(chart.length>=2) ? chart[1].name : ''}</div>
+                            </div>
+                        </div>
+
+                        {/*<div className={style.chartWrap}>
                             <div className={style.wrap}>
                                 <div className={style.innerlabel}>
                                     <div className={style.label}>{this.props.cardContainer.state.site.cpuAvailable}</div>
                                     <div className={style.minilabel}>CPUs</div>
                                 </div>
-                                {/*<div className={style.chartwrap}>*/}
-                                    <canvas className={style.padding} ref="cpu" width='70' height='70'></canvas>
-                                {/*</div>*/}
+                                <canvas className={style.padding} ref="cpu" width='70' height='70'></canvas>
                                 <div className={style.label}>CPU</div>
                             </div>
                         </div>
@@ -43,24 +72,22 @@ export default class card extends Component {
                                     <div className={style.label}>{this.props.cardContainer.state.site.memAvailable}</div>
                                     <div className={style.minilabel}>GB</div>
                                 </div>
-                                {/*<div  className={style.chartwrap}>*/}
-                                    <canvas className={style.padding} ref="mem" width='70' height='70'></canvas>
-                                {/*</div>*/}
+                                <canvas className={style.padding} ref="mem" width='70' height='70'></canvas>
                                 <div className={style.label}>Memory</div>
                             </div>
-                        </div>
+                        </div>*/}
                     </div>
                     <div className={style.resource}>
                         <div>
                             <span className={style.cpu}></span>
-                            <span className={style.detail}>CPU Available</span>
-                            <span> : </span><span className={style.cpudetail}>{this.props.cardContainer.state.site.cpuAvailable}</span><span>{' / '+this.props.cardContainer.state.site.cpuTotal}</span>
+                            <span className={style.detail}>{chart[0].name} Available</span>
+                            <span> : </span><span className={style.cpudetail}>{chart[0].available}</span><span>{' / '+chart[0].total}</span>
                         </div>
                         <div className={style.space}></div>
-                        <div>
+                        <div className={(chart.length<=1) ? style.visibleChart : ''}>
                             <span className={style.mem}></span>
-                            <span className={style.detail}>Memory Available</span>
-                            <span> : </span><span className={style.memdetail}>{this.props.cardContainer.state.site.memAvailable}</span><span>{' / '+this.props.cardContainer.state.site.memTotal}</span>
+                            <span className={style.detail}>{(chart.length>1) ? chart[1].name : ''} Available</span>
+                            <span> : </span><span className={style.memdetail}>{(chart.length>1) ? chart[1].available : ''}</span><span>{(chart.length>1) ? ' / '+chart[1].total : ''}</span>
                         </div>
                     </div>
                 </section>
