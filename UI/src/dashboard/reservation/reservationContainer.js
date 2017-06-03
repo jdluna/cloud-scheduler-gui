@@ -64,7 +64,8 @@ export default class ReservationContainer extends Component {
             card: 'step1',
             dialog: (this.dashboardContainer.state.isSameConnectionType) ? 'error-type' : 'main',
             alertNode: {},
-            siteInputDom: siteInputDom
+            siteInputDom: siteInputDom,
+            sites: this.props.sites
         }
 
         this.onStartDateChange = this.onStartDateChange.bind(this)

@@ -8,12 +8,13 @@ Created on Mon Mar 27 22:40:22 2017
 
 import cgitb
 cgitb.enable()
-from AuthenticationManager import AuthenticationManager
-
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
+print "Access-Control-Allow-Headers: Content-Type"
 print
+
+from AuthenticationManager import AuthenticationManager
 
 import cgi
 form = cgi.FieldStorage()
