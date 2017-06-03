@@ -88,6 +88,7 @@ export default class SearchContainer extends Component {
         this.helpIconOver = this.helpIconOver.bind(this)
         this.helpIconOut = this.helpIconOut.bind(this)
         this.onHelpClose = this.onHelpClose.bind(this)
+        this.setDateForCard = this.setDateForCard.bind(this)
     }
 
     onClose() {
@@ -500,6 +501,12 @@ export default class SearchContainer extends Component {
     getAscSortByName(data){
         data.sites.sort((a,b)=>{
             return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
+        })
+    }
+
+    setDateForCard(date){
+        this.dashboardContainer.setState({
+            dateForCard: date
         })
     }
 

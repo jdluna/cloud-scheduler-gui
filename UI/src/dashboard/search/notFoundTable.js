@@ -25,7 +25,9 @@ export default class NotFoundTable extends Component {
         }
     }
 
-    onSelect(name,key){
+    onSelect(name,key,available){
+        let time = available.slice(0,16)
+        this.props.searchContainer.setDateForCard(time)
         this.setState({
             hover: key
         })
@@ -139,7 +141,7 @@ export default class NotFoundTable extends Component {
                                     this.state.dataResult.sites.map((data,key)=>{
                                         let temp = data.time.begin
                                         return(
-                                            <tr className={(this.state.hover==key) ? Style.itemactive : Style.item} key={key} onClick={()=>this.onSelect(data.name,key)}>
+                                            <tr className={(this.state.hover==key) ? Style.itemactive : Style.item} key={key} onClick={()=>this.onSelect(data.name,key,temp)}>
                                                 <td className={Style.text}>{data.name}</td>
                                                 <td className={Style.text}>{moment(temp.slice(0,16)+'+0000').tz(this.props.searchContainer.appContainer.state.authen.timezone).format('DD-MMM-YYYY HH:mm').toUpperCase()}</td>
                                             </tr>
