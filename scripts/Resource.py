@@ -27,6 +27,7 @@ class Resource:
         self.__total = total
         self.__type = typ
         self.__availableAmount = availAmount
+	self.__siteId = siteId
     
     def setTotal(self,total):
         self.__total = total
@@ -56,10 +57,11 @@ class Resource:
         if begin == end:
             #get dashboard => get only one hour
             sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(begin)+"';"
-            if db.execute(sql2) :
+	    if db.execute(sql2) :
                 maxUsed = db.fetchone()
                 if maxUsed != None:
                     maxUsed = maxUsed[0]
+		    print maxUsed
         
         else:
             #function 'search'
@@ -71,7 +73,7 @@ class Resource:
                 """ one round = one hour """        
 
                 sql2 = "SELECT `"+str(typ).lower()+"` FROM `schedule` WHERE `site_id` = '"+str(siteId)+"' AND `start` = '"+str(tmpBegin.strftime("%Y-%m-%d %H:00:00"))+"';" 
-                if db.execute(sql2) :
+		if db.execute(sql2) :
                     used = db.fetchone()
                     if used != None:
                         used = used[0]
