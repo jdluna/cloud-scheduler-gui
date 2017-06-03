@@ -621,7 +621,7 @@ export default class ReservationContainer extends Component {
         switch(this.state.dialog){
             case 'main' : dialog = <Reservation reservationContainer={this}/>;break;
             case 'success' : dialog = <SuccessDialog onCloseDialog={()=>this.onCloseDialog()}/>;break;
-            case 'error' : dialog = <ErrorDialog msg='Reservation Error!' onCloseDialog={()=>this.onCloseDialog()}/>;break;
+            case 'error' : dialog = <ErrorDialog msg='Reservation Fail.' onCloseDialog={()=>this.onCloseDialog()}/>;break;
             case 'error-type' : dialog = <ErrorDialog msg='All selected sites do not have any same connection type.' onCloseDialog={()=>this.onCloseDialog()}/>;break;
         }
         return (

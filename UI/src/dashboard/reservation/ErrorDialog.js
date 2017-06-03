@@ -13,7 +13,8 @@ export default class ErrorDialog extends Component {
                         </div>
                         <div className={Style.text}>
                             <div>{this.props.msg}</div>    
-                            <div>Please try again.</div> 
+                            <div>The resources are not available.</div>
+                            <div>Please change to reserve another site or another day.</div>
                         </div>
                         <div className={Style.btn}>
                             <button className={Style.ok} onClick={this.props.onCloseDialog}>OK</button>
