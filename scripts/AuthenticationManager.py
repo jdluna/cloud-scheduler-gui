@@ -92,4 +92,8 @@ class AuthenticationManager:
             return True
             
         return False
+    
+    def signOut(self, sessionId):
+        self.__usr = User(sessionId = sessionId)
+        return self.__usr.setSessionStatus(False)        
                 

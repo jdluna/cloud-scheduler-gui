@@ -23,6 +23,8 @@ SOURCE_EMAIL = 'root@lima-vc-1.sdsc.optiputer.net'
 GEN_ID_LENGTH = 16
 RESET_PASSWORD_TIME = 30 #minutes
 
+import requests
+NOTIFICATION_URL = "http://lima-vc-1.sdsc.optiputer.net/cloud-scheduler-gui/scripts/loginNotification.py"
 
 class User: 
     __userId = None
@@ -73,7 +75,7 @@ class User:
                 else:
                     
                     if sessionId != None:
-                        #SET TIME ZONE
+                        #SET TIME ZONE AND SIGN OUT
                         self.__sessionId = sessionId
                         sql = 'SELECT `user_id` FROM `session` WHERE `session_id` = "'+str(self.__sessionId)+'";'
                         self.__db.execute(sql)
@@ -131,11 +133,23 @@ class User:
         
     def __setSessionToken(self):
         self.__sessionId = self.__idGenerator()
-    
-        sql = "UPDATE `session` SET `session_id`='"+str(self.__sessionId)+"' WHERE `user_id`= '"+str(self.__userId)+"';"     
+        
+        #check login status
+        sql = "SELECT `user_id`, `session_id`,`status` FROM `session` WHERE `user_id`= '"+str(self.__userId)+"';"
         if self.__db.execute(sql):
-            #this userId had ever logged in before.
-            self.__db.commit()
+            
+            data = self.__db.getCursor().fetchone()
+            if data:
+                #this userId had ever logged in before.
+                self.__loginStatus = data[2]
+                
+                if self.__loginStatus:
+                    requests.get(NOTIFICATION_URL+'?session_id='+str(data[1]))
+                    
+                sql = "UPDATE `session` SET `session_id`='"+str(self.__sessionId)+"', `status`=True  WHERE `user_id`= "+str(self.__userId)+";"     
+                if self.__db.execute(sql):
+                    self.__db.commit()
+            	    
         else:
             #no entry of this userId. (login first time)
             while True:
@@ -247,3 +261,11 @@ class User:
                 
     def getPublicKey(self):
         return self.__publicKey
+    
+    def setSessionStatus(self,status):
+        sql = "UPDATE `session` SET `status`="+str(status)+" WHERE `user_id`= '"+str(self.__userId)+"';"  
+	
+        if self.__db.execute(sql):
+            self.__db.commit()
+            return True
+        return False

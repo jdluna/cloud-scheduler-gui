@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2017 at 11:43 AM
+-- Generation Time: Jun 04, 2017 at 12:44 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.8
 
@@ -92,6 +92,14 @@ CREATE TABLE `forget_password` (
   `password` varchar(128) NOT NULL,
   `timestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `forget_password`
+--
+
+INSERT INTO `forget_password` (`id`, `user_id`, `password`, `timestamp`) VALUES
+('QR6Q5C07NGRILYQ7', 1, '3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79', '2017-06-03 16:47:03'),
+('RXE6R4H2AEOY4J2X', 3, '3627909a29c31381a071ec27f7c9ca97726182aed29a7ddd2e54353322cfb30abb9e3a6df2ac2c20fe23436311d678564d0c8d305930575f60e2d3d048184d79', '2017-06-03 16:49:15');
 
 -- --------------------------------------------------------
 
@@ -213,7 +221,8 @@ CREATE TABLE `schedule` (
 CREATE TABLE `session` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `session_id` varchar(16) NOT NULL,
-  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
