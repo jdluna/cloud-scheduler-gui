@@ -46,8 +46,8 @@ const NetworkList = (props) => {
                return(
                 <div className={Style.block} key={key}>
                     <div className={Style.choose}>
-                        <input type='radio' name='network' value={data} checked={props.value==data} onChange={props.handle} />
-                        <span className={Style.text}>{data}</span>
+                        <input type='radio' name='network' value={data.name} checked={props.value==data.name} onChange={props.handle} />
+                        <span className={Style.text}>{data.name}</span>
                     </div>
                 </div>
                )
