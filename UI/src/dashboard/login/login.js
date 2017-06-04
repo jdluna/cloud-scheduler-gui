@@ -2,7 +2,6 @@ import React,{Component} from 'react'
 import Style from './login.scss'
 
 export default class Login extends Component {
-
     componentDidMount(){
         this.props.loginContainer.setState({
             alertNode: this.refs.alert
@@ -16,7 +15,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <section className={'modal '+Style.loginModal}>
+            // <section className={'modal '+Style.loginModal}>
                     <section className={Style.panel}>
                         <header><div>Login</div></header>
                         <section>
@@ -41,7 +40,7 @@ export default class Login extends Component {
                             </div>
                         </section>
                     </section>
-            </section>
+            // </section>
         )
     }
 }

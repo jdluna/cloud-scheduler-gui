@@ -24,6 +24,20 @@
             padding-top: 7px;
         }
     }
+    .headerspace{
+        height: 20px;
+        .text{
+            display: none;
+            box-sizing: border-box;
+            font-family: $font-primary;
+            font-size: 9pt;
+            // background-color: rgba(73,8,9,0.43);
+            background-color: #490809;
+            text-align: center;
+            padding: 5px;
+            color: #FFFFFF;
+        }
+    }
     .content{
         display: flex;
         flex-direction: column;
@@ -41,9 +55,12 @@
             background-color: #464a5f;
             border-radius: 3px;
             outline: none;
-            width: 155px;
             border: none;
-            height: 20px;
+            // width: 155px;
+            // height: 20px;
+            width: 177px;
+            height: 22px;
+            box-sizing: border-box;
             color: #FFFFFF;
         }
         .input::-webkit-input-placeholder{

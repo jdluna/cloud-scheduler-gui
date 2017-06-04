@@ -140,7 +140,7 @@ export default class Search extends Component {
                     <div className={Style.helpContent} ref='helpComponent' >
                         <div className={Style.helpHeader}>
                             Help (?)
-                        <img src='img/ic_close.svg' onClick={this.props.searchContainer.onHelpClose} />
+                            <img src='img/ic_close.svg' onClick={this.props.searchContainer.onHelpClose} />
                         </div>
                         <div className={Style.horizontalline}></div>
                         <div className={Style.helpResource}>
@@ -156,8 +156,9 @@ export default class Search extends Component {
                             Please specify begin and end date time. <br />
                             <br />- The first option, <b>'From begin to end'</b>, is for searching resources which are <b>available from begin to end date time. </b><br />
                             <br />- The second option <b>(..days ..hours)</b> is for searching resources which are available for the specified reservation length
-                        <b> on some period from begin to end date time</b>.
-                    </div>
+                            <b> on some period from begin to end date time</b>.
+                        </div>
+                        
                         <div className={Style.helpDurationArrow}>
                             <img src='img/ic_arrow_right.svg' />
                         </div>
@@ -208,16 +209,20 @@ export default class Search extends Component {
                                     <div className={Style.row}>
                                         <div className={Style.block}>
                                             <div>Begin:</div>
-                                            <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
-                                            <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            <label>
+                                                <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
+                                                <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            </label>
                                             {timeStartList}
                                         </div>
                                     </div>
                                     <div className={Style.row}>
                                         <div className={Style.block}>
                                             <div>End:</div>
-                                            <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
-                                            <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            <label>
+                                                <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
+                                                <img className={Style.icon} src='img/ic_date_range.svg' />
+                                            </label>
                                             {timeEndList}
                                         </div>
                                     </div>
