@@ -180,7 +180,7 @@ export default class HistoryContainer extends Component {
         let timeMax = time - 1
         timeMax = (timeMax<10) ? '0'+timeMax : timeMax
         let currentTime = moment.tz(this.appContainer.state.authen.timezone)
-        let nextMonth = moment.tz(this.appContainer.state.authen.timezone).add(1,'months')
+        let nextMonth = moment.tz(this.appContainer.state.authen.timezone).add(1,'months').format('YYYY-MM-DD')
         moment.tz(this.appContainer.state.authen.timezone).subtract(1,'months')
 
         this.setState({
@@ -198,8 +198,8 @@ export default class HistoryContainer extends Component {
                 date: end
             },
             maxExtendDate: {
-                obj: nextMonth,
-                date: nextMonth.format('YYYY-MM-DD')
+                obj: moment(nextMonth),
+                date: nextMonth
             },
             startDuration : moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'hours').format('HH:00')
         },()=>{
