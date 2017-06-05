@@ -45,6 +45,29 @@
             top: 3px;
         }
     }
+    .chartIcon1{
+        position: absolute;
+        left: -5px;
+        top: 109px;
+    }
+    .chartIcon2{
+        position: absolute;
+        right: -5px;
+        top: 109px;
+    }
+    .chartIcon1:hover,.chartIcon2:hover{
+        cursor: pointer;
+    }
+    .disbleChart{
+        display: none;
+    }
+    .visibleChart{
+        visibility: hidden;
+    }
+    .visibleChart2{
+        visibility: hidden;
+        margin-right: 18px;
+    }
     .data{
         padding-left: 5px;
         padding-right: 5px;
@@ -73,19 +96,25 @@
             justify-content: center;
             margin-top: 5px;
             margin-bottom: 10px;
+            .chartWrap{
+                width: 50%;
+                .wrap{
+                    position: relative;
+                    margin: auto;
+                    width: 80%;
+                }
+            }
             .padding{
                 padding-bottom: 5px;
-                padding-left: 10px;
-                padding-right: 10px;
-                // box-sizing: border-box;
-                // width: 90px !important;
-                // height: 75px !important;
+                // padding-left: 10px;
+                // padding-right: 10px;
             }
             .innerlabel{
                 position: absolute;
-                width: 50px;
-                margin-top: 19px;
-                margin-left: 20px;
+                width: 100%;
+                // width: 50px;
+                margin-top: 20px;
+                // margin-left: 12px;
                 .label{
                      font-size: 13pt;
                      margin: auto;

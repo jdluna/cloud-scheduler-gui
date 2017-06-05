@@ -72,8 +72,10 @@ const EXTEND_CARD = (props) => {
             <div className={Style.content}>
                 <div className={Style.row}>
                     <div className={Style.block}>
-                        <DatePicker className={Style.inputdate} minDate={props.historyContainer.state.startExtendDate.obj} maxDate={props.historyContainer.state.maxExtendDate.obj} dateFormat='DD - MMM - YYYY' selected={props.historyContainer.state.extendDate.obj} onChange={props.historyContainer.onExtendDateChange} />
-                        <img className={Style.icon} src='img/ic_date_range.svg' />
+                        <label>
+                            <DatePicker className={Style.inputdate} minDate={props.historyContainer.state.startExtendDate.obj} maxDate={props.historyContainer.state.maxExtendDate.obj} dateFormat='DD - MMM - YYYY' selected={props.historyContainer.state.extendDate.obj} onChange={props.historyContainer.onExtendDateChange} />
+                            <img className={Style.icon} src='img/ic_date_range.svg' />
+                        </label>
                         {timeList}
                     </div>
                 </div>

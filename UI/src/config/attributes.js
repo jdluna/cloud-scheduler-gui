@@ -1,7 +1,7 @@
 export const NETWORK_TYPE = [{"name":"ENT"},{"name":"IPOP"}]
 export const RESOURCES = [{
     "name": "CPU",
-    "unit": null,
+    "unit": "CPUs",
     "parameter": "CPU"
 },{
     "name": "Memory",

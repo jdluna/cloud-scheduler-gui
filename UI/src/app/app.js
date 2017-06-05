@@ -3,6 +3,8 @@ import HeaderContainer from '../header/headerContainer'
 import DashboardContainer from '../dashboard/dashboardContainer'
 import LoginContainer from '../dashboard/login/loginContainer'
 import moment from 'moment-timezone'
+import axios from 'axios'
+import {SIGNOUT_ENDPOINT} from '../config/endpoints'
 
 export default class App extends Component {
     constructor(props){
@@ -84,6 +86,7 @@ export default class App extends Component {
     }
 
     onLogout(){
+        let session = this.state.authen.session
         this.setState({
             loginDialog:{
                 open: false,
@@ -101,6 +104,13 @@ export default class App extends Component {
         if(typeof(Storage)!=='undefined'){
             sessionStorage.clear()
         }
+        
+        var data = new URLSearchParams()
+        data.append('session_id', session)
+        axios.post(SIGNOUT_ENDPOINT, data).then((response)=>{
+        }).catch((error)=>{
+            console.log('LOGOUT ERROR: '+error)
+        })
     }
 
     setTimeZone(timezone){
