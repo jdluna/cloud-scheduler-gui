@@ -49,13 +49,11 @@ export default class LoginContainer extends Component {
 
     onSignIn(event){
          event.preventDefault()
-         let options = {
-            params:{
-                username: this.state.username,
-                password: this.state.password
-            }
-         }
-         axios.get(AUTHEN_ENDPOINT,options).then(response=>{
+         let params = new URLSearchParams()
+         params.append('username', this.state.username)
+         params.append('password', this.state.password)
+         
+         axios.post(AUTHEN_ENDPOINT, params).then(response=>{
              let {data,status} = response
              if(status==200){
                  if(data.session_id){
