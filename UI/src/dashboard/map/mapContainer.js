@@ -1,14 +1,14 @@
-import React,{Component} from 'react'
+import React, { Component } from 'react'
 import axios from 'axios'
 import Map from './map'
-import {MAP_ENDPOINT} from '../../config/endpoints'
+import { MAP_ENDPOINT } from '../../config/endpoints'
 import DateTime from '../../lib/dateTime'
 import moment from 'moment-timezone'
 import AutoComplete from './autocomplete'
 
 const date = new DateTime()
 export default class mapContainer extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             date: this.getDateTimeZone(),
@@ -29,54 +29,69 @@ export default class mapContainer extends Component {
         this.onZoomOut = this.onZoomOut.bind(this)
     }
 
-    getDateTimeZone(){
+    getDateTimeZone() {
         let zone = moment.tz(this.props.dashBoardContainer.getUserTimeZone())
         let zoneDate = zone.format('DD-MMM-YYYY').toUpperCase()
-        let zoneTime = zone.format().slice(11,16)
-        return zoneDate+' '+zoneTime
+        let zoneTime = zone.format().slice(11, 16)
+        return zoneDate + ' ' + zoneTime
     }
 
-    getNameTimeZone(){
+    getNameTimeZone() {
         let timezone = this.props.dashBoardContainer.getUserTimeZone()
         let zone = moment.tz(timezone)
-        return timezone.toUpperCase()+' '+zone.format('Z z')
+        return timezone.toUpperCase() + ' ' + zone.format('Z z')
     }
 
-    setDateThick(){
-        setInterval(()=>{
+    setDateThick() {
+        setInterval(() => {
             this.setState({
                 date: this.getDateTimeZone(),
                 timezone: this.getNameTimeZone()
             })
-        },2000)
+        }, 2000)
     }
 
-    onMouseClick(id,marker){
-        this.props.dashBoardContainer.onSelectMarker(id,marker)
-        if(marker.icon=='img/marker.png'){
+    onMouseClick(id, marker) {
+        this.props.dashBoardContainer.onSelectMarker(id, marker)
+        if (marker.icon == 'img/marker.png') {
             marker.node.setIcon('img/marker_select.png')
-        }else{
+        } else {
             marker.node.setIcon('img/marker_ent_select.png')
         }
     }
 
-    onMouseOver(){
-        this.info.open(this.map,this)  
+    onMouseOver() {
+        this.info.open(this.map, this)
     }
 
-    onMouseOut(){
+    onMouseOut() {
         this.info.close()
     }
 
-    setMarker(data){
+    onMouseOverCluster(cluster) {
+        let content = ''
+        cluster.getMarkers().map((data) => {
+            content += '<div>' + data.name + '</div>'
+        })
+        this.clusterInfo.setContent(content)
+        this.clusterInfo.setPosition(cluster.getCenter())
+        this.clusterInfo.open(this.map)
+    }
+
+    onMouseOutCluster(){
+        this.clusterInfo.close()
+    }
+
+    setMarker(data) {
+        this.clusterInfo = new google.maps.InfoWindow()
         this.marker = []
-        let {amount,sites} = data
+        let { amount, sites } = data
         // this.props.dashBoardContainer.setMapData(sites)
-        sites.map((data,key)=>{
-            let {id,connection_type} = data
+        sites.map((data, key) => {
+            let { id, connection_type } = data
             let ent = false
-            connection_type.map((data,key)=>{
-                if((data.name).toUpperCase()=='ENT'){
+            connection_type.map((data, key) => {
+                if ((data.name).toUpperCase() == 'ENT') {
                     ent = true
                 }
             })
@@ -85,36 +100,43 @@ export default class mapContainer extends Component {
             this.marker[key] = new google.maps.Marker({
                 id: id,
                 name: data.name,
-                position: { 
+                position: {
                     lat: parseFloat(data.latitude),
                     lng: parseFloat(data.longitude)
                 },
                 map: this.map,
-                icon: {url: markerIcon},
+                icon: { url: markerIcon },
                 info: new google.maps.InfoWindow({
-                     content: data.name
+                    content: data.name
                 })
             })
             google.maps.event.addListener(this.marker[key], 'mouseover', this.onMouseOver)
             google.maps.event.addListener(this.marker[key], 'mouseout', this.onMouseOut)
-            google.maps.event.addListener(this.marker[key], 'click', ()=>this.onMouseClick(id,{node:this.marker[key],icon:markerIcon}))
+            google.maps.event.addListener(this.marker[key], 'click', () => this.onMouseClick(id, { node: this.marker[key], icon: markerIcon }))
         })
-        this.markerCluster = new MarkerClusterer(this.map, this.marker, {imagePath: 'img/marker_cluster'})
-        this.markerClusterSearch = new MarkerClusterer(this.map, this.marker, {imagePath: 'img/marker_cluster'})
+        this.markerCluster = new MarkerClusterer(this.map, this.marker, { imagePath: 'img/marker_cluster' })
+        this.markerClusterSearch = new MarkerClusterer(this.map, this.marker, { imagePath: 'img/marker_cluster' })
+
+        google.maps.event.addListener(this.markerCluster, "mouseover", (cluster)=>this.onMouseOverCluster(cluster))
+        google.maps.event.addListener(this.markerCluster, "mouseout", ()=>this.onMouseOutCluster())
+        google.maps.event.addListener(this.markerCluster, "click", ()=>this.onMouseOutCluster())
+        google.maps.event.addListener(this.markerClusterSearch, "mouseover", (cluster)=>this.onMouseOverCluster(cluster))
+        google.maps.event.addListener(this.markerClusterSearch, "mouseout", ()=>this.onMouseOutCluster())
+        google.maps.event.addListener(this.markerClusterSearch, "click", ()=>this.onMouseOutCluster())
         this.props.dashBoardContainer.setMarkerNode(this.marker)
     }
 
-    showMap(node,options){
+    showMap(node, options) {
         this.map = new google.maps.Map(node, options);
-        axios.get(MAP_ENDPOINT).then(response =>{
-            if(response.status==200){
+        axios.get(MAP_ENDPOINT).then(response => {
+            if (response.status == 200) {
                 // console.log(response.data)
                 this.setMarker(response.data)
-            }else{
+            } else {
                 console.warn('query map failed!')
             }
         })
-        this.map.addListener('zoom_changed',()=>{
+        this.map.addListener('zoom_changed', () => {
             this.setState({
                 nowZoom: this.map.getZoom()
             })
@@ -123,7 +145,7 @@ export default class mapContainer extends Component {
         this.props.dashBoardContainer.setAllImages()
     }
 
-    onZoomSliderChange(event){
+    onZoomSliderChange(event) {
         let value = parseInt(event.target.value)
         this.setState({
             nowZoom: value
@@ -131,9 +153,9 @@ export default class mapContainer extends Component {
         this.map.setZoom(value)
     }
 
-    onZoomIn(){
-        let zoom = this.state.nowZoom+1
-        if(zoom<=this.state.maxZoom){
+    onZoomIn() {
+        let zoom = this.state.nowZoom + 1
+        if (zoom <= this.state.maxZoom) {
             this.setState({
                 nowZoom: zoom
             })
@@ -141,9 +163,9 @@ export default class mapContainer extends Component {
         }
     }
 
-    onZoomOut(){
-        let zoom = this.state.nowZoom-1
-        if(zoom>=this.state.minZoom){
+    onZoomOut() {
+        let zoom = this.state.nowZoom - 1
+        if (zoom >= this.state.minZoom) {
             this.setState({
                 nowZoom: zoom
             })
@@ -151,19 +173,19 @@ export default class mapContainer extends Component {
         }
     }
 
-    onSearchPress(event){
-        if(event.key&&event.key=='Enter'){
+    onSearchPress(event) {
+        if (event.key && event.key == 'Enter') {
             this.hideMarker(this.state.markerFocus)
             this.setState({
                 search: this.state.markerFocus,
                 autocompletePanel: []
             })
-            
+
             // this.clearCluster()
         }
     }
 
-    onSearchChange(event){
+    onSearchChange(event) {
         let value = event.target.value
         this.setState({
             search: value
@@ -175,58 +197,62 @@ export default class mapContainer extends Component {
         }
     }
 
-    onClearSearch(){
+    onClearSearch() {
         this.setState({
             search: ''
         })
         this.showAllMarker()
     }
 
-    hideMarker(name){
+    hideMarker(name) {
         let item = []
         let markerNode = []
         let input = name.toLowerCase()
-        let REGEX = '^'+input
-        this.marker.map((data,key)=>{
+        let REGEX = '^' + input
+        this.marker.map((data, key) => {
             let marker = data.name.toLowerCase()
-            if(!marker.match(REGEX)){
+            if (!marker.match(REGEX)) {
                 data.setVisible(false)
-            }else{
+            } else {
                 data.setVisible(true)
                 item.push(data.name)
                 markerNode.push(data)
             }
         })
-        
-        if(markerNode.length>0){
-             this.setState({
-                 markerFocus: markerNode[0].name
-             })
-             this.map.panTo(markerNode[0].getPosition())
-             this.markerCluster.clearMarkers()
-             this.markerClusterSearch.clearMarkers()
-             this.markerClusterSearch = new MarkerClusterer(this.map, markerNode, {imagePath: 'img/marker_cluster'})
-             this.map.setZoom(2)
-        }else{
+
+        if (markerNode.length > 0) {
             this.setState({
-                 markerFocus: ''
-             })
-             this.markerCluster.clearMarkers()
-             this.markerClusterSearch.clearMarkers()
+                markerFocus: markerNode[0].name
+            })
+            this.map.panTo(markerNode[0].getPosition())
+            this.markerCluster.clearMarkers()
+            this.markerClusterSearch.clearMarkers()
+            this.markerClusterSearch = new MarkerClusterer(this.map, markerNode, { imagePath: 'img/marker_cluster' })
+
+            google.maps.event.addListener(this.markerClusterSearch, "mouseover", (cluster)=>this.onMouseOverCluster(cluster))
+            google.maps.event.addListener(this.markerClusterSearch, "mouseout", ()=>this.onMouseOutCluster())
+            google.maps.event.addListener(this.markerClusterSearch, "click", ()=>this.onMouseOutCluster())
+            this.map.setZoom(2)
+        } else {
+            this.setState({
+                markerFocus: ''
+            })
+            this.markerCluster.clearMarkers()
+            this.markerClusterSearch.clearMarkers()
         }
 
-        if(item.length>0){
+        if (item.length > 0) {
             this.setState({
-                autocompletePanel: <AutoComplete item={item} handle={this.onItemInAutoCompleteClick}/>
+                autocompletePanel: <AutoComplete item={item} handle={this.onItemInAutoCompleteClick} />
             })
-        }else{
+        } else {
             this.setState({
                 autocompletePanel: []
             })
         }
     }
 
-    onItemInAutoCompleteClick(data){
+    onItemInAutoCompleteClick(data) {
         this.hideMarker(data)
         this.setState({
             search: data,
@@ -234,40 +260,48 @@ export default class mapContainer extends Component {
         })
     }
 
-    showAllMarker(){
-        this.marker.map(data=>{
+    showAllMarker() {
+        this.marker.map(data => {
             data.setVisible(true)
         })
         this.setState({
             autocompletePanel: []
         })
         this.clearCluster()
-        this.marker.map(data=>{
-                data.setVisible(true)
-            })
+        this.marker.map(data => {
+            data.setVisible(true)
+        })
         this.markerCluster.clearMarkers()
-        this.markerCluster = new MarkerClusterer(this.map, this.marker, {imagePath: 'img/marker_cluster'})
+        this.markerCluster = new MarkerClusterer(this.map, this.marker, { imagePath: 'img/marker_cluster' })
+
+        google.maps.event.addListener(this.markerCluster, "mouseover", (cluster)=>this.onMouseOverCluster(cluster))
+        google.maps.event.addListener(this.markerCluster, "mouseout", ()=>this.onMouseOutCluster())
+        google.maps.event.addListener(this.markerCluster, "click", ()=>this.onMouseOutCluster())
         this.markerClusterSearch.clearMarkers()
         this.map.setZoom(2)
     }
 
-    clearCluster(){
-        this.marker.map(data=>{
-                data.setVisible(true)
-            })
+    clearCluster() {
+        this.marker.map(data => {
+            data.setVisible(true)
+        })
         this.markerCluster.clearMarkers()
-        this.markerCluster = new MarkerClusterer(this.map, this.marker, {imagePath: 'img/marker_cluster'})
+        this.markerCluster = new MarkerClusterer(this.map, this.marker, { imagePath: 'img/marker_cluster' })
+        
+        google.maps.event.addListener(this.markerCluster, "mouseover", (cluster)=>this.onMouseOverCluster(cluster))
+        google.maps.event.addListener(this.markerCluster, "mouseout", ()=>this.onMouseOutCluster())
+        google.maps.event.addListener(this.markerCluster, "click", ()=>this.onMouseOutCluster())
         this.markerClusterSearch.clearMarkers()
         this.map.setZoom(2)
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setDateThick()
     }
 
     render() {
         return (
-            <Map container={this}/>
+            <Map container={this} />
         )
     }
 }
