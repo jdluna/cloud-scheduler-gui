@@ -18,13 +18,14 @@ import smtplib
 from datetime import datetime, timedelta
 from email.MIMEText import MIMEText
 
-RESET_PASSWORD_URL = "http://lima-vc-1.sdsc.optiputer.net/cloud-scheduler-gui/UI/dist/others/reset_password.html"
-SOURCE_EMAIL = 'root@lima-vc-1.sdsc.optiputer.net'
+HOSTNAME = "lima-vc-1.sdsc.optiputer.net"
+RESET_PASSWORD_URL = "http://"+HOSTNAME+"/cloud-scheduler-gui/UI/dist/#/resetPWD"
+SOURCE_EMAIL = 'root@'+HOSTNAME
 GEN_ID_LENGTH = 16
 RESET_PASSWORD_TIME = 30 #minutes
 
 import requests
-NOTIFICATION_URL = "http://lima-vc-1.sdsc.optiputer.net/cloud-scheduler-gui/scripts/loginNotification.py"
+NOTIFICATION_URL = "http://"+HOSTNAME+"/cloud-scheduler-gui/scripts/loginNotification.py"
 
 class User: 
     __userId = None
