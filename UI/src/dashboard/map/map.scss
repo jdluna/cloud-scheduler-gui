@@ -72,6 +72,29 @@
             width: 14px;
         }
     }
+    .btn{
+        z-index: 2;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        bottom: 40px;
+        .back{
+            border-radius: 3px;
+            font-size: 9pt;
+            padding: 5px;
+            outline: none;
+            border: none;
+            color: #FFFFFF;
+            width: 180px;
+            background-color: #739aaf;
+        }
+        .back:hover{
+            background-color: $bg-color-primary;
+        }
+        .back:disabled{
+            opacity: 0.5
+        }
+    }
     .search{
         display: flex;
         position: absolute;

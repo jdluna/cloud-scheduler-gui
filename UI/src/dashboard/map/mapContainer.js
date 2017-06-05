@@ -27,6 +27,7 @@ export default class mapContainer extends Component {
         this.onZoomSliderChange = this.onZoomSliderChange.bind(this)
         this.onZoomIn = this.onZoomIn.bind(this)
         this.onZoomOut = this.onZoomOut.bind(this)
+        this.onZoomOutToMin = this.onZoomOutToMin.bind(this)
     }
 
     getDateTimeZone() {
@@ -171,6 +172,10 @@ export default class mapContainer extends Component {
             })
             this.map.setZoom(zoom)
         }
+    }
+
+    onZoomOutToMin(){
+        this.map.setZoom(this.state.minZoom)
     }
 
     onSearchPress(event) {
