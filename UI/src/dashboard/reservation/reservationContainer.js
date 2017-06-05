@@ -15,9 +15,9 @@ export default class ReservationContainer extends Component {
         this.timezone = moment.tz(this.appContainer.state.authen.timezone)
         this.sites = this.props.sites
       
-        this.tmp = this.timezone.add(1,'hours').format().slice(11,13)+':00'
+        this.tmp = this.timezone.format().slice(11,13)+':00'
         this.tmp2 = this.timezone.add(1,'hours').format().slice(11,13)+':00'
-        this.timezone.subtract(2,'hours').format().slice(11,13)+':00'
+        this.timezone.subtract(1,'hours').format().slice(11,13)+':00'
 
         let resource = []
         let siteInputDom = []
