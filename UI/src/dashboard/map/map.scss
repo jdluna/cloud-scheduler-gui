@@ -77,8 +77,12 @@
         position: absolute;
         display: flex;
         justify-content: center;
-        bottom: 40px;
-        .back{
+        margin-left: auto;
+        margin-right: auto;
+        left: 0px;
+        right: 0px;
+        top: 10px;
+        .back,.backDisbled{
             border-radius: 3px;
             font-size: 9pt;
             padding: 5px;
@@ -91,7 +95,7 @@
         .back:hover{
             background-color: $bg-color-primary;
         }
-        .back:disabled{
+        .back:disabled,.backDisbled:disabled{
             opacity: 0.5
         }
     }
