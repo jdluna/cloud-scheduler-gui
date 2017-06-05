@@ -313,7 +313,6 @@ export default class SearchContainer extends Component {
     }
 
     setStartBeginDuration(){
-
         if(this.state.startDate.date==this.timezone.format('YYYY-MM-DD')){
             //start date = today
             this.setState({
@@ -329,12 +328,23 @@ export default class SearchContainer extends Component {
 
     setStartEndDuration(){
         let startTime = parseInt(this.state.startTime.replace(':00'))
+        
         if(this.state.endDate.obj.format()==this.state.startDate.obj.format()){
             //begin and end are on same day
             if((startTime+1)<=23){
                 this.setState({
                     startEndDuration : startTime+1
-                },()=>{this.setMaxLength()})
+                },()=>{
+                    let endTime = parseInt(this.state.endTime.replace(':00'))
+                    let e = parseInt(this.state.startEndDuration) >= endTime ? this.state.startEndDuration : this.state.endTime
+
+                    this.setState({
+                        endTime: e
+                    },()=>{
+                        this.setMaxLength()
+                    })
+                    
+                })
             }else{
                 this.setState({
                     startEndDuration : 0
