@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 
 var config = {
-    entry: ['./src/index.js','./src/sass/theme.scss','./src/lib/markerclusterer.js'],
+    entry: ['./src/index.js','./src/sass/theme.scss'],
     module: {
         loaders: [
             {
