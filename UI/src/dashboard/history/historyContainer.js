@@ -172,30 +172,34 @@ export default class HistoryContainer extends Component {
     
     onViewReservationDetail(key,reservation_id){
         let end = this.state.reservationsItem[key].end
-        end = (parseInt(moment(end).format().slice(11,13))<23) ? end : moment(end).add(1,'days').format('YYYY-MM-DD')
+        end = moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone)
+        end = (parseInt(moment(end).format('HH'))<23) ? moment(end).format('YYYY-MM-DD') : moment(end).add(1,'days').format('YYYY-MM-DD')
+
         let time = (parseInt(moment(end).format().slice(11,13))<23) ? parseInt(moment(end).format().slice(11,13))+1 : '00'
         time = (time<10) ? '0'+time : time
         let timeMax = time - 1
         timeMax = (timeMax<10) ? '0'+timeMax : timeMax
-        
+        let currentTime = moment.tz(this.appContainer.state.authen.timezone)
+        let nextMonth = moment.tz(this.appContainer.state.authen.timezone).add(1,'months')
+        moment.tz(this.appContainer.state.authen.timezone).subtract(1,'months')
 
         this.setState({
             extendDate:{
                 obj: moment(end),
-                date: moment(end).format('YYYY-MM-DD')
+                date: end
             },
             startExtendTime: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'hours').format('HH:00'),
-            maxExtendTime: moment.utc().format('HH:00'),
+            maxExtendTime: currentTime.format('HH:00'),
             viewDetail: true,
             reserveId: reservation_id,
             viewDetailKey: key,
             startExtendDate: {
-                obj: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone),
-                date: moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).format('YYYY-MM-DD')
+                obj: moment(end),
+                date: end
             },
             maxExtendDate: {
-                obj: moment.utc().add(1,'month'),
-                date: moment.utc().add(1,'month').format('YYYY-MM-DD')
+                obj: nextMonth,
+                date: nextMonth.format('YYYY-MM-DD')
             },
             startDuration : moment(end+" +0000", "YYYY-MM-DD HH:mm Z").tz(this.appContainer.state.authen.timezone).add(1,'hours').format('HH:00')
         },()=>{
