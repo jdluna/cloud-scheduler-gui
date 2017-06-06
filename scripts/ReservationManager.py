@@ -559,7 +559,7 @@ class ReservationManager:
                     diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-NOW
                     if diff < timedelta(hours=0):
                         #running reservation
-                        tmpBegin = (NOW + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")                                                                    
+                        tmpBegin = NOW.strftime("%Y-%m-%d %H:00:00")                                                                    
                     else:
                         #havn't start yet
                         tmpBegin = begin
