@@ -346,7 +346,7 @@ class ReservationManager:
                     data = self.__db.getCursor().fetchall()
                     
                     for d in data:
-                        self.__allReservations.append(self.getReservations(userId=d[0],ended=ended))
+                        self.__allReservations.extend(self.getReservations(userId=d[0],ended=ended))
               
         return self.__allReservations
         

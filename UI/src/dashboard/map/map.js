@@ -68,7 +68,7 @@ export default class map extends Component {
                     </div>
                 </div>
                 <div className={style.btn}>
-                    <button className={style.back} disabled={this.props.container.state.nowZoom==this.props.container.state.minZoom} onClick={this.props.container.onZoomOutToMin}>BACK TO ORIGINAL MAP</button>
+                    <button className={(this.props.container.state.nowZoom==this.props.container.state.minZoom) ? style.backDisbled : style.back} disabled={this.props.container.state.nowZoom==this.props.container.state.minZoom} onClick={this.props.container.onZoomOutToMin}>BACK TO ORIGINAL MAP</button>
                 </div>
                 <div className={style.search}>
                     <img  className={style.searchicon} src='img/ic_search_input.svg'/>
