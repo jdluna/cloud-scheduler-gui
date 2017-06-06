@@ -15,9 +15,9 @@ export default class SearchContainer extends Component {
         this.dashboardContainer = this.props.dashBoardContainer
         this.timezone = moment.tz(this.appContainer.state.authen.timezone)
        
-        this.tmp = this.timezone.add(1,'hours').format().slice(11,13)+':00'
+        this.tmp = this.timezone.format().slice(11,13)+':00'
         this.tmp2 = this.timezone.add(1,'hours').format().slice(11,13)+':00'
-        this.timezone.subtract(2,'hours').format().slice(11,13)+':00'
+        this.timezone.subtract(1,'hours').format().slice(11,13)+':00'
 
         let resource = []
         RESOURCES.map((data,key)=>{
