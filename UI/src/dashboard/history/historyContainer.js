@@ -333,6 +333,11 @@ export default class HistoryContainer extends Component {
                     let secondDiff = second.diff(nowDateTime)
                     return firstDiff-secondDiff
                 })
+                if(data.result.length==0){
+                    this.setState({
+                        viewDetail: false
+                    })
+                }
                 this.setState({
                     popup: (POPUP==false) ? null : this.state.popup,
                     // viewDetail: false,

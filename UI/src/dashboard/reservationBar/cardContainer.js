@@ -67,7 +67,8 @@ export default class cardContainer extends Component {
             this.drawDoughnutChart(this.state.nodeCPU, chart[chartIndex][0].available, cpuUsedData, '#EFA430')
             this.drawDoughnutChart(this.state.nodeMem, chart[chartIndex][1].available, memUsedData, '#9CCBE5')
         } catch (error) {
-            this.drawDoughnutChart(this.state.nodeCPU, 0, 1, '#EFA430')
+            cpuUsedData = chart[chartIndex][0].total - chart[chartIndex][0].available
+            this.drawDoughnutChart(this.state.nodeCPU, chart[chartIndex][0].available, cpuUsedData , '#EFA430')
         }
     }
 
