@@ -7,10 +7,6 @@ export const RESOURCES = [{
     "name": "Memory",
     "unit": "GB",
     "parameter": "memory"
-},{
-    "name": "GPU",
-    "unit": "GPUs",
-    "parameter": "gpu"
 }]
 
 /*
