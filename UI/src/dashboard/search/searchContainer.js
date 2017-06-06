@@ -231,16 +231,15 @@ export default class SearchContainer extends Component {
         
 
     onEndDateChange(date) {
-        if(date.format()>=this.state.startDate.obj.format()){
-            this.setState({
-                endDate:{
-                    obj: date,
-                    date: moment(date).format('YYYY-MM-DD')
-                } 
-            },()=>{
-                this.setStartEndDuration() 
-            })
-        }
+        this.setState({
+            endDate:{
+                obj: date,
+                date: moment(date).format('YYYY-MM-DD')
+            } 
+        },()=>{
+            this.setStartEndDuration() 
+        })
+        
     }
 
     onTimeStartChange(time){
@@ -337,7 +336,7 @@ export default class SearchContainer extends Component {
                 },()=>{
                     let endTime = parseInt(this.state.endTime.replace(':00'))
                     let e = parseInt(this.state.startEndDuration) >= endTime ? this.state.startEndDuration : this.state.endTime
-
+                    e = e>=10 ? e+':00' : '0'+e+':00' 
                     this.setState({
                         endTime: e
                     },()=>{
