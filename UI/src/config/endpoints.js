@@ -1,4 +1,4 @@
-const API_SERVER = 'http://lima-vc-1.sdsc.optiputer.net/cloud-scheduler-gui/scripts'
+const API_SERVER = 'http://lima-vc-2.sdsc.optiputer.net/cloud-scheduler-gui/scripts'
 
 export const MAP_ENDPOINT = API_SERVER+'/getDashboard.py'
 export const CARD_ENDPOINT = API_SERVER+'/GetSiteDescription.py'
