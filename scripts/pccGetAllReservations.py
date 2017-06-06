@@ -32,9 +32,8 @@ jsonStr = '{ "result" : ['
 cnt = 0
 
 for i in range(0,len(reservations)):
-    for j in range(0,len(reservations[i])):
         cnt += 1
-        r = reservations[i][j]
+        r = reservations[i]
         
         jsonStr += jsonFormatter.formatReservation(r)
         jsonStr += ',' #end one reservation
