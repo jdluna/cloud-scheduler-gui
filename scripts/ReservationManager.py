@@ -133,12 +133,11 @@ class ReservationManager:
                 self.__db.execute(sql)
                 
                 self.__reservationID = self.__db.getCursor().lastrowid
-                
-                
+                               
                 ### UPDATE `site_reserved` table
                 for i in range(0,len(self.__sitesId)):
-                    sql = 'INSERT INTO `site_reserved`(`reservation_id`, `site_id`, `status`, `cpu`, `memory`) VALUES ('
-                    sql += '"'+str(self.__reservationID)+'","'+str(self.__sitesId[i])+'","waiting","'
+                    sql = 'INSERT INTO `site_reserved` VALUES ('
+                    sql += '"'+str(self.__reservationID)+'","'+str(self.__sitesId[i])+'","waiting",NULL,"'
                     
                     
                     for j in range(0,len(self.__resources[0])):
@@ -146,9 +145,9 @@ class ReservationManager:
                     
                     sql = sql[:-2]
                     sql += ');'
-    
+    		    
                     self.__db.execute(sql)
-    
+    		
                     
                 
                 ### UPDATE `schedule` table
@@ -560,7 +559,7 @@ class ReservationManager:
                     diff = datetime.strptime(begin, "%Y-%m-%d %H:00:00")-NOW
                     if diff < timedelta(hours=0):
                         #running reservation
-                        tmpBegin = (NOW + timedelta(hours=1)).strftime("%Y-%m-%d %H:00:00")                                                                    
+                        tmpBegin = NOW.strftime("%Y-%m-%d %H:00:00")                                                                    
                     else:
                         #havn't start yet
                         tmpBegin = begin
