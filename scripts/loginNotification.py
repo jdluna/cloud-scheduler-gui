@@ -1,10 +1,11 @@
 #!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun 01 22:15:55 2017
+Created on Thu Mar 02 00:04:12 2017
 
-@author: bamboojfc
+@author: CS401:Nannapas Banluesombatkul
 """
+
 
 import cgitb
 cgitb.enable()
@@ -16,9 +17,11 @@ form = cgi.FieldStorage()
 SESSION_ID = form.getvalue('session_id')
 #############################
 
+
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
 print
+
 
 import pusher
 
