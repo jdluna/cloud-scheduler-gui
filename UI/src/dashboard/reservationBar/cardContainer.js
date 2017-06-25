@@ -5,7 +5,7 @@ import axios from 'axios'
 import { CARD_ENDPOINT } from '../../config/endpoints'
 import moment from 'moment'
 import ChartData from './chart'
-import { RESOURCES } from '../../config/attributes'
+import { RESOURCES, NETWORK_TYPE } from '../../config/attributes'
 
 const date = new DateTime()
 export default class cardContainer extends Component {
@@ -25,6 +25,8 @@ export default class cardContainer extends Component {
         this.state = {
             chart: this.setChartData(),
             chartIndex: 0,
+            networkType: this.setNetworkTypeData(), 
+            networkIndex: 0,
             nodeCPU: {},
             nodeMem: {},
             date: this.currentDateStamp.format('DD-MMM-YYYY').toUpperCase(),
@@ -55,6 +57,63 @@ export default class cardContainer extends Component {
         this.onMoreInfoClick = this.onMoreInfoClick.bind(this)
         this.onNextChart = this.onNextChart.bind(this)
         this.onPreviousChart = this.onPreviousChart.bind(this)
+        this.onNetworkTypeInputChange = this.onNetworkTypeInputChange.bind(this)
+    }
+
+    onNetworkTypeInputChange(event){
+        let {networkType} = this.state
+        let siteData = this.state.site.allData
+
+        let temp = []
+        siteData.connection_type.map((data)=>{
+            temp.push(data.name)
+        })
+
+        let connection = []
+        try{
+            if(temp.indexOf(networkType[event.target.value][0].name)!=-1){
+                connection[0] = '#76FF03'
+            }else{
+                connection[0] = '#929294'
+            }
+        }catch(error){
+            connection[0] = this.state.style.ent
+        }
+        
+        try{
+            if(temp.indexOf(networkType[event.target.value][1].name)!=-1){
+                connection[1] = '#76FF03'
+            }else{
+                connection[1] = '#929294'
+            }
+        }catch(error){
+            connection[1] = this.state.style.ipop
+        }
+        
+        this.setState({
+            networkIndex: parseInt(event.target.value),
+            style: {
+                ent: { backgroundColor: connection[0] },
+                ipop: { backgroundColor: connection[1] },
+                card: this.state.style.card,
+                cardTitle: this.state.style.cardTitle
+            }
+        })
+    }
+
+    setNetworkTypeData(){
+        let type = []
+        let temp = []
+        NETWORK_TYPE.map((data,key)=>{
+            if(temp.length<2){
+                temp.push(data)
+            }
+            if(temp.length>=2 || NETWORK_TYPE.length == (key+1)){
+                type.push(temp)
+                temp = []
+            }
+        })
+        return type
     }
 
     drawChart(){
@@ -152,7 +211,7 @@ export default class cardContainer extends Component {
         axios.get(CARD_ENDPOINT + '?site_id=' + this.props.siteId).then(response => {
             if (response.status == 200) {
                 let { running, site } = response.data
-                if (site.connection_type.length > 1) {
+                if (site.connection_type.length > 2) {
                     this.setState({
                         style: {
                             ent: { backgroundColor: '#76FF03' },
@@ -160,10 +219,16 @@ export default class cardContainer extends Component {
                         }
                     })
                 } else {
+                    let type = ['','']
+                    try{
+                        type[0] = NETWORK_TYPE[0].name
+                        type[1] = NETWORK_TYPE[1].name
+                    }catch(error){
+                    }
                     site.connection_type.map((data, key) => {
                         switch (data.name.toUpperCase()) {
-                            case 'ENT': this.setState({ style: { ent: { backgroundColor: '#76FF03' } } }); break
-                            case 'IPOP': this.setState({ style: { ipop: { backgroundColor: '#76FF03' } } }); break
+                            case type[0]: this.setState({ style: { ent: { backgroundColor: '#76FF03' } } }); break
+                            case type[1]: this.setState({ style: { ipop: { backgroundColor: '#76FF03' } } }); break
                         }
                     })
                 }

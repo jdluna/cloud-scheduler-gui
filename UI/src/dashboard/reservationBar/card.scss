@@ -188,6 +188,7 @@
                 margin-top: 4px;
             }
             .deactive{
+                display: block;
                 width: 8px;
                 height: 8px;
                 border-radius: 4px;
@@ -220,5 +221,14 @@
             color: #E0E0E0;
             // color: #929294;
         }
+    }
+    .connectType{
+        text-align: center;
+        input{
+            margin-top: 7px;
+        }
+    }
+    .hide{
+        display: none;
     }
 }

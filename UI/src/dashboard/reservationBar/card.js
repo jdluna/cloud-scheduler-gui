@@ -2,7 +2,6 @@ import style from './card.scss'
 import React,{Component} from 'react'
 import Chart from 'chart.js'
 
-
 export default class card extends Component {
     componentDidMount(){
         this.props.cardContainer.setChartNode(this.refs.cpu,this.refs.mem)
@@ -13,8 +12,17 @@ export default class card extends Component {
 
     render() {
         let numChart = this.props.cardContainer.state.chart.length
-        let {chartIndex} = this.props.cardContainer.state
+        let {chartIndex, networkIndex, networkType} = this.props.cardContainer.state
         let chart = (typeof(this.props.cardContainer.state.chart[chartIndex])!=='undefined') ? this.props.cardContainer.state.chart[chartIndex] : []
+
+        let network = []
+        for(let i=0;i<2;i++){
+            try{
+                network[i] = networkType[networkIndex][i].name
+            }catch(error){
+                network[i] = ''
+            }
+        }
 
         return (
             <section style={this.props.cardContainer.state.style.card} className={style.card}>
@@ -93,14 +101,27 @@ export default class card extends Component {
                 </section>
                 <section className={style.section}>
                     <div className={style.type}>
-                        <span className={style.name}>ENT</span>
+                        <span className={style.name}>{network[0]}</span>
                         <span style={this.props.cardContainer.state.style.ent} className={style.deactive}></span>
                     </div>
                     <div className={style.type}>
-                        <span className={style.name}>IPOP</span>
-                        <span style={this.props.cardContainer.state.style.ipop} className={style.deactive}></span>
+                        <span className={style.name}>{network[1]}</span>
+                        <span style={this.props.cardContainer.state.style.ipop} className={(network[1]=='') ? style.hide : style.deactive}></span>
                     </div >
                 </section>
+                <div className={style.connectType}>
+                    <form>
+                    {
+                        this.props.cardContainer.state.networkType.map((data,key)=>{
+                            if(this.props.cardContainer.state.networkType.length!=1){
+                                return(
+                                    <input type='radio' name='connect' value={key} checked = {(networkIndex==key) ? ''+key : null} key={key+networkIndex+key} onChange={this.props.cardContainer.onNetworkTypeInputChange}/>
+                                )
+                            }
+                        })
+                    }
+                    </form>
+                </div>
                 <section className={style.desc}>
                     <div className={style.title}>Description</div>
                     <div className={style.detail}>{this.props.cardContainer.state.site.desc}</div>
