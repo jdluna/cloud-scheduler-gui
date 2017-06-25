@@ -7,7 +7,7 @@ H first card can't select check box.          [done!]
 M date picker & time in extend reservation    [done!]
 M show popup on safari.                       [done!]
 M show network type on card (right panel).    [done!] 
-L doughnut chart.
+L doughnut chart.                             [done!]
 
 -----------------------
 Features
@@ -15,8 +15,8 @@ Features
 H auto update of image type. Change to dynamic listing of images                      [done!]
 H forget password.Add simpel error message                                            [done!]
 H session cookie.                                                                     [done!]       
-M (simple solution: only lock at step 3)  concurrency (transaction)
-M Single config file: auto update GUI. when add new attribute.              
+M (simple solution: only lock at step 3)  concurrency (transaction)                   [done!]
+M Single config file: auto update GUI. when add new attribute.                        [done!]             
 M sort search result (available name, may be CPU and memory).                         [done!]
 M add SSH public key text field to user profile                                       [done!]
 M add script for admin to query any user profile info                                 [done!]
@@ -40,7 +40,7 @@ M time zone information is difficult to see. Change color to orange             
 M time and date on information card is too small. Change to larger font and to orange color.                [done! : white color]
 M Color of the reservation panel on top right should be changed to another color which is different from    [done! : not changed]
  the site's information card. Try light grey. 
-L Icon of existing reservation menu is not meaningful.
-L "Search" menu should be changed to distinguish from "Search by name" easier.
-L make markers  style consistent for a single marker or a group of markers, put number inside. 
+L Icon of existing reservation menu is not meaningful.                                                      [done!]
+L "Search" menu should be changed to distinguish from "Search by name" easier.                              [done!]
+L make markers  style consistent for a single marker or a group of markers, put number inside.              [done!]
 - should have some way to go back to previous state after zoom in the circle marker
