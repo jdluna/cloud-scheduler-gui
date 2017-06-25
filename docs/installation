@@ -24,7 +24,7 @@ step4: build source code.
   > npm run build-unix
 step5: demo.
   - open web browser and enter "URL/cloud-scheduler-gui/UI/dist"
-  - finish!
+  - done!
 
 --------------------------
 MySQL
@@ -38,17 +38,23 @@ In directory /var/www/html/cloud-scheduler-gui/db
 --------------------------
 Python
 --------------------------
-1. Configuring the Apache file “/etc/httpd/conf/httpd.conf” by removing the ‘#’ at the first of line "AddHandler cgi-script .cgi" 
+Require
+- Pusher library
+- MySQLdb library
+
+1. Install Pusher library in /opt/python/bin by
+   > ./easy_install MYSQL-python
+2. Configuring the Apache file “/etc/httpd/conf/httpd.conf” by removing the ‘#’ at the first of line "AddHandler cgi-script .cgi" 
    and add “.py” to the end of this line
-2. Restart httpd 
+3. Restart httpd 
    > httpd -k restart
-3. Set the machine to be able to use Python 2.7 by add the python path which is “/opt/python/lib” to “/etc/ld.so.conf” and run ldconfig.
+4. Set the machine to be able to use Python 2.7 by add the python path which is “/opt/python/lib” to “/etc/ld.so.conf” and run ldconfig.
    > ldconfig
-4. Change file permission of python scripts 
+5. Change file permission of python scripts 
    > cd /var/www/html/cloud-scheduler-gui/scripts
    > chmod 755 *
-5. Install MySQLdb in /opt/python/bin by “./easy_install MYSQL-python”.
-6. Test by going to : 
+6. Install MySQLdb in /opt/python/bin by “./easy_install MYSQL-python”.
+7. Test by going to : 
    > http://lima-vc-2.sdsc.optiputer.net/cloud-scheduler-gui/scripts/getDashboard.py
    > http://lima-vc-2.sdsc.optiputer.net/cloud-scheduler-gui/scripts/signIn.py?username=admin&password=1234
    > http://lima-vc-2.sdsc.optiputer.net/cloud-scheduler-gui/scripts/getAllReservations.py?session_id=[session_id from signIn]
