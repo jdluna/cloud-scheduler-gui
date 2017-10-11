@@ -41,6 +41,7 @@ Python
 Require
 - Pusher library
 - MySQLdb library
+- requests library
 
 1. Install Pusher library in /opt/python/bin by
    > ./easy_install MYSQL-python
