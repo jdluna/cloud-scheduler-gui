@@ -170,8 +170,8 @@ class Site:
     def getEndAvailable(self):
         return self.__endAvailable     
         
-    def setRunningAmount(self,db,begin):
-        sql = "SELECT `start` FROM `reservation` JOIN `site_reserved` ON `reservation`.`reservation_id` = `site_reserved`.`reservation_id` WHERE `site_reserved`.`site_id` = '"+str(self.__siteId)+"' AND `start` = '"+str(begin)+"';"
+    def setRunningAmount(self,db,aTime):
+        sql = "SELECT `start` FROM `reservation` JOIN `site_reserved` ON `reservation`.`reservation_id` = `site_reserved`.`reservation_id` WHERE `site_reserved`.`site_id` = '"+str(self.__siteId)+"' AND `start` <= '"+str(aTime)+"' and `end` >= ' + str(aTime)+';"
             
         if db.execute(sql) :
             self.__runningAmount = len(db.fetchall())

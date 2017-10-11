@@ -237,7 +237,7 @@ class SiteManager:
                 for i in range(0,len(res)):
                     res[i].setAvailableAmount(db=db,begin=dateReq,end=end)
              
-                site.setRunningAmount(db=db,begin=dateReq)   
+                site.setRunningAmount(db=db,aTime=dateReq)
                 db.unlock()
             finally:
                 if not locked :
