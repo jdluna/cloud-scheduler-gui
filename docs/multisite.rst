@@ -16,7 +16,21 @@ sites for a virtual SDN experiment.
 Path A:
 ~~~~~~~~
 User selects multiple resources on the map and the resource cards show up in the right panel.  The user checks the "Select for reservation" 
-box on desired resources and clicks on a "RESERVE" button.  Two 
+box on desired resources and clicks on a "RESERVE" button.  Reservation screen pops up and currently shows: 
+
+* Begin Date:
+* End Date:
+* For each resource, the name and number of CPUs and Memory desired
+* Image type
+  
+If all selected resources support both IPOP and ENT, the below option should be specified with both IPOP and ENT listed.  
+
+* Network type
+
+If only IPOP or ENT are supported on all sites, the only option would be displayed.  If all resources selected do not support either 
+ENT or IPOP, a helpful error message should be displayed.  For example,
+
+"Multi-site reservation not possible with selected resources.  Selected resource SDSC supports the ENT network type but selected resource AIST does not.  Please only select resources that support either the ENT or IPOP network type and hit the RESERVE button again."
 The user should be able to filter for sites that either support the ENT network type or IPOP network type.
 For the ENT network type, the user should be able to specify an optional CIDR address.  If they do not specify a CIDR address, one will be 
 automatically assigned to them.
