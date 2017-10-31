@@ -36,7 +36,7 @@ Use case 1:
 User knows they need a multi-site virtual cluster for their experiment.  For example, we were recently asked to set up 3 VMs at different 
 sites for a virtual SDN experiment.  
 
-Path A:
+Method A:
 ~~~~~~~~
 User selects multiple resources on the map and the resource cards show up in the right panel.  The user checks the "Select for reservation" 
 box on desired resources and clicks on a "RESERVE" button.  Reservation screen pops up and currently shows: 
@@ -62,12 +62,6 @@ Use case 2:
 --------------------
 User is searching for a certain number of resources where capacity 
 is not available at any single site but is available if resources are combined from two or more sites and those sites support either ENT or 
-IPOP.  The resources returned should either support all ENT or all IPOP -- i.e., if one resource supports IPOP and another supports ENT, 
-they cannot be used together.
+IPOP.  
 
-
-●	Establish what network can be provided
-●	Total CPUs used
-●	Total memory used
-●	What site will run the Virtual Frontend and what sites will be running virtual compute nodes
 
