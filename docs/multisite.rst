@@ -36,8 +36,6 @@ Use case 1:
 User knows they need a multi-site virtual cluster for their experiment.  For example, we were recently asked to set up 3 VMs at different 
 sites for a virtual SDN experiment.  
 
-Method A:
-~~~~~~~~
 User selects multiple resources on the map and the resource cards show up in the right panel.  The user checks the "Select for reservation" 
 box on desired resources and clicks on a "RESERVE" button.  Reservation screen pops up and currently shows: 
 
@@ -64,4 +62,24 @@ User is searching for a certain number of resources where capacity
 is not available at any single site but is available if resources are combined from two or more sites and those sites support either ENT or 
 IPOP.  
 
+User selects "Search" button on the left menu bar and then enters say 128 cpus and 128GB of memory, begin and end dates and None for network.  Currently, this search returns no results.  We would like to modify this to return multi-site cluster options instead if the resources support either all ENT or IPOP connections.
 
+Suppose this is your current resource availability ::
+
+  Name, Available CPU (CPUs), Available Memory (GB)
+  Indiana University cloud, 64, 64
+  NAIST cloud, 8, 60
+  UCSD cloud, 69, 258
+
+Your algorithm could order to resources by highest availability and then select the maximum number of resources until the user's request is fulfilled.  For example ::
+
+  Your virtual cluster reservation request cannot currently be satisfied on a single resource.  You can instead 
+  create a multi-site virtual cluster over ENT on the below resources.  This mode is recommended if you are running an 
+  application that is loosely coupled and does not require a lot of inter-node communication.  
+
+  Name, Available CPU (CPUs), Available Memory (GB)
+  UCSD cloud, 69, 69
+  Indiana University cloud, 59, 59
+
+  RESERVE
+ 
