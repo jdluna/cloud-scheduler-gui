@@ -115,14 +115,20 @@ Admin interface
   + Users can register for accounts.  These accounts will need to be approved by the PRAGMA Cloud Administrator
   
 + User management
+
   + PRAGMA Cloud Administrators can create user accounts and approve/disapprove pending account request.
   
 + Group management and access control
+
   + Create  any number of user groups 
+  
   + Grant / modify group access permissions 
   
 + Site and resource management
+
   + Resource administrators can to add a new resource
+  
   + Resource administrators can modify resource attributes for their resources (e.g., available CPUs)
+  
   + Resource administrators can grant access to users or groups to use their resource.
 
