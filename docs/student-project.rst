@@ -7,33 +7,10 @@ The PRAGMA Cloud scheduler is a lightweight scheduling solution which is designe
 to provide automated reservation and sharing of resources to PRAGMA community members. 
 It currently  enables users to create single virtual clusters at individual PRAGMA sites 
 with a future development to create single virtual clusters that span multiple sites.
-The software base for the Cloud Sheduler is an existing scheduling solution for managing room reservations 
-called `Booked`_.  It had a lot of useable features and was extensible with custom fields.  
-However, when more involved changes to the code were needed, we found the code
-was overly complex and even small changes required a lot of code rewrite.
-In addition, while the Booked GUI was the cleanest compared to all other tools we looked at, 
-it is not very intuitive or extensible for the purposes  of scheduling cloud resources. 
-
-The goal of this project will be to build a new GUI interface for the PRAGMA Cloud scheduler. 
-When the users navigate to the new GUI, they will see a map view (similar to the one that you 
-created during during the student hackathon). From this interface, they will
-be able to reserve, create and manage virtual clusters.  The features of this new GUI interface
-are:
-
-+ inuitive and user friendly 
-+ modular and extensible  
   
 We envision this interface being used to display other types of resources for other projects (e.g., sensor sites).
 
 Below are some usage patterns that we would like the new GUI to support:
-
-User Authentication 
---------------------
-
-A user navigates to the GUI interface webpage and using a **Login** button 
-authenticates itself to the scheduler. After a successful authentication 
-the user can and sees all the available cloud resourcs on the map and can use
-filter options to navigate through the resources and reservations. 
 
 Create virtual cluster reservation
 -----------------------------------
@@ -131,18 +108,21 @@ A user without administrative priviledges should be able to see only its own res
     the reservation has expired or because the site had to shut  down (rare but possible). 
 
 
-Admin interface (low priority)
+Admin interface 
 ----------------------------------
++ User registration
 
-+ manage users, groups, access control
+  + Users can register for accounts.  These accounts will need to be approved by the PRAGMA Cloud Administrator
+  
++ User management
+  + PRAGMA Cloud Administrators can create user accounts and approve/disapprove pending account request.
+  
++ Group management and access control
+  + Create  any number of user groups 
+  + Grant / modify group access permissions 
+  
++ Site and resource management
+  + Resource administrators can to add a new resource
+  + Resource administrators can modify resource attributes for their resources (e.g., available CPUs)
+  + Resource administrators can grant access to users or groups to use their resource.
 
-  + Add new users and groups, 
-  + Change user or group access control (give or
-    delete admin privileges form the users and groups).
-
-+ manage sites, filters, options
- 
-  + Add a new site 
-  + Update filters (for example CPU filter range from 2-32 to 2-128)
-
-.. _Booked: http://www.bookedscheduler.com
