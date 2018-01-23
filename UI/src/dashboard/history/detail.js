@@ -48,14 +48,14 @@ export default class Detail extends Component {
                     data.sites.map((site,key)=>{
                         let statusElement
                         switch(site.status){
-                            case 'waiting'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.yellowCircle}> </span> {site.status} </div>;break
-                            case 'created'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.yellowCircle}> </span> {site.status} </div>;break
-                            case 'starting'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.greenCircle}> </span> {site.status} </div>;break
-                            case 'running'  : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.greenCircle}> </span> {site.status} </div>;break
-                            case 'cancel'   : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
-                            case 'stopping'   : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
-                            case 'stopped'   : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
-                            default : statusElement = <div> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
+                            case 'waiting'  : statusElement = <div className={Style.space}> <span className={Style.colon}> : </span> <span className={Style.yellowCircle}> </span> {site.status} </div>;break
+                            case 'created'  : statusElement = <div className={Style.space}> <span className={Style.colon}> : </span> <span className={Style.yellowCircle}> </span> {site.status} </div>;break
+                            case 'starting'  : statusElement = <div className={Style.space}> <span className={Style.colon}> : </span> <span className={Style.greenCircle}> </span> {site.status} </div>;break
+                            case 'running'  : statusElement = <div className={Style.space}> <span className={Style.colon}> : </span> <span className={Style.greenCircle}> </span> {site.status} </div>;break
+                            case 'cancel'   : statusElement = <div className={Style.space}> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
+                            case 'stopping'   : statusElement = <div className={Style.space}> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
+                            case 'stopped'   : statusElement = <div className={Style.space}> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
+                            default : statusElement = <div className={Style.space}> <span className={Style.colon}> : </span> <span className={Style.redCircle}> </span> {site.status} </div>;break
                         }
                         return(
                             <div className={Style.site} key={key}>
@@ -68,7 +68,8 @@ export default class Detail extends Component {
                                             )
                                         })
                                     }
-                                    <div>Status</div>
+                                    <div className={Style.space}>Status</div>
+                                    <div className={Style.space}>Notes</div>
                                 </div>
                                 <div className={Style.col2}>
                                     <div  className={Style.space}>: {site.site_name}</div>
@@ -86,6 +87,7 @@ export default class Detail extends Component {
                                         })
                                     }
                                     {statusElement}
+                                    <div  className={Style.space}>: {site.admin_description}</div>
                                 </div>
                             </div>
                         )
