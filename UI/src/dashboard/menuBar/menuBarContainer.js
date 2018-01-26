@@ -10,7 +10,8 @@ export default class MenuBarContainer extends Component{
             reservation: '',
             history: '',
             setting: '',
-            tutorial: ''
+            tutorial: '',
+	    resource: ''
         }
     }
 
@@ -77,6 +78,19 @@ export default class MenuBarContainer extends Component{
             setting: ''
         })
     }
+
+    onResourceOver(){
+        this.setState({
+            resource: 'Resource'
+        })
+    }
+
+    onResourceOut(){
+        this.setState({
+            resource: ''
+        })
+    }
+
 
     render(){
         return(

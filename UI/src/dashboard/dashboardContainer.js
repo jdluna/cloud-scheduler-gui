@@ -13,6 +13,9 @@ import ErrorDialog from './dialog/errorDialog'
 import axios from 'axios'
 import { GET_ALL_IMAGES_ENDPOINT, CHECK_CONNECTION_TYPE_ENDPOINT } from '../config/endpoints'
 
+import ResourceContainer from './settings/resourceContainer'
+
+
 export default class DashboardContainer extends Component {
     constructor(props) {
         super(props)
@@ -73,6 +76,7 @@ export default class DashboardContainer extends Component {
             case 'Settings': this.onCloseMoreInfo(); this.checkLogin(menu); break
             case 'Help': this.onCloseMoreInfo(); this.setState({ modal: <HelpContainer dashBoardContainer={this} />, modalName: 'Helps' }); break
             case 'ReservationSites': this.checkConnectionType(); break
+	    case 'Resource': this.onCloseMoreInfo(); this.setState({ modal: <ResourceContainer dashBoardContainer={this}/>, modalName: 'Resource' }); break
         }
     }
 
