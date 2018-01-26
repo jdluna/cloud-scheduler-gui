@@ -1,0 +1,28 @@
+Desired features
+-------------------
+1. Ability to list the available images and their descriptions.
+2. Ability to add new parameters to the VM and use them for the reservation, for example:
+  - number of GPUs
+  - GPU description
+3. Ability to "extend" the scheduler for other types of resources: 
+   - data servers
+   - AirBOx sensors
+   - other
+   This can be a separate installation.  
+   
+Goals for April 25 - May 6
+---------------------------
+
+1. install and configure a new instance of cloud scheduler (on 2 separate VMs)
+   - describe all prerequisites 
+   - list all  configuration steps
+2. describe code modules and dependencies
+   (a) how to add new attributes (for example, GPU)
+   (b) how to add data storage resource
+   (c) how to add description to images
+3. integrate with pragma_boot
+   - what are  possible SQL queries (make a list)
+   - create one workign quiery example
+4. List known bugs and possible solutions
+5. List applicable results from the Usability study and possible steps
+   to implenent them
