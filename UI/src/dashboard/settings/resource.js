@@ -5,12 +5,6 @@ import Style2 from './settings.scss'
 export default class Resource extends Component {
 	render() {
 		return (
-		<section className={Style2.panel}>
-			<header>
-				<div>Resource</div>
-				<img src='img/ic_close.svg' onClick={()=>this.props.settingContainer.onClose()} />
-			</header>
-			<div className={Style2.content}>
 			<section className={Style.wrap}>
 				<section className={Style.content}>
 					<div className={Style.top}><img src='img/marker.png' width='80%'/></div>
@@ -27,8 +21,7 @@ export default class Resource extends Component {
 					</div>
 				</section>
 			</section>
-			</div>
-		</section>
+		
 /*
 		<section>
                 <section className={Style2.panel}>
