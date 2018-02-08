@@ -9,20 +9,18 @@ export default class ResourceContainer extends Component{
 		super(props);
 		//this.settingContainer = this.props.settingContainer;
 		//this.dashboardContainer = this.props.dashboardContainer;
-		this.state = {value: '', description: 'Virtual machines'};
-/*
-		this.state = {value: '', site_id:'sss', _name:'d', description:'Virtual machines', contact:'d', location:'d', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'d', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64'};
 	
+		this.state = {value: '', site_id:'', _name:'', description:'Virtual machines', contact:'', location:'', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64'};
 	
 	this.handleChange = this.handleChange.bind(this);
 	this.handleSubmit = this.handleSubmit.bind(this);
 	this.handleInputChange = this.handleInputChange.bind(this);
-*/
+
 
 	this.onCloseSettings = this.onCloseSettings.bind(this)
 	}
 
-/*
+
 	handleChange(event){
 	    this.setState({value: event.target.value});
 	}
@@ -39,7 +37,7 @@ export default class ResourceContainer extends Component{
 	    alert('Form was submitted, ' + this.state._name);
 	}
 
-*/
+
 	onCloseSettings(){
         this.props.settingContainer.onClose()
 	}
