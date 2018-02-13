@@ -18,3 +18,5 @@ export const GET_ALL_IMAGES_ENDPOINT = API_SERVER+'/getAllImages.py'
 export const FORGET_PASSWORD_ENDPOINT = API_SERVER+'/forgetPassword.py'
 export const SIGNOUT_ENDPOINT = API_SERVER+'/signOut.py'
 export const RESET_PASSWORD_ENDPOINT = API_SERVER+'/confirmForgetPassword.py'
+
+export const CONFIRM_RESOURCE_RESERVATION_ENDPOINT = API_SERVER+'/createResource.py'

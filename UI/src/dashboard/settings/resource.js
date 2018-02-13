@@ -12,7 +12,7 @@ export default class Resource extends Component {
 						<div className={Style.width}>
 						     <div className={Style.time}>Resource form</div>
 						     <form onSubmit={this.handleSubmit}>
-							<lable>site_id:<input type='text' name='site_id' value={this.props.resourcesContainer.state.site_id} onChange={this.props.resourcesContainer.handleInputChange}/></lable>
+							<lable className={Style.tag}>site_id:<input type='text' name='site_id' value={this.props.resourcesContainer.state.site_id} onChange={this.props.resourcesContainer.handleInputChange}/></lable>
 						     
 							<label>name:<input type='text' name='_name'value={this.props.resourcesContainer.state._name} onChange={this.props.resourcesContainer.handleInputChange} /></label>
 						    
