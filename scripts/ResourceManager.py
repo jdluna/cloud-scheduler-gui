@@ -39,8 +39,53 @@ class ResourceManager:
         self.__total_cpu = None
         self.__total_memory = None
 
+        self.__isComplete = False   # 이걸로 나중에 result를 success로 바꿀지 fail로 바꿀지 결정하는 변수임
+        self.__db = None
+        self.__check_name_duplication = False
+        # 에러는 list, array의 형태로 관리하기
 
-    def canCreateResource(self, name, description,  contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, deployment_type, site_hostname, latitude, longitude, total_cpu, total_memory):
+
+    # 리소스를 생성할 수 있는지 없는지 결정하는 함수 / 여기서 체크해야할 점은 name이 중복되는지 아닌지 확인하기
+    def canCreateResource(self, name):
+        self.__db = Database()
+        self.__name = name
+
+        # 디비 연결 되면, => 일단 auth 매니저도 제끼고 테스트 ㄱ
+        if self.__db.connect():
+            #auth = AuthenticationManager()
+
+            # 여기서 site name 중복되는지 확인하기
+            try:
+                # 이걸로 사이트 이름 중복되는지 확인하는 쿼리문 날리기
+                sql = 'SELECT `name` FROM `site` WHERE `name` = "' + str(self.__name)+'";'
+                self.__db.execute(sql)
+                data = self.__db.getCursor().fetchone()
+
+                # 데이터 있으면 True로 바까줌
+                if data != None:
+                    self.__check_name_duplication = True
+                    self.__db.unlock()
+                    return False
+
+                self.__isComplete = True
+                self.__db.unlock()
+
+            except:
+                self.__db.rollback()
+                self.__isComplete = False
+            finally:
+                self.__db.close()
+
+            if self.__isComplete == True:
+                return True
+            else:
+                return False
+        else:
+           return False
+            # 이게 끝나고 DB 커넥션 에러 같은걸 만들어 주면 좋겠다 그치?
+
+
+    def createResource(self, name, description,  contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, deployment_type, site_hostname, latitude, longitude, total_cpu, total_memory):
         self.__db = Database()
         self.__name = name
         self.__descrtiption = description
@@ -70,3 +115,9 @@ class ResourceManager:
 
     def getReservationName(self):
         return self.__name
+
+    def getCreateResourceStatus(self):
+        if self.__isComplete:
+            return 'success'
+        else:
+            return 'fail'

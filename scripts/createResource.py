@@ -1,17 +1,15 @@
 #!/opt/python/bin/python
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 07 02:23:37 2017
+Created on Fri Feb 16 11:45:27 2018
 
-@author: CS401:Nannapas Banluesombatkul
+@author: Chungnam National University : Eunjeong Jang
 """
 
 import cgitb
-
 cgitb.enable()
 
 import cgi
-
 form = cgi.FieldStorage()
 
 #### var from front-end -> resource values #####
@@ -32,9 +30,7 @@ LATITUDE = form.getvalue('latitude')
 LONGITUDE = form.getvalue('longitude')
 TOTAL_CPU = form.getvalue('total_cpu')
 TOTAL_MEMORY = form.getvalue('total_memory')
-
-
-
+#########################################################
 
 
 print "Content-Type: text/html"
@@ -43,16 +39,28 @@ print
 
 
 from ResourceManager import ResourceManager
-
 resourceManager = ResourceManager()
-result = 'success'
 
-resource = resourceManager.canCreateResource(NAME, DESCRIPTION, CONTACT, LOCATION, PRAGMA_BOOT_PATH, PRAGMA_BOOT_VERSION, PYTHON_PATH, TEMP_DIR, USERNAME, DEPLOYMENT_TYPE, SITE_HOSTNAME, LATITUDE, LONGITUDE, TOTAL_CPU, TOTAL_MEMORY)
+resource = resourceManager.canCreateResource(NAME)
+result = 'fail'
+
+if resource :
+    resourceManager.createResource(NAME, DESCRIPTION, CONTACT, LOCATION, PRAGMA_BOOT_PATH, PRAGMA_BOOT_VERSION, PYTHON_PATH, TEMP_DIR, USERNAME, DEPLOYMENT_TYPE, SITE_HOSTNAME, LATITUDE, LONGITUDE, TOTAL_CPU, TOTAL_MEMORY)
+    result = resourceManager.getCreateResourceStatus()
+
+#result = 'success'
+
+
 
 
 jsonStr = '{ "result" : "' + str(result) + '",'
 
-jsonStr += ' "reserve_id" : "' + str(resourceManager.getReservationName()) + '"'
+
+if result == 'fail':
+    jsonStr += '넌 뭔가 잘못을 했겠지'
+
+else:
+    jsonStr += ' "reserve_id" : "' + str(resourceManager.getReservationName()) + '"'
 
 jsonStr += '}'
 
