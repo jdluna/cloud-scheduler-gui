@@ -118,6 +118,21 @@ export default class Search extends Component {
             helpIcon: this.refs.helpIcon,
         })
         // this.refs.cpu.focus()
+        this.setState({
+            mode:'SINGLE'
+        })
+        this.changeMode = this.changeMode.bind(this)
+    }
+
+    ifRender(condition,view){
+        if(condition) return view;
+        else return null;
+    }
+
+    changeMode(e){
+        this.setState({
+            mode:e.target.id
+        },()=>{console.log(this.state.mode)})
     }
 
     render() {
@@ -182,6 +197,10 @@ export default class Search extends Component {
                         <section className={Style.content}>
                             <div className={Style.searchinput}>
                                 <form>
+                                    <div className={Style.buttonBox}>
+                                        <button className={Style.singleBtn} id='SINGLE' onClick={this.changeMode} type="button">Single</button>
+                                        <button className={Style.singleBtn} id='MULTI' onClick={this.changeMode} type="button">Multi</button>
+                                    </div>
                                     <div className={Style.divideblock}>
                                         <div>Resources</div>
                                         <div className={Style.horizontalline}></div>

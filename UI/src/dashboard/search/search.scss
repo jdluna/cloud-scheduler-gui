@@ -55,6 +55,25 @@
                 margin-bottom: 5px;
                 font-weight: bold;
             }
+            .buttonBox{
+                display: flex;
+                justify-content: center;
+                padding-bottom: 5px;
+            }
+            .buttonBox .singleBtn{
+                background-color: #000; /* Green */
+                border: 1px solid #fff;
+                border-radius: 3px;
+                color: #fff;
+                padding: 4px 10px;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+                float: left;
+            }
+            .buttonBox .singleBtn:not(:last-child) {
+                border-right: none; /* Prevent double borders */
+            }
             .divideblock2{
                 margin-top: 10px;
             }
