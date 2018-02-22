@@ -71,6 +71,20 @@
                 cursor: pointer;
                 float: left;
             }
+            .buttonBox .singleBtnActive{
+                background-color: #EFA430; /* Green */
+                border: 1px solid #fff;
+                border-radius: 3px;
+                color: #fff;
+                padding: 4px 10px;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+                float: left;
+            }
+            .buttonBox .singleBtnActive:not(:last-child){
+                border-right: none; /* Prevent double borders */
+            }
             .buttonBox .singleBtn:not(:last-child) {
                 border-right: none; /* Prevent double borders */
             }
