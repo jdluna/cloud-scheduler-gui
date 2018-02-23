@@ -2,6 +2,8 @@ import React,{Component} from 'react'
 import Style from './resource.scss'
 import Style2 from './settings.scss'
 
+
+
 export default class Resource extends Component {
 	render() {
 		return (

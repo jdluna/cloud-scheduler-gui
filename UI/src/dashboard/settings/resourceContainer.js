@@ -14,7 +14,6 @@ export default class ResourceContainer extends Component{
 		this.appContainer = this.props.dashBoardContainer.props.app
         	this.dashboardContainer = this.props.dashBoardContainer
 
-		 this.sites = this.props.sites
 
 	
 		this.state = {value:'', _name:'', description:'Virtual machines', contact:'', location:'', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64'};
