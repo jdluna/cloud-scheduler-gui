@@ -14,11 +14,26 @@
     margin: 10px;
     width: calc(100% - 20px);
     height: 100%;
-    overflow: scroll;
+    /*overflow: scroll;*/
+    
+    .tag{
+	font-size: 10pt;
+    	text-align: center;
+    	color: white;
+	padding: 0 6px;
+     }
+
+    .submitBtn{
+	 text-align: right;
+   	 padding-top: 6px;
+   	 padding-right: 5px;
+
+    }
+
     .input{
             background-color: #464a5f;
             border-radius: 3px;
-            padding-right: 5px;
+            /*padding-right: 5px;*/
             padding-left: 5px;
             outline: none;
             border: none;

@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import Style from './settings.scss'
+import Style from './resourceSettings.scss'
 import TimezoneContainer from './timezoneContainer'
 import ResourceContainer from './resourceContainer'
 export default class Settings2 extends Component {
