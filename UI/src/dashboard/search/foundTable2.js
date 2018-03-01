@@ -68,7 +68,7 @@ export default class FoundTable2 extends Component {
                             {this.ifRender(this.props.searchContainer.state.mode=='MULTI',
                                 <div>
                                     <span>Number of sites : </span>
-                                    <span className={Style.hilight}>Any</span>
+                                    <span className={Style.hilight}>{data.numSite}</span>
                                 </div>
                             )}
                             
