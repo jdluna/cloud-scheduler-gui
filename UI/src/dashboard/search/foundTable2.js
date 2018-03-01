@@ -9,6 +9,14 @@ export default class FoundTable2 extends Component {
         else return null;
     }
 
+    sum(arr){
+        let sum =0
+        for(var i=0;i<arr.length;i++){
+            sum+=arr[i]
+        }
+        return sum
+    }
+
     render() {
         
         let data = this.props.searchContainer.state
@@ -70,124 +78,65 @@ export default class FoundTable2 extends Component {
                 </div>
                 {this.ifRender(this.props.searchContainer.state.mode=='SINGLE',
                 <div className={Style.data}>
-                        <div className={Style.cardResult}>
-                            <span className={Style.siteName}>B1<span className={Style.region}>(Thailand)</span></span>
-                            <br/>
-                            <span className={Style.date}>01-MAR-2018 13:00 <span>to</span> 01-MAR-2018 16:00</span>
-                            <div className={Style.detail}>
-                                <div>
-                                    <span>CPU : <span>10</span></span><br/>
-                                    <span>Memory : <span>8 GB</span></span>
-                                </div>
-                                <div> 
-                                    <span>from available <span>34/34 CPUs</span></span><br/>
-                                    <span>from available <span>64/64 GB</span></span>
-                                </div>
-                                <div>
-                                    <span>CPU speed : <span>2.8 GHz</span></span><br/>
-                                    <span>Network : <span>IPOP (1 Mbps)</span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={Style.cardResult}>
-                            <span className={Style.siteName}>B1<span className={Style.region}>(Thailand)</span></span>
-                            <br/>
-                            <span className={Style.date}>01-MAR-2018 13:00 <span>to</span> 01-MAR-2018 16:00</span>
-                            <div className={Style.detail}>
-                                <div>
-                                    <span>CPU : <span>10</span></span><br/>
-                                    <span>Memory : <span>8 GB</span></span>
-                                </div>
-                                <div> 
-                                    <span>from available <span>34/34 CPUs</span></span><br/>
-                                    <span>from available <span>64/64 GB</span></span>
-                                </div>
-                                <div>
-                                    <span>CPU speed : <span>2.8 GHz</span></span><br/>
-                                    <span>Network : <span>IPOP (1 Mbps)</span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={Style.cardResult}>
-                            <span className={Style.siteName}>B1<span className={Style.region}>(Thailand)</span></span>
-                            <br/>
-                            <span className={Style.date}>01-MAR-2018 13:00 <span>to</span> 01-MAR-2018 16:00</span>
-                            <div className={Style.detail}>
-                                <div>
-                                    <span>CPU : <span>10</span></span><br/>
-                                    <span>Memory : <span>8 GB</span></span>
-                                </div>
-                                <div> 
-                                    <span>from available <span>34/34 CPUs</span></span><br/>
-                                    <span>from available <span>64/64 GB</span></span>
-                                </div>
-                                <div>
-                                    <span>CPU speed : <span>2.8 GHz</span></span><br/>
-                                    <span>Network : <span>IPOP (1 Mbps)</span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={Style.cardResult}>
-                            <span className={Style.siteName}>B1<span className={Style.region}>(Thailand)</span></span>
-                            <br/>
-                            <span className={Style.date}>01-MAR-2018 13:00 <span>to</span> 01-MAR-2018 16:00</span>
-                            <div className={Style.detail}>
-                                <div>
-                                    <span>CPU : <span>10</span></span><br/>
-                                    <span>Memory : <span>8 GB</span></span>
-                                </div>
-                                <div> 
-                                    <span>from available <span>34/34 CPUs</span></span><br/>
-                                    <span>from available <span>64/64 GB</span></span>
-                                </div>
-                                <div>
-                                    <span>CPU speed : <span>2.8 GHz</span></span><br/>
-                                    <span>Network : <span>IPOP (1 Mbps)</span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={Style.cardResult}>
-                            <span className={Style.siteName}>B1<span className={Style.region}>(Thailand)</span></span>
-                            <br/>
-                            <span className={Style.date}>01-MAR-2018 13:00 <span>to</span> 01-MAR-2018 16:00</span>
-                            <div className={Style.detail}>
-                                <div>
-                                    <span>CPU : <span>10</span></span><br/>
-                                    <span>Memory : <span>8 GB</span></span>
-                                </div>
-                                <div> 
-                                    <span>from available <span>34/34 CPUs</span></span><br/>
-                                    <span>from available <span>64/64 GB</span></span>
-                                </div>
-                                <div>
-                                    <span>CPU speed : <span>2.8 GHz</span></span><br/>
-                                    <span>Network : <span>IPOP (1 Mbps)</span></span>
-                                </div>
-                            </div>
-                        </div>
+                            {this.props.searchContainer.state.dataResult.results.map((data,key) =>{
+                                return(
+                                    <div className={Style.cardResult} key={key}>
+                                        <span className={Style.siteName}>{data.sites[0].name}<span className={Style.region}>({data.sites[0].region})</span></span>
+                                        <br/>
+                                        <span className={Style.date}>{data.begin} <span>to</span> {data.end}</span>
+                                        <div className={Style.detail}>
+                                            <div>
+                                                <span>CPU : <span>{data.totalCPU[0]}</span></span><br/>
+                                                <span>Memory : <span>{data.totalMem[0]} GB</span></span>
+                                            </div>
+                                            <div> 
+                                                <span>from available <span>{data.avaiCPU} CPUs</span></span><br/>
+                                                <span>from available <span>{data.avaiMem} GB</span></span>
+                                            </div>
+                                            <div>
+                                                <span>CPU speed : <span>{data.speedCPU} GHz</span></span><br/>
+                                                <span>Network : <span>{data.netType} ({data.speedNet} Mbps)</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            )}
                 </div>
                 )}
                 {this.ifRender(this.props.searchContainer.state.mode=='MULTI',
                 <div className={Style.data}>
-                        <div className={Style.cardResult}>
-                            <span className={Style.siteName}>B1<span className={Style.region}>(Thailand)</span> x UCSD<span className={Style.region}>(America)</span></span>
-                            <br/>
-                            <span className={Style.date}>01-MAR-2018 13:00 <span>to</span> 01-MAR-2018 16:00</span>
-                            <div className={Style.detail}>
-                                <div>
-                                    <span>CPU : <span>20 (10:10)</span></span><br/>
-                                    <span>Memory : <span>40 GB (20:20)</span></span>
-                                </div>
-                                <div> 
-                                    <span>from available <span>34/34 CPUs</span></span><br/>
-                                    <span>from available <span>64/64 GB</span></span>
-                                </div>
-                                <div>
-                                    <span>CPU speed : <span>2.8 GHz</span></span><br/>
-                                    <span>Network : <span>IPOP (1 Mbps)</span></span>
-                                </div>
-                            </div>
-                        </div>
+                        {this.props.searchContainer.state.dataResult.results.map((data,key) =>{
+                                let sites = data.sites
+                                let siteLength = sites.length
+                                const reducer = (accumulator, currentValue) => accumulator + currentValue;
+                                return(
+                                    <div className={Style.cardResult} key={key}>
+                                        {sites.map((data,key)=>{
+                                            return(
+                                                <span className={Style.siteName} key={key}>{data.name}<span className={Style.region}>({data.region})</span> {this.ifRender(key!=siteLength-1,<span>x</span>)} </span>
+                                            )
+                                        })}
+                                        <br/>
+                                        <span className={Style.date}>{data.begin} <span>to</span> {data.end}</span>
+                                        <div className={Style.detail}>
+                                            <div>
+                                                <span>CPU : <span>{this.sum(data.totalCPU)}</span></span><br/>
+                                                <span>Memory : <span>{this.sum(data.totalMem)} GB</span></span>
+                                            </div>
+                                            <div> 
+                                                <span>from available <span>{data.avaiCPU} CPUs</span></span><br/>
+                                                <span>from available <span>{data.avaiMem} GB</span></span>
+                                            </div>
+                                            <div>
+                                                <span>CPU speed : <span>{data.speedCPU} GHz</span></span><br/>
+                                                <span>Network : <span>{data.netType} ({data.speedNet} Mbps)</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        )}
                 </div>
                 )}
             </section>

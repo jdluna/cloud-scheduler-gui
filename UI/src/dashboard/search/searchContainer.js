@@ -35,6 +35,8 @@ export default class SearchContainer extends Component {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
             },
+            region:'Any',
+            numSite:'Any',
             startTime: this.tmp,
             endTime: this.tmp2,
             reservationLength: {
@@ -81,6 +83,8 @@ export default class SearchContainer extends Component {
         this.onReserveLengthDataChange = this.onReserveLengthDataChange.bind(this)
         this.onSearchSubmit = this.onSearchSubmit.bind(this)
         this.onSelectItem = this.onSelectItem.bind(this)
+        this.onRegionChange = this.onRegionChange.bind(this)
+        this.onSiteNumChange = this.onSiteNumChange.bind(this)
         this.getReservationsLength = this.getReservationsLength.bind(this)
         this.getDescSortByName = this.getDescSortByName.bind(this)
         this.getAscSortByName = this.getAscSortByName.bind(this)
@@ -154,6 +158,18 @@ export default class SearchContainer extends Component {
     changeMode(e){
         this.setState({
             mode:e.target.id
+        })
+    }
+
+    onRegionChange(region){
+        this.setState({
+            region:region.target.value
+        })
+    }
+
+    onSiteNumChange(num){
+        this.setState({
+            numSite:num.target.value
         })
     }
 
@@ -471,9 +487,91 @@ export default class SearchContainer extends Component {
                     //         resultTable: <FoundTable searchContainer={this}/>
                     //     })
                     // })
+        let data;
+        if(this.state.mode=='SINGLE'){
+            data = {
+                results:[
+                    {
+                        sites:[
+                            {name:'BU',
+                            region:'Thailand'
+                            }
+                        ],
+                        begin:'01-MAR-2018 13:00',
+                        end:'01-MAR-2018 16:00',
+                        totalCPU:[100],
+                        totalMem:[100],
+                        speedCPU:1.1,
+                        speedNet:1.0,
+                        netType:'IPOP',
+                        avaiCPU:'100/100',
+                        avaiMem:'200/200'
+                    },{
+                        sites:[
+                            {name:'KU',
+                            region:'Thailand'
+                            }
+                        ],
+                        begin:'01-MAR-2018 13:00',
+                        end:'01-MAR-2018 16:00',
+                        totalCPU:[100],
+                        totalMem:[100],
+                        speedCPU:1.1,
+                        speedNet:1.0,
+                        netType:'IPOP',
+                        avaiCPU:'100/100',
+                        avaiMem:'200/200'
+                    }
+                ]
+            }
+        }else{
+            data ={
+                results:[
+                    {
+                        sites:[
+                            {name:'BU',
+                            region:'Thailand'
+                            },{name:'KU',
+                            region:'Thailand'
+                            }
+                        ],
+                        begin:'01-MAR-2018 13:00',
+                        end:'01-MAR-2018 16:00',
+                        totalCPU:[100,200],
+                        totalMem:[100,200],
+                        speedCPU:1.1,
+                        speedNet:1.0,
+                        netType:'IPOP',
+                        avaiCPU:'100/100',
+                        avaiMem:'200/200'
+                    },{
+                        sites:[
+                            {name:'MU',
+                            region:'Thailand'
+                            },{name:'KU',
+                            region:'Thailand'
+                            }
+                        ],
+                        begin:'01-MAR-2018 13:00',
+                        end:'01-MAR-2018 16:00',
+                        totalCPU:[100,200],
+                        totalMem:[100,200],
+                        speedCPU:1.1,
+                        speedNet:1.0,
+                        netType:'IPOP',
+                        avaiCPU:'100/100',
+                        avaiMem:'200/200'
+                    }
+                ]
+            }
+        }
+        
+        this.setState({
+             dataResult: data
+        },
         this.setState({
             resultTable: <FoundTable2 searchContainer={this} />
-        })
+        }))
         // axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
         //     let {data,status} = response
         //     if(status==200&&data.result_type){

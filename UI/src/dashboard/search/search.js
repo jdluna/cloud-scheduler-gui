@@ -106,9 +106,10 @@ const ImageTypeList = (props) => {
 }
 
 const SiteNumberList = (props) => {
+    
     return(
-        <select name={props.name} className={Style.inputtype}>
-            <option value='any'>Any</option>
+        <select name={props.name} onChange={props.handle} value={props.value} className={Style.inputtype}>
+            <option value='Any'>Any</option>
             <option value='1'>1</option>
             <option value='2'>2</option>
             <option value='3'>3</option>
@@ -121,7 +122,8 @@ const SiteNumberList = (props) => {
 
 const RegionList = (props) => {
     return(
-        <select name={props.name} className={Style.inputtype}>
+        <select name={props.name} onChange={props.handle} value={props.value} className={Style.inputtype}>
+            <option value='Any'>Any</option>
             <option value='thailand'>Thailand</option>
             <option value='us'>United state</option>
         </select>
@@ -306,7 +308,7 @@ export default class Search extends Component {
                                         <div className={Style.row}>
                                             <div className={Style.block}>
                                                 <div>Region:</div>
-                                                <RegionList/>
+                                                <RegionList value={this.props.searchContainer.state.region} handle={this.props.searchContainer.onRegionChange}/>
                                             </div>
                                         </div>
                                         <div className={Style.footerwrap}>
@@ -328,7 +330,7 @@ export default class Search extends Component {
                                             <div className={Style.row}>
                                                 <div className={Style.block+' '+Style.bottomspace}>
                                                     <div>Number of sites:</div>
-                                                    <SiteNumberList/>
+                                                    <SiteNumberList value={this.props.searchContainer.state.numSite} handle={this.props.searchContainer.onSiteNumChange}/>
                                                 </div>
                                                 {
                                                     RESOURCES.map((data,key)=>{
@@ -412,7 +414,7 @@ export default class Search extends Component {
                                             <div className={Style.row}>
                                                 <div className={Style.block}>
                                                     <div>Region:</div>
-                                                    <RegionList/>
+                                                    <RegionList value={this.props.searchContainer.state.region} handle={this.props.searchContainer.onRegionChange}/>
                                                 </div>
                                             </div>
                                             <div className={Style.footerwrap}>
