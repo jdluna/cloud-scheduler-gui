@@ -4,8 +4,13 @@ import moment from 'moment'
 import { RESOURCES } from '../../config/attributes'
 
 export default class FoundTable2 extends Component {
+    ifRender(condition,view){
+        if(condition) return view;
+        else return null;
+    }
 
     render() {
+        
         let data = this.props.searchContainer.state
         let startDate = moment(data.startDate.date+' '+data.startTime).format('DD-MMM-YYYY HH:mm').toUpperCase()
         let endDate = moment(data.endDate.date+' '+data.endTime).format('DD-MMM-YYYY HH:mm').toUpperCase() 
@@ -42,22 +47,28 @@ export default class FoundTable2 extends Component {
                             </div>
                         </div>
                         <div className={Style.column2}>
-                            <div>
-                                <span>CPU : </span>
-                                <span className={Style.hilight}>0</span>
-                            </div>
-                            <div>
-                                <span>Memory : </span>
-                                <span className={Style.hilight}>0</span>
-                            </div>
-                            <div>
-                                <span>Number of sites : </span>
-                                <span className={Style.hilight}>None</span>
-                            </div>
+                            {   
+                                RESOURCES.map((resource,key)=>{
+                                    return(
+                                        <div key={key}>
+                                            <span>{resource.name} : </span>
+                                            <span className={Style.hilight}>{(data.resource[key]!='') ? data.resource[key] : 0}</span>
+                                        </div>
+                                    )
+                                })
+                            }
+                            {this.ifRender(this.props.searchContainer.state.mode=='MULTI',
+                                <div>
+                                    <span>Number of sites : </span>
+                                    <span className={Style.hilight}>Any</span>
+                                </div>
+                            )}
+                            
                         </div>    
                     </div>
                     <div className={Style.secondlabel}>Click on site's name for more description.</div>
                 </div>
+                {this.ifRender(this.props.searchContainer.state.mode=='SINGLE',
                 <div className={Style.data}>
                         <div className={Style.cardResult}>
                             <span className={Style.siteName}>B1<span className={Style.region}>(Thailand)</span></span>
@@ -155,6 +166,30 @@ export default class FoundTable2 extends Component {
                             </div>
                         </div>
                 </div>
+                )}
+                {this.ifRender(this.props.searchContainer.state.mode=='MULTI',
+                <div className={Style.data}>
+                        <div className={Style.cardResult}>
+                            <span className={Style.siteName}>B1<span className={Style.region}>(Thailand)</span> x UCSD<span className={Style.region}>(America)</span></span>
+                            <br/>
+                            <span className={Style.date}>01-MAR-2018 13:00 <span>to</span> 01-MAR-2018 16:00</span>
+                            <div className={Style.detail}>
+                                <div>
+                                    <span>CPU : <span>20 (10:10)</span></span><br/>
+                                    <span>Memory : <span>40 GB (20:20)</span></span>
+                                </div>
+                                <div> 
+                                    <span>from available <span>34/34 CPUs</span></span><br/>
+                                    <span>from available <span>64/64 GB</span></span>
+                                </div>
+                                <div>
+                                    <span>CPU speed : <span>2.8 GHz</span></span><br/>
+                                    <span>Network : <span>IPOP (1 Mbps)</span></span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                )}
             </section>
         )
     }

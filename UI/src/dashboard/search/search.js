@@ -131,9 +131,6 @@ const RegionList = (props) => {
 export default class Search extends Component {
     constructor(){
         super()
-        this.state = {
-            mode:'SINGLE'
-        }
     }
     componentDidMount() {
         this.props.searchContainer.setState({
@@ -147,7 +144,7 @@ export default class Search extends Component {
             helpIcon: this.refs.helpIcon,
         })
         // this.refs.cpu.focus()
-        this.changeMode = this.changeMode.bind(this)
+        
     }
 
     ifRender(condition,view){
@@ -155,13 +152,6 @@ export default class Search extends Component {
         else return null;
     }
 
-    changeMode(e){
-        this.setState({
-            mode:e.target.id
-        },
-            ()=>{console.log(this.state.mode)}
-        )
-    }
 
     render() {
         let startBeginDuration = this.props.searchContainer.state.startBeginDuration
@@ -225,10 +215,10 @@ export default class Search extends Component {
                             <div className={Style.searchinput}>
                                 <form>
                                     <div className={Style.buttonBox}>
-                                        <button className={(this.state.mode=='SINGLE')?Style.singleBtnActive:Style.singleBtn} id='SINGLE' onClick={this.changeMode} type="button">Single</button>
-                                        <button className={(this.state.mode=='MULTI')?Style.singleBtnActive:Style.singleBtn} id='MULTI' onClick={this.changeMode} type="button">Multi</button>
+                                        <button className={(this.props.searchContainer.state.mode=='SINGLE')?Style.singleBtnActive:Style.singleBtn} id='SINGLE' onClick={this.props.searchContainer.changeMode} type="button">Single</button>
+                                        <button className={(this.props.searchContainer.state.mode=='MULTI')?Style.singleBtnActive:Style.singleBtn} id='MULTI' onClick={this.props.searchContainer.changeMode} type="button">Multi</button>
                                     </div>
-                                    {this.ifRender(this.state.mode=='SINGLE',
+                                    {this.ifRender(this.props.searchContainer.state.mode=='SINGLE',
                                         <div>
                                         <div className={Style.divideblock}>
                                             <div>Resources</div>
@@ -329,7 +319,7 @@ export default class Search extends Component {
                                         </div>  
                                         </div>
                                     )}
-                                    {this.ifRender(this.state.mode=='MULTI',
+                                    {this.ifRender(this.props.searchContainer.state.mode=='MULTI',
                                         <div>
                                             <div className={Style.divideblock}>
                                                 <div>Resources</div>

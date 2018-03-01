@@ -26,6 +26,7 @@ export default class SearchContainer extends Component {
         })
         this.state = {
             resource: resource,
+            mode:'SINGLE',
             startDate: {
                 obj: this.timezone,
                 date: this.timezone.format('YYYY-MM-DD')
@@ -92,6 +93,7 @@ export default class SearchContainer extends Component {
         this.helpIconOut = this.helpIconOut.bind(this)
         this.onHelpClose = this.onHelpClose.bind(this)
         this.setDateForCard = this.setDateForCard.bind(this)
+        this.changeMode = this.changeMode.bind(this)
     }
 
     onClose() {
@@ -146,6 +148,12 @@ export default class SearchContainer extends Component {
         this.setState({
             maxLengthDate: diffDate,
             maxLengthHour: diffTime
+        })
+    }
+
+    changeMode(e){
+        this.setState({
+            mode:e.target.id
         })
     }
 
@@ -450,25 +458,9 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
-        console.log(params)
         this.setState({
             resultTable: <Loading/>
         })
-        let data = {
-            result_type : 'result',
-            amount: 10,
-            additionalNetwork:'IPOP',
-            startDate:{
-                date:'01-MAR-2018'
-            },
-            endDate:{
-                date:'01-MAR-2018'
-            },
-            startTime:'01:00',
-            endTime:'02:00',
-            additionalNetwork:'IPOP',
-            imageType:'ROCK'
-        }
         // console.log(data)
         // this.getAscSortByName(data)
                     // this.setState({
