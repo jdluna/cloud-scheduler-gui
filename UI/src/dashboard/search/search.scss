@@ -227,6 +227,7 @@
             border-left: 1px solid #929296;
             color: #FFFFFF;
             font-size: 9pt;
+            overflow-y: auto;
             box-sizing: border-box;
             .label{
                 padding: 15px;
@@ -244,7 +245,7 @@
                       
                     }
                     .column2{
-                      width: 45;
+                      width: 45%;
                     }
                     .empty{
                       display: inline-block;
@@ -269,6 +270,38 @@
             }
             .data{
                 width: 100%;
+                .cardResult{
+                    margin: 5px 15px 5px 5px;
+                    padding: 5px 20px 5px 15px;
+                    background-color: #1C2230;
+                    line-height: 1.6; 
+                    .siteName{
+                        padding: 15px 0px 1 5px 0px;
+                        .region{
+                            font-size: 8px;
+                            color: #90ACB1;
+                        }
+                    }
+                    .date{
+                        font-size: 10px;
+                        color: #EFA430;
+                        font-style: italic;
+                        span{
+                            color: #fff;
+                            font-style: normal;
+                        }
+                    }
+                    .detail{
+                        display: grid;
+                        grid-template-columns: auto auto auto;
+                        span > span{
+                            color: #EFA430;
+                        }
+                    }
+                }
+                .head{
+                    margin: 100px 20px 100px 15px;
+                }
                 .container{
                     width: 100%;
                     overflow: auto;
@@ -323,6 +356,19 @@
                     background-color: rgba(18, 18, 19,0.76);
                 }
             }
+        }
+        .searchresult::-webkit-scrollbar-track{
+            border-radius: 10px;
+            background-color: rgba(35,41,57,0.84);
+        }
+        .searchresult::-webkit-scrollbar{
+            width: 5px;
+            border-radius: 10px;
+            background-color: rgba(35,41,57,0.84);
+        }
+        .searchresult::-webkit-scrollbar-thumb{
+            border-radius: 10px;
+            background-color: rgba(18, 18, 19,0.76);
         }
     }
 }

@@ -105,27 +105,25 @@ const ImageTypeList = (props) => {
     )
 }
 
+const SiteNumberList = (props) => {
+    return(
+        <select name={props.name} className={Style.inputtype}>
+            <option value='any'>Any</option>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+        </select>
+    )
+}
+
 const RegionList = (props) => {
-
-    let images = props.i
-    if (images.length > 0 && images[0].name != 'Any') {
-        images.unshift({
-            name: 'Any',
-            description: 'Any'
-        })
-    }
-
-    return (
-        <select className={Style.inputtype} value={props.value} onChange={props.handle}>
-            {
-                images.map((data, key) => {
-                    let d = data.name
-                    return (
-                        <option key={key} value={d}> {d} </option>
-                    )
-                })
-            }
-
+    return(
+        <select name={props.name} className={Style.inputtype}>
+            <option value='thailand'>Thailand</option>
+            <option value='us'>United state</option>
         </select>
     )
 }
@@ -230,103 +228,213 @@ export default class Search extends Component {
                                         <button className={(this.state.mode=='SINGLE')?Style.singleBtnActive:Style.singleBtn} id='SINGLE' onClick={this.changeMode} type="button">Single</button>
                                         <button className={(this.state.mode=='MULTI')?Style.singleBtnActive:Style.singleBtn} id='MULTI' onClick={this.changeMode} type="button">Multi</button>
                                     </div>
-                                    <div className={Style.divideblock}>
-                                        <div>Resources</div>
-                                        <div className={Style.horizontalline}></div>
-                                    </div>
-                                    <div className={Style.row}>
-                                        {
-                                            RESOURCES.map((data,key)=>{
-                                                let name = data.name
-                                                if(data.unit!=null){
-                                                    name = name+' ('+data.unit+')'
-                                                }
-                                                return(
-                                                    <div className={Style.block+' '+Style.bottomspace} key={key}>
-                                                        <div>{name}:</div>
-                                                        <input className={Style.input} type='text' name={key} onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.resource[key]} autoFocus={(key==0)}/>
+                                    {this.ifRender(this.state.mode=='SINGLE',
+                                        <div>
+                                        <div className={Style.divideblock}>
+                                            <div>Resources</div>
+                                            <div className={Style.horizontalline}></div>
+                                        </div>
+                                        <div className={Style.row}>
+                                            {
+                                                RESOURCES.map((data,key)=>{
+                                                    let name = data.name
+                                                    if(data.unit!=null){
+                                                        name = name+' ('+data.unit+')'
+                                                    }
+                                                    return(
+                                                        <div className={Style.block+' '+Style.bottomspace} key={key}>
+                                                            <div>{name}:</div>
+                                                            <input className={Style.input} type='text' name={key} onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.resource[key]} autoFocus={(key==0)}/>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                        <div className={Style.divideblock2}>
+                                            <div>Duration</div>
+                                            <div className={Style.horizontalline}></div>
+                                        </div>
+                                        <div className={Style.row}>
+                                            <div className={Style.block}>
+                                                <div>Begin:</div>
+                                                <label>
+                                                    <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
+                                                    <img className={Style.icon} src='img/ic_date_range.svg' />
+                                                </label>
+                                                {timeStartList}
+                                            </div>
+                                        </div>
+                                        <div className={Style.row}>
+                                            <div className={Style.block}>
+                                                <div>End:</div>
+                                                <label>
+                                                    <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
+                                                    <img className={Style.icon} src='img/ic_date_range.svg' />
+                                                </label>
+                                                {timeEndList}
+                                            </div>
+                                        </div>
+                                        <div className={Style.row}>
+                                            <div className={Style.block}>
+                                                <div className={Style.reservespace}>Reservation length:</div>
+                                                <div className={Style.choose} onClick={() => this.props.searchContainer.onReserveLengthChange('all')}>
+                                                    <input type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={() => this.props.searchContainer.onReserveLengthChange('all')} />
+                                                    <span className={Style.text}>From begin to end</span>
+                                                </div>
+                                            </div>
+                                            <div className={Style.block}>
+                                                <div className={Style.choose} onClick={() => this.props.searchContainer.onReserveLengthChange('time')}>
+                                                    <input className={Style.marginradio} type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value == 'time'} onChange={() => this.props.searchContainer.onReserveLengthChange('time')} />
+                                                    <div className={Style.block}>
+                                                        <input ref='daysInput' className={Style.inputradio} type='text' name='days' disabled={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.days} />
+                                                        <span ref='daysLabel' className={Style.unittext}> days</span>
                                                     </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                    <div className={Style.divideblock2}>
-                                        <div>Duration</div>
-                                        <div className={Style.horizontalline}></div>
-                                    </div>
-                                    <div className={Style.row}>
-                                        <div className={Style.block}>
-                                            <div>Begin:</div>
-                                            <label>
-                                                <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
-                                                <img className={Style.icon} src='img/ic_date_range.svg' />
-                                            </label>
-                                            {timeStartList}
-                                        </div>
-                                    </div>
-                                    <div className={Style.row}>
-                                        <div className={Style.block}>
-                                            <div>End:</div>
-                                            <label>
-                                                <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
-                                                <img className={Style.icon} src='img/ic_date_range.svg' />
-                                            </label>
-                                            {timeEndList}
-                                        </div>
-                                    </div>
-                                    <div className={Style.row}>
-                                        <div className={Style.block}>
-                                            <div className={Style.reservespace}>Reservation length:</div>
-                                            <div className={Style.choose} onClick={() => this.props.searchContainer.onReserveLengthChange('all')}>
-                                                <input type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={() => this.props.searchContainer.onReserveLengthChange('all')} />
-                                                <span className={Style.text}>From begin to end</span>
+                                                    <div className={Style.block}>
+                                                        <input ref='hoursInput' className={Style.inputradio} type='text' name='hours' disabled={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.hours} />
+                                                        <span ref='hoursLabel' className={Style.unittext}> hours</span>
+                                                    </div>
+                                                </div>
+                                                <div className={Style.hinttext}>* Maximum length : {this.props.searchContainer.state.maxLengthDate} days {this.props.searchContainer.state.maxLengthHour} hours</div>
                                             </div>
                                         </div>
-                                        <div className={Style.block}>
-                                            <div className={Style.choose} onClick={() => this.props.searchContainer.onReserveLengthChange('time')}>
-                                                <input className={Style.marginradio} type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value == 'time'} onChange={() => this.props.searchContainer.onReserveLengthChange('time')} />
-                                                <div className={Style.block}>
-                                                    <input ref='daysInput' className={Style.inputradio} type='text' name='days' disabled={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.days} />
-                                                    <span ref='daysLabel' className={Style.unittext}> days</span>
+                                        <div className={Style.divideblock2}>
+                                            <div>Others</div>
+                                            <div className={Style.horizontalline}></div>
+                                        </div>
+                                        <div className={Style.row}>
+                                            <div className={Style.block}>
+                                                <div>Additional Network:</div>
+                                                {networkList}
+                                            </div>
+                                        </div>
+                                        <div className={Style.row}>
+                                            <div className={Style.block}>
+                                                <div>Image type:</div>
+                                                {imageTypeList}
+                                            </div>
+                                        </div>
+                                        <div className={Style.row}>
+                                            <div className={Style.block}>
+                                                <div>Region:</div>
+                                                <RegionList/>
+                                            </div>
+                                        </div>
+                                        <div className={Style.footerwrap}>
+                                            <div className={Style.helpbtn}>
+                                                <img src='img/ic_help_outline_white.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon' />
+                                            </div>
+                                            <div className={Style.searchbtn}>
+                                                <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>
+                                            </div>
+                                        </div>  
+                                        </div>
+                                    )}
+                                    {this.ifRender(this.state.mode=='MULTI',
+                                        <div>
+                                            <div className={Style.divideblock}>
+                                                <div>Resources</div>
+                                                <div className={Style.horizontalline}></div>
+                                            </div>
+                                            <div className={Style.row}>
+                                                <div className={Style.block+' '+Style.bottomspace}>
+                                                    <div>Number of sites:</div>
+                                                    <SiteNumberList/>
                                                 </div>
+                                                {
+                                                    RESOURCES.map((data,key)=>{
+                                                        let name = data.name
+                                                        if(data.unit!=null){
+                                                            name = name+' ('+data.unit+')'
+                                                        }
+                                                        return(
+                                                            <div className={Style.block+' '+Style.bottomspace} key={key}>
+                                                                <div>{name}:</div>
+                                                                <input className={Style.input} type='text' name={key} onChange={this.props.searchContainer.onResourceChange} value={this.props.searchContainer.state.resource[key]} autoFocus={(key==0)}/>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                                <div className={Style.hinttext}>*Resources are distributed evenly among sites unless specified otherwise.</div>
+                                            </div>
+                                            <div className={Style.divideblock2}>
+                                                <div>Duration</div>
+                                                <div className={Style.horizontalline}></div>
+                                            </div>
+                                            <div className={Style.row}>
                                                 <div className={Style.block}>
-                                                    <input ref='hoursInput' className={Style.inputradio} type='text' name='hours' disabled={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.hours} />
-                                                    <span ref='hoursLabel' className={Style.unittext}> hours</span>
+                                                    <div>Begin:</div>
+                                                    <label>
+                                                        <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.startDate.obj} onChange={this.props.searchContainer.onStartDateChange} />
+                                                        <img className={Style.icon} src='img/ic_date_range.svg' />
+                                                    </label>
+                                                    {timeStartList}
                                                 </div>
                                             </div>
-                                            <div className={Style.hinttext}>* Maximum length : {this.props.searchContainer.state.maxLengthDate} days {this.props.searchContainer.state.maxLengthHour} hours</div>
+                                            <div className={Style.row}>
+                                                <div className={Style.block}>
+                                                    <div>End:</div>
+                                                    <label>
+                                                        <DatePicker className={Style.inputdate} minDate={this.props.searchContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.searchContainer.state.endDate.obj} onChange={this.props.searchContainer.onEndDateChange} />
+                                                        <img className={Style.icon} src='img/ic_date_range.svg' />
+                                                    </label>
+                                                    {timeEndList}
+                                                </div>
+                                            </div>
+                                            <div className={Style.row}>
+                                                <div className={Style.block}>
+                                                    <div className={Style.reservespace}>Reservation length:</div>
+                                                    <div className={Style.choose} onClick={() => this.props.searchContainer.onReserveLengthChange('all')}>
+                                                        <input type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={() => this.props.searchContainer.onReserveLengthChange('all')} />
+                                                        <span className={Style.text}>From begin to end</span>
+                                                    </div>
+                                                </div>
+                                                <div className={Style.block}>
+                                                    <div className={Style.choose} onClick={() => this.props.searchContainer.onReserveLengthChange('time')}>
+                                                        <input className={Style.marginradio} type='radio' name='type' checked={this.props.searchContainer.state.reservationLength.value == 'time'} onChange={() => this.props.searchContainer.onReserveLengthChange('time')} />
+                                                        <div className={Style.block}>
+                                                            <input ref='daysInput' className={Style.inputradio} type='text' name='days' disabled={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.days} />
+                                                            <span ref='daysLabel' className={Style.unittext}> days</span>
+                                                        </div>
+                                                        <div className={Style.block}>
+                                                            <input ref='hoursInput' className={Style.inputradio} type='text' name='hours' disabled={this.props.searchContainer.state.reservationLength.value == 'all'} onChange={this.props.searchContainer.onReserveLengthDataChange} value={this.props.searchContainer.state.reservationLength.hours} />
+                                                            <span ref='hoursLabel' className={Style.unittext}> hours</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className={Style.hinttext}>* Maximum length : {this.props.searchContainer.state.maxLengthDate} days {this.props.searchContainer.state.maxLengthHour} hours</div>
+                                                </div>
+                                            </div>
+                                            <div className={Style.divideblock2}>
+                                                <div>Others</div>
+                                                <div className={Style.horizontalline}></div>
+                                            </div>
+                                            <div className={Style.row}>
+                                                <div className={Style.block}>
+                                                    <div>Additional Network:</div>
+                                                    {networkList}
+                                                </div>
+                                            </div>
+                                            <div className={Style.row}>
+                                                <div className={Style.block}>
+                                                    <div>Image type:</div>
+                                                    {imageTypeList}
+                                                </div>
+                                            </div>
+                                            <div className={Style.row}>
+                                                <div className={Style.block}>
+                                                    <div>Region:</div>
+                                                    <RegionList/>
+                                                </div>
+                                            </div>
+                                            <div className={Style.footerwrap}>
+                                                <div className={Style.helpbtn}>
+                                                    <img src='img/ic_help_outline_white.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon' />
+                                                </div>
+                                                <div className={Style.searchbtn}>
+                                                    <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>
+                                                </div>
+                                            </div>      
                                         </div>
-                                    </div>
-                                    <div className={Style.divideblock2}>
-                                        <div>Others</div>
-                                        <div className={Style.horizontalline}></div>
-                                    </div>
-                                    <div className={Style.row}>
-                                        <div className={Style.block}>
-                                            <div>Additional Network:</div>
-                                            {networkList}
-                                        </div>
-                                    </div>
-                                    <div className={Style.row}>
-                                        <div className={Style.block}>
-                                            <div>Image type:</div>
-                                            {imageTypeList}
-                                        </div>
-                                    </div>
-                                    <div className={Style.row}>
-                                        <div className={Style.block}>
-                                            <div>Region:</div>
-                                            {imageTypeList}
-                                        </div>
-                                    </div>
-                                    <div className={Style.footerwrap}>
-                                        <div className={Style.helpbtn}>
-                                            <img src='img/ic_help_outline_white.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon' />
-                                        </div>
-                                        <div className={Style.searchbtn}>
-                                            <button type='submit' className='btn--info' onClick={this.props.searchContainer.onSearchSubmit}>SEARCH</button>
-                                        </div>
-                                    </div>
+                                    )}
                                 </form>
                             </div>
                             <div className={Style.searchresult}>

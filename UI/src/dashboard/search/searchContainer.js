@@ -5,6 +5,7 @@ import moment from 'moment'
 import {SEARCH_RESOURCE_ENDPOINT} from '../../config/endpoints'
 import NotFoundTable from './notFoundTable'
 import FoundTable from './foundTable'
+import FoundTable2 from './foundTable2'
 import Loading from './loading.js'
 import { RESOURCES } from '../../config/attributes'
 
@@ -449,39 +450,68 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
+        console.log(params)
         this.setState({
             resultTable: <Loading/>
         })
-        axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
-            let {data,status} = response
-            if(status==200&&data.result_type){
-                if(data.result_type=='result'){
-                    this.getAscSortByName(data)
-                    this.setState({
-                        dataResult: data,
-                        resultTable: []
-                    },()=>{
-                        this.setState({
-                            resultTable: <FoundTable searchContainer={this}/>
-                        })
-                    })
-                }else{
-                    if(data.amount>0){
-                        this.getAscSortByName(data)
-                    }
-                    this.setState({
-                        dataResult: data,
-                        resultTable: []
-                    },()=>{
-                        this.setState({
-                            resultTable: <NotFoundTable data={data} searchContainer={this}/>
-                        })
-                    })
-                }
-            }
-        }).catch(error=>{
-            console.log('QUERY SEARCH RESOURCE ERROR: '+error)
+        let data = {
+            result_type : 'result',
+            amount: 10,
+            additionalNetwork:'IPOP',
+            startDate:{
+                date:'01-MAR-2018'
+            },
+            endDate:{
+                date:'01-MAR-2018'
+            },
+            startTime:'01:00',
+            endTime:'02:00',
+            additionalNetwork:'IPOP',
+            imageType:'ROCK'
+        }
+        // console.log(data)
+        // this.getAscSortByName(data)
+                    // this.setState({
+                    //     dataResult: data,
+                    //     resultTable: []
+                    // },()=>{
+                    //     this.setState({
+                    //         resultTable: <FoundTable searchContainer={this}/>
+                    //     })
+                    // })
+        this.setState({
+            resultTable: <FoundTable2 searchContainer={this} />
         })
+        // axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
+        //     let {data,status} = response
+        //     if(status==200&&data.result_type){
+        //         if(data.result_type=='result'){
+        //             this.getAscSortByName(data)
+        //             this.setState({
+        //                 dataResult: data,
+        //                 resultTable: []
+        //             },()=>{
+        //                 this.setState({
+        //                     resultTable: <FoundTable searchContainer={this}/>
+        //                 })
+        //             })
+        //         }else{
+        //             if(data.amount>0){
+        //                 this.getAscSortByName(data)
+        //             }
+        //             this.setState({
+        //                 dataResult: data,
+        //                 resultTable: []
+        //             },()=>{
+        //                 this.setState({
+        //                     resultTable: <NotFoundTable data={data} searchContainer={this}/>
+        //                 })
+        //             })
+        //         }
+        //     }
+        // }).catch(error=>{
+        //     console.log('QUERY SEARCH RESOURCE ERROR: '+error)
+        // })
     }
 
     getAscSortByDate(data, parameter){
