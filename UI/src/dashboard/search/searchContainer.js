@@ -474,6 +474,7 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
+        console.log(params)
         this.setState({
             resultTable: <Loading/>
         })
@@ -712,6 +713,8 @@ export default class SearchContainer extends Component {
             })
             let params = {
                 params:{
+                    type:this.state.mode,
+                    numOfSite:this.state.numSite,
                     resources: resource.toString(),
                     connection_type: this.state.additionalNetwork,
                     image_type: this.state.imageType,
@@ -719,7 +722,9 @@ export default class SearchContainer extends Component {
                     end: endDateUTC,
                     all_period: (this.state.reservationLength.value=='all') ? 'True' : 'False',
                     days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
-                    hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours)
+                    hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours),
+                    region:this.state.region
+                
                 }
             }
             this.queryResource(params)
