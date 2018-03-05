@@ -25,7 +25,10 @@ From your home directory
 
 #. sudo cp dist/app.js /var/www/html/cloud-scheduler
 
-   Check in your changes into Github frequently -- Javascript is hard to debug so it's good to be able to backtrack when needed.
+Code maintenance
+==============
+
+Check in your changes into Github frequently -- Javascript is hard to debug so it's good to be able to backtrack when needed.
 
 #. git add <name of changed file>
  
