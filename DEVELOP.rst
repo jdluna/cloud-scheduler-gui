@@ -8,7 +8,7 @@ From your home directory
 #. Checkout github repository  and switch to your branch :: 
 
        git clone https://github.com/pragmagrid/cloud-scheduler-gui.git
-       cloud-scheduler-gui
+       cd cloud-scheduler-gui
        git checkout multisite
 
 #. Create distribution, run the following commands :: 
@@ -20,7 +20,7 @@ From your home directory
    and edit first line that specifies endpoint (variable **API_SERVER**) to your URL server and API path. 
    For example ::
 
-       $ const API_SERVER = 'http://rocks-55.sdsc.edu/cloud-scheduler/scripts'
+       $ const API_SERVER = 'http://rocks-54.sdsc.edu/cloud-scheduler/scripts'
 
 #. Create build using command ::
 
