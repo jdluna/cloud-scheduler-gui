@@ -110,7 +110,6 @@ const SiteNumberList = (props) => {
     return(
         <select name={props.name} onChange={props.handle} value={props.value} className={Style.inputtype}>
             <option value='Any'>Any</option>
-            <option value='1'>1</option>
             <option value='2'>2</option>
             <option value='3'>3</option>
             <option value='4'>4</option>
