@@ -83,12 +83,12 @@ const TimeList = (props) => {
 const ImageTypeList = (props) => {
 
     let images = props.i
-    if (images.length > 0 && images[0].name != 'Any') {
-        images.unshift({
-            name: 'Any',
-            description: 'Any'
-        })
-    }
+    // if (images.length > 0 && images[0].name != 'Any') {
+    //     images.unshift({
+    //         name: 'Any',
+    //         description: 'Any'
+    //     })
+    // }
 
     return (
         <select className={Style.inputtype} value={props.value} onChange={props.handle}>
@@ -114,8 +114,6 @@ const SiteNumberList = (props) => {
             <option value='2'>2</option>
             <option value='3'>3</option>
             <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
         </select>
     )
 }
@@ -305,12 +303,12 @@ export default class Search extends Component {
                                                 {imageTypeList}
                                             </div>
                                         </div>
-                                        <div className={Style.row}>
+                                        {/* <div className={Style.row}>
                                             <div className={Style.block}>
                                                 <div>Region:</div>
                                                 <RegionList value={this.props.searchContainer.state.region} handle={this.props.searchContainer.onRegionChange}/>
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className={Style.footerwrap}>
                                             <div className={Style.helpbtn}>
                                                 <img src='img/ic_help_outline_white.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon' />
@@ -411,12 +409,12 @@ export default class Search extends Component {
                                                     {imageTypeList}
                                                 </div>
                                             </div>
-                                            <div className={Style.row}>
+                                            {/* <div className={Style.row}>
                                                 <div className={Style.block}>
                                                     <div>Region:</div>
                                                     <RegionList value={this.props.searchContainer.state.region} handle={this.props.searchContainer.onRegionChange}/>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <div className={Style.footerwrap}>
                                                 <div className={Style.helpbtn}>
                                                     <img src='img/ic_help_outline_white.svg' onClick={this.props.searchContainer.helpSearch} onMouseOver={this.props.searchContainer.helpIconOver} onMouseOut={this.props.searchContainer.helpIconOut} ref='helpIcon' />

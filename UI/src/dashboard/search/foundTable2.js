@@ -4,6 +4,12 @@ import moment from 'moment'
 import { RESOURCES } from '../../config/attributes'
 
 export default class FoundTable2 extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            hover: null
+        }
+    }
     ifRender(condition,view){
         if(condition) return view;
         else return null;
@@ -15,6 +21,21 @@ export default class FoundTable2 extends Component {
             sum+=arr[i]
         }
         return sum
+    }
+
+    onSelect(name,key,type){
+        if(type=='SINGLE'){
+            this.setState({
+                hover: 'SINGLE'+key
+            })
+            this.props.searchContainer.onSelectItem(name,key,type)
+        }else{
+            this.setState({
+                hover: 'MULTI'+key
+            })
+            this.props.searchContainer.onSelectItem(name,key,type)
+        }
+        
     }
 
     render() {
@@ -30,7 +51,7 @@ export default class FoundTable2 extends Component {
         return (
             <section>
                 <div className={Style.label}>
-                    <div>Search result (10):</div>
+                    <div>Search result ({this.props.searchContainer.state.dataResult.amount}):</div>
                     <div className={Style.detaillabel}>
                         <div className={Style.column1}>
                             <div>
@@ -78,24 +99,44 @@ export default class FoundTable2 extends Component {
                 </div>
                 {this.ifRender(this.props.searchContainer.state.mode=='SINGLE',
                 <div className={Style.data}>
-                            {this.props.searchContainer.state.dataResult.results.map((data,key) =>{
+                            {this.props.searchContainer.state.dataResult.sites.map((data,key) =>{
+                                data.network = ''
+                                if(data.speedCPU==undefined){
+                                    data.speedCPU = ''
+                                }
+                                if(data.speedNet==undefined){
+                                    data.speedNet = ''
+                                }
+                                if(data.region==undefined){
+                                    data.region = ''
+                                }
+                                if(data.connection_type.length==0){
+                                    data.network = 'NONE'
+                                }else{
+                                    for(var i = 0;i<data.connection_type.length;i++){
+                                        data.network = data.network + data.connection_type[i].name
+                                        if( i != data.connection_type.length-1){
+                                            data.network = data.network + ' / '
+                                        }
+                                    }
+                                }
                                 return(
-                                    <div className={Style.cardResult} key={key}>
-                                        <span className={Style.siteName}>{data.sites[0].name}<span className={Style.region}>({data.sites[0].region})</span></span>
+                                    <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(data.name,key,'SINGLE')}>
+                                        <span className={Style.siteName}>{data.name}<span className={Style.region}>({data.region})</span></span>
                                         <br/>
-                                        <span className={Style.date}>{data.begin} <span>to</span> {data.end}</span>
+                                        <span className={Style.date}>{data.time.begin} <span>to</span> {data.time.end}</span>
                                         <div className={Style.detail}>
                                             <div>
-                                                <span>CPU : <span>{data.totalCPU[0]}</span></span><br/>
-                                                <span>Memory : <span>{data.totalMem[0]} GB</span></span>
+                                                <span>CPU : <span>{data.CPU.total}</span></span><br/>
+                                                <span>Memory : <span>{data.memory.total} GB</span></span>
                                             </div>
                                             <div> 
-                                                <span>from available <span>{data.avaiCPU} CPUs</span></span><br/>
-                                                <span>from available <span>{data.avaiMem} GB</span></span>
+                                                <span>from available <span>{data.CPU.available+'/'+data.CPU.total} CPUs</span></span><br/>
+                                                <span>from available <span>{data.memory.available+'/'+data.memory.total} GB</span></span>
                                             </div>
                                             <div>
-                                                <span>CPU speed : <span>{data.speedCPU} GHz</span></span><br/>
-                                                <span>Network : <span>{data.netType} ({data.speedNet} Mbps)</span></span>
+                                                <span>CPU speed : <span>{(data.speedCPU=='')?'':data.speedCPU+' GHz'}</span></span><br/>
+                                                <span>Network : <span>{data.network} {(data.speedNet=='') ? '': '('+ data.speedNet+' Mbps)'}</span></span>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +147,7 @@ export default class FoundTable2 extends Component {
                 )}
                 {this.ifRender(this.props.searchContainer.state.mode=='MULTI',
                 <div className={Style.data}>
-                        {this.props.searchContainer.state.dataResult.results.map((data,key) =>{
+                        {/* {this.props.searchContainer.state.dataResult.results.map((data,key) =>{
                                 let sites = data.sites
                                 let siteLength = sites.length
                                 const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -136,7 +177,7 @@ export default class FoundTable2 extends Component {
                                     </div>
                                 )
                             }
-                        )}
+                        )} */}
                 </div>
                 )}
             </section>

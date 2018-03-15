@@ -453,7 +453,7 @@ export default class SearchContainer extends Component {
         })
     }
 
-    onSelectItem(name,key){
+    onSelectItem(name,key,type){
         this.setState({
             viewCardKey: key
         })
@@ -488,121 +488,129 @@ export default class SearchContainer extends Component {
                     //         resultTable: <FoundTable searchContainer={this}/>
                     //     })
                     // })
-        let data;
-        if(this.state.mode=='SINGLE'){
-            data = {
-                results:[
-                    {
-                        sites:[
-                            {name:'BU',
-                            region:'Thailand'
-                            }
-                        ],
-                        begin:'01-MAR-2018 13:00',
-                        end:'01-MAR-2018 16:00',
-                        totalCPU:[100],
-                        totalMem:[100],
-                        speedCPU:1.1,
-                        speedNet:1.0,
-                        netType:'IPOP',
-                        avaiCPU:'100/100',
-                        avaiMem:'200/200'
-                    },{
-                        sites:[
-                            {name:'KU',
-                            region:'Thailand'
-                            }
-                        ],
-                        begin:'01-MAR-2018 13:00',
-                        end:'01-MAR-2018 16:00',
-                        totalCPU:[100],
-                        totalMem:[100],
-                        speedCPU:1.1,
-                        speedNet:1.0,
-                        netType:'IPOP',
-                        avaiCPU:'100/100',
-                        avaiMem:'200/200'
-                    }
-                ]
-            }
-        }else{
-            data ={
-                results:[
-                    {
-                        sites:[
-                            {name:'BU',
-                            region:'Thailand'
-                            },{name:'KU',
-                            region:'Thailand'
-                            }
-                        ],
-                        begin:'01-MAR-2018 13:00',
-                        end:'01-MAR-2018 16:00',
-                        totalCPU:[100,200],
-                        totalMem:[100,200],
-                        speedCPU:1.1,
-                        speedNet:1.0,
-                        netType:'IPOP',
-                        avaiCPU:'100/100',
-                        avaiMem:'200/200'
-                    },{
-                        sites:[
-                            {name:'MU',
-                            region:'Thailand'
-                            },{name:'KU',
-                            region:'Thailand'
-                            }
-                        ],
-                        begin:'01-MAR-2018 13:00',
-                        end:'01-MAR-2018 16:00',
-                        totalCPU:[100,200],
-                        totalMem:[100,200],
-                        speedCPU:1.1,
-                        speedNet:1.0,
-                        netType:'IPOP',
-                        avaiCPU:'100/100',
-                        avaiMem:'200/200'
-                    }
-                ]
-            }
-        }
-        
-        this.setState({
-             dataResult: data
-        },
-        this.setState({
-            resultTable: <FoundTable2 searchContainer={this} />
-        }))
         // axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
-        //     let {data,status} = response
-        //     if(status==200&&data.result_type){
-        //         if(data.result_type=='result'){
-        //             this.getAscSortByName(data)
-        //             this.setState({
-        //                 dataResult: data,
-        //                 resultTable: []
-        //             },()=>{
-        //                 this.setState({
-        //                     resultTable: <FoundTable searchContainer={this}/>
-        //                 })
-        //             })
-        //         }else{
-        //             if(data.amount>0){
-        //                 this.getAscSortByName(data)
-        //             }
-        //             this.setState({
-        //                 dataResult: data,
-        //                 resultTable: []
-        //             },()=>{
-        //                 this.setState({
-        //                     resultTable: <NotFoundTable data={data} searchContainer={this}/>
-        //                 })
-        //             })
-        //         }
-        //     }
+        //     console.log(response.data)
         // }).catch(error=>{
         //     console.log('QUERY SEARCH RESOURCE ERROR: '+error)
         // })
+        // let data;
+        // if(this.state.mode=='SINGLE'){
+        //     data = {
+        //         results:[
+        //             {
+        //                 sites:[
+        //                     {name:'BU',
+        //                     region:'Thailand'
+        //                     }
+        //                 ],
+        //                 begin:'01-MAR-2018 13:00',
+        //                 end:'01-MAR-2018 16:00',
+        //                 totalCPU:[100],
+        //                 totalMem:[100],
+        //                 speedCPU:1.1,
+        //                 speedNet:1.0,
+        //                 netType:'IPOP',
+        //                 avaiCPU:'100/100',
+        //                 avaiMem:'200/200'
+        //             },{
+        //                 sites:[
+        //                     {name:'KU',
+        //                     region:'Thailand'
+        //                     }
+        //                 ],
+        //                 begin:'01-MAR-2018 13:00',
+        //                 end:'01-MAR-2018 16:00',
+        //                 totalCPU:[100],
+        //                 totalMem:[100],
+        //                 speedCPU:1.1,
+        //                 speedNet:1.0,
+        //                 netType:'IPOP',
+        //                 avaiCPU:'100/100',
+        //                 avaiMem:'200/200'
+        //             }
+        //         ]
+        //     }
+        // }else{
+        //     data ={
+        //         results:[
+        //             {
+        //                 sites:[
+        //                     {name:'BU',
+        //                     region:'Thailand'
+        //                     },{name:'KU',
+        //                     region:'Thailand'
+        //                     }
+        //                 ],
+        //                 begin:'01-MAR-2018 13:00',
+        //                 end:'01-MAR-2018 16:00',
+        //                 totalCPU:[100,200],
+        //                 totalMem:[100,200],
+        //                 speedCPU:1.1,
+        //                 speedNet:1.0,
+        //                 netType:'IPOP',
+        //                 avaiCPU:'100/100',
+        //                 avaiMem:'200/200'
+        //             },{
+        //                 sites:[
+        //                     {name:'MU',
+        //                     region:'Thailand'
+        //                     },{name:'KU',
+        //                     region:'Thailand'
+        //                     }
+        //                 ],
+        //                 begin:'01-MAR-2018 13:00',
+        //                 end:'01-MAR-2018 16:00',
+        //                 totalCPU:[100,200],
+        //                 totalMem:[100,200],
+        //                 speedCPU:1.1,
+        //                 speedNet:1.0,
+        //                 netType:'IPOP',
+        //                 avaiCPU:'100/100',
+        //                 avaiMem:'200/200'
+        //             }
+        //         ]
+        //     }
+        // }
+        
+        // this.setState({
+        //      dataResult: data
+        // },
+        // this.setState({
+        //     resultTable: <FoundTable2 searchContainer={this} />
+        // }))
+        axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
+            let {data,status} = response
+            if(status==200&&data.result_type){
+                if(data.result_type=='result'){
+                    this.getAscSortByName(data)
+                    this.setState({
+                        dataResult: data,
+                        resultTable: []
+                    },()=>{
+                        console.log(this.state.dataResult)
+                        this.setState({
+                            resultTable: <FoundTable2 searchContainer={this} />
+                            // resultTable:             <FoundTable searchContainer={this}/>
+                })
+                        console.log(this.state.dataResult)
+                    })
+                }else{
+                    if(data.amount>0){
+                        this.getAscSortByName(data)
+                    }
+                    this.setState({
+                        dataResult: data,
+                        resultTable: []
+                    },()=>{
+                        this.setState({
+                            resultTable: <NotFoundTable data={data} searchContainer={this}/>
+                        })
+                    })
+                }
+            }
+        }).catch(error=>{
+            console.log('QUERY SEARCH RESOURCE ERROR: '+error)
+        })
     }
 
     getAscSortByDate(data, parameter){
@@ -724,7 +732,6 @@ export default class SearchContainer extends Component {
                     days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
                     hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours),
                     region:this.state.region
-                
                 }
             }
             this.queryResource(params)

@@ -294,7 +294,37 @@
                     }
                     .detail{
                         display: grid;
-                        grid-template-columns: auto auto auto;
+                        grid-template-columns: 30% 36% 34%;
+                        span > span{
+                            color: #EFA430;
+                        }
+                    }
+                }
+                .cardResultActive{
+                    margin: 5px 15px 5px 5px;
+                    padding: 5px 20px 5px 15px;
+                    background-color: #464A5F;
+                    line-height: 1.6; 
+                    .siteName{
+                        padding: 15px 0px 1 5px 0px;
+                        font-size: 15px;
+                        .region{
+                            font-size: 8px;
+                            color: #90ACB1;
+                        }
+                    }
+                    .date{
+                        font-size: 10px;
+                        color: #EFA430;
+                        font-style: italic;
+                        span{
+                            color: #fff;
+                            font-style: normal;
+                        }
+                    }
+                    .detail{
+                        display: grid;
+                        grid-template-columns: 30% 36% 34%;
                         span > span{
                             color: #EFA430;
                         }
