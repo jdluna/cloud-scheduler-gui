@@ -141,9 +141,11 @@ export default class Search extends Component {
             },
             helpComponent: this.refs.helpComponent,
             helpIcon: this.refs.helpIcon,
+            alertNode: this.refs.alertText,
+            alertBox : this.refs.alert,
+            contentBox: this.refs.contentBox
         })
         // this.refs.cpu.focus()
-        
     }
 
     ifRender(condition,view){
@@ -209,13 +211,16 @@ export default class Search extends Component {
                             <div>Search by Criteria</div>
                             <img src='img/ic_close.svg' onClick={this.props.searchContainer.onClose} />
                         </header>
-
-                        <section className={Style.content}>
+                        <div className={Style.alert} ref='alert'>
+                            <div className={Style.text} ref='alertText'>Error.</div>
+                        </div>
+                        <section className={Style.content} ref='contentBox'>
+                            
                             <div className={Style.searchinput}>
                                 <form>
                                     <div className={Style.buttonBox}>
-                                        <button className={(this.props.searchContainer.state.mode=='SINGLE')?Style.singleBtnActive:Style.singleBtn} id='SINGLE' onClick={this.props.searchContainer.changeMode} type="button">Single</button>
-                                        <button className={(this.props.searchContainer.state.mode=='MULTI')?Style.singleBtnActive:Style.singleBtn} id='MULTI' onClick={this.props.searchContainer.changeMode} type="button">Multi</button>
+                                        <button className={(this.props.searchContainer.state.mode=='SINGLE')?Style.singleBtnLeftActive:Style.singleBtnLeft} id='SINGLE' onClick={this.props.searchContainer.changeMode} type="button">Single</button>
+                                        <button className={(this.props.searchContainer.state.mode=='MULTI')?Style.singleBtnRightActive:Style.singleBtnRight} id='MULTI' onClick={this.props.searchContainer.changeMode} type="button">Multi</button>
                                     </div>
                                     {this.ifRender(this.props.searchContainer.state.mode=='SINGLE',
                                         <div>
@@ -283,7 +288,7 @@ export default class Search extends Component {
                                                         <span ref='hoursLabel' className={Style.unittext}> hours</span>
                                                     </div>
                                                 </div>
-                                                <div className={Style.hinttext}>* Maximum length : {this.props.searchContainer.state.maxLengthDate} days {this.props.searchContainer.state.maxLengthHour} hours</div>
+                                                <div className={Style.hinttext}>* Minimum length : {this.props.searchContainer.state.maxLengthDate} days {this.props.searchContainer.state.maxLengthHour} hours</div>
                                             </div>
                                         </div>
                                         <div className={Style.divideblock2}>
@@ -389,7 +394,7 @@ export default class Search extends Component {
                                                             <span ref='hoursLabel' className={Style.unittext}> hours</span>
                                                         </div>
                                                     </div>
-                                                    <div className={Style.hinttext}>* Maximum length : {this.props.searchContainer.state.maxLengthDate} days {this.props.searchContainer.state.maxLengthHour} hours</div>
+                                                    <div className={Style.hinttext}>* Minimum length : {this.props.searchContainer.state.maxLengthDate} days {this.props.searchContainer.state.maxLengthHour} hours</div>
                                                 </div>
                                             </div>
                                             <div className={Style.divideblock2}>

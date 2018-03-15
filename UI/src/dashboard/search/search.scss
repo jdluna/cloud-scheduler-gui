@@ -38,9 +38,23 @@
             width: 20px;
         }
     }
+    .alert{
+        display: none;
+        height: 24px;
+        .text{
+            box-sizing: border-box;
+            font-family: $font-primary;
+            font-size: 9pt;
+            background-color: #490809;
+            text-align: center;
+            padding: 5px;
+            color: #FFFFFF;
+        }
+    }
     .content{
         display: flex;
         height: calc(100% - 29px);
+        // height: calc(100% - 53px);
         width: 100%;
         position: relative;
         .searchinput{
@@ -60,10 +74,11 @@
                 justify-content: center;
                 padding-bottom: 5px;
             }
-            .buttonBox .singleBtn{
-                background-color: #000; /* Green */
+            .buttonBox .singleBtnLeft{
+                background-color: #000; 
                 border: 1px solid #fff;
-                border-radius: 3px;
+                border-top-left-radius: 3px;
+                border-bottom-left-radius: 3px;
                 color: #fff;
                 padding: 4px 10px;
                 text-align: center;
@@ -71,10 +86,34 @@
                 cursor: pointer;
                 float: left;
             }
-            .buttonBox .singleBtnActive{
-                background-color: #EFA430; /* Green */
+            .buttonBox .singleBtnLeftActive{
+                background-color: #EFA430; 
                 border: 1px solid #fff;
-                border-radius: 3px;
+                border-top-left-radius: 3px;
+                border-bottom-left-radius: 3px;
+                color: #fff;
+                padding: 4px 10px;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+                float: left;
+            }.buttonBox .singleBtnRight{
+                background-color: #000; 
+                border: 1px solid #fff;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+                color: #fff;
+                padding: 4px 10px;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+                float: left;
+            }
+            .buttonBox .singleBtnRightActive{
+                background-color: #EFA430; 
+                border: 1px solid #fff;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
                 color: #fff;
                 padding: 4px 10px;
                 text-align: center;
@@ -229,6 +268,12 @@
             font-size: 9pt;
             overflow-y: auto;
             box-sizing: border-box;
+            .notFoundBox{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
             .label{
                 padding: 15px;
                 .secondlabel{

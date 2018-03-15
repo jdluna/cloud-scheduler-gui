@@ -98,45 +98,52 @@ export default class FoundTable2 extends Component {
                     <div className={Style.secondlabel}>Click on site's name for more description.</div>
                 </div>
                 {this.ifRender(this.props.searchContainer.state.mode=='SINGLE',
-                <div className={Style.data}>
-                            {this.props.searchContainer.state.dataResult.sites.map((data,key) =>{
-                                data.network = ''
-                                if(data.speedCPU==undefined){
-                                    data.speedCPU = ''
+                <div className={Style.cardData}>
+                            {this.props.searchContainer.state.dataResult.sites.map((cardData,key) =>{
+                                cardData.network = ''
+                                if(cardData.speedCPU==undefined){
+                                    cardData.speedCPU = ''
                                 }
-                                if(data.speedNet==undefined){
-                                    data.speedNet = ''
+                                if(cardData.speedNet==undefined){
+                                    cardData.speedNet = ''
                                 }
-                                if(data.region==undefined){
-                                    data.region = ''
+                                if(cardData.region==undefined){
+                                    cardData.region = ''
                                 }
-                                if(data.connection_type.length==0){
-                                    data.network = 'NONE'
+                                if(cardData.connection_type.length==0){
+                                    cardData.network = 'NONE'
                                 }else{
-                                    for(var i = 0;i<data.connection_type.length;i++){
-                                        data.network = data.network + data.connection_type[i].name
-                                        if( i != data.connection_type.length-1){
-                                            data.network = data.network + ' / '
+                                    for(var i = 0;i<cardData.connection_type.length;i++){
+                                        cardData.network = cardData.network + cardData.connection_type[i].name
+                                        if( i != cardData.connection_type.length-1){
+                                            cardData.network = cardData.network + ' / '
                                         }
                                     }
                                 }
+                                
+                                let timezoneOffset = parseInt(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()) / 60
+
+                                let startDate = moment.utc(cardData.time.begin).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
+                                let endDate = moment.utc(cardData.time.end).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
+
+                                console.log(startDate)
                                 return(
-                                    <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(data.name,key,'SINGLE')}>
-                                        <span className={Style.siteName}>{data.name}<span className={Style.region}>({data.region})</span></span>
+                                    <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,key,'SINGLE')}>
+                                        <span className={Style.siteName}>{cardData.name}<span className={Style.region}>{(cardData.region=='')?'':'('+cardData.region+')'}</span></span>
                                         <br/>
-                                        <span className={Style.date}>{data.time.begin} <span>to</span> {data.time.end}</span>
+                                        <span className={Style.date}>{startDate} <span>to</span> {endDate}</span>
                                         <div className={Style.detail}>
                                             <div>
-                                                <span>CPU : <span>{data.CPU.total}</span></span><br/>
-                                                <span>Memory : <span>{data.memory.total} GB</span></span>
+                                                <span>CPU : <span>{(data.resource[0]=='')? '0':data.resource[0]}</span></span><br/>
+                                                <span>Memory : <span>{(data.resource[0]=='')? '0':data.resource[1]} GB</span></span>
                                             </div>
                                             <div> 
-                                                <span>from available <span>{data.CPU.available+'/'+data.CPU.total} CPUs</span></span><br/>
-                                                <span>from available <span>{data.memory.available+'/'+data.memory.total} GB</span></span>
+                                                <span>free / total <span>{cardData.CPU.available+'/'+cardData.CPU.total} CPUs</span></span><br/>
+                                                <span>free / total <span>{cardData.memory.available+'/'+cardData.memory.total} GB</span></span>
                                             </div>
                                             <div>
-                                                <span>CPU speed : <span>{(data.speedCPU=='')?'':data.speedCPU+' GHz'}</span></span><br/>
-                                                <span>Network : <span>{data.network} {(data.speedNet=='') ? '': '('+ data.speedNet+' Mbps)'}</span></span>
+                                                <span>CPU speed : <span>{(cardData.speedCPU=='')?'':cardData.speedCPU+' GHz'}</span></span><br/>
+                                                <span>Network : <span>{cardData.network} {(cardData.speedNet=='') ? '': '('+ cardData.speedNet+' Mbps)'}</span></span>
                                             </div>
                                         </div>
                                     </div>

@@ -4,6 +4,7 @@ import axios from 'axios'
 import moment from 'moment'
 import {SEARCH_RESOURCE_ENDPOINT} from '../../config/endpoints'
 import NotFoundTable from './notFoundTable'
+import NotFoundTable2 from './notFoundTable2'
 import FoundTable from './foundTable'
 import FoundTable2 from './foundTable2'
 import Loading from './loading.js'
@@ -45,7 +46,7 @@ export default class SearchContainer extends Component {
                 hours: ''
             },
             additionalNetwork: 'None',
-            imageType: 'Any',
+            imageType: this.dashboardContainer.state.images[0].name,
             dataResult: null,
             resultTable: [],
             viewCardKey: null,
@@ -578,6 +579,7 @@ export default class SearchContainer extends Component {
         // this.setState({
         //     resultTable: <FoundTable2 searchContainer={this} />
         // }))
+        
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result_type){
@@ -587,25 +589,34 @@ export default class SearchContainer extends Component {
                         dataResult: data,
                         resultTable: []
                     },()=>{
-                        console.log(this.state.dataResult)
                         this.setState({
-                            resultTable: <FoundTable2 searchContainer={this} />
+                            resultTable: <FoundTable2 searchContainer={this} appContainer={this.appContainer}/>
                             // resultTable:             <FoundTable searchContainer={this}/>
-                })
-                        console.log(this.state.dataResult)
                     })
+                })
                 }else{
-                    if(data.amount>0){
-                        this.getAscSortByName(data)
-                    }
+                    console.log('sss')
+                    this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
                         resultTable: []
                     },()=>{
                         this.setState({
-                            resultTable: <NotFoundTable data={data} searchContainer={this}/>
+                            resultTable: <NotFoundTable2 searchContainer={this} />
+                            // resultTable:             <FoundTable searchContainer={this}/>
                         })
                     })
+                    // if(data.amount>0){
+                    //     this.getAscSortByName(data)
+                    // }
+                    // this.setState({
+                    //     dataResult: data,
+                    //     resultTable: []
+                    // },()=>{
+                    //     this.setState({
+                    //         resultTable: <NotFoundTable data={data} searchContainer={this}/>
+                    //     })
+                    // })
                 }
             }
         }).catch(error=>{
@@ -663,11 +674,26 @@ export default class SearchContainer extends Component {
         })
     }
 
+    alertShow(text){
+        this.state.alertNode.innerHTML = text
+        this.state.alertBox.style.display = 'block'
+        this.state.contentBox.style.height = 'calc(100% - 53px)'
+    }
+
+    alertClear(){
+        this.state.alertBox.style.display = 'none'
+        this.state.contentBox.style.height = 'calc(100% - 29px)'
+    }
+
     onSearchSubmit(event){
+
         event.preventDefault()
-
+        this.alertClear()
         let {startDate,endDate,startTime,endTime,maxLengthDate,maxLengthHour,reservationLength} = this.state
-
+        if(this.state.resource[0]==''||this.state.resource[1]==''){
+            this.alertShow('Please input some CPU and memory.')
+            return;
+        }
         if(reservationLength.days>maxLengthDate || (reservationLength.days==maxLengthDate&&reservationLength.hours>maxLengthHour))
         {
             let {daysInput, hoursInput} = this.state.reservationLengthNode
@@ -719,6 +745,10 @@ export default class SearchContainer extends Component {
                     resource.push(data)
                 }
             })
+
+            let diffDate = moment(endDate.date+' '+endTime).diff(moment(startDate.date+' '+startTime),'days')
+            let diffTime = moment(endDate.date+' '+endTime).diff(moment(startDate.date+' '+startTime),'hours')-(24*diffDate)
+
             let params = {
                 params:{
                     type:this.state.mode,
@@ -729,8 +759,8 @@ export default class SearchContainer extends Component {
                     begin: startDateUTC,
                     end: endDateUTC,
                     all_period: (this.state.reservationLength.value=='all') ? 'True' : 'False',
-                    days: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
-                    hours: (this.state.reservationLength.value=='all') ? 0 : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours),
+                    days: (this.state.reservationLength.value=='all') ? diffDate : ((this.state.reservationLength.days=='') ? 0 : this.state.reservationLength.days),
+                    hours: (this.state.reservationLength.value=='all') ? diffTime : ((this.state.reservationLength.hours=='') ? 0 : this.state.reservationLength.hours),
                     region:this.state.region
                 }
             }
@@ -772,6 +802,7 @@ export default class SearchContainer extends Component {
                 }
             }
         }
+        leftDate = '? days ? hours'
         return leftDate
     }
 
