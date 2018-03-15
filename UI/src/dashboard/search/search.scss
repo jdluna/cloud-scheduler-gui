@@ -211,7 +211,7 @@
         }
         .searchinput::-webkit-scrollbar-track{
             border-radius: 10px;
-            background-color: rgba(35,41,57,0.84);
+            background-color: #000000;
         }
         .searchinput::-webkit-scrollbar{
             width: 5px;
@@ -220,7 +220,7 @@
         }
         .searchinput::-webkit-scrollbar-thumb{
             border-radius: 10px;
-            background-color: rgba(18, 18, 19,0.76);
+            background-color: #464A5F;
         }
         .searchresult{
             width: calc(68% + 5px);
@@ -268,7 +268,7 @@
                     background-color: rgba(18, 18, 19,0.76);
                 }
             }
-            .data{
+            .cardData{
                 width: 100%;
                 .cardResult{
                     margin: 5px 15px 5px 5px;
@@ -390,7 +390,7 @@
         }
         .searchresult::-webkit-scrollbar-track{
             border-radius: 10px;
-            background-color: rgba(35,41,57,0.84);
+            background-color: #000000;
         }
         .searchresult::-webkit-scrollbar{
             width: 5px;
@@ -399,7 +399,7 @@
         }
         .searchresult::-webkit-scrollbar-thumb{
             border-radius: 10px;
-            background-color: rgba(18, 18, 19,0.76);
+            background-color: #464A5F;
         }
     }
 }
