@@ -25,7 +25,7 @@ export default class NotFoundTable2 extends Component {
         return (
             <section>
                 <div className={Style.label}>
-                    <div>Search resultt ({this.props.searchContainer.state.dataResult.amount}):</div>
+                    <div>Search result ({this.props.searchContainer.state.dataResult.amount}):</div>
                     <div className={Style.detaillabel}>
                         <div className={Style.column1}>
                             <div>

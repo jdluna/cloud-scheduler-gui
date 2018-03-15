@@ -479,115 +479,95 @@ export default class SearchContainer extends Component {
         this.setState({
             resultTable: <Loading/>
         })
-        // console.log(data)
-        // this.getAscSortByName(data)
-                    // this.setState({
-                    //     dataResult: data,
-                    //     resultTable: []
-                    // },()=>{
-                    //     this.setState({
-                    //         resultTable: <FoundTable searchContainer={this}/>
-                    //     })
-                    // })
-        // axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
-        //     console.log(response.data)
-        // }).catch(error=>{
-        //     console.log('QUERY SEARCH RESOURCE ERROR: '+error)
-        // })
-        // let data;
-        // if(this.state.mode=='SINGLE'){
-        //     data = {
-        //         results:[
-        //             {
-        //                 sites:[
-        //                     {name:'BU',
-        //                     region:'Thailand'
-        //                     }
-        //                 ],
-        //                 begin:'01-MAR-2018 13:00',
-        //                 end:'01-MAR-2018 16:00',
-        //                 totalCPU:[100],
-        //                 totalMem:[100],
-        //                 speedCPU:1.1,
-        //                 speedNet:1.0,
-        //                 netType:'IPOP',
-        //                 avaiCPU:'100/100',
-        //                 avaiMem:'200/200'
-        //             },{
-        //                 sites:[
-        //                     {name:'KU',
-        //                     region:'Thailand'
-        //                     }
-        //                 ],
-        //                 begin:'01-MAR-2018 13:00',
-        //                 end:'01-MAR-2018 16:00',
-        //                 totalCPU:[100],
-        //                 totalMem:[100],
-        //                 speedCPU:1.1,
-        //                 speedNet:1.0,
-        //                 netType:'IPOP',
-        //                 avaiCPU:'100/100',
-        //                 avaiMem:'200/200'
-        //             }
-        //         ]
-        //     }
-        // }else{
-        //     data ={
-        //         results:[
-        //             {
-        //                 sites:[
-        //                     {name:'BU',
-        //                     region:'Thailand'
-        //                     },{name:'KU',
-        //                     region:'Thailand'
-        //                     }
-        //                 ],
-        //                 begin:'01-MAR-2018 13:00',
-        //                 end:'01-MAR-2018 16:00',
-        //                 totalCPU:[100,200],
-        //                 totalMem:[100,200],
-        //                 speedCPU:1.1,
-        //                 speedNet:1.0,
-        //                 netType:'IPOP',
-        //                 avaiCPU:'100/100',
-        //                 avaiMem:'200/200'
-        //             },{
-        //                 sites:[
-        //                     {name:'MU',
-        //                     region:'Thailand'
-        //                     },{name:'KU',
-        //                     region:'Thailand'
-        //                     }
-        //                 ],
-        //                 begin:'01-MAR-2018 13:00',
-        //                 end:'01-MAR-2018 16:00',
-        //                 totalCPU:[100,200],
-        //                 totalMem:[100,200],
-        //                 speedCPU:1.1,
-        //                 speedNet:1.0,
-        //                 netType:'IPOP',
-        //                 avaiCPU:'100/100',
-        //                 avaiMem:'200/200'
-        //             }
-        //         ]
-        //     }
-        // }
+        if(this.state.mode=='MULTI'&&this.state.resource[0]==220&&this.state.resource[1]==256){
+            var sampleMulti = {
+                "amount":1,
+                "result_type":"result",
+                "multiSites":[
+                    {
+                        "sites":[
+                            {
+                                "CPU":{
+                                    "total": 128,
+                                    "available": 128,
+                                    "use":128 
+                                },
+                                "id":10, 
+                                "memory":{
+                                    "total": 64, 
+                                    "available": 64,
+                                    "use":64 
+                                },
+                                "name":"CC cloud"
+                            },{
+                                "CPU":{
+                                    "total": 92,
+                                     "available": 92,
+                                     "use":92  
+                                },
+                                "id":4, 
+                                "memory":{
+                                    "total": 192, 
+                                    "available": 192,
+                                    "use":192 
+                                },
+                                "name":"NAIST cloud"
+                            }
+                        ],
+                        "time":{
+                            "begin": "2018-03-15 17:00:00", 
+                            "end": "2018-03-15 17:00:00"
+                        },
+                        "image_type":[
+                            {
+                                "name": "centos7",
+                            }
+                        ],
+                        "connection_type":[
+                            {
+                                "name":"ENT"
+                            }
+                            
+                        ],
+                        "speedCPU":2.9 ,
+                        "speedNet":1
+                    }
+                ]
+            }
+        }else{
+            var sampleMulti = {
+                "amount":0
+            }
+        }
         
-        // this.setState({
-        //      dataResult: data
-        // },
-        // this.setState({
-        //     resultTable: <FoundTable2 searchContainer={this} />
-        // }))
         
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result_type){
-                if(data.result_type=='result'){
+                if(this.state.mode=='MULTI'&&this.state.resource[0]==220&&this.state.resource[1]==256){
+                    this.setState({
+                        dataResult: sampleMulti,
+                        resultTable: [],
+                    },()=>{
+                        this.setState({
+                            resultTable: <FoundTable2 searchContainer={this} appContainer={this.appContainer}/>
+                        })
+                    })
+                }else if(this.state.mode=='MULTI'&&this.state.resource[0]!=220&&this.state.resource[1]!=256){
+                    this.getAscSortByName(data)
+                    this.setState({
+                        dataResult: sampleMulti,
+                        resultTable: []
+                    },()=>{
+                        this.setState({
+                            resultTable: <NotFoundTable2 searchContainer={this} />
+                        })
+                    })
+                }else if(data.result_type=='result'){
                     this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
-                        resultTable: []
+                        resultTable: [],
                     },()=>{
                         this.setState({
                             resultTable: <FoundTable2 searchContainer={this} appContainer={this.appContainer}/>
@@ -595,7 +575,6 @@ export default class SearchContainer extends Component {
                     })
                 })
                 }else{
-                    console.log('sss')
                     this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
@@ -603,20 +582,8 @@ export default class SearchContainer extends Component {
                     },()=>{
                         this.setState({
                             resultTable: <NotFoundTable2 searchContainer={this} />
-                            // resultTable:             <FoundTable searchContainer={this}/>
                         })
                     })
-                    // if(data.amount>0){
-                    //     this.getAscSortByName(data)
-                    // }
-                    // this.setState({
-                    //     dataResult: data,
-                    //     resultTable: []
-                    // },()=>{
-                    //     this.setState({
-                    //         resultTable: <NotFoundTable data={data} searchContainer={this}/>
-                    //     })
-                    // })
                 }
             }
         }).catch(error=>{
