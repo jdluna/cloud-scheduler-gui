@@ -802,7 +802,7 @@ export default class SearchContainer extends Component {
                 }
             }
         }
-        leftDate = '? days ? hours'
+        // leftDate = '? days ? hours'
         return leftDate
     }
 

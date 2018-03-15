@@ -126,7 +126,6 @@ export default class FoundTable2 extends Component {
                                 let startDate = moment.utc(cardData.time.begin).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
                                 let endDate = moment.utc(cardData.time.end).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
 
-                                console.log(startDate)
                                 return(
                                     <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,key,'SINGLE')}>
                                         <span className={Style.siteName}>{cardData.name}<span className={Style.region}>{(cardData.region=='')?'':'('+cardData.region+')'}</span></span>
