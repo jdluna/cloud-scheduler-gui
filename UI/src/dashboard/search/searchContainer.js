@@ -454,10 +454,7 @@ export default class SearchContainer extends Component {
         })
     }
 
-    onSelectItem(name,key,type){
-        this.setState({
-            viewCardKey: key
-        })
+    onSelectItem(name){
         let markerNode = this.dashboardContainer.state.markerNode
         for(let i=0;i<markerNode.length;i++){
             if(markerNode[i].name.toLowerCase()==name.toLowerCase()){
@@ -471,6 +468,12 @@ export default class SearchContainer extends Component {
                 }
                 break
             }
+        }
+    }
+
+    onSelectItemMulti(names){
+        for(let i =0;i<names.length;i++){
+            this.onSelectItem(names[i])
         }
     }
 

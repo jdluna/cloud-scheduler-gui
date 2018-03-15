@@ -28,12 +28,12 @@ export default class FoundTable2 extends Component {
             this.setState({
                 hover: 'SINGLE'+key
             })
-            this.props.searchContainer.onSelectItem(name,key,type)
+            this.props.searchContainer.onSelectItem(name)
         }else{
             this.setState({
                 hover: 'MULTI'+key
             })
-            // this.props.searchContainer.onSelectItem(name,key,type)
+            this.props.searchContainer.onSelectItemMulti(name)
         }
         
     }
@@ -131,6 +131,7 @@ export default class FoundTable2 extends Component {
                         cardData.avaiMem = 0
                         cardData.CPUlabel = '('
                         cardData.Memorylabel = '('
+                        cardData.names = []
 
                         //loop for calculate data
                         for(let i=0;i<cardData.sites.length;i++){
@@ -138,6 +139,7 @@ export default class FoundTable2 extends Component {
                             cardData.totalMem = cardData.totalMem + cardData.sites[i].memory.total
                             cardData.avaiCPU = cardData.avaiCPU + cardData.sites[i].CPU.available
                             cardData.avaiMem = cardData.avaiMem + cardData.sites[i].memory.available
+                            cardData.names.push(cardData.sites[i].name)
                         }
 
                         //loop each site cpu and mem
@@ -153,8 +155,9 @@ export default class FoundTable2 extends Component {
                         cardData.Memorylabel = cardData.Memorylabel + ')'
 
                         let siteLength = cardData.sites.length
+
                         return(
-                            <div className={(this.state.hover=='MULTI'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,key,'MULTI')}>
+                            <div className={(this.state.hover=='MULTI'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.names,key,'MULTI')}>
                                 {cardData.sites.map((data,key)=>{
                                     return(
                                         <span className={Style.siteName} key={key}>{data.name}<span className={Style.region}>{(data.region==undefined)?'':'('+data.region+')'}</span> {this.ifRender(key!=siteLength-1,<span>x</span>)} </span>
