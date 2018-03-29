@@ -52,6 +52,7 @@ export default class DashboardContainer extends Component {
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
+        this.clearRightBar = this.clearRightBar.bind(this)
         this.onViewMoreInfo = this.onViewMoreInfo.bind(this)
         this.onCloseMoreInfo = this.onCloseMoreInfo.bind(this)
         this.onSelectMenu = this.onSelectMenu.bind(this)
@@ -227,9 +228,20 @@ export default class DashboardContainer extends Component {
         this.changeMultipleTextColor()
     }
 
+    clearRightBar(){
+        let { marker, chooseSite, card } = this.state.map
+        if(chooseSite.length != 0){
+            for(let i=chooseSite.length-1;i>=0;i--){
+                this.onCloseCard(chooseSite[i])
+            }
+        }
+    }
+
     onCloseCard(id) {
         let { marker, chooseSite, card } = this.state.map
         let index = chooseSite.indexOf(parseInt(id))
+
+        this.onDeselectCard({id:parseInt(id)})
 
         if (marker[index].icon == 'img/marker.png') {
             marker[index].node.setIcon('img/marker.png')

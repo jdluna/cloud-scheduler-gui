@@ -454,7 +454,9 @@ export default class SearchContainer extends Component {
         })
     }
 
-    onSelectItem(name){
+    onSelectItem(name,id,clear){
+        
+        if(clear)this.dashboardContainer.clearRightBar()
         let markerNode = this.dashboardContainer.state.markerNode
         for(let i=0;i<markerNode.length;i++){
             if(markerNode[i].name.toLowerCase()==name.toLowerCase()){
@@ -471,9 +473,12 @@ export default class SearchContainer extends Component {
         }
     }
 
-    onSelectItemMulti(names){
+    onSelectItemMulti(names,ids){
         for(let i =0;i<names.length;i++){
-            this.onSelectItem(names[i])
+            let clear = false
+            if(i==0) clear = true
+            // console.log(clear)
+            this.onSelectItem(names[i],ids[i],clear)
         }
     }
 
@@ -656,8 +661,8 @@ export default class SearchContainer extends Component {
     }
 
     onSearchSubmit(event){
-
-        event.preventDefault()
+        this.dashboardContainer.clearRightBar()
+        event.preventDefault()  
         this.alertClear()
         let {startDate,endDate,startTime,endTime,maxLengthDate,maxLengthHour,reservationLength} = this.state
         if(this.state.resource[0]==''||this.state.resource[1]==''){

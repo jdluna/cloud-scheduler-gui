@@ -23,24 +23,23 @@ export default class FoundTable2 extends Component {
         return sum
     }
 
-    onSelect(name,key,type){
+    onSelect(name,id,key,type){
         if(type=='SINGLE'){
             this.setState({
                 hover: 'SINGLE'+key
             })
-            this.props.searchContainer.onSelectItem(name)
+            this.props.searchContainer.onSelectItem(name,id,true)
         }else{
             this.setState({
                 hover: 'MULTI'+key
             })
-            this.props.searchContainer.onSelectItemMulti(name)
+            this.props.searchContainer.onSelectItemMulti(name,id)
         }
         
     }
 
     getCardResult(data,mode){
         if(mode=='SINGLE'){
-            console.log(data)
             return(
                 <div className={Style.cardData}>
                     {data.sites.map((cardData,key) =>{
@@ -68,9 +67,9 @@ export default class FoundTable2 extends Component {
 
                         let startDate = moment.utc(cardData.time.begin).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
                         let endDate = moment.utc(cardData.time.end).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
-
+                        
                         return(
-                            <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,key,'SINGLE')}>
+                            <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,cardData.id,key,'SINGLE')}>
                                 <span className={Style.siteName}>{cardData.name}<span className={Style.region}>{(cardData.region=='')?'':'('+cardData.region+')'}</span></span>
                                 <br/>
                                 <span className={Style.date}>{startDate} <span>to</span> {endDate}</span>
@@ -132,6 +131,7 @@ export default class FoundTable2 extends Component {
                         cardData.CPUlabel = '('
                         cardData.Memorylabel = '('
                         cardData.names = []
+                        cardData.ids = []
 
                         //loop for calculate data
                         for(let i=0;i<cardData.sites.length;i++){
@@ -140,6 +140,7 @@ export default class FoundTable2 extends Component {
                             cardData.avaiCPU = cardData.avaiCPU + cardData.sites[i].CPU.available
                             cardData.avaiMem = cardData.avaiMem + cardData.sites[i].memory.available
                             cardData.names.push(cardData.sites[i].name)
+                            cardData.ids.push(cardData.sites[i].id)
                         }
 
                         //loop each site cpu and mem
@@ -157,7 +158,7 @@ export default class FoundTable2 extends Component {
                         let siteLength = cardData.sites.length
 
                         return(
-                            <div className={(this.state.hover=='MULTI'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.names,key,'MULTI')}>
+                            <div className={(this.state.hover=='MULTI'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.names,cardData.ids,key,'MULTI')}>
                                 {cardData.sites.map((data,key)=>{
                                     return(
                                         <span className={Style.siteName} key={key}>{data.name}<span className={Style.region}>{(data.region==undefined)?'':'('+data.region+')'}</span> {this.ifRender(key!=siteLength-1,<span>x</span>)} </span>
