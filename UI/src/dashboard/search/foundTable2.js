@@ -23,17 +23,19 @@ export default class FoundTable2 extends Component {
         return sum
     }
 
-    onSelect(name,id,key,type){
+    onSelect(name,network,id,key,type,resource){
         if(type=='SINGLE'){
             this.setState({
                 hover: 'SINGLE'+key
             })
-            this.props.searchContainer.onSelectItem(name,id,true)
+            resource.CPU = resource[0]
+            resource.memory = resource[1]
+            this.props.searchContainer.onSelectItem(name,network,id,resource,true)
         }else{
             this.setState({
                 hover: 'MULTI'+key
             })
-            this.props.searchContainer.onSelectItemMulti(name,id)
+            this.props.searchContainer.onSelectItemMulti(name,network,id,resource)
         }
         
     }
@@ -69,14 +71,14 @@ export default class FoundTable2 extends Component {
                         let endDate = moment.utc(cardData.time.end).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
                         
                         return(
-                            <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,cardData.id,key,'SINGLE')}>
+                            <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,cardData.connection_type,cardData.id,key,'SINGLE',this.props.searchContainer.state.resource)}>
                                 <span className={Style.siteName}>{cardData.name}<span className={Style.region}>{(cardData.region=='')?'':'('+cardData.region+')'}</span></span>
                                 <br/>
                                 <span className={Style.date}>{startDate} <span>to</span> {endDate}</span>
                                 <div className={Style.detail}>
                                     <div>
                                         <span>CPU : <span>{(this.props.searchContainer.state.resource[0]=='')? '0':this.props.searchContainer.state.resource[0]}</span></span><br/>
-                                        <span>Memory : <span>{(this.props.searchContainer.state.resource[0]=='')? '0':this.props.searchContainer.state.resource[1]} GB</span></span>
+                                        <span>Memory : <span>{(this.props.searchContainer.state.resource[1]=='')? '0':this.props.searchContainer.state.resource[1]} GB</span></span>
                                     </div>
                                     <div> 
                                         <span>free / total <span>{cardData.CPU.available+'/'+cardData.CPU.total} CPUs</span></span><br/>
@@ -158,7 +160,7 @@ export default class FoundTable2 extends Component {
                         let siteLength = cardData.sites.length
 
                         return(
-                            <div className={(this.state.hover=='MULTI'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.names,cardData.ids,key,'MULTI')}>
+                            <div className={(this.state.hover=='MULTI'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.names,cardData.connection_type,cardData.ids,key,'MULTI',cardData.sites)}>
                                 {cardData.sites.map((data,key)=>{
                                     return(
                                         <span className={Style.siteName} key={key}>{data.name}<span className={Style.region}>{(data.region==undefined)?'':'('+data.region+')'}</span> {this.ifRender(key!=siteLength-1,<span>x</span>)} </span>

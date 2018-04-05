@@ -173,7 +173,7 @@ export default class Step1 extends Component {
                                                         return(
                                                             <div className={Style.rowcard} key={keySub}>
                                                                 <span className={Style.space}>{dataSub.name+' '+unit}</span>
-                                                                <span>: <input className={Style.inputradio} type='text' value={this.props.reservationContainer.state.resource[key][keySub]} ref={key+'-'+keySub} name={key+'-'+keySub} onChange={this.props.reservationContainer.onEnterResource}/></span>
+                                                        <span>: <input className={Style.inputradio} type='text' value={this.props.reservationContainer.state.resource[key][keySub]} ref={key+'-'+keySub} name={key+'-'+keySub} onChange={this.props.reservationContainer.onEnterResource}/></span>
                                                             </div>
                                                         )
                                                     })

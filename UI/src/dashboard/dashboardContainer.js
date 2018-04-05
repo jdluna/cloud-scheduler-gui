@@ -62,8 +62,9 @@ export default class DashboardContainer extends Component {
         this.onSelectCard = this.onSelectCard.bind(this)
         this.onDeselectCard = this.onDeselectCard.bind(this)
         this.setAllImages = this.setAllImages.bind(this)
-        this.closeAllCard = this.closeAllCard.bind(this)
+        // this.closeAllCard = this.closeAllCard.bind(this)
         this.queryCheckConnectionType = this.queryCheckConnectionType.bind(this)
+        this.changeMode = this.changeMode.bind(this)
     }
 
     onSelectMenu(menu) {
@@ -75,6 +76,12 @@ export default class DashboardContainer extends Component {
             case 'Help': this.onCloseMoreInfo(); this.setState({ modal: <HelpContainer dashBoardContainer={this} />, modalName: 'Helps' }); break
             case 'ReservationSites': this.checkConnectionType(); break
         }
+    }
+
+    changeMode(mode){
+        this.setState({
+            reserveMode : mode
+        })
     }
 
     checkLogin(menu) {
@@ -198,35 +205,35 @@ export default class DashboardContainer extends Component {
         }
     }
 
-    closeAllCard() {
-        let { chooseSite } = this.state.map
-        chooseSite.map((data, key) => {
-            let { marker, chooseSite, card } = this.state.map
-            let index = chooseSite.indexOf(parseInt(data))
+    // closeAllCard() {
+    //     let { chooseSite } = this.state.map
+    //     chooseSite.map((data, key) => {
+    //         let { marker, chooseSite, card } = this.state.map
+    //         let index = chooseSite.indexOf(parseInt(data))
 
-            if (marker[index].icon == 'img/marker.png') {
-                marker[index].node.setIcon('img/marker.png')
-            } else if (marker[index].icon == 'img/marker_select.png') {
-                marker[index].node.setIcon('img/marker.png')
-            } else if (marker[index].icon == 'img/marker_ent_select.png') {
-                marker[index].node.setIcon('img/marker_ent.png')
-            } else {
-                marker[index].node.setIcon('img/marker_ent.png')
-            }
-        })
-        this.setState({
-            map: {
-                marker: [],
-                chooseSite: [],
-                card: []
-            },
-            cardPanel: {
-                notfound: { display: 'block' }
-            },
-            selectCard: []
-        })
-        this.changeMultipleTextColor()
-    }
+    //         if (marker[index].icon == 'img/marker.png') {
+    //             marker[index].node.setIcon('img/marker.png')
+    //         } else if (marker[index].icon == 'img/marker_select.png') {
+    //             marker[index].node.setIcon('img/marker.png')
+    //         } else if (marker[index].icon == 'img/marker_ent_select.png') {
+    //             marker[index].node.setIcon('img/marker_ent.png')
+    //         } else {
+    //             marker[index].node.setIcon('img/marker_ent.png')
+    //         }
+    //     })
+    //     this.setState({
+    //         map: {
+    //             marker: [],
+    //             chooseSite: [],
+    //             card: []
+    //         },
+    //         cardPanel: {
+    //             notfound: { display: 'block' }
+    //         },
+    //         selectCard: []
+    //     })
+    //     this.changeMultipleTextColor()
+    // }
 
     clearRightBar(){
         let { marker, chooseSite, card } = this.state.map
@@ -274,6 +281,10 @@ export default class DashboardContainer extends Component {
 
     getUserTimeZone() {
         return this.props.app.state.authen.timezone
+    }
+
+    onSelectCardByResult(props){
+        this.onSelectCard(props)
     }
 
     onSelectCard(props) {

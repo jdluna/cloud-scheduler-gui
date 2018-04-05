@@ -99,6 +99,7 @@ export default class SearchContainer extends Component {
         this.onHelpClose = this.onHelpClose.bind(this)
         this.setDateForCard = this.setDateForCard.bind(this)
         this.changeMode = this.changeMode.bind(this)
+        this.onSelectItemMulti = this.onSelectItemMulti.bind(this)
     }
 
     onClose() {
@@ -454,8 +455,7 @@ export default class SearchContainer extends Component {
         })
     }
 
-    onSelectItem(name,id,clear){
-        
+    onSelectItem(name,network,id,resource,clear){
         if(clear)this.dashboardContainer.clearRightBar()
         let markerNode = this.dashboardContainer.state.markerNode
         for(let i=0;i<markerNode.length;i++){
@@ -468,22 +468,37 @@ export default class SearchContainer extends Component {
                 }else if(icon=='img/marker_ent.png'){
                     markerNode[i].setIcon('img/marker_ent_select.png')
                 }
-                break
+                
+                this.dashboardContainer.onSelectCardByResult(
+                    {
+                        id:id,
+                        name:name,
+                        connection:network,
+                        CPU:resource.CPU,
+                        Memory:resource.memory,
+                        image:this.state.imageType,
+                        endDate:this.state.endDate,
+                        startDate:this.state.startDate,
+                        startTime:this.state.startTime,
+                        endTime:this.state.endTime
+                    })
             }
         }
     }
 
-    onSelectItemMulti(names,ids){
+    onSelectItemMulti(names,network,ids,resources){
         for(let i =0;i<names.length;i++){
             let clear = false
             if(i==0) clear = true
-            // console.log(clear)
-            this.onSelectItem(names[i],ids[i],clear)
+            // resource = []
+            // resource.CPU = resources[i].CPU.use
+            // resource.memory = resources[i].memory.use
+            this.onSelectItem(names[i],network,ids[i],{CPU:resources[i].CPU.use,memory:resources[i].memory.use},clear)
         }
+        this.dashboardContainer.changeMode('multiple')
     }
 
     queryResource(params){
-        console.log(params)
         this.setState({
             resultTable: <Loading/>
         })

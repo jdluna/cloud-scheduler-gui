@@ -68,6 +68,24 @@ export default class ReservationContainer extends Component {
             sites: this.props.sites
         }
 
+        //for set value from search
+        if(this.dashboardContainer.state.selectCard[0].CPU != undefined){
+            for(let i=0;i<this.dashboardContainer.state.selectCard.length;i++){
+                this.state.resource[i][0] = this.dashboardContainer.state.selectCard[i].CPU
+                this.state.resource[i][1] = this.dashboardContainer.state.selectCard[i].Memory
+            }
+        }
+        if(this.dashboardContainer.state.selectCard[0].image != undefined) 
+            this.state.imageType = this.dashboardContainer.state.selectCard[0].image
+        if(this.dashboardContainer.state.selectCard[0].endDate != undefined) 
+            this.state.endDate = this.dashboardContainer.state.selectCard[0].endDate
+        if(this.dashboardContainer.state.selectCard[0].startDate != undefined) 
+            this.state.startDate = this.dashboardContainer.state.selectCard[0].startDate
+        if(this.dashboardContainer.state.selectCard[0].startTime != undefined)
+            this.state.startTime = this.dashboardContainer.state.selectCard[0].startTime
+        if(this.dashboardContainer.state.selectCard[0].endTime != undefined)
+            this.state.endTime = this.dashboardContainer.state.selectCard[0].endTime
+
         this.onStartDateChange = this.onStartDateChange.bind(this)
         this.onEndDateChange = this.onEndDateChange.bind(this)
         this.onTimeStartChange = this.onTimeStartChange.bind(this)
