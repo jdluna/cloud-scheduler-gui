@@ -125,69 +125,82 @@ export default class Step1 extends Component {
                     <div className={Style.fillcircle}>1</div>
                     <div className={Style.line}></div>
                     <div className={Style.circle}>2</div>
-                    <div className={Style.line}></div>
-                    <div className={Style.circle}>3</div>
                 </div>
                 <div className={Style.steptext}>
                     <div className={Style.text}>Specify description</div>
-                    <div className={Style.text}>Additional description</div>
                     <div className={Style.text}>Confirm reservation</div>
                 </div>
                 <div className={Style.form}>
                     <form>
-                        <div className={Style.row}>
-                            <div className={Style.block}>
-                                <div>Begin:</div>
-                                <label>
-                                    <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.startDate.obj} onChange={this.props.reservationContainer.onStartDateChange} />
-                                    <img className={Style.icon} src='img/ic_date_range.svg' />
-                                </label>
-                                {timeStartList}
+                        <div className={Style.colLeft}>
+                            <div className={Style.row}>
+                                <div className={Style.block}>
+                                    <div>Begin:</div>
+                                    <label>
+                                        <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.timezone} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.startDate.obj} onChange={this.props.reservationContainer.onStartDateChange} />
+                                        <img className={Style.icon} src='img/ic_date_range.svg' />
+                                    </label>
+                                    {timeStartList}
+                                </div>
+                            </div>
+                            <div className={Style.row}>
+                                <div className={Style.block}>
+                                    <div>End:</div>
+                                    <label>
+                                        <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.endDate.obj} onChange={this.props.reservationContainer.onEndDateChange} />
+                                        <img className={Style.icon} src='img/ic_date_range.svg' />
+                                    </label>
+                                    {timeEndList}
+                                </div>
+                            </div>
+                            <div className={Style.row}>
+                                <div className={Style.block}>
+                                    <div className={Style.space}>Reservation Length: {this.props.reservationContainer.state.reservationLength}</div>
+                                </div>
+                            </div>
+                            <div className={Style.sitelist}>
+                                {
+                                    this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
+                                        return(
+                                            <div className={Style.card} key={key}>
+                                                <div className={Style.header}>{data.name}</div>
+                                                <div className={Style.content}>
+                                                    {
+                                                        RESOURCES.map((dataSub,keySub)=>{
+                                                            let unit = (dataSub.unit!=null) ? '('+dataSub.unit+')' : ''
+                                                            return(
+                                                                <div className={Style.rowcard} key={keySub}>
+                                                                    <span className={Style.space}>{dataSub.name+' '+unit}</span>
+                                                            <span>: <input className={Style.inputradio} type='text' value={this.props.reservationContainer.state.resource[key][keySub]} ref={key+'-'+keySub} name={key+'-'+keySub} onChange={this.props.reservationContainer.onEnterResource}/></span>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            </div>  
+                                        )
+                                    })
+                                }
+                            </div>
+                            <div className={Style.row}>
+                                <div className={Style.block}>
+                                    <div>Image type:</div>
+                                    {imageTypeList}
+                                </div>
                             </div>
                         </div>
-                        <div className={Style.row}>
-                            <div className={Style.block}>
-                                <div>End:</div>
-                                <label>
-                                    <DatePicker className={Style.inputdate} minDate={this.props.reservationContainer.state.minDate.obj} dateFormat='DD - MMM - YYYY' selected={this.props.reservationContainer.state.endDate.obj} onChange={this.props.reservationContainer.onEndDateChange} />
-                                    <img className={Style.icon} src='img/ic_date_range.svg' />
-                                </label>
-                                {timeEndList}
+                        <div className={Style.colRight}>
+                            <div className={Style.row}>
+                                <div className={Style.block}>
+                                    <div>Title of reservation:</div>
+                                    <input name='title' className={Style.inputtitle} type='text' value={this.props.reservationContainer.state.title} onChange={this.props.reservationContainer.onEnterInputStep2}/>
+                                </div>
                             </div>
-                        </div>
-                        <div className={Style.row}>
-                            <div className={Style.block}>
-                                <div className={Style.space}>Reservation Length: {this.props.reservationContainer.state.reservationLength}</div>
-                            </div>
-                        </div>
-                        <div className={Style.sitelist}>
-                            {
-                                this.props.reservationContainer.dashboardContainer.state.selectCard.map((data,key)=>{
-                                    return(
-                                        <div className={Style.card} key={key}>
-                                            <div className={Style.header}>{data.name}</div>
-                                            <div className={Style.content}>
-                                                {
-                                                    RESOURCES.map((dataSub,keySub)=>{
-                                                        let unit = (dataSub.unit!=null) ? '('+dataSub.unit+')' : ''
-                                                        return(
-                                                            <div className={Style.rowcard} key={keySub}>
-                                                                <span className={Style.space}>{dataSub.name+' '+unit}</span>
-                                                        <span>: <input className={Style.inputradio} type='text' value={this.props.reservationContainer.state.resource[key][keySub]} ref={key+'-'+keySub} name={key+'-'+keySub} onChange={this.props.reservationContainer.onEnterResource}/></span>
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </div>
-                                        </div>  
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className={Style.row}>
-                            <div className={Style.block}>
-                                <div>Image type:</div>
-                                {imageTypeList}
+                            <div className={Style.row}>
+                                <div className={Style.block}>
+                                    <div>Description of reservation:</div>
+                                    <textarea name='description' value={this.props.reservationContainer.state.description} className={Style.textarea} onChange={this.props.reservationContainer.onEnterInputStep2}></textarea>
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -116,10 +116,32 @@
         .form{
             // min-width: 380px;
             width: 477px;
-            height: 200px;
+            height: 250px;
             margin: auto;
             color: #FFFFFF;
             font-size: 9pt;
+            .colLeft{
+                width: 49%;
+                display: inline-block;
+                margin-right: 2%;
+            }
+            .colRight{
+                width: 49%;
+                display: inline-block;
+            }
+        }
+        .form::-webkit-scrollbar-track{
+            border-radius: 10px;
+            background-color: #000000;
+        }
+        .form::-webkit-scrollbar{
+            width: 5px;
+            border-radius: 10px;
+            background-color: rgba(35,41,57,0.84);
+        }
+        .form::-webkit-scrollbar-thumb{
+            border-radius: 10px;
+            background-color: #464A5F;
         }
         .form2{
             width: 250px;
@@ -353,7 +375,7 @@
                 .textarea{
                     font-family: $font-primary;
                     width: 240px;
-                    height: 70px;
+                    height: 180px;
                     resize: none;
                 }
                 .textarea::-webkit-input-placeholder{

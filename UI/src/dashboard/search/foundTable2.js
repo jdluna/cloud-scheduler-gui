@@ -5,14 +5,40 @@ import { RESOURCES } from '../../config/attributes'
 
 export default class FoundTable2 extends Component {
     constructor(props){
-        super(props)
+        super(props);
+        this.container = this.props.searchContainer;
         this.state = {
-            hover: null
+            hover: null,
+            listResult: null
         }
+        this.onSort = this.onSort.bind(this)
     }
+    
     ifRender(condition,view){
         if(condition) return view;
         else return null;
+    }
+
+    onSort(event){
+        let sortby = event.target.value;
+        
+        if(sortby=='name'){
+            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => a.name > b.name);
+        }else if(sortby=='cpu_total'){
+            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.CPU.total) > parseInt(b.CPU.total));
+        }else if(sortby=='memory_total'){
+            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.memory.total) > parseInt(b.memory.total));
+        }else if(sortby=='cpu_available'){
+            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.CPU.available) > parseInt(b.CPU.available));
+        }else if(sortby=='memory_available'){
+            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.memory.available) > parseInt(b.memory.available));
+        }else if(sortby=='cpu_speed'){
+            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.speedCPU) > parseInt(b.speedCPU));
+        }else if(sortby=='network_speed'){
+            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.speedNet) > parseInt(b.speedNet));
+        }
+        this.state.listResult = this.getCardResult(this.props.searchContainer.state.dataResult,this.props.searchContainer.state.mode)
+        this.forceUpdate()
     }
 
     sum(arr){
@@ -201,6 +227,8 @@ export default class FoundTable2 extends Component {
         let startDateLength = data.startDate.date+' '+data.startTime
         let endDateLength = data.endDate.date+' '+data.endTime
 
+        this.state.listResult = this.getCardResult(this.props.searchContainer.state.dataResult,this.props.searchContainer.state.mode)
+
         let {reservationLength} = this.props.searchContainer.state
         let time = reservationLength.days+' days '+reservationLength.hours+' hours'
         return (
@@ -252,7 +280,19 @@ export default class FoundTable2 extends Component {
                     </div>
                     <div className={Style.secondlabel}>Click on site's name for more description.</div>
                 </div>
-                {this.getCardResult(this.props.searchContainer.state.dataResult,this.props.searchContainer.state.mode)}
+                <div className={Style.rowSort}>
+                    <span>Sort by : </span>
+                    <select className={Style.sort} onChange={this.onSort}>
+                        <option value='name'>Name</option>
+                        <option value='cpu_available'>CPU available</option>
+                        <option value='cpu_total'>CPU total</option>
+                        <option value='memory_available'>Memory available</option>
+                        <option value='memory_total'>Memory total</option>
+                        <option value='cpu_speed'>CPU speed</option>
+                        <option value='network_speed'>Network speed</option>
+                    </select>
+                </div>
+                {this.state.listResult}
             </section>
         )
     }

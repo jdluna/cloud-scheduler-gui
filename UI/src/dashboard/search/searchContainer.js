@@ -499,11 +499,13 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
+        console.log(params)
         this.setState({
             resultTable: <Loading/>
         })
         if(this.state.mode=='MULTI'&&this.state.resource[0]==220&&this.state.resource[1]==256){
-            var sampleMulti = {
+            var sampleMulti = 
+            {
                 "amount":1,
                 "result_type":"result",
                 "multiSites":[
@@ -538,8 +540,8 @@ export default class SearchContainer extends Component {
                             }
                         ],
                         "time":{
-                            "begin": "2018-03-15 17:00:00", 
-                            "end": "2018-03-15 17:00:00"
+                            "begin": "2018-04-25 18:00:00", 
+                            "end": "2018-04-25 19:00:00"
                         },
                         "image_type":[
                             {
@@ -557,6 +559,7 @@ export default class SearchContainer extends Component {
                     }
                 ]
             }
+            
         }else{
             var sampleMulti = {
                 "amount":0
@@ -680,10 +683,17 @@ export default class SearchContainer extends Component {
         event.preventDefault()  
         this.alertClear()
         let {startDate,endDate,startTime,endTime,maxLengthDate,maxLengthHour,reservationLength} = this.state
+
         if(this.state.resource[0]==''||this.state.resource[1]==''){
-            this.alertShow('Please input some CPU and memory.')
+            this.alertShow('Error, please input some CPU and memory.');
             return;
         }
+
+        if(2*parseInt(this.state.resource[0])>parseInt(this.state.resource[1])){
+            this.alertShow('Error, the memory must be more than double of the CPU.');
+            return;
+        }
+
         if(reservationLength.days>maxLengthDate || (reservationLength.days==maxLengthDate&&reservationLength.hours>maxLengthHour))
         {
             let {daysInput, hoursInput} = this.state.reservationLengthNode

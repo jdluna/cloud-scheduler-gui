@@ -58,7 +58,6 @@ export default class cardContainer extends Component {
         this.onNextChart = this.onNextChart.bind(this)
         this.onPreviousChart = this.onPreviousChart.bind(this)
         this.onNetworkTypeInputChange = this.onNetworkTypeInputChange.bind(this)
-        this.selectCheckBox = this.selectCheckBox.bind(this)
     }
 
     onNetworkTypeInputChange(event){
@@ -299,10 +298,6 @@ export default class cardContainer extends Component {
     onCheckBoxChange(event) {
         console.log(event)
         event.stopPropagation()
-        this.selectCheckBox()
-    }
-
-    selectCheckBox(){
         let entStyle = this.state.style.ent
         let ipoptyle = this.state.style.ipop
         if (this.state.select == false) {

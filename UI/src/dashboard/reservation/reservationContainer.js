@@ -361,8 +361,7 @@ export default class ReservationContainer extends Component {
     onPreviousStep(event){
         switch(event.target.name){
             case 'step1' : this.onClose();break
-            case 'step2' : this.setState({card: 'step1'});break
-            case 'step3' : this.setState({card: 'step2'});break
+            case 'step3' : this.setState({card: 'step1'});break
         }
     }
 
@@ -390,8 +389,6 @@ export default class ReservationContainer extends Component {
                 }else{
                     this.checkReservation();
                 }   
-            }else if(step=='step2'){
-                this.setState({card: 'step3'});
             }else if(step=='step3'){
                 this.queryConfirmReservation();
             }
@@ -603,7 +600,7 @@ export default class ReservationContainer extends Component {
                 if(data.result=='True'){
                     this.state.alertNode.innerHTML = ''
                     this.state.alertNode.style.display = 'none'
-                    this.setState({card: 'step2'})
+                    this.setState({card: 'step3'})
                 }else if(data.isResourceError=='True'){
                     this.state.alertNode.innerHTML = 'The resources are not available enough. Please try again.'
                     this.state.alertNode.style.display = 'block'

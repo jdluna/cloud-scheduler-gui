@@ -41,13 +41,10 @@ export default class Step3 extends Component {
                 <div className={Style.step}>
                     <div className={Style.circle}>1</div>
                     <div className={Style.line}></div>
-                    <div className={Style.circle}>2</div>
-                    <div className={Style.line}></div>
-                    <div className={Style.fillcircle}>3</div>
+                    <div className={Style.fillcircle}>2</div>
                 </div>
                 <div className={Style.steptext}>
                     <div className={Style.text}>Specify description</div>
-                    <div className={Style.text}>Additional description</div>
                     <div className={Style.text}>Confirm reservation</div>
                 </div>
                 <div className={Style.form3}>
