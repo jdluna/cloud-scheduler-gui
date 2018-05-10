@@ -186,7 +186,7 @@
                         cursor: pointer;
                     }
                     .unittext{
-                        opacity: 0.5;
+                        opacity: 1;
                         cursor: default;
                     }
                 }
@@ -253,7 +253,7 @@
                     width: 38px;
                     margin-right: 1px;
                     text-align: right;
-                    opacity: 0.5;
+                    opacity: 1;
                     box-sizing : 'border-box';
                 }
                 .inputradio::-webkit-input-placeholder{

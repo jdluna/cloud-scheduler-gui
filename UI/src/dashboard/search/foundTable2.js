@@ -21,21 +21,39 @@ export default class FoundTable2 extends Component {
 
     onSort(event){
         let sortby = event.target.value;
-        
-        if(sortby=='name'){
-            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => a.name > b.name);
-        }else if(sortby=='cpu_total'){
-            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.CPU.total) > parseInt(b.CPU.total));
-        }else if(sortby=='memory_total'){
-            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.memory.total) > parseInt(b.memory.total));
-        }else if(sortby=='cpu_available'){
-            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.CPU.available) > parseInt(b.CPU.available));
-        }else if(sortby=='memory_available'){
-            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.memory.available) > parseInt(b.memory.available));
-        }else if(sortby=='cpu_speed'){
-            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.speedCPU) > parseInt(b.speedCPU));
-        }else if(sortby=='network_speed'){
-            this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.speedNet) > parseInt(b.speedNet));
+
+        if(this.props.searchContainer.state.mode=='SINGLE'){
+            if(sortby=='name'){
+                this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => a.name > b.name);
+            }else if(sortby=='cpu_total'){
+                this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.CPU.total) > parseInt(b.CPU.total));
+            }else if(sortby=='memory_total'){
+                this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.memory.total) > parseInt(b.memory.total));
+            }else if(sortby=='cpu_available'){
+                this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.CPU.available) > parseInt(b.CPU.available));
+            }else if(sortby=='memory_available'){
+                this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.memory.available) > parseInt(b.memory.available));
+            }else if(sortby=='cpu_speed'){
+                this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.speedCPU) > parseInt(b.speedCPU));
+            }else if(sortby=='network_speed'){
+                this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => parseInt(a.speedNet) > parseInt(b.speedNet));
+            }
+        }else {
+            if(sortby=='name'){
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => a.name > b.name);
+            }else if(sortby=='cpu_total'){
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.totalCPU) > parseInt(b.totalCPU));
+            }else if(sortby=='memory_total'){
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.totalMem) > parseInt(b.totalMem));
+            }else if(sortby=='cpu_available'){
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.avaiCPU) > parseInt(b.avaiCPU));
+            }else if(sortby=='memory_available'){
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.avaiMem) > parseInt(b.avaiMem));
+            }else if(sortby=='cpu_speed'){
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.speedCPU) > parseInt(b.speedCPU));
+            }else if(sortby=='network_speed'){
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.speedNet) > parseInt(b.speedNet));
+            }
         }
         this.state.listResult = this.getCardResult(this.props.searchContainer.state.dataResult,this.props.searchContainer.state.mode)
         this.forceUpdate()

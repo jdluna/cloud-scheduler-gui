@@ -422,6 +422,7 @@ export default class SearchContainer extends Component {
         let name = event.target.name
         let value = event.target.value
         let REGEX = /^\d+$/
+        console.log('hello '+value)
         if (value.match(REGEX)) {
             this.setState({
                 reservationLength: {
@@ -503,63 +504,1000 @@ export default class SearchContainer extends Component {
         this.setState({
             resultTable: <Loading/>
         })
-        if(this.state.mode=='MULTI'&&this.state.resource[0]==220&&this.state.resource[1]==256){
+        if(this.state.mode=='MULTI'&&this.state.resource[0]==30&&this.state.resource[1]==68){
             var sampleMulti = 
             {
-                "amount":1,
                 "result_type":"result",
+                "amount":"5",
                 "multiSites":[
-                    {
-                        "sites":[
-                            {
-                                "CPU":{
-                                    "total": 128,
-                                    "available": 128,
-                                    "use":128 
-                                },
-                                "id":10, 
-                                "memory":{
-                                    "total": 64, 
-                                    "available": 64,
-                                    "use":64 
-                                },
-                                "name":"CC cloud"
-                            },{
-                                "CPU":{
-                                    "total": 92,
-                                     "available": 92,
-                                     "use":92  
-                                },
-                                "id":4, 
-                                "memory":{
-                                    "total": 192, 
-                                    "available": 192,
-                                    "use":192 
-                                },
-                                "name":"NAIST cloud"
-                            }
-                        ],
-                        "time":{
-                            "begin": "2018-04-25 18:00:00", 
-                            "end": "2018-04-25 19:00:00"
-                        },
-                        "image_type":[
-                            {
-                                "name": "centos7",
-                            }
-                        ],
-                        "connection_type":[
-                            {
-                                "name":"ENT"
-                            }
-                            
-                        ],
-                        "speedCPU":2.9 ,
-                        "speedNet":1
-                    }
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":16,
+                               "available":16,
+                               "use":15
+                            },
+                            "id":1,
+                            "memory":{
+                               "total":32,
+                               "available":32,
+                               "use":34
+                            },
+                            "name":"NCHC cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":32,
+                               "available":32,
+                               "use":15
+                            },
+                            "id":2,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"AIST Cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"ENT"
+                         },
+                         {
+                            "name":"ENT"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":16,
+                               "available":16,
+                               "use":15
+                            },
+                            "id":1,
+                            "memory":{
+                               "total":32,
+                               "available":32,
+                               "use":34
+                            },
+                            "name":"NCHC cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":16,
+                               "available":16,
+                               "use":15
+                            },
+                            "id":3,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"Indiana University cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"ENT"
+                         },
+                         {
+                            "name":"IPOP"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":16,
+                               "available":16,
+                               "use":15
+                            },
+                            "id":1,
+                            "memory":{
+                               "total":32,
+                               "available":32,
+                               "use":34
+                            },
+                            "name":"NCHC cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":64,
+                               "available":64,
+                               "use":15
+                            },
+                            "id":5,
+                            "memory":{
+                               "total":32,
+                               "available":32,
+                               "use":34
+                            },
+                            "name":"TOS cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"ENT"
+                         },
+                         {
+                            "name":"ENT"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":16,
+                               "available":16,
+                               "use":15
+                            },
+                            "id":1,
+                            "memory":{
+                               "total":32,
+                               "available":32,
+                               "use":34
+                            },
+                            "name":"NCHC cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":32,
+                               "available":32,
+                               "use":15
+                            },
+                            "id":6,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"TP cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"ENT"
+                         },
+                         {
+                            "name":"IPOP"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":32,
+                               "available":32,
+                               "use":15
+                            },
+                            "id":2,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"AIST Cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":16,
+                               "available":16,
+                               "use":15
+                            },
+                            "id":3,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"Indiana University cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"ENT"
+                         },
+                         {
+                            "name":"IPOP"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":32,
+                               "available":32,
+                               "use":15
+                            },
+                            "id":2,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"AIST Cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":64,
+                               "available":64,
+                               "use":15
+                            },
+                            "id":5,
+                            "memory":{
+                               "total":32,
+                               "available":32,
+                               "use":34
+                            },
+                            "name":"TOS cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"ENT"
+                         },
+                         {
+                            "name":"ENT"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":32,
+                               "available":32,
+                               "use":15
+                            },
+                            "id":2,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"AIST Cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":32,
+                               "available":32,
+                               "use":15
+                            },
+                            "id":6,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"TP cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"ENT"
+                         },
+                         {
+                            "name":"IPOP"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":16,
+                               "available":16,
+                               "use":15
+                            },
+                            "id":3,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"Indiana University cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":64,
+                               "available":64,
+                               "use":15
+                            },
+                            "id":5,
+                            "memory":{
+                               "total":32,
+                               "available":32,
+                               "use":34
+                            },
+                            "name":"TOS cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"IPOP"
+                         },
+                         {
+                            "name":"ENT"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":16,
+                               "available":16,
+                               "use":15
+                            },
+                            "id":3,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"Indiana University cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":32,
+                               "available":32,
+                               "use":15
+                            },
+                            "id":6,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"TP cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"IPOP"
+                         },
+                         {
+                            "name":"IPOP"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   },
+                   {
+                      "sites":[
+                         {
+                            "CPU":{
+                               "total":64,
+                               "available":64,
+                               "use":15
+                            },
+                            "id":5,
+                            "memory":{
+                               "total":32,
+                               "available":32,
+                               "use":34
+                            },
+                            "name":"TOS cloud"
+                         },
+                         {
+                            "CPU":{
+                               "total":32,
+                               "available":32,
+                               "use":15
+                            },
+                            "id":6,
+                            "memory":{
+                               "total":64,
+                               "available":64,
+                               "use":34
+                            },
+                            "name":"TP cloud"
+                         }
+                      ],
+                      "time":{
+                         "begin":"2018-05-19 16:00:00",
+                         "end":"2018-05-21 16:00:00"
+                      },
+                      "image_type":[
+                         {
+                            "name":"centos7"
+                         },
+                         {
+                            "name":"centos7"
+                         }
+                      ],
+                      "connection_type":[
+                         {
+                            "name":"ENT"
+                         },
+                         {
+                            "name":"IPOP"
+                         }
+                      ],
+                      "speedCPU":"-",
+                      "speedNet":"-"
+                   }
                 ]
-            }
-            
+             }
+            // {
+            //     "result_type":"result",
+            //     "amount":"5",
+            //     "multiSites":[
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":16,
+            //                    "available":16,
+            //                    "use":45
+            //                 },
+            //                 "id":"1",
+            //                 "memory":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":90
+            //                 },
+            //                 "name":"NCHC cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":45
+            //                 },
+            //                 "id":"2",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"AIST Cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":16,
+            //                    "available":16,
+            //                    "use":45
+            //                 },
+            //                 "id":"1",
+            //                 "memory":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":90
+            //                 },
+            //                 "name":"NCHC cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":16,
+            //                    "available":16,
+            //                    "use":45
+            //                 },
+            //                 "id":"3",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"Indiana University cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":16,
+            //                    "available":16,
+            //                    "use":45
+            //                 },
+            //                 "id":"1",
+            //                 "memory":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":90
+            //                 },
+            //                 "name":"NCHC cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":45
+            //                 },
+            //                 "id":"5",
+            //                 "memory":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":90
+            //                 },
+            //                 "name":"TOS cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":16,
+            //                    "available":16,
+            //                    "use":45
+            //                 },
+            //                 "id":"1",
+            //                 "memory":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":90
+            //                 },
+            //                 "name":"NCHC cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":45
+            //                 },
+            //                 "id":"6",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"TP cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":45
+            //                 },
+            //                 "id":"2",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"AIST Cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":16,
+            //                    "available":16,
+            //                    "use":45
+            //                 },
+            //                 "id":"3",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"Indiana University cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":45
+            //                 },
+            //                 "id":"2",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"AIST Cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":45
+            //                 },
+            //                 "id":"5",
+            //                 "memory":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":90
+            //                 },
+            //                 "name":"TOS cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":45
+            //                 },
+            //                 "id":"2",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"AIST Cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":45
+            //                 },
+            //                 "id":"6",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"TP cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":16,
+            //                    "available":16,
+            //                    "use":45
+            //                 },
+            //                 "id":"3",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"Indiana University cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":45
+            //                 },
+            //                 "id":"5",
+            //                 "memory":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":90
+            //                 },
+            //                 "name":"TOS cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":16,
+            //                    "available":16,
+            //                    "use":45
+            //                 },
+            //                 "id":"3",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"Indiana University cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":45
+            //                 },
+            //                 "id":"6",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"TP cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        },
+            //        {
+            //           "sites":[
+            //              {
+            //                 "CPU":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":45
+            //                 },
+            //                 "id":"5",
+            //                 "memory":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":90
+            //                 },
+            //                 "name":"TOS cloud"
+            //              },
+            //              {
+            //                 "CPU":{
+            //                    "total":32,
+            //                    "available":32,
+            //                    "use":45
+            //                 },
+            //                 "id":"6",
+            //                 "memory":{
+            //                    "total":64,
+            //                    "available":64,
+            //                    "use":90
+            //                 },
+            //                 "name":"TP cloud"
+            //              }
+            //           ],
+            //           "time":{
+            //              "begin":"2018-04-16 03:00:00",
+            //              "end":"2018-04-16 04:00:00"
+            //           },
+            //           "image_type":{
+            //              "name":"rocks-basic"
+            //           },
+            //           "connection_type":{
+            //              "name":"IPOP"
+            //           },
+            //           "speedCPU":"-",
+            //           "speedNet":"-"
+            //        }
+            //     ]
+            //  }
         }else{
             var sampleMulti = {
                 "amount":0
@@ -570,7 +1508,7 @@ export default class SearchContainer extends Component {
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result_type){
-                if(this.state.mode=='MULTI'&&this.state.resource[0]==220&&this.state.resource[1]==256){
+                if(this.state.mode=='MULTI'&&this.state.resource[0]==30&&this.state.resource[1]==68){
                     this.setState({
                         dataResult: sampleMulti,
                         resultTable: [],
