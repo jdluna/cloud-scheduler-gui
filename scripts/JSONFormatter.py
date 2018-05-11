@@ -35,7 +35,7 @@ class JSONFormatter:
                 wiriteID = True
                 jsonStr += '"name" : "'+str(s.getName())+'"},'
         #jsonStr = jsonStr[:-1] 
-        print jsonStr
+        #print jsonStr
         return jsonStr
     def formatSite82(self,s,site,RESOURCES,numsite,count):
         jsonStr = ""
