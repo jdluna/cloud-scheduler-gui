@@ -34,6 +34,7 @@ HOURS = form.getvalue('hours')
 numsite = form.getvalue('numsite')
 #############################
 
+numsite = int(numsite)
 #prepare connection criteria
 if "None" in CONNECTION_TYPE:
     CONNECTION_TYPE = None
