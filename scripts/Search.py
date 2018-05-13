@@ -10,10 +10,11 @@ import cgi
 import cgitb
 import itertools
 
+cgitb.enable()
+
 from JSONFormatter import JSONFormatter
 from SiteManager import SiteManager
 
-cgitb.enable()
 
 print "Content-Type: text/html"     
 print "Access-Control-Allow-Origin: *"  
@@ -22,15 +23,15 @@ print
 form = cgi.FieldStorage()
 
 ###variable from front-end###
-RESOURCES = "32,64"
-CONNECTION_TYPE = "ENT"
-IMAGE_TYPE = "rocks-basic"
-BEGIN = "2018-05-19 16:00:00"
-END = "2018-05-24 16:00:00"
-ALL_PERIOD = "False"
-DAYS = 2
-HOURS = 0
-numsite = 2
+RESOURCES = form.getvalue('resources')
+CONNECTION_TYPE = form.getvalue('connection_type')
+IMAGE_TYPE = form.getvalue('image_type')
+BEGIN = form.getvalue('begin')
+END = form.getvalue('end')
+ALL_PERIOD = form.getvalue('all_period')
+DAYS = form.getvalue('days')
+HOURS = form.getvalue('hours')
+numsite = form.getvalue('numsite')
 #############################
 
 #prepare connection criteria
