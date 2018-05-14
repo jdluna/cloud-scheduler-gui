@@ -34,7 +34,7 @@ HOURS = form.getvalue('hours')
 numsite = form.getvalue('numOfSite')
 #############################
 isAny = False
-if numsite != "ANY":
+if numsite != "Any":
     numsite = int(numsite)
 else:
     numsite = 2
