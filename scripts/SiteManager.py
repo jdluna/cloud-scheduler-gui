@@ -68,12 +68,12 @@ class SiteManager:
 
     def getSites(self,resAmount=None,begin=None,end=None,allPeriod=True,days=0,hours=0,connectionType=None, imageType='Any'):
         #for search with criteria
-        print "Single"
+        #print "Single"
         hours = int(hours)
         days = int(days)
         result = []
         conAndImgMatch = []
-       
+        
         self.__db = Database()
         if self.__db.connect():
             
