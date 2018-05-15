@@ -11,7 +11,82 @@ cgitb.enable()
 import json
 
 class JSONFormatter:
-    
+    def formatSite92(self,s,sites,RESOURCES,numsite,count):
+        jsonStr = ""
+        wiriteID = True
+        
+        c,m = RESOURCES.split(',')
+        c = int(c)/int(numsite)
+        m = int(m)/int(numsite)
+        
+        for a in s.getResources():
+            if (wiriteID):
+                jsonStr += '{"'+ str(a.getType()) + '" : {'
+                jsonStr += '"total" : '+str(a.getTotal())+','
+                jsonStr += '"available" : '+str(a.getAvailableAmount())+','
+                jsonStr += '"use" : '+str(c)+'},'
+                jsonStr += '"id" : '+str(a.getSiteId())+','                    
+                wiriteID = False
+            else:
+                jsonStr += '"'+ str(a.getType()) + '" : {'
+                jsonStr += '"total" : '+str(a.getTotal())+','
+                jsonStr += '"available" : '+str(a.getAvailableAmount())+','
+                jsonStr += '"use" : '+str(m)+'},'
+                wiriteID = True
+                jsonStr += '"name" : "'+str(s.getName())+'"},'
+        #jsonStr = jsonStr[:-1] 
+        #print jsonStr
+        return jsonStr
+    def formatSite82(self,s,site,RESOURCES,numsite,count):
+        jsonStr = ""
+        wiriteID = True
+        
+        c,m = RESOURCES.split(',')
+        c = int(c)/int(numsite)
+        m = int(m)/int(numsite)
+        jsonStr = '"sites":[{'
+        
+        for a in s.getResources():
+            if (wiriteID):
+                jsonStr += '"'+ str(a.getType()) + '" : {'
+                jsonStr += '"total" : '+str(a.getTotal())+','
+                jsonStr += '"available" : '+str(a.getAvailableAmount())+','
+                jsonStr += '"use" : "'+str(c)+'"},'
+                jsonStr += '"id" : "'+str(a.getSiteId())+'",'
+                
+                wiriteID = False
+            else:
+                jsonStr += '"'+ str(a.getType()) + '" : {'
+                jsonStr += '"total" : '+str(a.getTotal())+','
+                jsonStr += '"available" : '+str(a.getAvailableAmount())+','
+                jsonStr += '"use" : '+str(m)+'},'
+                wiriteID = True
+                jsonStr += '"name" : "'+str(s.getName())+'"'
+        
+        print jsonStr
+        return jsonStr
+    def getmutiimage(self,s):
+        jsonStr = str(s.getImageType()).replace("'",'"')
+        jsonStr = jsonStr.replace("[","")
+        jsonStr = jsonStr.replace("]","")
+        jsonStr = jsonStr.replace("{","")
+        jsonStr1 = jsonStr.split(",")
+        #print jsonStr1[0]
+        return jsonStr1[0]
+    def getmuticonnec(self,s,connect):
+        jsonStr = str(s.getConnectionType()).replace("'",'"')
+        jsonStr = jsonStr.replace("[","")
+        jsonStr = jsonStr.replace("]","")
+        jsonStr = jsonStr.replace("{","")
+        jsonStr = jsonStr.replace("}","")
+        target = '"name": "'+str(connect)+'"'
+        jsonStr1 = jsonStr.split(",")
+        for s in range(0,len(jsonStr1)):
+            if target == jsonStr1[s]:
+                #print jsonStr1[s]
+                #print "OK"
+                return jsonStr1[s]
+        return str(target)
     def formatSite(self,s):
         jsonStr = '{"id" : "'+str(s.getSiteId())+'",'
         jsonStr += '"name" : "'+str(s.getName())+'",'
@@ -53,13 +128,11 @@ class JSONFormatter:
             jsonStr += '"'+ str(r.getType()) + '" : {'
             jsonStr += '"total" : "'+str(r.getTotal())+'",'
             jsonStr += '"available" : "'+str(r.getAvailableAmount())+'"},'
-        
             
         jsonStr = jsonStr[:-1]
         jsonStr += '}'
         
         return jsonStr
-        
     def formatReservation(self,r):
         jsonStr = ' { "reservation_id" : "'+str(r.getReservationId())+'", '
         jsonStr += '"title" : "'+str(r.getTitle())+'", '
