@@ -40,9 +40,9 @@ if typecheck == "SINGLE":
     numsite = "Any"
 isAny = False
 if numsite != "Any":
-    numsite = int(numsite)
     isAny = True
 else:
+    numsite = int(numsite)
     isAny = False
   
 
