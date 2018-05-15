@@ -32,7 +32,12 @@ ALL_PERIOD = form.getvalue('all_period')
 DAYS = form.getvalue('days')
 HOURS = form.getvalue('hours')
 numsite = form.getvalue('numOfSite')
+typecheck = form.getvalue('type')
 #############################
+if typecheck == "SINGLE":
+    numsite = int("1")
+else:
+    numsite = int("2")
 isAny = False
 if numsite != "Any":
     numsite = int(numsite)
