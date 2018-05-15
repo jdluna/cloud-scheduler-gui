@@ -25,16 +25,16 @@ form = cgi.FieldStorage()
 ###variable from front-end###
 
 #############################
-RESOURCES = "72,63"
-CONNECTION_TYPE = "None"
-IMAGE_TYPE = "rock"
-BEGIN = "2018-04-16 03:00:00"
-END = "2018-04-16 04:00:00"
-ALL_PERIOD = "True"
-DAYS = 0
-HOURS = 2
-numsite = "3"
-typecheck = "MULTI"
+RESOURCES = form.getvalue('resources')
+CONNECTION_TYPE = form.getvalue('connection_type')
+IMAGE_TYPE = form.getvalue('image_type')
+BEGIN = form.getvalue('begin')
+END = form.getvalue('end')
+ALL_PERIOD = form.getvalue('all_period')
+DAYS = form.getvalue('days')
+HOURS = form.getvalue('hours')
+numsite = form.getvalue('numOfSite')
+typecheck = form.getvalue('type')
 ###############################
 if typecheck == "SINGLE":
     numsite = "1"
@@ -143,7 +143,6 @@ elif (numsite == 2 and divisible2):
         sites1 = siteManager.getMutiSites(resAmount=resourcesAmt1,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
         sites2 = siteManager.getMutiSites(resAmount=resourcesAmt2,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
         
-        
         if len(sites1) != 0 and len(sites2) != 0:
            count = 0
            jsonStr2 = ""
@@ -154,6 +153,7 @@ elif (numsite == 2 and divisible2):
                 for s1 in range(s,len(sites2)):
                     if(s1 == s):continue
                     else:
+                        count  = count +1
                         jsonStr2 += '{"sites":['
                         #goo = "("+str(len(sites))+","+str(s)+","+str(s1)+")"
                         #print goo
@@ -181,19 +181,23 @@ elif (numsite == 2 and divisible2):
            jsonStr2 += ']'#mutisite
            jsonStr2 += '}'
         #print jsonStr
-           print jsonStr2
+           jsonStr1 = ""
+           jsonStr1 += '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
+           jsonStr1 += '"amount" : "'+str(count)+'",'
+           jsonStr1 += '"multiSites" : ['
+           jsonStr = jsonStr1+jsonStr2
+           print jsonStr
+        
         elif isAny:
             numsite = 3
     else:
         count = 0
         jsonStr2 = ""
-        jsonStr2 += '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
-        jsonStr2 += '"amount" : "'+str(len(sites))+'",'
-        jsonStr2 += '"multiSites" : ['
         for s in range(0,len(sites)):
             for s1 in range(s,len(sites)):
                 if(s1 == s):continue
                 else:
+                    count = count +1
                     jsonStr2 += '{"sites":['
                     jsonStr2 += jsonFormatter.formatSite92(sites[s],sites,RESOURCES,numsite,count)
                     jsonStr2 += jsonFormatter.formatSite92(sites[s1],sites,RESOURCES,numsite,count)  
@@ -218,8 +222,12 @@ elif (numsite == 2 and divisible2):
         jsonStr2 += '}'
 
         #print jsonStr
-        
-        print jsonStr2
+        jsonStr1 = ""
+        jsonStr1 += '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
+        jsonStr1 += '"amount" : "'+str(count)+'",'
+        jsonStr1 += '"multiSites" : ['
+        jsonStr = jsonStr1+jsonStr2
+        print jsonStr
 elif (numsite == 3 and divisible3):
     resourcesAmt = []
     spl = RESOURCES.split(',')
@@ -231,15 +239,13 @@ elif (numsite == 3 and divisible3):
     sites2 = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
     sites3 = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)      
     jsonStr2 = ""
-    jsonStr2 += '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
-    jsonStr2 += '"amount" : "'+str(len(sites))+'",'
-    jsonStr2 += '"multiSites" : ['
     if len(sites) > 0 and len(sites2) > 0 and len(sites3) > 0:  
         for s in range(0,len(sites)):
             for s1 in range(s,len(sites)):
                 for s2 in range(s1,len(sites)):
                     if(s == s1) or (s == s2) or (s1 == s2):continue
                     else:
+                        count = count + 1
                         #goo = "("+str(s)+","+str(s1)+","+str(s2)+")"
                         #print goo
                         jsonStr2 += '{"sites":['
@@ -273,7 +279,12 @@ elif (numsite == 3 and divisible3):
         jsonStr2 += '}'
 
         #print jsonStr
-        print jsonStr2
+        jsonStr1 = ""
+        jsonStr1 += '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
+        jsonStr1 += '"amount" : "'+str(count)+'",'
+        jsonStr1 += '"multiSites" : ['
+        jsonStr = jsonStr1+jsonStr2
+        print jsonStr
     elif isAny:
         numsite = 4
 elif (numsite == 4 and divisible4):
@@ -283,23 +294,18 @@ elif (numsite == 4 and divisible4):
         resourcesAmt.append(str(int(int(s)*0.25)))
     #print resourcesAmt
     count = 0
+    jsonStr2 = ""
     sites = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
     sites2 = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
     sites3 = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)      
     sites4 = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)      
-    jsonStr2 = ""
-    jsonStr2 += '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
-    jsonStr2 += '"amount" : "'+str(len(sites))+'",'
-    jsonStr2 += '"multiSites" : ['
     for s in range(0,len(sites)):
-        
         for s1 in range(s,len(sites)):
             for s2 in range(s1,len(sites)):
                 for s3 in range(s2,len(sites)):
                     if(s == s1) or (s == s2) or (s == s3) or (s1 == s2) or (s1 == s3) or (s2 == s3):continue
                     else:
-                        #goo = "("+str(s)+","+str(s1)+","+str(s2)+","+str(s3)+")"
-                        #print goo
+                        count = count +1
                         jsonStr2 += '{"sites":['
                         jsonStr2 += jsonFormatter.formatSite92(sites[s],sites,RESOURCES,numsite,count)
                         jsonStr2 += jsonFormatter.formatSite92(sites2[s1],sites2,RESOURCES,numsite,count)
@@ -327,10 +333,13 @@ elif (numsite == 4 and divisible4):
     jsonStr2 = jsonStr2[:-1]
     jsonStr2 += ']'#mutisite
     jsonStr2 += '}'
-        
-        
+    jsonStr1 = ""
+    jsonStr1 += '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
+    jsonStr1 += '"amount" : "'+str(count)+'",'
+    jsonStr1 += '"multiSites" : ['    
+    jsonStr = jsonStr1+jsonStr2   
         #print jsonStr
-    print jsonStr2
+    print jsonStr
 else:
     jsonStr = '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
     jsonStr += '"amount" : "'+"0"+'"'
