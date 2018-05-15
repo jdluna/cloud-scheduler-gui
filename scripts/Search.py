@@ -40,10 +40,11 @@ if typecheck == "SINGLE":
     numsite = "Any"
 isAny = False
 if numsite != "Any":
-    isAny = True
-else:
     numsite = int(numsite)
     isAny = False
+else:
+    isAny = True
+    
   
 
 #prepare connection criteria
