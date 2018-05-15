@@ -25,29 +25,49 @@ form = cgi.FieldStorage()
 ###variable from front-end###
 
 #############################
-RESOURCES = form.getvalue('resources')
-CONNECTION_TYPE = form.getvalue('connection_type')
-IMAGE_TYPE = form.getvalue('image_type')
-BEGIN = form.getvalue('begin')
-END = form.getvalue('end')
-ALL_PERIOD = form.getvalue('all_period')
-DAYS = form.getvalue('days')
-HOURS = form.getvalue('hours')
-numsite = form.getvalue('numOfSite')
-typecheck = form.getvalue('type')
+RESOURCES = "72,63"
+CONNECTION_TYPE = "None"
+IMAGE_TYPE = "rock"
+BEGIN = "2018-04-16 03:00:00"
+END = "2018-04-16 04:00:00"
+ALL_PERIOD = "True"
+DAYS = 0
+HOURS = 2
+numsite = "3"
+typecheck = "MULTI"
 ###############################
 if typecheck == "SINGLE":
     numsite = "1"
 isAny = False
+divisible2 = False
+divisible3 = False
+divisible4 = False
 if numsite != "Any":
     numsite = int(numsite)
     isAny = False
+    c,m = RESOURCES.split(",")
+    c = int(c)%numsite
+    m = int(m)%numsite
+    if c == 0 and m == 0:
+        divisible2 = True
+        divisible3 = True
+        divisible4 = True
 else:
     numsite = 2
     isAny = True
-    
-  
+    c,m = RESOURCES.split(",")
+    c2 = int(c)%2
+    m2 = int(m)%2
 
+    c3 = int(c)%3
+    m3 = int(m)%3
+
+    c4 = int(c)%4
+    m4 = int(m)%4
+    if(c2 == 0 and m2 == 0): divisible2 = True
+    if(c3 == 0 and m3 == 0): divisible3 = True
+    if(c4 == 0 and m4 == 0): divisible4 = True
+#print c+","+m
 #prepare connection criteria
 if "None" in CONNECTION_TYPE:
     CONNECTION_TYPE = None
@@ -104,7 +124,7 @@ if (numsite <=1):
     jsonStr += ']}'
 
     print jsonStr
-elif (numsite == 2):
+elif (numsite == 2 and divisible2):
     resourcesAmt = []
     spl = RESOURCES.split(',')
     for s in spl:
@@ -200,7 +220,7 @@ elif (numsite == 2):
         #print jsonStr
         
         print jsonStr2
-elif (numsite == 3):
+elif (numsite == 3 and divisible3):
     resourcesAmt = []
     spl = RESOURCES.split(',')
     for s in spl:
@@ -256,7 +276,7 @@ elif (numsite == 3):
         print jsonStr2
     elif isAny:
         numsite = 4
-elif (numsite == 4):
+elif (numsite == 4 and divisible4):
     resourcesAmt = []
     spl = RESOURCES.split(',')
     for s in spl:
@@ -311,5 +331,11 @@ elif (numsite == 4):
         
         #print jsonStr
     print jsonStr2
+else:
+    jsonStr = '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
+    jsonStr += '"amount" : "'+"0"+'"'
+    jsonStr += ', "sites" : ['
+    jsonStr += ']}'
+    print jsonStr
 
 
