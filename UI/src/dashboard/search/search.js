@@ -169,7 +169,6 @@ export default class Search extends Component {
         return (
             <div>
                 <section className='halfmodal'>
-
                     <div className={Style.helpContent} ref='helpComponent' >
                         <div className={Style.helpHeader}>
                             Help (?)

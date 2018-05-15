@@ -508,21 +508,18 @@ export default class SearchContainer extends Component {
         
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
-            console.log(data)
+            console.log(response)
             if(status==200&&data.result_type){
                 if(data.result_type=='result'){
-                    this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
                         resultTable: [],
                     },()=>{
                         this.setState({
                             resultTable: <FoundTable2 searchContainer={this} appContainer={this.appContainer}/>
-                            // resultTable:             <FoundTable searchContainer={this}/>
                     })
                 })
                 }else{
-                    this.getAscSortByName(data)
                     this.setState({
                         dataResult: data,
                         resultTable: []

@@ -11,6 +11,53 @@ export default class FoundTable2 extends Component {
             hover: null,
             listResult: null
         }
+        if(this.props.searchContainer.state.mode=='SINGLE') this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => a.name > b.name)
+        if(this.props.searchContainer.state.mode=='MULTI') {
+            this.props.searchContainer.state.dataResult.multiSites.map((cardData,key) =>{
+                //set defaul value
+                cardData.namelabel = ''
+                cardData.totalCPU = 0
+                cardData.totalMem = 0
+                cardData.avaiCPU = 0
+                cardData.avaiMem = 0
+                cardData.CPUlabel = '('
+                cardData.Memorylabel = '('
+                cardData.names = []
+                cardData.ids = []
+
+                //loop for calculate data
+                for(let i=0;i<cardData.sites.length;i++){
+                    cardData.totalCPU = cardData.totalCPU + cardData.sites[i].CPU.total
+                    cardData.totalMem = cardData.totalMem + cardData.sites[i].memory.total
+                    cardData.avaiCPU = cardData.avaiCPU + cardData.sites[i].CPU.available
+                    cardData.avaiMem = cardData.avaiMem + cardData.sites[i].memory.available
+                    cardData.names.push(cardData.sites[i].name)
+                    cardData.ids.push(cardData.sites[i].id)
+                }
+
+                for(let i=0;i<cardData.names.length;i++){
+                    cardData.namelabel += cardData.names[i]
+                    if(i!=cardData.names.length-1) cardData.namelabel += ' x '
+                }
+
+                //loop each site cpu and mem
+                for(let i=0;i<cardData.sites.length;i++){
+                    cardData.CPUlabel = cardData.CPUlabel + cardData.sites[i].CPU.use
+                    cardData.Memorylabel = cardData.Memorylabel + cardData.sites[i].memory.use
+                    if( i != cardData.sites.length-1){
+                        cardData.CPUlabel = cardData.CPUlabel + ':'
+                        cardData.Memorylabel = cardData.Memorylabel + ':'
+                    }
+                }
+                cardData.CPUlabel = cardData.CPUlabel + ')'
+                cardData.Memorylabel = cardData.Memorylabel + ')'
+            })
+            this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => {
+                if(a.namelabel < b.namelabel) return -1;
+                if(a.namelabel > b.namelabel) return 1;
+                return 0;
+            })
+        }
         this.onSort = this.onSort.bind(this)
     }
     
@@ -40,19 +87,47 @@ export default class FoundTable2 extends Component {
             }
         }else {
             if(sortby=='name'){
-                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => a.name > b.name);
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => {
+                    if(a.namelabel < b.namelabel) return -1;
+                    if(a.namelabel > b.namelabel) return 1;
+                    return 0;
+                });
             }else if(sortby=='cpu_total'){
-                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.totalCPU) > parseInt(b.totalCPU));
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => {
+                    if(parseInt(a.totalCPU) < parseInt(b.totalCPU)) return -1;
+                    if(parseInt(a.totalCPU) > parseInt(b.totalCPU)) return 1;
+                    return 0;
+                });
             }else if(sortby=='memory_total'){
-                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.totalMem) > parseInt(b.totalMem));
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => {
+                    if(parseInt(a.totalMem) < parseInt(b.totalMem)) return -1;
+                    if(parseInt(a.totalMem) > parseInt(b.totalMem)) return 1;
+                    return 0;
+                });
             }else if(sortby=='cpu_available'){
-                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.avaiCPU) > parseInt(b.avaiCPU));
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => {
+                    if(parseInt(a.avaiCPU) <parseInt(b.avaiCPU)) return -1;
+                    if(parseInt(a.avaiCPU) > parseInt(b.avaiCPU)) return 1;
+                    return 0;
+                });
             }else if(sortby=='memory_available'){
-                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.avaiMem) > parseInt(b.avaiMem));
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => {
+                    if(parseInt(a.avaiMem) < parseInt(b.avaiMem)) return -1;
+                    if(parseInt(a.avaiMem) > parseInt(b.avaiMem)) return 1;
+                    return 0;
+                });
             }else if(sortby=='cpu_speed'){
-                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.speedCPU) > parseInt(b.speedCPU));
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => {
+                    if(parseInt(a.speedCPU) < parseInt(b.speedCPU)) return -1;
+                    if(parseInt(a.speedCPU) > parseInt(b.speedCPU)) return 1;
+                    return 0;
+                });
             }else if(sortby=='network_speed'){
-                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => parseInt(a.speedNet) > parseInt(b.speedNet));
+                this.props.searchContainer.state.dataResult.multiSites = this.props.searchContainer.state.dataResult.multiSites.sort((a, b) => {
+                    if(parseInt(a.speedNet) < parseInt(b.speedNet)) return -1;
+                    if(parseInt(a.speedNet) > parseInt(b.speedNet)) return 1;
+                    return 0;
+                });
             }
         }
         this.state.listResult = this.getCardResult(this.props.searchContainer.state.dataResult,this.props.searchContainer.state.mode)
@@ -167,39 +242,6 @@ export default class FoundTable2 extends Component {
 
                         let startDate = moment.utc(cardData.time.begin).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
                         let endDate = moment.utc(cardData.time.end).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
-                        
-                        //set defaul value
-                        cardData.namelabel = ''
-                        cardData.totalCPU = 0
-                        cardData.totalMem = 0
-                        cardData.avaiCPU = 0
-                        cardData.avaiMem = 0
-                        cardData.CPUlabel = '('
-                        cardData.Memorylabel = '('
-                        cardData.names = []
-                        cardData.ids = []
-
-                        //loop for calculate data
-                        for(let i=0;i<cardData.sites.length;i++){
-                            cardData.totalCPU = cardData.totalCPU + cardData.sites[i].CPU.total
-                            cardData.totalMem = cardData.totalMem + cardData.sites[i].memory.total
-                            cardData.avaiCPU = cardData.avaiCPU + cardData.sites[i].CPU.available
-                            cardData.avaiMem = cardData.avaiMem + cardData.sites[i].memory.available
-                            cardData.names.push(cardData.sites[i].name)
-                            cardData.ids.push(cardData.sites[i].id)
-                        }
-
-                        //loop each site cpu and mem
-                        for(let i=0;i<cardData.sites.length;i++){
-                            cardData.CPUlabel = cardData.CPUlabel + cardData.sites[i].CPU.use
-                            cardData.Memorylabel = cardData.Memorylabel + cardData.sites[i].memory.use
-                            if( i != cardData.sites.length-1){
-                                cardData.CPUlabel = cardData.CPUlabel + ':'
-                                cardData.Memorylabel = cardData.Memorylabel + ':'
-                            }
-                        }
-                        cardData.CPUlabel = cardData.CPUlabel + ')'
-                        cardData.Memorylabel = cardData.Memorylabel + ')'
 
                         let siteLength = cardData.sites.length
 
@@ -210,8 +252,6 @@ export default class FoundTable2 extends Component {
                                         <span className={Style.siteName} key={key}>{data.name}<span className={Style.region}>{(data.region==undefined)?'':'('+data.region+')'}</span> {this.ifRender(key!=siteLength-1,<span>x</span>)} </span>
                                     )
                                 })}
-
-                                {/* <span className={Style.siteName}>{cardData.namelabel}<span className={Style.region}>{(cardData.region=='')?'':'('+cardData.region+')'}</span></span> */}
                                 <br/>
                                 <span className={Style.date}>{startDate} <span>to</span> {endDate}</span>
                                 <div className={Style.detail}>
