@@ -508,7 +508,7 @@ export default class SearchContainer extends Component {
         
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
-            console.log(response)
+            console.log(data)
             if(status==200&&data.result_type){
                 if(data.result_type=='result'){
                     this.getAscSortByName(data)
