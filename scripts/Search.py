@@ -23,6 +23,8 @@ print
 form = cgi.FieldStorage()
 
 ###variable from front-end###
+
+#############################
 RESOURCES = form.getvalue('resources')
 CONNECTION_TYPE = form.getvalue('connection_type')
 IMAGE_TYPE = form.getvalue('image_type')
@@ -33,17 +35,16 @@ DAYS = form.getvalue('days')
 HOURS = form.getvalue('hours')
 numsite = form.getvalue('numOfSite')
 typecheck = form.getvalue('type')
-#############################
+###############################
 if typecheck == "SINGLE":
-    numsite = int("1")
-else:
-    numsite = int("2")
+    numsite = "Any"
 isAny = False
 if numsite != "Any":
-    numsite = int(numsite)
-else:
-    numsite = 2
     isAny = True
+else:
+    numsite = int(numsite)
+    isAny = False
+  
 
 #prepare connection criteria
 if "None" in CONNECTION_TYPE:
@@ -232,13 +233,13 @@ elif (numsite == 3):
                         jsonStr2 += '"end" : "'+str(sites[s].getEndAvailable())+'"},'
                         jsonStr2 += '"image_type" : ['
                         jsonStr2 +=  '{'+jsonFormatter.getmutiimage(sites[s])+'},'#jsonFormatter.getmutiimage(s,IMAGE_TYPE)
-                        jsonStr2 +=  '{'+jsonFormatter.getmutiimage(sites2[s1])+'}'#jsonFormatter.getmutiimage(s,IMAGE_TYPE)
+                        jsonStr2 +=  '{'+jsonFormatter.getmutiimage(sites2[s1])+'},'#jsonFormatter.getmutiimage(s,IMAGE_TYPE)
                         jsonStr2 +=  '{'+jsonFormatter.getmutiimage(sites3[s2])+'}'#jsonFormatter.getmutiimage(s,IMAGE_TYPE)
                     
                         jsonStr2 += '],'#imagetype
                         jsonStr2 += '"connection_type" :['
                         jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
-                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites2[s1],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
+                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites2[s1],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
                         jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites3[s2],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
                     
                         jsonStr2 += '],'#connection
