@@ -24,7 +24,7 @@ form = cgi.FieldStorage()
 ###variable from front-end###
 
 #############################
-RESOURCES = "62,124"
+RESOURCES = "63,126"
 CONNECTION_TYPE = "None"
 IMAGE_TYPE = "rock"
 BEGIN = "2018-04-16 03:00:00"
@@ -32,7 +32,7 @@ END = "2018-04-16 04:00:00"
 ALL_PERIOD = "True"
 DAYS = 0
 HOURS = 2
-numsite = "2"
+numsite = "3"
 typecheck = "MULTI"
 ###############################
 if typecheck == "SINGLE":
@@ -171,8 +171,11 @@ elif (numsite == 2 and divisible2):
                     
                         jsonStr2 += '],'#imagetype
                         jsonStr2 += '"connection_type" :['
-                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites1[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
-                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites2[s1],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
+                        if(CONNECTION_TYPE == None):
+                            jsonStr2 += jsonFormatter.mergeConnection(sites1[s],sites2[s1],CONNECTION_TYPE)
+                        else:
+                            jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites1[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
+                            jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites2[s1],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
                         jsonStr2 += '],'#connection
                    
             
@@ -212,9 +215,11 @@ elif (numsite == 2 and divisible2):
                     jsonStr2 += '],'#imagetype
 
                     jsonStr2 += '"connection_type" :['
-                    jsonStr2 += jsonFormatter.mergeConnection(sites[s],sites[s1],CONNECTION_TYPE)
-                    #jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
-                    #jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s1],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
+                    if(CONNECTION_TYPE == None):
+                        jsonStr2 += jsonFormatter.mergeConnection(sites[s],sites[s1],CONNECTION_TYPE)
+                    else:
+                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
+                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s1],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
                     jsonStr2 += '],'#connection
                     jsonStr2 += '"speedCPU" : "-",'
                     jsonStr2 += '"speedNet" : "-"'
@@ -269,9 +274,10 @@ elif (numsite == 3 and divisible3):
                     
                         jsonStr2 += '],'#imagetype
                         jsonStr2 += '"connection_type" :['
-                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
-                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites2[s1],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
-                        jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites3[s2],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
+                        jsonStr2 += jsonFormatter.merge3Connection(sites[s],sites2[s1],sites3[s2],CONNECTION_TYPE)
+                        #jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
+                        #jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites2[s1],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
+                        #jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites3[s2],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
                     
                         jsonStr2 += '],'#connection
                         jsonStr2 += '"speedCPU" : "-",'
