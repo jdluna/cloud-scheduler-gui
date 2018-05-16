@@ -24,16 +24,16 @@ form = cgi.FieldStorage()
 ###variable from front-end###
 
 #############################
-RESOURCES = form.getvalue('resources')
-CONNECTION_TYPE = form.getvalue('connection_type')
-IMAGE_TYPE = form.getvalue('image_type')
-BEGIN = form.getvalue('begin')
-END = form.getvalue('end')
-ALL_PERIOD = form.getvalue('all_period')
-DAYS = form.getvalue('days')
-HOURS = form.getvalue('hours')
-numsite = form.getvalue('numOfSite')
-typecheck = form.getvalue('type')
+RESOURCES = "1,2"
+CONNECTION_TYPE = "None"
+IMAGE_TYPE = "rock"
+BEGIN = "2018-04-16 03:00:00"
+END = "2018-04-16 04:00:00"
+ALL_PERIOD = "True"
+DAYS = 0
+HOURS = 2
+numsite = "3"
+typecheck = "MULTI"
 ###############################
 if typecheck == "SINGLE":
     numsite = "1"
@@ -98,9 +98,11 @@ siteManager = SiteManager()
 jsonFormatter = JSONFormatter()
 #sites1 = siteManager.getSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS)
 #sites = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
+if(numsite > 1 and not divisible2 and not divisible3 and not divisible4):
+    numsite = -1
 if(numsite == 2 and (not divisible2) and isAny):numsite = 3
 if(numsite == 3 and (not divisible3) and isAny):numsite = 4
-if (numsite <=1):
+if (numsite == 1):
     resourcesAmt = []
     spl = RESOURCES.split(',')
     for s in spl:
