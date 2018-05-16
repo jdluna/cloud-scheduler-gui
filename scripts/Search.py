@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Feb 16 22:17:23 2017
-
 @author: CS401:Nannapas Banluesombatkul
 """
 
@@ -25,16 +24,16 @@ form = cgi.FieldStorage()
 ###variable from front-end###
 
 #############################
-RESOURCES = form.getvalue('resources')
-CONNECTION_TYPE = form.getvalue('connection_type')
-IMAGE_TYPE = form.getvalue('image_type')
-BEGIN = form.getvalue('begin')
-END = form.getvalue('end')
-ALL_PERIOD = form.getvalue('all_period')
-DAYS = form.getvalue('days')
-HOURS = form.getvalue('hours')
-numsite = form.getvalue('numOfSite')
-typecheck = form.getvalue('type')
+RESOURCES = "62,124"
+CONNECTION_TYPE = "None"
+IMAGE_TYPE = "rock"
+BEGIN = "2018-04-16 03:00:00"
+END = "2018-04-16 04:00:00"
+ALL_PERIOD = "True"
+DAYS = 0
+HOURS = 2
+numsite = "2"
+typecheck = "MULTI"
 ###############################
 if typecheck == "SINGLE":
     numsite = "1"
@@ -64,6 +63,7 @@ else:
 
     c4 = int(c)%4
     m4 = int(m)%4
+
     if(c2 == 0 and m2 == 0): divisible2 = True
     if(c3 == 0 and m3 == 0): divisible3 = True
     if(c4 == 0 and m4 == 0): divisible4 = True
@@ -98,6 +98,8 @@ siteManager = SiteManager()
 jsonFormatter = JSONFormatter()
 #sites1 = siteManager.getSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS)
 #sites = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
+if(numsite == 2 and (not divisible2) and isAny):numsite = 3
+if(numsite == 3 and (not divisible3) and isAny):numsite = 4
 if (numsite <=1):
     resourcesAmt = []
     spl = RESOURCES.split(',')
@@ -130,7 +132,7 @@ elif (numsite == 2 and divisible2):
     for s in spl:
         resourcesAmt.append(str(int(int(s)*0.5)))
     sites = siteManager.getSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS)
-    
+    found = False
     if len(sites) == 0:
         resourcesAmt1 = []
         resourcesAmt2 = []
@@ -187,7 +189,6 @@ elif (numsite == 2 and divisible2):
            jsonStr1 += '"multiSites" : ['
            jsonStr = jsonStr1+jsonStr2
            print jsonStr
-        
         elif isAny:
             numsite = 3
     else:
@@ -208,11 +209,12 @@ elif (numsite == 2 and divisible2):
                     jsonStr2 += '"image_type" : ['
                     jsonStr2 +=  '{'+jsonFormatter.getmutiimage(sites[s])+'},'#jsonFormatter.getmutiimage(s,IMAGE_TYPE)
                     jsonStr2 +=  '{'+jsonFormatter.getmutiimage(sites[s1])+'}'#jsonFormatter.getmutiimage(s,IMAGE_TYPE)
-                    
                     jsonStr2 += '],'#imagetype
+
                     jsonStr2 += '"connection_type" :['
-                    jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
-                    jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s1],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
+                    jsonStr2 += jsonFormatter.mergeConnection(sites[s],sites[s1],CONNECTION_TYPE)
+                    #jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s],str(CONNECTION_TYPE))+'},'#jsonFormatter.getmuticonnec(s)  
+                    #jsonStr2 += '{'+jsonFormatter.getmuticonnec(sites[s1],str(CONNECTION_TYPE))+'}'#jsonFormatter.getmuticonnec(s)  
                     jsonStr2 += '],'#connection
                     jsonStr2 += '"speedCPU" : "-",'
                     jsonStr2 += '"speedNet" : "-"'
@@ -229,6 +231,7 @@ elif (numsite == 2 and divisible2):
         jsonStr = jsonStr1+jsonStr2
         print jsonStr
 elif (numsite == 3 and divisible3):
+   
     resourcesAmt = []
     spl = RESOURCES.split(',')
     for s in spl:
@@ -340,11 +343,12 @@ elif (numsite == 4 and divisible4):
     jsonStr = jsonStr1+jsonStr2   
         #print jsonStr
     print jsonStr
-else:
-    jsonStr = '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
+    if len(sites) == 0:
+        numsite = -1
+if(numsite == -1):
+    jsonStr = '{ "result_type" : "' +"None"+ '", '
     jsonStr += '"amount" : "'+"0"+'"'
     jsonStr += ', "sites" : ['
     jsonStr += ']}'
     print jsonStr
-
 
