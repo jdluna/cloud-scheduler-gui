@@ -87,6 +87,89 @@ class JSONFormatter:
                 #print "OK"
                 return jsonStr1[s]
         return str(target)
+    def mergeConnection(self,site1,site2,typeconnection):
+        Csite1 = str(site1.getConnectionType()).replace("'",'"')
+        Csite1 = Csite1.replace("[","")
+        Csite1 = Csite1.replace("]","")
+        Csite1 = Csite1.replace("{","")
+        Csite1 = Csite1.replace("}","")
+        Csite2 = str(site2.getConnectionType()).replace("'",'"')
+        Csite2 = Csite2.replace("[","")
+        Csite2 = Csite2.replace("]","")
+        Csite2 = Csite2.replace("{","")
+        Csite2 = Csite2.replace("}","")
+        Csite1 = Csite1.split(",")
+        Csite2 = Csite2.split(",")
+        answer = ""
+        if(len(Csite1) == len(Csite2) == 2):
+            answer = '{"name":"'+'ENT'+'"},{"name":"'+'IPOP'+'"}'
+        elif(len(Csite1) == len(Csite2) == 1):
+            if(Csite1[0] == '"name": "ENT"'):
+                    answer = '{"name":"'+'ENT'+'"}'
+            else:
+                    answer = '{"name":"'+'IPOP'+'"}'
+        else:
+            if(len(Csite1) > len(Csite2)):
+                if(Csite2[0] == '"name": "ENT"'):
+                    answer = '{"name":"'+'ENT'+'"}'
+                else:
+                    answer = '{"name":"'+'IPOP'+'"}'
+            if(len(Csite1) < len(Csite2)):
+                if(Csite1[0] == '"name": "ENT"'):
+                    answer = '{"name":"'+'ENT'+'"}'
+                else:
+                    answer = '{"name":"'+'IPOP'+'"}'
+        #print answer
+        return answer
+    def merge3Connection(self,site1,site2,site3,typeconnection):
+        Csite1 = str(site1.getConnectionType()).replace("'",'"')
+        Csite1 = Csite1.replace("[","")
+        Csite1 = Csite1.replace("]","")
+        Csite1 = Csite1.replace("{","")
+        Csite1 = Csite1.replace("}","")
+        Csite2 = str(site2.getConnectionType()).replace("'",'"')
+        Csite2 = Csite2.replace("[","")
+        Csite2 = Csite2.replace("]","")
+        Csite2 = Csite2.replace("{","")
+        Csite2 = Csite2.replace("}","")
+        Csite3 = str(site3.getConnectionType()).replace("'",'"')
+        Csite3 = Csite3.replace("[","")
+        Csite3 = Csite3.replace("]","")
+        Csite3 = Csite3.replace("{","")
+        Csite3 = Csite3.replace("}","")
+        Csite1 = Csite1.split(",")
+        Csite2 = Csite2.split(",")
+        Csite3 = Csite3.split(",")
+        answer = ""
+        
+        if(len(Csite1) == len(Csite2) == len(Csite3) == 2):
+            answer = '{"name":"'+'ENT'+'"},{"name":"'+'IPOP'+'"}'
+        elif(len(Csite1) == len(Csite2) == len(Csite3) == 1):
+            if(Csite1[0] == '"name": "ENT"'):
+                    answer = '{"name":"'+'ENT'+'"}'
+            else:
+                    answer = '{"name":"'+'IPOP'+'"}'
+        else:
+            if(Csite1) > (Csite2) or Csite1 > Csite3:
+                if(Csite1[0] == '"name": "ENT"'):
+                    answer = '{"name":"'+'ENT'+'"}'
+                else:
+                    answer = '{"name":"'+'IPOP'+'"}'
+                return answer
+            if Csite2 >Csite1 or Csite2 > Csite1:
+                if(Csite2[0] == '"name": "ENT"'):
+                    answer = '{"name":"'+'ENT'+'"}'
+                else:
+                    answer = '{"name":"'+'IPOP'+'"}'
+                return answer
+            if Csite3 >Csite1 or Csite3 > Csite2:
+                if(Csite2[0] == '"name": "ENT"'):
+                    answer = '{"name":"'+'ENT'+'"}'
+                else:
+                    answer = '{"name":"'+'IPOP'+'"}'
+                return answer
+        #print answer
+        return answer   
     def formatSite(self,s):
         jsonStr = '{"id" : "'+str(s.getSiteId())+'",'
         jsonStr += '"name" : "'+str(s.getName())+'",'
