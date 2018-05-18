@@ -101,6 +101,11 @@ export default class DashboardContainer extends Component {
                     alert('Task 4 search for multi sites with criterias.\n30 CPUs\n68 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7\n')
                     console.log('start task 4 '+(new Date()).toLocaleTimeString())
                 }, 1);
+                this.setState({
+                    forTest:{
+                        case:5
+                    }
+                })
             }
         }
     }

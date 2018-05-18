@@ -659,7 +659,7 @@ export default class ReservationContainer extends Component {
                 alert('back to search menu')
             }, 1);
             
-            if(this.dashboardContainer.state.forTest.case==4){
+            if(this.dashboardContainer.state.forTest.case==5){
                 setTimeout(function(){
                     alert('Final, I want you press f12 and capture console and send that tome. \nThank you for testing')
                 },1)
