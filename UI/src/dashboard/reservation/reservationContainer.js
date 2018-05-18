@@ -594,7 +594,7 @@ export default class ReservationContainer extends Component {
             }
         }
 
-        console.log(sites_id)
+        console.log(params.params.sites_id)
 
         axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
             let {data,status} = response
