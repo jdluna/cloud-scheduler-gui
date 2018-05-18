@@ -594,6 +594,8 @@ export default class ReservationContainer extends Component {
             }
         }
 
+        console.log(resources)
+
         axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result){
