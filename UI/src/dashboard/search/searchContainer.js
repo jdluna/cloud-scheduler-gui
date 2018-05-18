@@ -422,7 +422,6 @@ export default class SearchContainer extends Component {
         let name = event.target.name
         let value = event.target.value
         let REGEX = /^\d+$/
-        console.log('hello '+value)
         if (value.match(REGEX)) {
             this.setState({
                 reservationLength: {
@@ -500,7 +499,7 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
-        console.log(params)
+        // console.log(params)
         this.setState({
             resultTable: <Loading/>
         })
@@ -508,7 +507,7 @@ export default class SearchContainer extends Component {
         
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
-            console.log(response)
+            // console.log(response)
             if(status==200&&data.result_type){
                 if(data.result_type=='result'){
                     this.setState({
@@ -517,6 +516,8 @@ export default class SearchContainer extends Component {
                     },()=>{
                         this.setState({
                             resultTable: <FoundTable2 searchContainer={this} appContainer={this.appContainer}/>
+                    },()=>{
+                        // alert('for case 2\n 2 CPUs\n4 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7')
                     })
                 })
                 }else{

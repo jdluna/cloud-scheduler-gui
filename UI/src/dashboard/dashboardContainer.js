@@ -14,7 +14,15 @@ import axios from 'axios'
 import { GET_ALL_IMAGES_ENDPOINT, CHECK_CONNECTION_TYPE_ENDPOINT } from '../config/endpoints'
 
 export default class DashboardContainer extends Component {
+    
     constructor(props) {
+
+        //for test
+        setTimeout(function() { 
+            console.log('start '+(new Date()).toLocaleTimeString())
+            alert('Hi tester. Thank you for usability testing with my website.\n I want you login with\n username : user1 \n password : 1234')
+        }, 1);
+
         super(props)
         this.state = {
             map: {
@@ -48,7 +56,10 @@ export default class DashboardContainer extends Component {
             images: [],
             isSameConnectionType: false,
             dialogAfterLogin: null,
-            dateForCard: null
+            dateForCard: null,
+            forTest:{
+                case:1
+            }
         }
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -75,6 +86,22 @@ export default class DashboardContainer extends Component {
             case 'Settings': this.onCloseMoreInfo(); this.checkLogin(menu); break
             case 'Help': this.onCloseMoreInfo(); this.setState({ modal: <HelpContainer dashBoardContainer={this} />, modalName: 'Helps' }); break
             case 'ReservationSites': this.checkConnectionType(); break
+        }
+        //for test
+        if(menu=='Search') {
+            if(this.state.forTest.case==1){
+                setTimeout(function() { 
+                    console.log('find search btn '+(new Date()).toLocaleTimeString())
+                    alert('Task 1  search for sites with criterias.\n 4 CPUs\n8 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7')
+                    console.log('after click search and before task 1 '+(new Date()).toLocaleTimeString())
+                }, 1);
+            }
+            if(this.state.forTest.case==4){
+                setTimeout(function() { 
+                    alert('Task 4 search for multi sites with criterias.\n30 CPUs\n38 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7\n')
+                    console.log('start task 4 '+(new Date()).toLocaleTimeString())
+                }, 1);
+            }
         }
     }
 
@@ -182,6 +209,7 @@ export default class DashboardContainer extends Component {
                     notfound: { display: 'none' }
                 }
             })
+            
         } else {
             let { card } = this.state.map
             let index = chooseSite.indexOf(parseInt(id))

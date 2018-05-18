@@ -59,6 +59,59 @@ export default class FoundTable2 extends Component {
             })
         }
         this.onSort = this.onSort.bind(this)
+        // this.searchContainer.dashboardContainer.setState({
+        //     forTest:{
+        //         case:2
+        //     }
+        // })
+    }
+
+    componentDidMount(){
+
+        //for test
+        let q1 = ''
+        let q2 = ''
+        if(this.props.searchContainer.dashboardContainer.state.forTest.case==1){
+            setTimeout(function() { 
+                console.log('end task 1 '+(new Date()).toLocaleTimeString())
+                q1 = prompt("How many sites are matched with all criterias?", "");
+            }, 1);
+            this.props.searchContainer.dashboardContainer.setState({
+                forTest:{
+                    case:2
+                }
+            })
+            setTimeout(function() { 
+                alert('Task 2 edit search for sites with criterias.\n 2 CPUs\n4 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7')
+                console.log('start task 2 '+(new Date()).toLocaleTimeString())
+            }, 1);
+        }else if(this.props.searchContainer.dashboardContainer.state.forTest.case==2){
+            setTimeout(function() { 
+                console.log('end task 2 '+(new Date()).toLocaleTimeString())
+                q1 = prompt("How many CPUs and how much memory are available on the first site from search results?", "");
+            }, 1);
+            this.props.searchContainer.dashboardContainer.setState({
+                forTest:{
+                    case:3
+                }
+            })
+            setTimeout(function() { 
+                alert('Task 3 create the reservation from task 2.\nSelect the most available memory from task 2nd result and reserve it.')
+                console.log('start task 3 '+(new Date()).toLocaleTimeString())
+            }, 1);
+            this.props.searchContainer.dashboardContainer.setState({
+                forTest:{
+                    case:4
+                }
+            })
+        }else if(this.props.searchContainer.dashboardContainer.state.forTest.case==4){
+            setTimeout(function() { 
+                console.log('end task 4 '+(new Date()).toLocaleTimeString())
+                alert('Task 5 create the reservation from task 4.\nSelect the most available memory from task 4th result and reserve it.')
+                
+                console.log('start task 5 '+(new Date()).toLocaleTimeString())
+            }, 1);
+        }
     }
     
     ifRender(condition,view){

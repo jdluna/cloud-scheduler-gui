@@ -649,6 +649,15 @@ export default class ReservationContainer extends Component {
             case 'error' : dialog = <ErrorDialog msg='Reservation Fail.' onCloseDialog={()=>this.onCloseDialog()}/>;break;
             case 'error-type' : dialog = <ErrorDialog msg='All selected sites do not have any same connection type.' onCloseDialog={()=>this.onCloseDialog()}/>;break;
         }
+
+        //for test
+        if(this.state.dialog=='success'||this.state.dialog=='error'){
+            setTimeout(function() { 
+                console.log('end task 3 or task 5 '+(new Date()).toLocaleTimeString())
+                alert('Back to the search menu')
+            }, 1);
+        }
+
         return (
             <section className='modal'>
                 {dialog}
