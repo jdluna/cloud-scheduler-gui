@@ -18,8 +18,9 @@ export default class DashboardContainer extends Component {
     constructor(props) {
         //for test
         setTimeout(function() { 
-            console.log('start '+(new Date()).toLocaleTimeString())
             alert('Hi tester. Thank you for usability testing with my website.\n I want you login with\n username : user1 \n password : 1234')
+        
+            console.log('start '+(new Date()).toLocaleTimeString())
         }, 1);
 
         super(props)
