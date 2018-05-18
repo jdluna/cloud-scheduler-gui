@@ -24,16 +24,16 @@ form = cgi.FieldStorage()
 ###variable from front-end###
 
 #############################
-RESOURCES = "2,43"
-CONNECTION_TYPE = "None"
-IMAGE_TYPE = "rock"
-BEGIN = "2018-04-16 03:00:00"
-END = "2018-04-16 04:00:00"
-ALL_PERIOD = "True"
-DAYS = 0
-HOURS = 2
-numsite = "1"
-typecheck = "SINGLE"
+RESOURCES = form.getvalue('resources')
+CONNECTION_TYPE = form.getvalue('connection_type')
+IMAGE_TYPE = form.getvalue('image_type')
+BEGIN = form.getvalue('begin')
+END = form.getvalue('end')
+ALL_PERIOD = form.getvalue('all_period')
+DAYS = form.getvalue('days')
+HOURS = form.getvalue('hours')
+numsite = form.getvalue('numOfSite')
+typecheck = form.getvalue('type')
 ###############################
 if typecheck == "SINGLE":
     numsite = "1"
