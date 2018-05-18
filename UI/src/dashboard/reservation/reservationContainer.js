@@ -656,8 +656,10 @@ export default class ReservationContainer extends Component {
         if(this.state.dialog=='success'||this.state.dialog=='error'){
             setTimeout(function() { 
                 console.log('end task 3 or task 5 '+(new Date()).toLocaleTimeString())
+                alert('back to search menu')
             }, 1);
-            if(this.dashboardContainer.state.forTest.case==5){
+            
+            if(this.dashboardContainer.state.forTest.case==4){
                 setTimeout(function(){
                     alert('Final, I want you press f12 and capture console and send that tome. \nThank you for testing')
                 },1)
