@@ -654,7 +654,7 @@ export default class ReservationContainer extends Component {
 
         //for test
         if(this.state.dialog=='success'||this.state.dialog=='error'){
-            if(this.dashboardContainer.state.forTest.case==3)
+            if(this.dashboardContainer.state.forTest.case==4)
             {
                 setTimeout(function() { 
                     console.log('end task '+(new Date()).toLocaleTimeString())
