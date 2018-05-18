@@ -499,7 +499,7 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
-        // console.log(params)
+        console.log(params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type)
         this.setState({
             resultTable: <Loading/>
         })
