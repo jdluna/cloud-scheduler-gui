@@ -74,7 +74,6 @@ export default class FoundTable2 extends Component {
         if(this.props.searchContainer.dashboardContainer.state.forTest.case==1){
             setTimeout(function() { 
                 console.log('end task 1 '+(new Date()).toLocaleTimeString())
-                q1 = prompt("How many sites are matched with all criterias?", "");
             }, 1);
             this.props.searchContainer.dashboardContainer.setState({
                 forTest:{
@@ -88,7 +87,6 @@ export default class FoundTable2 extends Component {
         }else if(this.props.searchContainer.dashboardContainer.state.forTest.case==2){
             setTimeout(function() { 
                 console.log('end task 2 '+(new Date()).toLocaleTimeString())
-                q1 = prompt("How many CPUs and how much memory are available on the first site from search results?", "");
             }, 1);
             this.props.searchContainer.dashboardContainer.setState({
                 forTest:{
