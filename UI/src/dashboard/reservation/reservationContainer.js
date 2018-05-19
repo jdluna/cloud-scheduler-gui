@@ -664,7 +664,7 @@ export default class ReservationContainer extends Component {
             
             if(this.dashboardContainer.state.forTest.case==5){
                 setTimeout(function(){
-                    alert('Final, I want you press f12 and capture console and send that to me. \nThank you for testing')
+                    alert('Final, I want you press f12 and capture console and send that to me(visaruth.p@gmail.com). \nThank you for testing')
                 },1)
             }
         }

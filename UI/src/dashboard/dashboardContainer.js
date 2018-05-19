@@ -18,7 +18,7 @@ export default class DashboardContainer extends Component {
     constructor(props) {
         //for test
         setTimeout(function() { 
-            alert('Hi tester. Thank you for usability testing with my website.\n I want you login with\n username : user1 \n password : 1234')
+            alert('Hi tester. Thank you for usability testing with my website.\nYou must use computer with keyboard and mouse.\nI want you login with\nusername : user1 \npassword : 1234')
         
             console.log('start '+(new Date()).toLocaleTimeString())
         }, 1);
@@ -92,13 +92,13 @@ export default class DashboardContainer extends Component {
             if(this.state.forTest.case==1){
                 setTimeout(function() { 
                     console.log('find search btn '+(new Date()).toLocaleTimeString())
-                    alert('Task 1  search for sites with criterias.\n 4 CPUs\n8 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7')
+                    alert('Task 1  search for single site with criterias.\nsingle-site mode\n4 CPUs\n8 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7')
                     console.log('after click search and before task 1 '+(new Date()).toLocaleTimeString())
                 }, 1);
             }
             if(this.state.forTest.case==4){
                 setTimeout(function() { 
-                    alert('Task 4 search for multi sites with criterias.\n30 CPUs\n68 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7\n')
+                    alert('Task 4 search for multi sites with criterias.\nmulti-site mode\n30 CPUs\n68 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7\n')
                     console.log('start task 4 '+(new Date()).toLocaleTimeString())
                 }, 1);
                 this.setState({
