@@ -96,6 +96,7 @@ export default class ReservationContainer extends Component {
         this.onClose = this.onClose.bind(this)
         this.onEnterInputStep2 = this.onEnterInputStep2.bind(this)
         this.onEnterResource = this.onEnterResource.bind(this)
+        this.queryCheckReservation = this.queryCheckReservation.bind(this)
         this.checkStartTime()
     }
 
@@ -594,7 +595,17 @@ export default class ReservationContainer extends Component {
             }
         }
 
-        console.log(params.params.sites_id)
+        if(this.dashboardContainer.state.case==4){
+            this.dashboardContainer.setState({
+                out3:params.params.sites_id
+            })
+        }
+        if(this.dashboardContainer.state.case==5){
+            this.dashboardContainer.setState({
+                out5:params.params.sites_id
+            })
+        }
+        
 
         axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
             let {data,status} = response
@@ -654,18 +665,62 @@ export default class ReservationContainer extends Component {
 
         //for test
         if(this.state.dialog=='success'||this.state.dialog=='error'){
-            if(this.dashboardContainer.state.forTest.case==4)
+            if(this.dashboardContainer.state.case==4)
             {
                 setTimeout(function() { 
-                    console.log('end task '+(new Date()).toLocaleTimeString())
+                    this.dashboardContainer.setState({
+                            message8:'end task 3 '+(new Date()).toLocaleTimeString()
+                    })
+                }.bind(this), 1);
+                setTimeout(function() { 
                     alert('back to search menu')
-                }, 1);
+                }.bind(this), 1);
             }
             
-            if(this.dashboardContainer.state.forTest.case==5){
+            if(this.dashboardContainer.state.case==5){
                 setTimeout(function(){
-                    alert('Final, I want you press f12 and capture console and send that to me(visaruth.p@gmail.com). \nThank you for testing')
-                },1)
+                    this.dashboardContainer.setState({
+                            message12:'end task 5'+(new Date()).toLocaleTimeString()
+                    })
+                }.bind(this),1)
+                setTimeout(function(){
+                    alert('Final, I want you capture console and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
+                    +this.dashboardContainer.state.message1+'\n'
+                    +this.dashboardContainer.state.message2+'\n'
+                    +this.dashboardContainer.state.message3+'\n'
+                    +this.dashboardContainer.state.message4+'\n'
+                    +this.dashboardContainer.state.out1+'\n'
+                    +this.dashboardContainer.state.message5+'\n'
+                    +this.dashboardContainer.state.message6+'\n'
+                    +this.dashboardContainer.state.out2+'\n'
+                    +this.dashboardContainer.state.message7+'\n'
+                    +this.dashboardContainer.state.message8+'\n'
+                    +this.dashboardContainer.state.out3+'\n'
+                    +this.dashboardContainer.state.message9+'\n'
+                    +this.dashboardContainer.state.message10+'\n'
+                    +this.dashboardContainer.state.out4+'\n'
+                    +this.dashboardContainer.state.message11+'\n'
+                    +this.dashboardContainer.state.message12+'\n'
+                    +this.dashboardContainer.state.out5+'\n')   
+                    console.log('Final, I want you capture text in this alert and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
+                    +this.dashboardContainer.state.message1+'\n'
+                    +this.dashboardContainer.state.message2+'\n'
+                    +this.dashboardContainer.state.message3+'\n'
+                    +this.dashboardContainer.state.message4+'\n'
+                    +this.dashboardContainer.state.out1+'\n'
+                    +this.dashboardContainer.state.message5+'\n'
+                    +this.dashboardContainer.state.message6+'\n'
+                    +this.dashboardContainer.state.out2+'\n'
+                    +this.dashboardContainer.state.message7+'\n'
+                    +this.dashboardContainer.state.message8+'\n'
+                    +this.dashboardContainer.state.out3+'\n'
+                    +this.dashboardContainer.state.message9+'\n'
+                    +this.dashboardContainer.state.message10+'\n'
+                    +this.dashboardContainer.state.out4+'\n'
+                    +this.dashboardContainer.state.message11+'\n'
+                    +this.dashboardContainer.state.message12+'\n'
+                    +this.dashboardContainer.state.out5+'\n')                 
+                }.bind(this),1)
             }
         }
 
