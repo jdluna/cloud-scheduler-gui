@@ -591,7 +591,8 @@ export default class ReservationContainer extends Component {
                 end: endDateUTC,
                 sites_id: sitesId,
                 resources: resources,
-                img_type: this.state.imageType
+                img_type: this.state.imageType,
+                type:this.dashboardContainer.state.reserveMode
             }
         }
 
@@ -605,6 +606,8 @@ export default class ReservationContainer extends Component {
                 out5:params.params.sites_id
             })
         }
+
+        console.log(params)
         
 
         axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
@@ -664,65 +667,65 @@ export default class ReservationContainer extends Component {
         }
 
         //for test
-        if(this.state.dialog=='success'||this.state.dialog=='error'){
-            if(this.dashboardContainer.state.case==4)
-            {
-                setTimeout(function() { 
-                    this.dashboardContainer.setState({
-                            message8:'end task 3 '+(new Date()).toLocaleTimeString()
-                    })
-                }.bind(this), 1);
-                setTimeout(function() { 
-                    alert('back to search menu')
-                }.bind(this), 1);
-            }
+        // if(this.state.dialog=='success'||this.state.dialog=='error'){
+        //     if(this.dashboardContainer.state.case==4)
+        //     {
+        //         setTimeout(function() { 
+        //             this.dashboardContainer.setState({
+        //                     message8:'end task 3 '+(new Date()).toLocaleTimeString()
+        //             })
+        //         }.bind(this), 1);
+        //         setTimeout(function() { 
+        //             alert('back to search menu')
+        //         }.bind(this), 1);
+        //     }
             
-            if(this.dashboardContainer.state.case==5){
-                setTimeout(function(){
-                    this.dashboardContainer.setState({
-                            message12:'end task 5'+(new Date()).toLocaleTimeString()
-                    })
-                }.bind(this),1)
-                setTimeout(function(){
-                    alert('Final, I want you capture console and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
-                    +this.dashboardContainer.state.message1+'\n'
-                    +this.dashboardContainer.state.message2+'\n'
-                    +this.dashboardContainer.state.message3+'\n'
-                    +this.dashboardContainer.state.message4+'\n'
-                    +this.dashboardContainer.state.out1+'\n'
-                    +this.dashboardContainer.state.message5+'\n'
-                    +this.dashboardContainer.state.message6+'\n'
-                    +this.dashboardContainer.state.out2+'\n'
-                    +this.dashboardContainer.state.message7+'\n'
-                    +this.dashboardContainer.state.message8+'\n'
-                    +this.dashboardContainer.state.out3+'\n'
-                    +this.dashboardContainer.state.message9+'\n'
-                    +this.dashboardContainer.state.message10+'\n'
-                    +this.dashboardContainer.state.out4+'\n'
-                    +this.dashboardContainer.state.message11+'\n'
-                    +this.dashboardContainer.state.message12+'\n'
-                    +this.dashboardContainer.state.out5+'\n')   
-                    console.log('Final, I want you capture text in this alert and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
-                    +this.dashboardContainer.state.message1+'\n'
-                    +this.dashboardContainer.state.message2+'\n'
-                    +this.dashboardContainer.state.message3+'\n'
-                    +this.dashboardContainer.state.message4+'\n'
-                    +this.dashboardContainer.state.out1+'\n'
-                    +this.dashboardContainer.state.message5+'\n'
-                    +this.dashboardContainer.state.message6+'\n'
-                    +this.dashboardContainer.state.out2+'\n'
-                    +this.dashboardContainer.state.message7+'\n'
-                    +this.dashboardContainer.state.message8+'\n'
-                    +this.dashboardContainer.state.out3+'\n'
-                    +this.dashboardContainer.state.message9+'\n'
-                    +this.dashboardContainer.state.message10+'\n'
-                    +this.dashboardContainer.state.out4+'\n'
-                    +this.dashboardContainer.state.message11+'\n'
-                    +this.dashboardContainer.state.message12+'\n'
-                    +this.dashboardContainer.state.out5+'\n')                 
-                }.bind(this),1)
-            }
-        }
+        //     if(this.dashboardContainer.state.case==5){
+        //         setTimeout(function(){
+        //             this.dashboardContainer.setState({
+        //                     message12:'end task 5'+(new Date()).toLocaleTimeString()
+        //             })
+        //         }.bind(this),1)
+        //         setTimeout(function(){
+        //             alert('Final, I want you capture console and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
+        //             +this.dashboardContainer.state.message1+'\n'
+        //             +this.dashboardContainer.state.message2+'\n'
+        //             +this.dashboardContainer.state.message3+'\n'
+        //             +this.dashboardContainer.state.message4+'\n'
+        //             +this.dashboardContainer.state.out1+'\n'
+        //             +this.dashboardContainer.state.message5+'\n'
+        //             +this.dashboardContainer.state.message6+'\n'
+        //             +this.dashboardContainer.state.out2+'\n'
+        //             +this.dashboardContainer.state.message7+'\n'
+        //             +this.dashboardContainer.state.message8+'\n'
+        //             +this.dashboardContainer.state.out3+'\n'
+        //             +this.dashboardContainer.state.message9+'\n'
+        //             +this.dashboardContainer.state.message10+'\n'
+        //             +this.dashboardContainer.state.out4+'\n'
+        //             +this.dashboardContainer.state.message11+'\n'
+        //             +this.dashboardContainer.state.message12+'\n'
+        //             +this.dashboardContainer.state.out5+'\n')   
+        //             console.log('Final, I want you capture text in this alert and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
+        //             +this.dashboardContainer.state.message1+'\n'
+        //             +this.dashboardContainer.state.message2+'\n'
+        //             +this.dashboardContainer.state.message3+'\n'
+        //             +this.dashboardContainer.state.message4+'\n'
+        //             +this.dashboardContainer.state.out1+'\n'
+        //             +this.dashboardContainer.state.message5+'\n'
+        //             +this.dashboardContainer.state.message6+'\n'
+        //             +this.dashboardContainer.state.out2+'\n'
+        //             +this.dashboardContainer.state.message7+'\n'
+        //             +this.dashboardContainer.state.message8+'\n'
+        //             +this.dashboardContainer.state.out3+'\n'
+        //             +this.dashboardContainer.state.message9+'\n'
+        //             +this.dashboardContainer.state.message10+'\n'
+        //             +this.dashboardContainer.state.out4+'\n'
+        //             +this.dashboardContainer.state.message11+'\n'
+        //             +this.dashboardContainer.state.message12+'\n'
+        //             +this.dashboardContainer.state.out5+'\n')                 
+        //         }.bind(this),1)
+        //     }
+        // }
 
         return (
             <section className='modal'>
