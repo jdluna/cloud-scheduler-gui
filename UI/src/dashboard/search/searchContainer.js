@@ -504,25 +504,25 @@ export default class SearchContainer extends Component {
             resultTable: <Loading/>
         })
 
-        if(this.dashboardContainer.state.case==1){
-            this.dashboardContainer.setState({
-                out1:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-            })
-        }
-        else if(this.dashboardContainer.state.case==2){
-            this.dashboardContainer.setState({
-                out2:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-            })
-        }else if(this.dashboardContainer.state.case==4){
-            this.dashboardContainer.setState({
-                out4:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-            })
-        }
+        // if(this.dashboardContainer.state.case==1){
+        //     this.dashboardContainer.setState({
+        //         out1:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
+        //     })
+        // }
+        // else if(this.dashboardContainer.state.case==2){
+        //     this.dashboardContainer.setState({
+        //         out2:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
+        //     })
+        // }else if(this.dashboardContainer.state.case==4){
+        //     this.dashboardContainer.setState({
+        //         out4:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
+        //     })
+        // }
         
         
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
-            // console.log(response)
+            console.log(response)
             if(status==200&&data.result_type){
                 if(data.result_type=='result'){
                     this.setState({
