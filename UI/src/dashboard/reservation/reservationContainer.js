@@ -520,6 +520,7 @@ export default class ReservationContainer extends Component {
   
         axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
             let {data,status} = response
+            console.log(data)
             if(status==200&&data.result){
                 if(data.result=='success'){
                     this.changeDialog('success')
