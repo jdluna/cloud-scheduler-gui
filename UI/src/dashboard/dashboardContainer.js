@@ -55,13 +55,13 @@ export default class DashboardContainer extends Component {
         }
 
 
-        //for test
-        // setTimeout(function() { 
-        //     alert('Thank you for your help evaluating this website.Please use a desktop computer with keyboard and mouse when performing the test.\nFirst, please login the system with \nusername: user1\npassword: 1234')
-        //     this.setState({
-        //             message1:'start '+(new Date()).toLocaleTimeString()
-        //     })
-        // }.bind(this), 1);
+        // for test
+        setTimeout(function() { 
+            alert('Thank you for your help evaluating this website.Please use a desktop computer with keyboard and mouse when performing the test.\nFirst, please login the system with \nusername: user1\npassword: 1234')
+            this.setState({
+                    message1:'start '+(new Date()).toLocaleTimeString()
+            })
+        }.bind(this), 1);
 
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -92,33 +92,33 @@ export default class DashboardContainer extends Component {
 
 
         //for test
-        // if(menu=='Search') {
-        //     if(this.state.case==1){
-        //         setTimeout(function() { 
-        //             this.setState({
-        //                     message2:'find search btn '+(new Date()).toLocaleTimeString()
-        //             })
-        //         }.bind(this), 1);
-        //         setTimeout(function() { 
-        //             alert('Task 1\n-------\nSearch for a single site with the following criteria:\n- Single-site mode\n- 4 CPUs 8GB Memory\n- 2 day between May 19th to 24th\n- Network type ENT\n- Image type centos7')
-        //             this.setState({
-        //                     message3:'after click search and before task 1 '+(new Date()).toLocaleTimeString()
-        //             })
-        //         }.bind(this), 1);
-        //     }
-        //     if(this.state.case==4){
-        //         setTimeout(function() { 
-        //             alert('Task 4\n-------\nSearch for a single site with the following criteria:\n- Multi-site mode\n- 30 CPUs 68GB Memory\n- 2 day between May 19th to 24th\n- Network type ENT\n- Image type centos7')
+        if(menu=='Search') {
+            if(this.state.case==1){
+                setTimeout(function() { 
+                    this.setState({
+                            message2:'find search btn '+(new Date()).toLocaleTimeString()
+                    })
+                }.bind(this), 1);
+                setTimeout(function() { 
+                    alert('Task 1\n-------\nSearch for a single site with the following criteria:\n- Single-site mode\n- 4 CPUs 8GB Memory\n- June 1st to 10th\n- Network type ENT\n- Image type centos7')
+                    this.setState({
+                            message3:'after click search and before task 1 '+(new Date()).toLocaleTimeString()
+                    })
+                }.bind(this), 1);
+            }
+            if(this.state.case==4){
+                setTimeout(function() { 
+                    alert('Task 4\n-------\nSearch for a single site with the following criteria:\n- Multi-site mode\n- 30 CPUs 68GB Memory\n- 2 day between May 19th to 24th\n- Network type ENT\n- Image type centos7')
                     
-        //         }.bind(this), 1);
-        //             this.setState({
-        //                     message9:'start task 4 '+(new Date()).toLocaleTimeString(),
-        //             })
-        //         this.setState({
+                }.bind(this), 1);
+                    this.setState({
+                            message9:'start task 4 '+(new Date()).toLocaleTimeString(),
+                    })
+                this.setState({
                         
-        //         })
-        //     }
-        // }
+                })
+            }
+        }
     }
 
     changeMode(mode){
