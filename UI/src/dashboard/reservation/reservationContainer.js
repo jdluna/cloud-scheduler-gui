@@ -677,7 +677,7 @@ export default class ReservationContainer extends Component {
                     })
                 }.bind(this), 1);
                 setTimeout(function() { 
-                    alert('back to search menu')
+                    alert('Please back to search menu and use form for see your next task')
                 }.bind(this), 1);
             }
             
