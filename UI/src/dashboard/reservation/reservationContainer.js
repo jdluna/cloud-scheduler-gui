@@ -688,7 +688,7 @@ export default class ReservationContainer extends Component {
                     })
                 }.bind(this),1)
                 setTimeout(function(){
-                    alert('Final, I want you capture console and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
+                    alert('Final, I want you capture this and send that to me(visaruth.p@gmail.com)  or upload file to form. \nPlease capture all of this alert.\nThank you for testing\n'
                     +this.dashboardContainer.state.message1+'\n'
                     +this.dashboardContainer.state.message2+'\n'
                     +this.dashboardContainer.state.message3+'\n'
