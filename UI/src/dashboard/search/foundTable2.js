@@ -75,7 +75,7 @@ export default class FoundTable2 extends Component {
                 alert('Please use form for answer questions but not close this website.')
             },1);
             setTimeout(function() { 
-                alert('Task 2\n------\nEdit the search form to search for sites with the following criteria:\n- 2 CPUs 4GB Memory\n- 2 day between June 1st to 10th\n')
+                alert('Task 2\n------\nClick ok to start')
                 // console.log('start task 2 '+(new Date()).toLocaleTimeString())
                 this.props.searchContainer.dashboardContainer.setState({
                         message5:'start task 2 '+(new Date()).toLocaleTimeString()
@@ -94,7 +94,7 @@ export default class FoundTable2 extends Component {
                 alert('Please use form for answer questions but not close this website.')
             },1);
             setTimeout(function() { 
-                alert('Task 3\n------\nCreate the reservation by selecting one of the search results from Task 2 with the most available memory ')
+                alert('Task 3\n------\nClick ok to start')
             }.bind(this), 1);
             setTimeout(function() { 
                 this.props.searchContainer.dashboardContainer.setState({
@@ -114,7 +114,7 @@ export default class FoundTable2 extends Component {
                 alert('Please use form for answer questions but not close this website.')
             },1);
             setTimeout(function() { 
-                alert('Task 5\n------\nCreate the reservation by selecting one of the search results from Task 4 with the most available memory.')
+                alert('Task 5\n------\nClick ok to start')
                 
             }.bind(this), 1);
             setTimeout(function() { 

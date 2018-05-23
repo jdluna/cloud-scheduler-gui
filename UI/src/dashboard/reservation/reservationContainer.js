@@ -684,7 +684,7 @@ export default class ReservationContainer extends Component {
             if(this.dashboardContainer.state.case==5){
                 setTimeout(function(){
                     this.dashboardContainer.setState({
-                            message12:'end task 5'+(new Date()).toLocaleTimeString()
+                            message12:'end task 5 '+(new Date()).toLocaleTimeString()
                     })
                 }.bind(this),1)
                 setTimeout(function(){

@@ -504,20 +504,21 @@ export default class SearchContainer extends Component {
             resultTable: <Loading/>
         })
 
-        // if(this.dashboardContainer.state.case==1){
-        //     this.dashboardContainer.setState({
-        //         out1:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-        //     })
-        // }
-        // else if(this.dashboardContainer.state.case==2){
-        //     this.dashboardContainer.setState({
-        //         out2:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-        //     })
-        // }else if(this.dashboardContainer.state.case==4){
-        //     this.dashboardContainer.setState({
-        //         out4:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-        //     })
-        // }
+        //for test
+        if(this.dashboardContainer.state.case==1){
+            this.dashboardContainer.setState({
+                out1:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
+            })
+        }
+        else if(this.dashboardContainer.state.case==2){
+            this.dashboardContainer.setState({
+                out2:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
+            })
+        }else if(this.dashboardContainer.state.case==4){
+            this.dashboardContainer.setState({
+                out4:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
+            })
+        }
         
         
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
