@@ -455,7 +455,7 @@ export default class SearchContainer extends Component {
         })
     }
 
-    onSelectItem(name,network,id,resource,clear){
+    onSelectItem(name,network,id,resource,clear,startDate,endDate){
         if(clear)this.dashboardContainer.clearRightBar()
         let markerNode = this.dashboardContainer.state.markerNode
         for(let i=0;i<markerNode.length;i++){
@@ -477,23 +477,23 @@ export default class SearchContainer extends Component {
                         CPU:resource.CPU,
                         Memory:resource.memory,
                         image:this.state.imageType,
-                        endDate:this.state.endDate,
-                        startDate:this.state.startDate,
-                        startTime:this.state.startTime,
-                        endTime:this.state.endTime
+                        endDate:{date:moment(endDate).format('YYYY-MM-DD') ,obj:moment(moment(endDate).format('YYYY-MM-DD'))},
+                        startDate:{date:moment(startDate).format('YYYY-MM-DD') ,obj:moment(moment(startDate).format('YYYY-MM-DD'))},
+                        startTime:moment(startDate).format('HH:mm'),
+                        endTime:moment(endDate).format('HH:mm')
                     })
             }
         }
     }
 
-    onSelectItemMulti(names,network,ids,resources){
+    onSelectItemMulti(names,network,ids,resources,startDate,endDate){
         for(let i =0;i<names.length;i++){
             let clear = false
             if(i==0) clear = true
             // resource = []
             // resource.CPU = resources[i].CPU.use
             // resource.memory = resources[i].memory.use
-            this.onSelectItem(names[i],network,ids[i],{CPU:resources[i].CPU.use,memory:resources[i].memory.use},clear)
+            this.onSelectItem(names[i],network,ids[i],{CPU:resources[i].CPU.use,memory:resources[i].memory.use},clear,startDate,endDate)
         }
         this.dashboardContainer.changeMode('multiple')
     }
@@ -523,7 +523,6 @@ export default class SearchContainer extends Component {
         
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
-            console.log(response)
             if(status==200&&data.result_type){
                 if(data.result_type=='result'){
                     this.setState({

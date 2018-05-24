@@ -207,19 +207,19 @@ export default class FoundTable2 extends Component {
         return sum
     }
 
-    onSelect(name,network,id,key,type,resource){
+    onSelect(name,network,id,key,type,resource,startDate,endDate){
         if(type=='SINGLE'){
             this.setState({
                 hover: 'SINGLE'+key
             })
             resource.CPU = resource[0]
             resource.memory = resource[1]
-            this.props.searchContainer.onSelectItem(name,network,id,resource,true)
+            this.props.searchContainer.onSelectItem(name,network,id,resource,true,startDate,endDate)
         }else{
             this.setState({
                 hover: 'MULTI'+key
             })
-            this.props.searchContainer.onSelectItemMulti(name,network,id,resource)
+            this.props.searchContainer.onSelectItemMulti(name,network,id,resource,startDate,endDate)
         }
         
     }
@@ -255,7 +255,7 @@ export default class FoundTable2 extends Component {
                         let endDate = moment.utc(cardData.time.end).utcOffset(moment.tz(this.props.appContainer.state.authen.timezone).utcOffset()).format('YYYY-MM-DD HH:mm:00');
                         
                         return(
-                            <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,cardData.connection_type,cardData.id,key,'SINGLE',this.props.searchContainer.state.resource)}>
+                            <div className={(this.state.hover=='SINGLE'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.name,cardData.connection_type,cardData.id,key,'SINGLE',this.props.searchContainer.state.resource,startDate,endDate)}>
                                 <span className={Style.siteName}>{cardData.name}<span className={Style.region}>{(cardData.region=='')?'':'('+cardData.region+')'}</span></span>
                                 <br/>
                                 <span className={Style.date}>{startDate} <span>to</span> {endDate}</span>
@@ -311,7 +311,7 @@ export default class FoundTable2 extends Component {
                         let siteLength = cardData.sites.length
 
                         return(
-                            <div className={(this.state.hover=='MULTI'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.names,cardData.connection_type,cardData.ids,key,'MULTI',cardData.sites)}>
+                            <div className={(this.state.hover=='MULTI'+key) ? Style.cardResultActive : Style.cardResult} key={key} onClick={()=>this.onSelect(cardData.names,cardData.connection_type,cardData.ids,key,'MULTI',cardData.sites,startDate,endDate)}>
                                 {cardData.sites.map((data,key)=>{
                                     return(
                                         <span className={Style.siteName} key={key}>{data.name}<span className={Style.region}>{(data.region==undefined)?'':'('+data.region+')'}</span> {this.ifRender(key!=siteLength-1,<span>x</span>)} </span>
