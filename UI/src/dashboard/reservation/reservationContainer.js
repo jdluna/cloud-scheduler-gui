@@ -517,21 +517,22 @@ export default class ReservationContainer extends Component {
                 type: (this.dashboardContainer.state.reserveMode=='single') ? 'single cluster on single site' : 'single cluster spanning multiple sites'
             }
         }
-  
-        axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
-            let {data,status} = response
-            console.log(data)
-            if(status==200&&data.result){
-                if(data.result=='success'){
-                    this.changeDialog('success')
-                    this.dashboardContainer.clearRightBar()
-                }else{
-                    this.changeDialog('error')
-                }
-            }
-        }).catch(error=>{
-            console.log('QUERY CONFIRM RESERVATION ERROR: '+error)
-        })
+        this.changeDialog('success')
+        this.dashboardContainer.clearRightBar()
+        // axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
+        //     let {data,status} = response
+        //     console.log(data)
+        //     if(status==200&&data.result){
+        //         if(data.result=='success'){
+        //             this.changeDialog('success')
+        //             this.dashboardContainer.clearRightBar()
+        //         }else{
+        //             this.changeDialog('error')
+        //         }
+        //     }
+        // }).catch(error=>{
+        //     console.log('QUERY CONFIRM RESERVATION ERROR: '+error)
+        // })
     }
 
     queryCheckReservation(){
@@ -610,38 +611,40 @@ export default class ReservationContainer extends Component {
 
         console.log(params)
         
+        this.setState({card: 'step3'})
+        
 
-        axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
-            let {data,status} = response
-            if(status==200&&data.result){
-                if(data.result=='True'){
-                    this.state.alertNode.innerHTML = ''
-                    this.state.alertNode.style.display = 'none'
-                    this.setState({card: 'step3'})
-                }else if(data.isResourceError=='True'){
-                    this.state.alertNode.innerHTML = 'The resources are not available enough. Please try again.'
-                    this.state.alertNode.style.display = 'block'
-                    if(data.site_error){
-                        data.site_error.map((rs,key)=>{
-                            let id = parseInt(rs.site_id)
-                            this.sites.map((d,k)=>{
-                                if(id==parseInt(d.id)){
-                                    this.state.siteInputDom[k][parseInt(rs.resource_index)].style.border = '1px solid red'
-                                }
-                            })
-                        })
-                    }
-                }else if(data.isImageTypeError == 'True'){
-                    this.state.alertNode.innerHTML = 'This image type is not available on these sites. Please try again.'
-                    this.state.alertNode.style.display = 'block'
-                }else{
-                    this.state.alertNode.innerHTML = 'Network connection failed. Please try again later.'
-                    this.state.alertNode.style.display = 'block'
-                }
-            }
-        }).catch(error=>{
-            console.log('QUERY CHECK RESERVATION ERROR: '+error)
-        })
+        // axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
+        //     let {data,status} = response
+        //     if(status==200&&data.result){
+        //         if(data.result=='True'){
+        //             this.state.alertNode.innerHTML = ''
+        //             this.state.alertNode.style.display = 'none'
+        //             this.setState({card: 'step3'})
+        //         }else if(data.isResourceError=='True'){
+        //             this.state.alertNode.innerHTML = 'The resources are not available enough. Please try again.'
+        //             this.state.alertNode.style.display = 'block'
+        //             if(data.site_error){
+        //                 data.site_error.map((rs,key)=>{
+        //                     let id = parseInt(rs.site_id)
+        //                     this.sites.map((d,k)=>{
+        //                         if(id==parseInt(d.id)){
+        //                             this.state.siteInputDom[k][parseInt(rs.resource_index)].style.border = '1px solid red'
+        //                         }
+        //                     })
+        //                 })
+        //             }
+        //         }else if(data.isImageTypeError == 'True'){
+        //             this.state.alertNode.innerHTML = 'This image type is not available on these sites. Please try again.'
+        //             this.state.alertNode.style.display = 'block'
+        //         }else{
+        //             this.state.alertNode.innerHTML = 'Network connection failed. Please try again later.'
+        //             this.state.alertNode.style.display = 'block'
+        //         }
+        //     }
+        // }).catch(error=>{
+        //     console.log('QUERY CHECK RESERVATION ERROR: '+error)
+        // })
     }
 
     changeDialog(name){
