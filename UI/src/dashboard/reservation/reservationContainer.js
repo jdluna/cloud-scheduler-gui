@@ -685,11 +685,11 @@ export default class ReservationContainer extends Component {
             }
             
             if(this.dashboardContainer.state.case==5){
-                // setTimeout(function(){
-                //     this.dashboardContainer.setState({
-                //             message12:'end task 5 '+(new Date()).toLocaleTimeString()
-                //     })
-                // }.bind(this),1)
+                setTimeout(function(){
+                    this.dashboardContainer.setState({
+                            message12:'end task 5 '+(new Date()).toLocaleTimeString()
+                    })
+                }.bind(this),1)
                 // setTimeout(function(){
                 //     alert('Final, Please capture this alert screen in one or more (up to 5) image files and upload the files to the google form. \nThank you for testing\n'
                 //     +this.dashboardContainer.state.message1+'\n'
