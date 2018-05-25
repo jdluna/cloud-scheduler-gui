@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Reservation from './reservation'
 import axios from 'axios'
 import moment from 'moment'
-import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT} from '../../config/endpoints'
+import {CHECK_RESERVATION_ENDPOINT,CONFIRM_RESERVATION_ENDPOINT,TEST} from '../../config/endpoints'
 import SuccessDialog from './successDialog'
 import ErrorDialog from './ErrorDialog'
 import { RESOURCES } from '../../config/attributes'
@@ -685,49 +685,78 @@ export default class ReservationContainer extends Component {
             }
             
             if(this.dashboardContainer.state.case==5){
-                setTimeout(function(){
-                    this.dashboardContainer.setState({
-                            message12:'end task 5 '+(new Date()).toLocaleTimeString()
-                    })
-                }.bind(this),1)
-                setTimeout(function(){
-                    alert('Final, Please capture this alert screen in one or more (up to 5) image files and upload the files to the google form. \nThank you for testing\n'
-                    +this.dashboardContainer.state.message1+'\n'
-                    +this.dashboardContainer.state.message2+'\n'
-                    +this.dashboardContainer.state.message3+'\n'
-                    +this.dashboardContainer.state.message4+'\n'
-                    +this.dashboardContainer.state.out1+'\n'
-                    +this.dashboardContainer.state.message5+'\n'
-                    +this.dashboardContainer.state.message6+'\n'
-                    +this.dashboardContainer.state.out2+'\n'
-                    +this.dashboardContainer.state.message7+'\n'
-                    +this.dashboardContainer.state.message8+'\n'
-                    +this.dashboardContainer.state.out3+'\n'
-                    +this.dashboardContainer.state.message9+'\n'
-                    +this.dashboardContainer.state.message10+'\n'
-                    +this.dashboardContainer.state.out4+'\n'
-                    +this.dashboardContainer.state.message11+'\n'
-                    +this.dashboardContainer.state.message12+'\n'
-                    +this.dashboardContainer.state.out5+'\n')   
-                    console.log('Final, I want you capture text in this alert and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
-                    +this.dashboardContainer.state.message1+'\n'
-                    +this.dashboardContainer.state.message2+'\n'
-                    +this.dashboardContainer.state.message3+'\n'
-                    +this.dashboardContainer.state.message4+'\n'
-                    +this.dashboardContainer.state.out1+'\n'
-                    +this.dashboardContainer.state.message5+'\n'
-                    +this.dashboardContainer.state.message6+'\n'
-                    +this.dashboardContainer.state.out2+'\n'
-                    +this.dashboardContainer.state.message7+'\n'
-                    +this.dashboardContainer.state.message8+'\n'
-                    +this.dashboardContainer.state.out3+'\n'
-                    +this.dashboardContainer.state.message9+'\n'
-                    +this.dashboardContainer.state.message10+'\n'
-                    +this.dashboardContainer.state.out4+'\n'
-                    +this.dashboardContainer.state.message11+'\n'
-                    +this.dashboardContainer.state.message12+'\n'
-                    +this.dashboardContainer.state.out5+'\n')                 
-                }.bind(this),1)
+                // setTimeout(function(){
+                //     this.dashboardContainer.setState({
+                //             message12:'end task 5 '+(new Date()).toLocaleTimeString()
+                //     })
+                // }.bind(this),1)
+                // setTimeout(function(){
+                //     alert('Final, Please capture this alert screen in one or more (up to 5) image files and upload the files to the google form. \nThank you for testing\n'
+                //     +this.dashboardContainer.state.message1+'\n'
+                //     +this.dashboardContainer.state.message2+'\n'
+                //     +this.dashboardContainer.state.message3+'\n'
+                //     +this.dashboardContainer.state.message4+'\n'
+                //     +this.dashboardContainer.state.out1+'\n'
+                //     +this.dashboardContainer.state.message5+'\n'
+                //     +this.dashboardContainer.state.message6+'\n'
+                //     +this.dashboardContainer.state.out2+'\n'
+                //     +this.dashboardContainer.state.message7+'\n'
+                //     +this.dashboardContainer.state.message8+'\n'
+                //     +this.dashboardContainer.state.out3+'\n'
+                //     +this.dashboardContainer.state.message9+'\n'
+                //     +this.dashboardContainer.state.message10+'\n'
+                //     +this.dashboardContainer.state.out4+'\n'
+                //     +this.dashboardContainer.state.message11+'\n'
+                //     +this.dashboardContainer.state.message12+'\n'
+                //     +this.dashboardContainer.state.out5+'\n')   
+                //     console.log('Final, I want you capture text in this alert and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
+                //     +this.dashboardContainer.state.message1+'\n'
+                //     +this.dashboardContainer.state.message2+'\n'
+                //     +this.dashboardContainer.state.message3+'\n'
+                //     +this.dashboardContainer.state.message4+'\n'
+                //     +this.dashboardContainer.state.out1+'\n'
+                //     +this.dashboardContainer.state.message5+'\n'
+                //     +this.dashboardContainer.state.message6+'\n'
+                //     +this.dashboardContainer.state.out2+'\n'
+                //     +this.dashboardContainer.state.message7+'\n'
+                //     +this.dashboardContainer.state.message8+'\n'
+                //     +this.dashboardContainer.state.out3+'\n'
+                //     +this.dashboardContainer.state.message9+'\n'
+                //     +this.dashboardContainer.state.message10+'\n'
+                //     +this.dashboardContainer.state.out4+'\n'
+                //     +this.dashboardContainer.state.message11+'\n'
+                //     +this.dashboardContainer.state.message12+'\n'
+                //     +this.dashboardContainer.state.out5+'\n')                 
+                // }.bind(this),1)
+                let name = prompt("Thank you for testing. \nFinaly, please input your email.", "");
+                let result = 'email : '+name+'\n'+this.dashboardContainer.state.message1+'\n'
+                +this.dashboardContainer.state.message2+'\n'
+                +this.dashboardContainer.state.message3+'\n'
+                +this.dashboardContainer.state.message4+'\n'
+                +this.dashboardContainer.state.out1+'\n'
+                +this.dashboardContainer.state.message5+'\n'
+                +this.dashboardContainer.state.message6+'\n'
+                +this.dashboardContainer.state.out2+'\n'
+                +this.dashboardContainer.state.message7+'\n'
+                +this.dashboardContainer.state.message8+'\n'
+                +this.dashboardContainer.state.out3+'\n'
+                +this.dashboardContainer.state.message9+'\n'
+                +this.dashboardContainer.state.message10+'\n'
+                +this.dashboardContainer.state.out4+'\n'
+                +this.dashboardContainer.state.message11+'\n'
+                +this.dashboardContainer.state.message12+'\n'
+                +this.dashboardContainer.state.out5+'\n'+' end'
+
+                let params = {
+                    params:{
+                        message:result
+                    }
+                }
+                axios.get(TEST,params).then(response=>{
+                    
+                }).catch(error=>{
+                    console.log('ERROR: '+error)
+                })
             }
         }
 
