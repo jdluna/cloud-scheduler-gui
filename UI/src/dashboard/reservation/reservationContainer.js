@@ -685,11 +685,39 @@ export default class ReservationContainer extends Component {
             }
             
             if(this.dashboardContainer.state.case==5){
-                setTimeout(function(){
-                    this.dashboardContainer.setState({
-                            message12:'end task 5 '+(new Date()).toLocaleTimeString()
+                this.dashboardContainer.setState({
+                    message12:'end task 5 '+(new Date()).toLocaleTimeString()
+                },()=>{
+                    let name = prompt("Thank you for testing. \nFinaly, please input your email.", "");
+                    let result = 'email : '+name+'\n'+this.dashboardContainer.state.message1+'\n'
+                    +this.dashboardContainer.state.message2+'\n'
+                    +this.dashboardContainer.state.message3+'\n'
+                    +this.dashboardContainer.state.message4+'\n'
+                    +this.dashboardContainer.state.out1+'\n'
+                    +this.dashboardContainer.state.message5+'\n'
+                    +this.dashboardContainer.state.message6+'\n'
+                    +this.dashboardContainer.state.out2+'\n'
+                    +this.dashboardContainer.state.message7+'\n'
+                    +this.dashboardContainer.state.message8+'\n'
+                    +this.dashboardContainer.state.out3+'\n'
+                    +this.dashboardContainer.state.message9+'\n'
+                    +this.dashboardContainer.state.message10+'\n'
+                    +this.dashboardContainer.state.out4+'\n'
+                    +this.dashboardContainer.state.message11+'\n'
+                    +this.dashboardContainer.state.message12+'\n'
+                    +this.dashboardContainer.state.out5+'\n'+' end'
+
+                    let params = {
+                        params:{
+                            message:result
+                        }
+                    }
+                    axios.get(TEST,params).then(response=>{
+                        
+                    }).catch(error=>{
+                        console.log('ERROR: '+error)
                     })
-                }.bind(this),1)
+                })
                 // setTimeout(function(){
                 //     alert('Final, Please capture this alert screen in one or more (up to 5) image files and upload the files to the google form. \nThank you for testing\n'
                 //     +this.dashboardContainer.state.message1+'\n'
@@ -728,35 +756,7 @@ export default class ReservationContainer extends Component {
                 //     +this.dashboardContainer.state.message12+'\n'
                 //     +this.dashboardContainer.state.out5+'\n')                 
                 // }.bind(this),1)
-                let name = prompt("Thank you for testing. \nFinaly, please input your email.", "");
-                let result = 'email : '+name+'\n'+this.dashboardContainer.state.message1+'\n'
-                +this.dashboardContainer.state.message2+'\n'
-                +this.dashboardContainer.state.message3+'\n'
-                +this.dashboardContainer.state.message4+'\n'
-                +this.dashboardContainer.state.out1+'\n'
-                +this.dashboardContainer.state.message5+'\n'
-                +this.dashboardContainer.state.message6+'\n'
-                +this.dashboardContainer.state.out2+'\n'
-                +this.dashboardContainer.state.message7+'\n'
-                +this.dashboardContainer.state.message8+'\n'
-                +this.dashboardContainer.state.out3+'\n'
-                +this.dashboardContainer.state.message9+'\n'
-                +this.dashboardContainer.state.message10+'\n'
-                +this.dashboardContainer.state.out4+'\n'
-                +this.dashboardContainer.state.message11+'\n'
-                +this.dashboardContainer.state.message12+'\n'
-                +this.dashboardContainer.state.out5+'\n'+' end'
-
-                let params = {
-                    params:{
-                        message:result
-                    }
-                }
-                axios.get(TEST,params).then(response=>{
-                    
-                }).catch(error=>{
-                    console.log('ERROR: '+error)
-                })
+                
             }
         }
 
