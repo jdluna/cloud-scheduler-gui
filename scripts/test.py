@@ -14,4 +14,11 @@ print "Content-Type: text/html"
 print "Access-Control-Allow-Origin: *"  
 print
 
+file = open("testfile.txt","w") 
+ 
+file.write("Hello World") 
+ 
+file.close() 
+
+
 print "hello"
