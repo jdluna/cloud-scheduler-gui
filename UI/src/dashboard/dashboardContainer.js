@@ -92,30 +92,30 @@ export default class DashboardContainer extends Component {
 
 
         //for test
-        if(menu=='Search') {
-            if(this.state.case==1){
-                setTimeout(function() { 
-                    this.setState({
-                            message2:'find search btn '+(new Date()).toLocaleTimeString()
-                    })
-                }.bind(this), 1);
-                setTimeout(function() { 
-                    alert('Task 1\n-------\nClick ok to start')
-                    this.setState({
-                            message3:'after click search and before task 1 '+(new Date()).toLocaleTimeString()
-                    })
-                }.bind(this), 1);
-            }
-            if(this.state.case==4){
-                setTimeout(function() { 
-                    alert('Task 4\n-------\nClick ok to start7')
-                    this.setState({
-                        message9:'start task 4 '+(new Date()).toLocaleTimeString(),
-                    })
-                }.bind(this), 1);
+        // if(menu=='Search') {
+        //     if(this.state.case==1){
+        //         setTimeout(function() { 
+        //             this.setState({
+        //                     message2:'find search btn '+(new Date()).toLocaleTimeString()
+        //             })
+        //         }.bind(this), 1);
+        //         setTimeout(function() { 
+        //             alert('Task 1\n-------\nClick ok to start')
+        //             this.setState({
+        //                     message3:'after click search and before task 1 '+(new Date()).toLocaleTimeString()
+        //             })
+        //         }.bind(this), 1);
+        //     }
+        //     if(this.state.case==4){
+        //         setTimeout(function() { 
+        //             alert('Task 4\n-------\nClick ok to start7')
+        //             this.setState({
+        //                 message9:'start task 4 '+(new Date()).toLocaleTimeString(),
+        //             })
+        //         }.bind(this), 1);
                     
-            }
-        }
+        //     }
+        // }
     }
 
     changeMode(mode){

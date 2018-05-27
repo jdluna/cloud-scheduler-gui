@@ -517,22 +517,20 @@ export default class ReservationContainer extends Component {
                 type: (this.dashboardContainer.state.reserveMode=='single') ? 'single cluster on single site' : 'single cluster spanning multiple sites'
             }
         }
-        this.changeDialog('success')
-        this.dashboardContainer.clearRightBar()
-        // axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
-        //     let {data,status} = response
-        //     console.log(data)
-        //     if(status==200&&data.result){
-        //         if(data.result=='success'){
-        //             this.changeDialog('success')
-        //             this.dashboardContainer.clearRightBar()
-        //         }else{
-        //             this.changeDialog('error')
-        //         }
-        //     }
-        // }).catch(error=>{
-        //     console.log('QUERY CONFIRM RESERVATION ERROR: '+error)
-        // })
+        axios.get(CONFIRM_RESERVATION_ENDPOINT,params).then(response=>{
+            let {data,status} = response
+            console.log(data)
+            if(status==200&&data.result){
+                if(data.result=='success'){
+                    this.changeDialog('success')
+                    this.dashboardContainer.clearRightBar()
+                }else{
+                    this.changeDialog('error')
+                }
+            }
+        }).catch(error=>{
+            console.log('QUERY CONFIRM RESERVATION ERROR: '+error)
+        })
     }
 
     queryCheckReservation(){
@@ -607,44 +605,39 @@ export default class ReservationContainer extends Component {
             this.dashboardContainer.setState({
                 out5:params.params.sites_id
             })
-        }
+        }        
 
-        console.log(params)
-        
-        this.setState({card: 'step3'})
-        
-
-        // axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
-        //     let {data,status} = response
-        //     if(status==200&&data.result){
-        //         if(data.result=='True'){
-        //             this.state.alertNode.innerHTML = ''
-        //             this.state.alertNode.style.display = 'none'
-        //             this.setState({card: 'step3'})
-        //         }else if(data.isResourceError=='True'){
-        //             this.state.alertNode.innerHTML = 'The resources are not available enough. Please try again.'
-        //             this.state.alertNode.style.display = 'block'
-        //             if(data.site_error){
-        //                 data.site_error.map((rs,key)=>{
-        //                     let id = parseInt(rs.site_id)
-        //                     this.sites.map((d,k)=>{
-        //                         if(id==parseInt(d.id)){
-        //                             this.state.siteInputDom[k][parseInt(rs.resource_index)].style.border = '1px solid red'
-        //                         }
-        //                     })
-        //                 })
-        //             }
-        //         }else if(data.isImageTypeError == 'True'){
-        //             this.state.alertNode.innerHTML = 'This image type is not available on these sites. Please try again.'
-        //             this.state.alertNode.style.display = 'block'
-        //         }else{
-        //             this.state.alertNode.innerHTML = 'Network connection failed. Please try again later.'
-        //             this.state.alertNode.style.display = 'block'
-        //         }
-        //     }
-        // }).catch(error=>{
-        //     console.log('QUERY CHECK RESERVATION ERROR: '+error)
-        // })
+        axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
+            let {data,status} = response
+            if(status==200&&data.result){
+                if(data.result=='True'){
+                    this.state.alertNode.innerHTML = ''
+                    this.state.alertNode.style.display = 'none'
+                    this.setState({card: 'step3'})
+                }else if(data.isResourceError=='True'){
+                    this.state.alertNode.innerHTML = 'The resources are not available enough. Please try again.'
+                    this.state.alertNode.style.display = 'block'
+                    if(data.site_error){
+                        data.site_error.map((rs,key)=>{
+                            let id = parseInt(rs.site_id)
+                            this.sites.map((d,k)=>{
+                                if(id==parseInt(d.id)){
+                                    this.state.siteInputDom[k][parseInt(rs.resource_index)].style.border = '1px solid red'
+                                }
+                            })
+                        })
+                    }
+                }else if(data.isImageTypeError == 'True'){
+                    this.state.alertNode.innerHTML = 'This image type is not available on these sites. Please try again.'
+                    this.state.alertNode.style.display = 'block'
+                }else{
+                    this.state.alertNode.innerHTML = 'Network connection failed. Please try again later.'
+                    this.state.alertNode.style.display = 'block'
+                }
+            }
+        }).catch(error=>{
+            console.log('QUERY CHECK RESERVATION ERROR: '+error)
+        })
     }
 
     changeDialog(name){
@@ -671,94 +664,92 @@ export default class ReservationContainer extends Component {
         }
 
         //for test
-        if(this.state.dialog=='success'||this.state.dialog=='error'){
-            if(this.dashboardContainer.state.case==4)
-            {
-                setTimeout(function() { 
-                    this.dashboardContainer.setState({
-                            message8:'end task 3 '+(new Date()).toLocaleTimeString()
-                    })
-                }.bind(this), 1);
-                setTimeout(function() { 
-                    alert('Please back to search menu and use form for see your next task')
-                }.bind(this), 1);
-            }
+        // if(this.state.dialog=='success'||this.state.dialog=='error'){
+        //     if(this.dashboardContainer.state.case==4)
+        //     {
+        //         this.dashboardContainer.setState({
+        //             message8:'end task 3 '+(new Date()).toLocaleTimeString()
+        //         })
+        //         setTimeout(function() { 
+        //             alert('Please back to search menu and use form for see your next task')
+        //         }.bind(this), 1);
+        //     }
             
-            if(this.dashboardContainer.state.case==5){
-                this.dashboardContainer.setState({
-                    message12:'end task 5 '+(new Date()).toLocaleTimeString()
-                },()=>{
-                    let name = prompt("Thank you for testing. \nFinaly, please input your email.", "");
-                    let result = 'email : '+name+'\n'+this.dashboardContainer.state.message1+'\n'
-                    +this.dashboardContainer.state.message2+'\n'
-                    +this.dashboardContainer.state.message3+'\n'
-                    +this.dashboardContainer.state.message4+'\n'
-                    +this.dashboardContainer.state.out1+'\n'
-                    +this.dashboardContainer.state.message5+'\n'
-                    +this.dashboardContainer.state.message6+'\n'
-                    +this.dashboardContainer.state.out2+'\n'
-                    +this.dashboardContainer.state.message7+'\n'
-                    +this.dashboardContainer.state.message8+'\n'
-                    +this.dashboardContainer.state.out3+'\n'
-                    +this.dashboardContainer.state.message9+'\n'
-                    +this.dashboardContainer.state.message10+'\n'
-                    +this.dashboardContainer.state.out4+'\n'
-                    +this.dashboardContainer.state.message11+'\n'
-                    +this.dashboardContainer.state.message12+'\n'
-                    +this.dashboardContainer.state.out5+'\n'+' end'
+        //     if(this.dashboardContainer.state.case==5){
+        //         this.dashboardContainer.setState({
+        //             message12:'end task 5 '+(new Date()).toLocaleTimeString()
+        //         },()=>{
+        //             let name = prompt("Thank you for testing. \nFinaly, please input your email.", "");
+        //             let result = 'email : '+name+'\n'+this.dashboardContainer.state.message1+'\n'
+        //             +this.dashboardContainer.state.message2+'\n'
+        //             +this.dashboardContainer.state.message3+'\n'
+        //             +this.dashboardContainer.state.message4+'\n'
+        //             +this.dashboardContainer.state.out1+'\n'
+        //             +this.dashboardContainer.state.message5+'\n'
+        //             +this.dashboardContainer.state.message6+'\n'
+        //             +this.dashboardContainer.state.out2+'\n'
+        //             +this.dashboardContainer.state.message7+'\n'
+        //             +this.dashboardContainer.state.message8+'\n'
+        //             +this.dashboardContainer.state.out3+'\n'
+        //             +this.dashboardContainer.state.message9+'\n'
+        //             +this.dashboardContainer.state.message10+'\n'
+        //             +this.dashboardContainer.state.out4+'\n'
+        //             +this.dashboardContainer.state.message11+'\n'
+        //             +this.dashboardContainer.state.message12+'\n'
+        //             +this.dashboardContainer.state.out5+'\n'+' end'
 
-                    let params = {
-                        params:{
-                            message:result
-                        }
-                    }
-                    axios.get(TEST,params).then(response=>{
+        //             let params = {
+        //                 params:{
+        //                     message:result
+        //                 }
+        //             }
+        //             axios.get(TEST,params).then(response=>{
                         
-                    }).catch(error=>{
-                        console.log('ERROR: '+error)
-                    })
-                })
-                // setTimeout(function(){
-                //     alert('Final, Please capture this alert screen in one or more (up to 5) image files and upload the files to the google form. \nThank you for testing\n'
-                //     +this.dashboardContainer.state.message1+'\n'
-                //     +this.dashboardContainer.state.message2+'\n'
-                //     +this.dashboardContainer.state.message3+'\n'
-                //     +this.dashboardContainer.state.message4+'\n'
-                //     +this.dashboardContainer.state.out1+'\n'
-                //     +this.dashboardContainer.state.message5+'\n'
-                //     +this.dashboardContainer.state.message6+'\n'
-                //     +this.dashboardContainer.state.out2+'\n'
-                //     +this.dashboardContainer.state.message7+'\n'
-                //     +this.dashboardContainer.state.message8+'\n'
-                //     +this.dashboardContainer.state.out3+'\n'
-                //     +this.dashboardContainer.state.message9+'\n'
-                //     +this.dashboardContainer.state.message10+'\n'
-                //     +this.dashboardContainer.state.out4+'\n'
-                //     +this.dashboardContainer.state.message11+'\n'
-                //     +this.dashboardContainer.state.message12+'\n'
-                //     +this.dashboardContainer.state.out5+'\n')   
-                //     console.log('Final, I want you capture text in this alert and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
-                //     +this.dashboardContainer.state.message1+'\n'
-                //     +this.dashboardContainer.state.message2+'\n'
-                //     +this.dashboardContainer.state.message3+'\n'
-                //     +this.dashboardContainer.state.message4+'\n'
-                //     +this.dashboardContainer.state.out1+'\n'
-                //     +this.dashboardContainer.state.message5+'\n'
-                //     +this.dashboardContainer.state.message6+'\n'
-                //     +this.dashboardContainer.state.out2+'\n'
-                //     +this.dashboardContainer.state.message7+'\n'
-                //     +this.dashboardContainer.state.message8+'\n'
-                //     +this.dashboardContainer.state.out3+'\n'
-                //     +this.dashboardContainer.state.message9+'\n'
-                //     +this.dashboardContainer.state.message10+'\n'
-                //     +this.dashboardContainer.state.out4+'\n'
-                //     +this.dashboardContainer.state.message11+'\n'
-                //     +this.dashboardContainer.state.message12+'\n'
-                //     +this.dashboardContainer.state.out5+'\n')                 
-                // }.bind(this),1)
+        //             }).catch(error=>{
+        //                 console.log('ERROR: '+error)
+        //             })
+        //         })
+        //         // setTimeout(function(){
+        //         //     alert('Final, Please capture this alert screen in one or more (up to 5) image files and upload the files to the google form. \nThank you for testing\n'
+        //         //     +this.dashboardContainer.state.message1+'\n'
+        //         //     +this.dashboardContainer.state.message2+'\n'
+        //         //     +this.dashboardContainer.state.message3+'\n'
+        //         //     +this.dashboardContainer.state.message4+'\n'
+        //         //     +this.dashboardContainer.state.out1+'\n'
+        //         //     +this.dashboardContainer.state.message5+'\n'
+        //         //     +this.dashboardContainer.state.message6+'\n'
+        //         //     +this.dashboardContainer.state.out2+'\n'
+        //         //     +this.dashboardContainer.state.message7+'\n'
+        //         //     +this.dashboardContainer.state.message8+'\n'
+        //         //     +this.dashboardContainer.state.out3+'\n'
+        //         //     +this.dashboardContainer.state.message9+'\n'
+        //         //     +this.dashboardContainer.state.message10+'\n'
+        //         //     +this.dashboardContainer.state.out4+'\n'
+        //         //     +this.dashboardContainer.state.message11+'\n'
+        //         //     +this.dashboardContainer.state.message12+'\n'
+        //         //     +this.dashboardContainer.state.out5+'\n')   
+        //         //     console.log('Final, I want you capture text in this alert and send that to me(visaruth.p@gmail.com). \nThank you for testing\n'
+        //         //     +this.dashboardContainer.state.message1+'\n'
+        //         //     +this.dashboardContainer.state.message2+'\n'
+        //         //     +this.dashboardContainer.state.message3+'\n'
+        //         //     +this.dashboardContainer.state.message4+'\n'
+        //         //     +this.dashboardContainer.state.out1+'\n'
+        //         //     +this.dashboardContainer.state.message5+'\n'
+        //         //     +this.dashboardContainer.state.message6+'\n'
+        //         //     +this.dashboardContainer.state.out2+'\n'
+        //         //     +this.dashboardContainer.state.message7+'\n'
+        //         //     +this.dashboardContainer.state.message8+'\n'
+        //         //     +this.dashboardContainer.state.out3+'\n'
+        //         //     +this.dashboardContainer.state.message9+'\n'
+        //         //     +this.dashboardContainer.state.message10+'\n'
+        //         //     +this.dashboardContainer.state.out4+'\n'
+        //         //     +this.dashboardContainer.state.message11+'\n'
+        //         //     +this.dashboardContainer.state.message12+'\n'
+        //         //     +this.dashboardContainer.state.out5+'\n')                 
+        //         // }.bind(this),1)
                 
-            }
-        }
+        //     }
+        // }
 
         return (
             <section className='modal'>
