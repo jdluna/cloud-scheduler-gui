@@ -51,17 +51,17 @@ export default class DashboardContainer extends Component {
             isSameConnectionType: false,
             dialogAfterLogin: null,
             dateForCard: null,
-            case:1,
+            // case:1,
         }
 
 
         // for test
-        setTimeout(function() { 
-            alert('Thank you for your help evaluating this website.Please use a desktop computer with keyboard and mouse when performing the test.\nFirst, please login the system with \nusername: user1\npassword: 1234')
-            this.setState({
-                    message1:'start '+(new Date()).toLocaleTimeString()
-            })
-        }.bind(this), 1);
+        // setTimeout(function() { 
+        //     alert('Thank you for your help evaluating this website.Please use a desktop computer with keyboard and mouse when performing the test.\nFirst, please login the system with \nusername: user1\npassword: 1234')
+        //     this.setState({
+        //             message1:'start '+(new Date()).toLocaleTimeString()
+        //     })
+        // }.bind(this), 1);
 
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)

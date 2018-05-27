@@ -596,16 +596,7 @@ export default class ReservationContainer extends Component {
             }
         }
 
-        if(this.dashboardContainer.state.case==4){
-            this.dashboardContainer.setState({
-                out3:params.params.sites_id
-            })
-        }
-        if(this.dashboardContainer.state.case==5){
-            this.dashboardContainer.setState({
-                out5:params.params.sites_id
-            })
-        }        
+        // if(this.dashboardContainer.stats
 
         axios.get(CHECK_RESERVATION_ENDPOINT,params).then(response=>{
             let {data,status} = response
