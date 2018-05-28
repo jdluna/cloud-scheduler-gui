@@ -24,16 +24,16 @@ form = cgi.FieldStorage()
 ###variable from front-end###
 
 #############################
-RESOURCES = "200,300"
-CONNECTION_TYPE = "None"
-IMAGE_TYPE = "rock"
-BEGIN = "2018-04-16 03:00:00"
-END = "2018-04-16 04:00:00"
-ALL_PERIOD = "True"
-DAYS = 0
-HOURS = 2
-numsite = "2"
-typecheck = "MULTI"
+RESOURCES = form.getvalue('resources')
+CONNECTION_TYPE = form.getvalue('connection_type')
+IMAGE_TYPE = form.getvalue('image_type')
+BEGIN = form.getvalue('begin')
+END = form.getvalue('end')
+ALL_PERIOD = form.getvalue('all_period')
+DAYS = form.getvalue('days')
+HOURS = form.getvalue('hours')
+numsite = form.getvalue('numOfSite')
+typecheck = form.getvalue('type')
 ###############################
 if typecheck == "SINGLE":
     numsite = "1"
@@ -142,7 +142,7 @@ elif (numsite == 2 and divisible2):
             resourcesAmt2.append(str(int(int(s)*0.2)))
         sites1 = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
         sites2 = siteManager.getMutiSites(resAmount=resourcesAmt2,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
-        
+
         if len(sites1) != 0 and len(sites2) != 0:
            count = 0
            jsonStr2 = ""
