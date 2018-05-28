@@ -131,7 +131,7 @@ elif (numsite == 2 and divisible2):
         resourcesAmt.append(str(int(int(s)*0.5)))
     sites = siteManager.getSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS)
     found = False
-    if len(sites) == 0:
+    if len(sites) < 2:
         resourcesAmt1 = []
         resourcesAmt2 = []
         spl = RESOURCES.split(',')
@@ -161,8 +161,8 @@ elif (numsite == 2 and divisible2):
                         jsonStr2 += jsonFormatter.formatSite92(sites2[s1],sites,RESOURCES,numsite,count)  
                         jsonStr2 = jsonStr2[:-1]
                         jsonStr2 += '],"time" : {'
-                        jsonStr2 += '"begin" : "'+ str(sites[s].getBeginAvailable())+'",'
-                        jsonStr2 += '"end" : "'+str(sites[s].getEndAvailable())+'"},'
+                        jsonStr2 += '"begin" : "'+ str(sites1[s].getBeginAvailable())+'",'
+                        jsonStr2 += '"end" : "'+str(sites1[s].getEndAvailable())+'"},'
                         jsonStr2 += '"image_type" : ['
                         jsonStr2 +=  '{'+jsonFormatter.getmutiimage(sites1[s])+'},'#jsonFormatter.getmutiimage(s,IMAGE_TYPE)
                         jsonStr2 +=  '{'+jsonFormatter.getmutiimage(sites2[s1])+'}'#jsonFormatter.getmutiimage(s,IMAGE_TYPE)
