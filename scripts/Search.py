@@ -146,9 +146,6 @@ elif (numsite == 2 and divisible2):
         if len(sites1) != 0 and len(sites2) != 0:
            count = 0
            jsonStr2 = ""
-           jsonStr2 += '{ "result_type" : "' + str(siteManager.getResultType()) + '", '
-           jsonStr2 += '"amount" : "'+str(len(sites))+'",'
-           jsonStr2 += '"multiSites" : ['
            for s in range(0,len(sites1)):
                 for s1 in range(s,len(sites2)):
                     if(s1 == s):continue
