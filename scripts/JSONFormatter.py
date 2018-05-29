@@ -16,8 +16,15 @@ class JSONFormatter:
         wiriteID = True
         
         c,m = RESOURCES.split(',')
-        c = int(c)/int(numsite)
-        m = int(m)/int(numsite)
+        if(count) > -1:
+            c = int(c)/int(numsite)
+            m = int(m)/int(numsite)
+        elif count == -1:
+            c = int(c)*0.8
+            m = int(m)*0.8
+        elif count == -2:
+            c = int(c)*0.2
+            m = int(m)*0.2
         
         for a in s.getResources():
             if (wiriteID):
