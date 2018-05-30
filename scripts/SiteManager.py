@@ -126,6 +126,7 @@ class SiteManager:
                                 s.setEndAvailable(end)
                                 
                         else:
+                            
                             #not all period -> should calculate until found
                             tmpBegin = begin
                             beginToEnd = datetime.strptime(end, "%Y-%m-%d %H:00:00")-datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")
@@ -193,7 +194,7 @@ class SiteManager:
                                 tmpEnd = (datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")+durationLength).strftime("%Y-%m-%d %H:00:00")
                                 
                             result.append(s)
-                            print result
+                            #print result
                 self.__db.unlock()
 
             finally:
@@ -201,7 +202,6 @@ class SiteManager:
             
             if not result:
                 self.__resultType = "None"
-                
         return result
         
     def getResultType(self):
@@ -380,7 +380,6 @@ class SiteManager:
                                 tmpEnd = (datetime.strptime(tmpBegin, "%Y-%m-%d %H:00:00")+durationLength).strftime("%Y-%m-%d %H:00:00")
                                 
                             result.append(s)
-                            print result
                 self.__db.unlock()
 
             finally:

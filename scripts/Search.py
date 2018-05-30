@@ -68,6 +68,7 @@ else:
     if(c3 == 0 and m3 == 0): divisible3 = True
     if(c4 == 0 and m4 == 0): divisible4 = True
 #print c+","+m
+haveresult = False
 #prepare connection criteria
 if "None" in CONNECTION_TYPE:
     CONNECTION_TYPE = None
@@ -122,7 +123,7 @@ if (numsite == 1):
     if len(sites1) !=0:
         jsonStr = jsonStr[:-1]    
     jsonStr += ']}'
-
+    haveresult = True
     print jsonStr
 elif (numsite == 2 and divisible2):
     resourcesAmt = []
@@ -136,26 +137,25 @@ elif (numsite == 2 and divisible2):
         resourcesAmt2 = []
         spl = RESOURCES.split(',')
         for s in spl:
-            resourcesAmt.append(str(int(int(s)*0.8)))
-        spl = RESOURCES.split(',')
-        for s in spl:
+            resourcesAmt1.append(str(int(int(s)*0.8)))
             resourcesAmt2.append(str(int(int(s)*0.2)))
-        sites1 = siteManager.getMutiSites(resAmount=resourcesAmt,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
+        sites1 = siteManager.getMutiSites(resAmount=resourcesAmt1,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
         sites2 = siteManager.getMutiSites(resAmount=resourcesAmt2,connectionType=CONNECTION_TYPE, imageType=IMAGE_TYPE, begin=BEGIN, end=END, allPeriod=ALL_PERIOD, days=DAYS, hours=HOURS,numbersite=numsite)
-
         if len(sites1) != 0 and len(sites2) != 0:
            count = 0
            jsonStr2 = ""
            for s in range(0,len(sites1)):
                 for s1 in range(s,len(sites2)):
-                    if(s1 == s):continue
+                    if(sites1[s].getName() == sites2[s1].getName()):continue
                     else:
+                        case80 = -1
+                        case20 = -2
                         count  = count +1
                         jsonStr2 += '{"sites":['
                         #goo = "("+str(len(sites))+","+str(s)+","+str(s1)+")"
                         #print goo
-                        jsonStr2 += jsonFormatter.formatSite92(sites1[s],sites,RESOURCES,numsite,count)
-                        jsonStr2 += jsonFormatter.formatSite92(sites2[s1],sites,RESOURCES,numsite,count)  
+                        jsonStr2 += jsonFormatter.formatSite92(sites1[s],sites,RESOURCES,numsite,case80)
+                        jsonStr2 += jsonFormatter.formatSite92(sites2[s1],sites,RESOURCES,numsite,case20)  
                         jsonStr2 = jsonStr2[:-1]
                         jsonStr2 += '],"time" : {'
                         jsonStr2 += '"begin" : "'+ str(sites1[s].getBeginAvailable())+'",'
@@ -186,6 +186,7 @@ elif (numsite == 2 and divisible2):
            jsonStr1 += '"amount" : "'+str(count)+'",'
            jsonStr1 += '"multiSites" : ['
            jsonStr = jsonStr1+jsonStr2
+           haveresult = True
            print jsonStr
         elif isAny:
             numsite = 3
@@ -229,6 +230,7 @@ elif (numsite == 2 and divisible2):
         jsonStr1 += '"amount" : "'+str(count)+'",'
         jsonStr1 += '"multiSites" : ['
         jsonStr = jsonStr1+jsonStr2
+        haveresult = True
         print jsonStr
 elif (numsite == 3 and divisible3):
    
@@ -288,6 +290,7 @@ elif (numsite == 3 and divisible3):
         jsonStr1 += '"amount" : "'+str(count)+'",'
         jsonStr1 += '"multiSites" : ['
         jsonStr = jsonStr1+jsonStr2
+        haveresult = True
         print jsonStr
     elif isAny:
         numsite = 4
@@ -343,6 +346,7 @@ elif (numsite == 4 and divisible4):
     jsonStr1 += '"multiSites" : ['    
     jsonStr = jsonStr1+jsonStr2   
         #print jsonStr
+    haveresult = True
     print jsonStr
     if len(sites) == 0:
         numsite = -1
@@ -351,5 +355,13 @@ if(numsite == -1):
     jsonStr += '"amount" : "'+"0"+'"'
     jsonStr += ', "sites" : ['
     jsonStr += ']}'
+    haveresult = True
     print jsonStr
+if(not haveresult):
+    jsonStr = '{ "result_type" : "' +"None"+ '", '
+    jsonStr += '"amount" : "'+"0"+'"'
+    jsonStr += ', "sites" : ['
+    jsonStr += ']}'
+    print jsonStr
+
 
