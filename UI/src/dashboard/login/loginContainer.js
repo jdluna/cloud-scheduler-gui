@@ -60,15 +60,9 @@ export default class LoginContainer extends Component {
                     this.props.app.onLogin(data)
                     this.state.alertNode.innerHTML = ''
                     this.state.alertNode.style.display = 'none'
-
-                    //for test
-                    // alert('Please click on the search menu.')
                  }else{
                     this.state.alertNode.innerHTML = 'Incorrect password. Please try again.'
                     this.state.alertNode.style.display = 'block'
-
-                    //for test
-                    // alert('Login with \nusername : user1\npassword : 1234')
                 }
              }
          }).catch(error=>{

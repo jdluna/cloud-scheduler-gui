@@ -53,7 +53,7 @@ export default class mapContainer extends Component {
     }
 
     onMouseClick(id, marker) {
-        this.props.dashBoardContainer.onSelectMarker(id, marker)
+        this.props.dashBoardContainer.onSelectMarker(id, marker,false)
         if (marker.icon == 'img/marker.png') {
             marker.node.setIcon('img/marker_select.png')
         } else {
@@ -131,7 +131,6 @@ export default class mapContainer extends Component {
         this.map = new google.maps.Map(node, options);
         axios.get(MAP_ENDPOINT).then(response => {
             if (response.status == 200) {
-                // console.log(response.data)
                 this.setMarker(response.data)
             } else {
                 console.warn('query map failed!')

@@ -49,18 +49,6 @@ export default class cardContainer extends Component {
             select: false
         }
 
-        // this.state = {
-        //     style: {
-        //         ent: { backgroundColor: '#929294' },
-        //         ipop: { backgroundColor: '#929294' },
-        //         card: {
-        //             border: '1px solid #191E2C'
-        //         },
-        //         cardTitle: { backgroundColor: '#191E2C' }
-        //     },
-        //     select: true
-        // }
-
         this.onNextDate = this.onNextDate.bind(this)
         this.onPreviousDate = this.onPreviousDate.bind(this)
         this.querySite = this.querySite.bind(this)
@@ -72,6 +60,22 @@ export default class cardContainer extends Component {
         this.onPreviousChart = this.onPreviousChart.bind(this)
         this.onNetworkTypeInputChange = this.onNetworkTypeInputChange.bind(this)
         this.selectCard = this.selectCard.bind(this)
+    }
+
+    componentDidMount(){
+        if(this.props.selected){
+            this.setState({
+                style: {
+                    ent: { backgroundColor: '#929294' },
+                    ipop: { backgroundColor: '#929294' },
+                    card: {
+                        border: '1px solid #191E2C'
+                    },
+                    cardTitle: { backgroundColor: '#191E2C' }
+                },
+                select: true
+            })
+        }
     }
 
     onNetworkTypeInputChange(event){
