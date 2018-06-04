@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb 07 22:26:22 2017
-
 @author: CS401:Nannapas Banluesombatkul
 """
 
@@ -17,7 +16,7 @@ import MySQLdb as db
 ###### variable for database #######
 HOST = "localhost"
 USER = "root"
-PWD = "root" 
+PWD = "" 
 DBNAME = "pragma"
 WAIT_TIMEOUT = 180
 ####################################
@@ -75,9 +74,5 @@ class Database:
         
     def close(self):
         self.__conn.close()
-cursor = db.connect(HOST,USER,PWD,DBNAME).cursor()
-cursor.execute('select * from site')
-result = cursor.fetchall()
-
         
         
