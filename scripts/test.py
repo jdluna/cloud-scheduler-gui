@@ -1,24 +1,20 @@
-#!/opt/python/bin/python
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb 16 22:17:23 2017
+import MySQLdb as db
 
-@author: CS401:Nannapas Banluesombatkul
-"""
+###### variable for database #######
+HOST = "localhost"
+USER = "root"
+PWD = "root" 
+DBNAME = "pragma"
+WAIT_TIMEOUT = 180
+####################################
 
-import cgitb
-cgitb.enable()
+try:con=db.connect(HOST,USER,PWD,DBNAME)
 
-
-print "Content-Type: text/html"     
-print "Access-Control-Allow-Origin: *"  
-print
-
-file = open("testfile.txt","w") 
- 
-file.write("Hello World") 
- 
-file.close() 
-
-
-print "hello"
+except Exception as e: print('fail')
+cursor = con.cursor()
+cursor.execute('select * from site')
+result = cursor.fetchall()
+if result:
+    for z in result:
+        print z[1]
+     

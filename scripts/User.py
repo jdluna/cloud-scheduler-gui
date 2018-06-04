@@ -18,7 +18,7 @@ import smtplib
 from datetime import datetime, timedelta
 from email.MIMEText import MIMEText
 
-HOSTNAME = "lima-vc-2.sdsc.optiputer.net"
+HOSTNAME = "rocks-54.sdsc.edu"
 RESET_PASSWORD_URL = "http://"+HOSTNAME+"/cloud-scheduler-gui/UI/dist/#/resetPWD"
 SOURCE_EMAIL = 'root@'+HOSTNAME
 GEN_ID_LENGTH = 16

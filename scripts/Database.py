@@ -17,7 +17,7 @@ import MySQLdb as db
 ###### variable for database #######
 HOST = "localhost"
 USER = "root"
-PWD = "" 
+PWD = "root" 
 DBNAME = "pragma"
 WAIT_TIMEOUT = 180
 ####################################
@@ -75,7 +75,9 @@ class Database:
         
     def close(self):
         self.__conn.close()
-        
-        
+cursor = db.connect(HOST,USER,PWD,DBNAME).cursor()
+cursor.execute('select * from site')
+result = cursor.fetchall()
+
         
         

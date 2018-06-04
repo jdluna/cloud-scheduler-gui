@@ -31,14 +31,14 @@ class JSONFormatter:
                 jsonStr += '{"'+ str(a.getType()) + '" : {'
                 jsonStr += '"total" : '+str(a.getTotal())+','
                 jsonStr += '"available" : '+str(a.getAvailableAmount())+','
-                jsonStr += '"use" : '+str(c)+'},'
+                jsonStr += '"use" : '+str(int(c))+'},'
                 jsonStr += '"id" : '+str(a.getSiteId())+','                    
                 wiriteID = False
             else:
                 jsonStr += '"'+ str(a.getType()) + '" : {'
                 jsonStr += '"total" : '+str(a.getTotal())+','
                 jsonStr += '"available" : '+str(a.getAvailableAmount())+','
-                jsonStr += '"use" : '+str(m)+'},'
+                jsonStr += '"use" : '+str(int(m))+'},'
                 wiriteID = True
                 jsonStr += '"name" : "'+str(s.getName())+'"},'
         #jsonStr = jsonStr[:-1] 
