@@ -60,71 +60,6 @@ export default class FoundTable2 extends Component {
         }
         this.onSort = this.onSort.bind(this)
     }
-
-    componentDidMount(){
-
-        //for test
-        if(this.props.searchContainer.dashboardContainer.state.case==1){
-            setTimeout(function() { 
-                this.props.searchContainer.dashboardContainer.setState({
-                    case:2,
-                    message4:'end task 1 '+(new Date()).toLocaleTimeString()
-                })  
-            }.bind(this), 1);
-            setTimeout(function() { 
-                alert('Please use form for answer questions but not close this website.')
-            },1);
-            setTimeout(function() { 
-                alert('Task 2\n------\nClick ok to start')
-                // console.log('start task 2 '+(new Date()).toLocaleTimeString())
-                this.props.searchContainer.dashboardContainer.setState({
-                        message5:'start task 2 '+(new Date()).toLocaleTimeString()
-                })
-            }.bind(this), 1);
-        }else if(this.props.searchContainer.dashboardContainer.state.case==2){
-            setTimeout(function() { 
-                this.props.searchContainer.dashboardContainer.setState({
-                        message6:'end task 2 '+(new Date()).toLocaleTimeString()
-                })
-            }.bind(this), 1);
-            this.props.searchContainer.dashboardContainer.setState({
-                    case:3
-            })
-            setTimeout(function() { 
-                alert('Please use form for answer questions but not close this website.')
-            },1);
-            setTimeout(function() { 
-                alert('Task 3\n------\nClick ok to start')
-            }.bind(this), 1);
-            setTimeout(function() { 
-                this.props.searchContainer.dashboardContainer.setState({
-                        message7:'start task 3 '+(new Date()).toLocaleTimeString()
-                })
-            }.bind(this), 1);
-            this.props.searchContainer.dashboardContainer.setState({
-                    case:4
-            })
-        }else if(this.props.searchContainer.dashboardContainer.state.case==4){
-            setTimeout(function() { 
-                this.props.searchContainer.dashboardContainer.setState({
-                        message10:'end task 4 '+(new Date()).toLocaleTimeString()
-                })
-            }.bind(this), 1);
-            setTimeout(function() { 
-                alert('Please use form for answer questions but not close this website.')
-            },1);
-            setTimeout(function() { 
-                alert('Task 5\n------\nClick ok to start')
-                
-            }.bind(this), 1);
-            setTimeout(function() { 
-                this.props.searchContainer.dashboardContainer.setState({
-                        message11:'start task 5 '+(new Date()).toLocaleTimeString(),
-                        case:5
-                })
-            }.bind(this), 1);
-        }
-    }
     
     ifRender(condition,view){
         if(condition) return view;
@@ -415,6 +350,11 @@ export default class FoundTable2 extends Component {
                         <option value='network_speed'>Network speed</option>
                     </select>
                 </div>
+                {/* {this.ifRender(this.props.type=='suggest',
+                    <div>
+                        <span>Suggest sites</span>
+                    </div>
+                )} */}
                 {this.state.listResult}
             </section>
         )

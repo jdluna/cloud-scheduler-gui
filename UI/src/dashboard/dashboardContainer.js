@@ -54,15 +54,6 @@ export default class DashboardContainer extends Component {
             case:1,
         }
 
-
-        // for test
-        setTimeout(function() { 
-            alert('Thank you for your help evaluating this website.Please use a desktop computer with keyboard and mouse when performing the test.\nFirst, please login the system with \nusername: user1\npassword: 1234')
-            this.setState({
-                    message1:'start '+(new Date()).toLocaleTimeString()
-            })
-        }.bind(this), 1);
-
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
         this.clearRightBar = this.clearRightBar.bind(this)
@@ -88,33 +79,6 @@ export default class DashboardContainer extends Component {
             case 'Settings': this.onCloseMoreInfo(); this.checkLogin(menu); break
             case 'Help': this.onCloseMoreInfo(); this.setState({ modal: <HelpContainer dashBoardContainer={this} />, modalName: 'Helps' }); break
             case 'ReservationSites': this.checkConnectionType(); break
-        }
-
-
-        //for test
-        if(menu=='Search') {
-            if(this.state.case==1){
-                setTimeout(function() { 
-                    this.setState({
-                            message2:'find search btn '+(new Date()).toLocaleTimeString()
-                    })
-                }.bind(this), 1);
-                setTimeout(function() { 
-                    alert('Task 1\n-------\nClick ok to start')
-                    this.setState({
-                            message3:'after click search and before task 1 '+(new Date()).toLocaleTimeString()
-                    })
-                }.bind(this), 1);
-            }
-            if(this.state.case==4){
-                setTimeout(function() { 
-                    alert('Task 4\n-------\nClick ok to start7')
-                    this.setState({
-                        message9:'start task 4 '+(new Date()).toLocaleTimeString(),
-                    })
-                }.bind(this), 1);
-                    
-            }
         }
     }
 
@@ -203,15 +167,14 @@ export default class DashboardContainer extends Component {
         })
     }
 
-    onSelectMarker(id, markerNode, searchDate = null) {
-        console.log(id)
+    onSelectMarker(id, markerNode,selected, searchDate = null) {
         let { marker, chooseSite } = this.state.map
         if (chooseSite.indexOf(parseInt(id)) == -1) {
             marker.push(markerNode)
             chooseSite.push(parseInt(id))
             let card = []
             chooseSite.map((data, key) => {
-                card.unshift(<CardContainer searchDate={searchDate} dashBoardContainer={this} siteId={data} key={data} />)
+                card.unshift(<CardContainer searchDate={searchDate} dashBoardContainer={this} siteId={data} key={data} selected={selected} />)
             })
             this.setState({
                 map: {
@@ -235,7 +198,7 @@ export default class DashboardContainer extends Component {
             chooseSite.push(parseInt(id))
             let cardTemp = []
             chooseSite.map((data, key) => {
-                cardTemp.unshift(<CardContainer dashBoardContainer={this} siteId={data} key={data} />)
+                cardTemp.unshift(<CardContainer dashBoardContainer={this} siteId={data} key={data} selected={selected} />)
             })
             this.setState({
                 map: {
@@ -440,7 +403,6 @@ export default class DashboardContainer extends Component {
     }
 
     showSessionTimeoutDialog(data) {
-        // console.log(data.message)
         if(typeof(Storage)!=='undefined'){
             let appState = JSON.parse(sessionStorage.getItem('session'))
             if(appState!=null){

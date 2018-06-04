@@ -104,6 +104,10 @@ export default class FoundTable extends Component {
                                 })
                             }
                             {/*<div className={Style.empty}></div>*/}
+                            <div>
+                                <span>Number of sites : </span>
+                                <span className={Style.hilight}>None</span>
+                            </div>
                         </div>    
                     </div>
                     <div className={Style.secondlabel}>Click on site's name for more description.</div>

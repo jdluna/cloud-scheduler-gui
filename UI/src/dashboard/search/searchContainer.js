@@ -462,7 +462,7 @@ export default class SearchContainer extends Component {
             if(markerNode[i].name.toLowerCase()==name.toLowerCase()){
                 let id = markerNode[i].id
                 let icon = (markerNode[i].icon.url) ? markerNode[i].icon.url : markerNode[i].icon
-                this.props.dashBoardContainer.onSelectMarker(id,{node:markerNode[i],icon:icon})
+                this.props.dashBoardContainer.onSelectMarker(id,{node:markerNode[i],icon:icon},true)
                 if(icon=='img/marker.png'){
                     markerNode[i].setIcon('img/marker_select.png')
                 }else if(icon=='img/marker_ent.png'){
@@ -499,42 +499,20 @@ export default class SearchContainer extends Component {
     }
 
     queryResource(params){
-        console.log(params)
-        // console.log(params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type)
         this.setState({
             resultTable: <Loading/>
-        })
-
-        //for test
-        if(this.dashboardContainer.state.case==1){
-            this.dashboardContainer.setState({
-                out1:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-            })
-        }
-        else if(this.dashboardContainer.state.case==2){
-            this.dashboardContainer.setState({
-                out2:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-            })
-        }else if(this.dashboardContainer.state.case==4){
-            this.dashboardContainer.setState({
-                out4:params.params.begin+' '+params.params.end+' '+params.params.days+' '+params.params.image_type+' '+params.params.resources+' '+params.params.connection_type
-            })
-        }
-        
+        })        
         
         axios.get(SEARCH_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
-            console.log(data)
             if(status==200&&data.result_type){
-                if(data.result_type=='result'){
+                if(data.result_type=='result'||data.result_type=='suggest'){
                     this.setState({
                         dataResult: data,
                         resultTable: [],
                     },()=>{
                         this.setState({
-                            resultTable: <FoundTable2 searchContainer={this} appContainer={this.appContainer}/>
-                    },()=>{
-                        // alert('for case 2\n 2 CPUs\n4 GBs Memory\nbetween 19 May to 24 May for 2 day\nNetwork type ENT\nimage type centos7')
+                            resultTable: <FoundTable2 searchContainer={this} appContainer={this.appContainer} type={data.result_type}/>
                     })
                 })
                 }else{
@@ -619,6 +597,11 @@ export default class SearchContainer extends Component {
         event.preventDefault()  
         this.alertClear()
         let {startDate,endDate,startTime,endTime,maxLengthDate,maxLengthHour,reservationLength} = this.state
+
+        if(parseInt(this.state.resource[0])==0||parseInt(this.state.resource[1])==0){
+            this.alertShow('Error, CPU or memory must be more than zero.');
+            return;
+        }
 
         if(this.state.resource[0]==''||this.state.resource[1]==''){
             this.alertShow('Error, please input some CPU and memory.');
