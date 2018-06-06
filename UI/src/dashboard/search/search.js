@@ -143,7 +143,8 @@ export default class Search extends Component {
             helpIcon: this.refs.helpIcon,
             alertNode: this.refs.alertText,
             alertBox : this.refs.alert,
-            contentBox: this.refs.contentBox
+            contentBox: this.refs.contentBox,
+            panel: this.refs.panel
         })
         // this.refs.cpu.focus()
     }
@@ -205,7 +206,7 @@ export default class Search extends Component {
                             <img src='img/ic_arrow_right.svg' />
                         </div>
                     </div>
-                    <section className={Style.panel}>
+                    <section className={Style.panel} ref='panel'>
                         <header>
                             <div>Search by Criteria</div>
                             <img src='img/ic_close.svg' onClick={this.props.searchContainer.onClose} />

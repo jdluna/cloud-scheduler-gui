@@ -15,7 +15,7 @@
 .panel{
     width: 790px;
     // width: 730px;
-    height: 477px;
+    height: 505px;
     font-family: $font-primary;
     border-radius: 3px;
     border: 1px solid #929296;
@@ -42,7 +42,23 @@
     .rowSort{
         margin: 5px 15px 5px 5px;
         text-align: right;
+        .checkbox{
+            float: right;
+            margin-left: 5px;
+            margin-top: 6px;
+        }
+        .icon{
+            float: right;
+        }
+        .title{
+            float: right;
+            font-size: 9pt;
+            padding-left: 5px;
+            margin-top: 5px;
+            margin-right: 5px;
+        }
         .sort{
+            float: right;
             background-color: #464a5f;
             border-radius: 3px;
             padding-right: 5px;
@@ -50,8 +66,10 @@
             outline: none;
             border: none;
             height: 20px;
-            margin-top: 5px;
             color: #FFFFFF;
+        }
+        .end{
+            clear: both;
         }
     }
     .alert{
@@ -356,6 +374,13 @@
                     .detail{
                         display: grid;
                         grid-template-columns: 34% 31% 35%;
+                        span > span{
+                            color: #EFA430;
+                        }
+                    }
+                    .lessDetail{
+                        display: grid;
+                        grid-template-columns: 45% 55%;
                         span > span{
                             color: #EFA430;
                         }

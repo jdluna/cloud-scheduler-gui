@@ -161,6 +161,8 @@ export default class SearchContainer extends Component {
         this.setState({
             mode:e.target.id
         })
+        if(e.target.id=='SINGLE')this.state.panel.style.height = '505px';
+        else this.state.panel.style.height = '579px';
     }
 
     onRegionChange(region){

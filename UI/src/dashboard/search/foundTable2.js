@@ -9,7 +9,8 @@ export default class FoundTable2 extends Component {
         this.container = this.props.searchContainer;
         this.state = {
             hover: null,
-            listResult: null
+            listResult: null,
+            detail:false
         }
         if(this.props.searchContainer.state.mode=='SINGLE') this.props.searchContainer.state.dataResult.sites = this.props.searchContainer.state.dataResult.sites.sort((a, b) => a.name > b.name)
         if(this.props.searchContainer.state.mode=='MULTI') {
@@ -59,11 +60,20 @@ export default class FoundTable2 extends Component {
             })
         }
         this.onSort = this.onSort.bind(this)
+        this.getCardResult = this.getCardResult.bind(this)
     }
     
     ifRender(condition,view){
         if(condition) return view;
         else return null;
+    }
+
+    onCheckDetail(){
+        this.setState({
+            detail:!this.state.detail
+        },()=>{
+            this.forceUpdate()
+        })
     }
 
     onSort(event){
@@ -194,20 +204,32 @@ export default class FoundTable2 extends Component {
                                 <span className={Style.siteName}>{cardData.name}<span className={Style.region}>{(cardData.region=='')?'':'('+cardData.region+')'}</span></span>
                                 <br/>
                                 <span className={Style.date}>{startDate} <span>to</span> {endDate}</span>
-                                <div className={Style.detail}>
-                                    <div>
-                                        <span>CPU : <span>{(this.props.searchContainer.state.resource[0]=='')? '0':this.props.searchContainer.state.resource[0]}</span></span><br/>
-                                        <span>Memory : <span>{(this.props.searchContainer.state.resource[1]=='')? '0':this.props.searchContainer.state.resource[1]} GB</span></span>
+                                    {this.ifRender(this.state.detail,
+                                    <div className={Style.detail}>
+                                        <div>
+                                            <span>CPU : <span>{(this.props.searchContainer.state.resource[0]=='')? '0':this.props.searchContainer.state.resource[0]}</span></span><br/>
+                                            <span>Memory : <span>{(this.props.searchContainer.state.resource[1]=='')? '0':this.props.searchContainer.state.resource[1]} GB</span></span>
+                                        </div>
+                                        <div> 
+                                            <span>free / total <span>{cardData.CPU.available+'/'+cardData.CPU.total} CPUs</span></span><br/>
+                                            <span>free / total <span>{cardData.memory.available+'/'+cardData.memory.total} GB</span></span>
+                                        </div>
+                                        <div>
+                                            <span>CPU speed : <span>{(cardData.speedCPU=='')?'':cardData.speedCPU+' GHz'}</span></span><br/>
+                                            <span>Network : <span>{cardData.network} {(cardData.speedNet=='') ? '': '('+ cardData.speedNet+' Mbps)'}</span></span>
+                                        </div>
                                     </div>
-                                    <div> 
-                                        <span>free / total <span>{cardData.CPU.available+'/'+cardData.CPU.total} CPUs</span></span><br/>
-                                        <span>free / total <span>{cardData.memory.available+'/'+cardData.memory.total} GB</span></span>
+                                    )}
+                                    {this.ifRender(!this.state.detail,
+                                    <div className={Style.lessDetail}>
+                                        <div> 
+                                            <span>Available CPU <span>{cardData.CPU.available+'/'+cardData.CPU.total} CPUs</span></span>
+                                        </div>
+                                        <div> 
+                                            <span>Available memory <span>{cardData.memory.available+'/'+cardData.memory.total} GB</span></span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>CPU speed : <span>{(cardData.speedCPU=='')?'':cardData.speedCPU+' GHz'}</span></span><br/>
-                                        <span>Network : <span>{cardData.network} {(cardData.speedNet=='') ? '': '('+ cardData.speedNet+' Mbps)'}</span></span>
-                                    </div>
-                                </div>
+                                    )}
                             </div>
                         )
                     }
@@ -254,20 +276,32 @@ export default class FoundTable2 extends Component {
                                 })}
                                 <br/>
                                 <span className={Style.date}>{startDate} <span>to</span> {endDate}</span>
-                                <div className={Style.detail}>
-                                    <div>
-                                        <span>CPU : <span>{(this.props.searchContainer.state.resource[0]=='')? '0':this.props.searchContainer.state.resource[0]} {cardData.CPUlabel}</span></span><br/>
-                                        <span>Memory : <span>{(this.props.searchContainer.state.resource[0]=='')? '0':this.props.searchContainer.state.resource[1]} GB {cardData.Memorylabel}</span></span>
+                                {this.ifRender(this.state.detail,
+                                    <div className={Style.detail}>
+                                        <div>
+                                            <span>CPU : <span>{(this.props.searchContainer.state.resource[0]=='')? '0':this.props.searchContainer.state.resource[0]} {cardData.CPUlabel}</span></span><br/>
+                                            <span>Memory : <span>{(this.props.searchContainer.state.resource[0]=='')? '0':this.props.searchContainer.state.resource[1]} GB {cardData.Memorylabel}</span></span>
+                                        </div>
+                                        <div> 
+                                            <span>free / total <span>{cardData.avaiCPU+'/'+cardData.totalCPU} CPUs</span></span><br/>
+                                            <span>free / total <span>{cardData.avaiMem+'/'+cardData.totalMem} GB</span></span>
+                                        </div>
+                                        <div>
+                                            <span>CPU speed : <span>{(cardData.speedCPU=='')?'':cardData.speedCPU+' GHz'}</span></span><br/>
+                                            <span>Network : <span>{cardData.network} {(cardData.speedNet=='') ? '': '('+ cardData.speedNet+' Mbps)'}</span></span>
+                                        </div>
                                     </div>
-                                    <div> 
-                                        <span>free / total <span>{cardData.avaiCPU+'/'+cardData.totalCPU} CPUs</span></span><br/>
-                                        <span>free / total <span>{cardData.avaiMem+'/'+cardData.totalMem} GB</span></span>
+                                )}
+                                {this.ifRender(!this.state.detail,
+                                    <div className={Style.lessDetail}>
+                                        <div>
+                                            <span>Available CPU <span>{cardData.avaiCPU+'/'+cardData.totalCPU} CPUs</span></span>
+                                        </div>
+                                        <div> 
+                                            <span>Available memory <span>{cardData.avaiMem+'/'+cardData.totalMem} GB</span></span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <span>CPU speed : <span>{(cardData.speedCPU=='')?'':cardData.speedCPU+' GHz'}</span></span><br/>
-                                        <span>Network : <span>{cardData.network} {(cardData.speedNet=='') ? '': '('+ cardData.speedNet+' Mbps)'}</span></span>
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         )
                     }
@@ -339,16 +373,22 @@ export default class FoundTable2 extends Component {
                     <div className={Style.secondlabel}>Click on site's name for more description.</div>
                 </div>
                 <div className={Style.rowSort}>
-                    <span>Sort by : </span>
                     <select className={Style.sort} onChange={this.onSort}>
                         <option value='name'>Name</option>
                         <option value='cpu_available'>CPU available</option>
                         <option value='cpu_total'>CPU total</option>
                         <option value='memory_available'>Memory available</option>
                         <option value='memory_total'>Memory total</option>
-                        <option value='cpu_speed'>CPU speed</option>
-                        <option value='network_speed'>Network speed</option>
+                        {this.ifRender(this.state.detail,
+                            <option value='cpu_speed'>CPU speed</option>
+                        )}
+                        {this.ifRender(this.state.detail,
+                            <option value='network_speed'>Network speed</option>                            
+                        )}
                     </select>
+                    <span className={Style.title}>Sort by :  </span>                    
+                    <span className={Style.title}>More detail</span><input className={Style.checkbox} type='checkbox' onChange={this.onCheckDetail.bind(this)} checked={this.state.detail}/>
+                    <div className={Style.end}></div>
                 </div>
                 {/* {this.ifRender(this.props.type=='suggest',
                     <div>
