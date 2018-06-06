@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Feb 07 22:26:22 2017
-
 @author: CS401:Nannapas Banluesombatkul
 """
 
@@ -75,7 +74,5 @@ class Database:
         
     def close(self):
         self.__conn.close()
-        
-        
         
         
