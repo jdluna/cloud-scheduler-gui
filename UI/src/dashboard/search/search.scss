@@ -414,6 +414,12 @@
                         span > span{
                             color: #EFA430;
                         }
+                    }.lessDetail{
+                        display: grid;
+                        grid-template-columns: 45% 55%;
+                        span > span{
+                            color: #EFA430;
+                        }
                     }
                 }
                 .head{

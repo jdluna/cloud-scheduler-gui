@@ -223,10 +223,10 @@ export default class FoundTable2 extends Component {
                                     {this.ifRender(!this.state.detail,
                                     <div className={Style.lessDetail}>
                                         <div> 
-                                            <span>Available CPU <span>{cardData.CPU.available+'/'+cardData.CPU.total} CPUs</span></span>
+                                            <span>CPU free / total <span>{cardData.CPU.available+'/'+cardData.CPU.total} CPUs</span></span>
                                         </div>
                                         <div> 
-                                            <span>Available memory <span>{cardData.memory.available+'/'+cardData.memory.total} GB</span></span>
+                                            <span>Memory free / total <span>{cardData.memory.available+'/'+cardData.memory.total} GB</span></span>
                                         </div>
                                     </div>
                                     )}
@@ -295,10 +295,10 @@ export default class FoundTable2 extends Component {
                                 {this.ifRender(!this.state.detail,
                                     <div className={Style.lessDetail}>
                                         <div>
-                                            <span>Available CPU <span>{cardData.avaiCPU+'/'+cardData.totalCPU} CPUs</span></span>
+                                            <span>CPU free / total <span>{cardData.avaiCPU+'/'+cardData.totalCPU} CPUs</span></span>
                                         </div>
                                         <div> 
-                                            <span>Available memory <span>{cardData.avaiMem+'/'+cardData.totalMem} GB</span></span>
+                                            <span>Memory free / total <span>{cardData.avaiMem+'/'+cardData.totalMem} GB</span></span>
                                         </div>
                                     </div>
                                 )}
