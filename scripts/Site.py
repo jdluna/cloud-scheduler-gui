@@ -28,7 +28,7 @@ class Site:
         
         if site_id != None:
             self.__siteId = site_id
-            print site_id
+            
         if site != None:
             self.__siteId = site[0]
             self.__name = site[1]
