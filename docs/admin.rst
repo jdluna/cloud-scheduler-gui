@@ -1,8 +1,8 @@
-
 Admin interface 
 ======================
 .. contents::
 
+Features to add:
 ----------------------------------
 + Site and resource management
 
@@ -25,5 +25,3 @@ Admin interface
   + Create  any number of user groups 
   
   + Grant / modify group access permissions 
-  
-
