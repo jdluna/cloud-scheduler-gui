@@ -37,58 +37,77 @@ updates in place.
 
    #. /opt/cloud-scheduler
 
-      Files in /opt/cloud-scheduler/etc have examples of accessing MYSQL database
+      Source code for cloud scheduler
 
-#. Your GUI development 
-
-   #. /var/www/html/cloud-scheduler/testbed-map
-
-      Can be viewed as http://FQDN/cloud-scheduler/testbed-map
-
-     
 MySQL database
 ------------------
 
-The cloud scheduler uses MySQL database **clouddb** on its backend. 
-You will be able to access the database directly when needed. 
-The users in the database are the same now as you used for the hackathon and
-can be changed and added just as any other resources in the cloud scheduler. 
+The cloud scheduler uses MySQL database **pragma** on its backend. 
+You will be able to access the database directly when needed. ::
 
-
-There are daily automatic backups of the database and the backup files are in ::
+  # mysql pragma
   
-    /state/partition1/backup/clouddb
+Making changes to GUI
+-------------------
+To make changes to the GUI, you will need to make your changes in /opt/scheduler and copy the application over to /var/www/html/cloud-scheduler as follows ::
 
-You can run a backup and restore of the database for your own needs. Take a
-look at backup/restore scripts in ::
+   # cd /opt/cloud-scheduler/UI
+   # npm run build-linux
+   
+After it completes a new file will be created at src/app/app.js ::
 
-   /root/code/ 
+   # cp src/app/app.js /var/www/html/cloud-scheduler/
+     
+You can then view the changes using http://<FQDN>/cloud-scheduler.  To view the admin username and password, type::
 
-#. backup
+   # cat ~/cloud-gui.login
+   
+During testing you may need a valid session id if you are testing from the browser.  E.g.
 
-   The backup script **backup-clouddb**  has all the settings for running a
-   backup. Edit if needed.
+http://<FQDN>/cloud-scheduler/scripts/CreateReservation.py?sites_id=UCSD&session_id=A6H8SG&… 
 
-#. restore 
+To get session id ::
 
-   The restore script **restore-clouddb** can be used to restore a database to
-   a previous kown state which will destroy all the changes done to the
-   database later than the backup file was created. For example, to restore
-   the database to the state as of 2016, November 30, one woudl run ::
+  # mysql pragma
+  Reading table information for completion of table and column names
+  You can turn off this feature to get a quicker startup with -A
+  
+  Welcome to the MySQL monitor.  Commands end with ; or \g.
+  Your MySQL connection id is 1403332
+  Server version: 5.1.73 Source distribution
+  
+  Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+  
+  Oracle is a registered trademark of Oracle Corporation and/or its
+  affiliates. Other names may be trademarks of their respective
+  owners.
+  
+  Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-       cd /root/code
-       ./restore-clouddb /state/partition1/backup/clouddb/clouddb-20161130.sql.gz
+  mysql> select * from session;
+  +---------+------------+---------------------+--------+
+  | user_id | session_id | last_login          | status |
+  +---------+------------+---------------------+--------+
+  |       7 | 1GQXMY     | 2017-10-17 23:44:58 |      1 |
+  |       8 | 53PVNM     | 2017-11-07 15:12:32 |      1 |
+  |       4 | 5GBL95     | 2017-10-18 18:58:28 |      1 |
+  |       1 | A6H8SG     | 2018-02-07 13:39:29 |      0 |
+  |       9 | ACHFBG     | 2017-12-10 20:26:15 |      1 |
+  |       6 | HWPTZS     | 2018-02-08 14:50:02 |      1 |
+  |       2 | K2H7W2     | 2018-02-07 13:40:43 |      0 |
+  +---------+------------+---------------------+--------+
+  7 rows in set (0.00 sec)
 
-#. partial updates
 
-   The changes to the cloud scheduler database are doen usually via accessing
-   the old GUI. In order to speed up od do some things automatically, one can
-   create scripts to update just some of the tables. Take a look at :: 
+Resources:
+------------------
+Free access on campus to React and NodeJS references:
 
-       /opt/cloud-scheduler/etc/install-data.sql
+http://proquest.safaribooksonline.com
 
-   A similar script  can be used to change/add specific data to the tables ::
+Images can be found here:
 
-       mysql -D clouddb < your-sql-script
+https://fontawesome.com/cheatsheet
 
+https://fontawesome.com/how-to-use/svg-with-js
 
