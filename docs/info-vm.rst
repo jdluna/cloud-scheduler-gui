@@ -12,7 +12,7 @@ This is a summary of using a virtual machine for cloude scheduler GUI
 development and testing.  
 
 Login
-~~~~~~
+---------------
 
 To login to your virtual machine you will need to use ssh.  The virtual
 machine FQDN (fully qualified host name) is given to you in email. ::
