@@ -51,12 +51,12 @@ Making changes to GUI
 -------------------
 To make changes to the GUI, you will need to make your changes in /opt/scheduler and copy the application over to /var/www/html/cloud-scheduler as follows ::
 
-   # cd /opt/cloud-scheduler/UI
+   # cd ~/cloud-scheduler-gui/UI
    # npm run build-linux
    
 After it completes a new file will be created at src/app/app.js ::
 
-   # cp src/app/app.js /var/www/html/cloud-scheduler/
+   # cp dist/app.js /var/www/html/cloud-scheduler/
      
 You can then view the changes using http://<FQDN>/cloud-scheduler.  To view the admin username and password, type::
 
