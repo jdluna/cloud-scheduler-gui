@@ -52,7 +52,7 @@ Making changes to GUI
 To make changes to the GUI, you will need to make your changes in /opt/scheduler and copy the application over to /var/www/html/cloud-scheduler as follows ::
 
    # cd ~/cloud-scheduler-gui/UI
-   # npm run build-linux
+   # npm run build-unix
    
 After it completes a new file will be created at src/app/app.js ::
 
