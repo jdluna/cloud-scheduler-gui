@@ -106,7 +106,7 @@ class ResourceManager:
         # 디비 연결 되면, => 일단 auth 매니저도 제끼고 테스트 ㄱ
         if self.__db.connect():
             #auth = AuthenticationManager()
-            sql = 'INSERT INTO `site`(`name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory` ) VALUES ("'+str(self.__name)+'","'+str(self.__descrtiption)+'","'+str(self.__contact)+'","'+str(self.__location)+'","'+str(self.__pragma_boot_path)+'","'+str(self.__pragma_boot_version)+'","'+str(self.__python_path)+'","'+str(self.__temp_dir)+'","'+str(self.__username)+'","'+str(self.__deployment_type)+'","'+str(self.__site_hostname)+'","'+str(self.__latitude)+'","'+str(self.__longitude)+'","'+str(self.__username)+'","'+str(self.__username)+'");'
+            sql = 'INSERT INTO `site`(`name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory` ) VALUES ("'+str(self.__name)+'","'+str(self.__descrtiption)+'","'+str(self.__contact)+'","'+str(self.__location)+'","'+str(self.__pragma_boot_path)+'","'+str(self.__pragma_boot_version)+'","'+str(self.__python_path)+'","'+str(self.__temp_dir)+'","'+str(self.__username)+'","'+str(self.__deployment_type)+'","'+str(self.__site_hostname)+'","'+str(self.__latitude)+'","'+str(self.__longitude)+'","'+str(self.__total_cpu)+'","'+str(self.__total_memory)+'");'
             self.__db.execute(sql)
 
             self.__db.commit()
