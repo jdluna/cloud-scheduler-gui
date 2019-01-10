@@ -68,7 +68,7 @@ http://<FQDN>/cloud-scheduler/scripts/CreateReservation.py?sites_id=UCSD&session
 
 To get session id ::
 
-  # mysql pragma
+  # mysql -u root pragma
   Reading table information for completion of table and column names
   You can turn off this feature to get a quicker startup with -A
   
@@ -98,6 +98,19 @@ To get session id ::
   +---------+------------+---------------------+--------+
   7 rows in set (0.00 sec)
 
+To backup database, use the mysqldump command as below ::
+
+  # mysqldump -u root pragma > pragma.bak.20190110.sql
+  
+If you want to make a copy of the database, you can execute the below mysql commands ::
+
+  mysql> create database pragma_20190110;
+  mysql> use database pragma_20190110;
+  mysql> source pragma.bak.20190110.sql
+ 
+To delete a database, type ::
+
+  mysql> drop database pragma_20190110;
 
 Resources:
 ------------------
