@@ -38,6 +38,7 @@ class ResourceManager:
         self.__longitude = None
         self.__total_cpu = None
         self.__total_memory = None
+        self.__network = None    # for connection type of resource
 
         self.__isComplete = False   # 이걸로 나중에 result를 success로 바꿀지 fail로 바꿀지 결정하는 변수임
         self.__db = None
@@ -84,8 +85,31 @@ class ResourceManager:
            return False
             # 이게 끝나고 DB 커넥션 에러 같은걸 만들어 주면 좋겠다 그치?
 
+    def setConnectionType(self, name, network):
+        self.__db = Database()
+        self.__name = name
+        self.__network = network
+        connection_type = None
+        site_id = None
 
-    def createResource(self, name, description,  contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, deployment_type, site_hostname, latitude, longitude, total_cpu, total_memory):
+        if self.__network == "ENT":
+            connection_type = 1
+        if self.__network == "IPOP":
+            connection_type = 2
+
+        if self.__db.connect():
+            sql = 'SELECT `site_id` FROM `site` WHERE `name` = "' + str(self.__name)+'";'
+            self.__db.execute(sql)
+            site_id = self.__db.getCursor().fetchone()[0]
+
+            sql = 'INSERT INTO `connection_type`(`site_id`,`connection_type_id` ) VALUES ( '+str(site_id)+' ,'+str(connection_type)+');'
+            self.__db.execute(sql)
+            self.__db.commit()
+            self.__db.close()
+
+
+
+    def createResource(self, name, description,  contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, deployment_type, site_hostname, latitude, longitude, total_cpu, total_memory, network):
         self.__db = Database()
         self.__name = name
         self.__descrtiption = description
@@ -102,16 +126,19 @@ class ResourceManager:
         self.__longitude = longitude
         self.__total_cpu = total_cpu
         self.__total_memory = total_memory
+        self.__network = network
 
         # 디비 연결 되면, => 일단 auth 매니저도 제끼고 테스트 ㄱ
         if self.__db.connect():
             #auth = AuthenticationManager()
             sql = 'INSERT INTO `site`(`name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory` ) VALUES ("'+str(self.__name)+'","'+str(self.__descrtiption)+'","'+str(self.__contact)+'","'+str(self.__location)+'","'+str(self.__pragma_boot_path)+'","'+str(self.__pragma_boot_version)+'","'+str(self.__python_path)+'","'+str(self.__temp_dir)+'","'+str(self.__username)+'","'+str(self.__deployment_type)+'","'+str(self.__site_hostname)+'","'+str(self.__latitude)+'","'+str(self.__longitude)+'","'+str(self.__total_cpu)+'","'+str(self.__total_memory)+'");'
             self.__db.execute(sql)
-
+            
             self.__db.commit()
 
             self.__db.close()
+
+            self.setConnectionType(self.__name, self.__network)
 
     def getReservationName(self):
         return self.__name

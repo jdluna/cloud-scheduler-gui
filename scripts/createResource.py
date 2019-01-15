@@ -30,13 +30,13 @@ LATITUDE = form.getvalue('latitude')
 LONGITUDE = form.getvalue('longitude')
 TOTAL_CPU = form.getvalue('total_cpu')
 TOTAL_MEMORY = form.getvalue('total_memory')
+NETWORK = form.getvalue('network')
 #########################################################
 
 
 print "Content-Type: text/html"
 print "Access-Control-Allow-Origin: *"
 print
-
 
 from ResourceManager import ResourceManager
 resourceManager = ResourceManager()
@@ -45,7 +45,7 @@ resource = resourceManager.canCreateResource(NAME)
 result = 'fail'
 
 if resource :
-    resourceManager.createResource(NAME, DESCRIPTION, CONTACT, LOCATION, PRAGMA_BOOT_PATH, PRAGMA_BOOT_VERSION, PYTHON_PATH, TEMP_DIR, USERNAME, DEPLOYMENT_TYPE, SITE_HOSTNAME, LATITUDE, LONGITUDE, TOTAL_CPU, TOTAL_MEMORY)
+    resourceManager.createResource(NAME, DESCRIPTION, CONTACT, LOCATION, PRAGMA_BOOT_PATH, PRAGMA_BOOT_VERSION, PYTHON_PATH, TEMP_DIR, USERNAME, DEPLOYMENT_TYPE, SITE_HOSTNAME, LATITUDE, LONGITUDE, TOTAL_CPU, TOTAL_MEMORY, NETWORK)
     result = resourceManager.getCreateResourceStatus()
 
 #result = 'success'

@@ -16,7 +16,7 @@ export default class ResourceContainer extends Component{
 
 
 	
-		this.state = {value:'', _name:'', description:'Virtual machines', contact:'', location:'', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64'};
+		this.state = {value:'', _name:'', description:'Virtual machines', contact:'', location:'', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64',network: 'IPOP'};
 	
 	this.handleChange = this.handleChange.bind(this);
 	this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,7 +51,7 @@ export default class ResourceContainer extends Component{
 
 	onSubmit(event){
 		console.log('mysubmit');
-	     let { _name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, latitude, longitude, total_cpu, total_memory} = this.state;
+	     let { _name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, latitude, longitude, total_cpu, total_memory, network} = this.state;
             
 		alert(this.state._name);
 
@@ -72,8 +72,9 @@ export default class ResourceContainer extends Component{
                 latitude: this.state.latitude,
                 longitude: this.state.longitude,
                 total_cpu: this.state.total_cpu,
-                total_memory: this.state.total_memory
-            }
+                total_memory: this.state.total_memory,
+				network: this.state.network
+			}
         };
 
 
@@ -116,7 +117,8 @@ export default class ResourceContainer extends Component{
                 longitude: this.state.longitude,
                 total_cpu: this.state.total_cpu,
                 total_memory: this.state.total_memory,
-                sites_id: sitesId
+                sites_id: sitesId,
+				network: this.state.network
             }
         }
 

@@ -1,9 +1,31 @@
 import React,{Component} from 'react'
 import Style from './resource.scss'
 import Style2 from './settings.scss'
+import {NETWORK_TYPE} from '../../config/attributes'
+
+const NetworkList = (props) => {
+	return(
+       <td> 
+		{
+			NETWORK_TYPE.map((data,key)=>{
+				return(
+					<span className={Style.block} key={key}>
+						<span className={Style.choose}>
+							<input type='radio' name='network' value={data.name} checked={props.value==data.name} onChange={props.handle}/>
+                            <span className={Style.tag}>{data.name}</span>
+                        </span>
+                    </span>
+                )
+            })
+        }
+        </td>
+    )
+}
+             
 
 export default class Resource extends Component {
     render() {
+        let networkList = <NetworkList value={this.props.resourcesContainer.state.network} handle={this.props.resourcesContainer.handleInputChange}/>
         return (
             <section className={Style.wrap}>
                 <section className={Style.content}>
@@ -73,6 +95,11 @@ export default class Resource extends Component {
                                             <tr>
                                                 <td className={Style.tag}>total_memory</td>
                                                 <td><input className={Style.input} type='number' name='total_memory' value={this.props.resourcesContainer.state.total_memory} onChange={this.props.resourcesContainer.handleInputChange}/></td>
+                                            </tr>
+                                            <tr>
+                                                <td className={Style.tag}>network</td>
+                                             
+												{networkList}
                                             </tr>
                                             <tr>
                                                 <td></td>
