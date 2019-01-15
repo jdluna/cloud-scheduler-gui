@@ -33,7 +33,7 @@ export default class Resource extends Component {
                         <div className={Style.right}>
                             <div className={Style.width}>
                                 <div className={Style.time}>Resource form</div>
-                                <form onSubmit={this.handleSubmit}>
+                                <form className={Style.table} onSubmit={this.handleSubmit}>
                                     <table>
                                         <tbody>
                                             <tr>
@@ -103,7 +103,7 @@ export default class Resource extends Component {
                                             </tr>
                                             <tr>
                                                 <td></td>
-                                                <td className={Style.submitBtn}><button name='sendValue' className={Style.ok} onClick={this.props.resourcesContainer.queryConfirmReservation}>submit</button></td>
+                                                <td className={Style.submitBtn}><button name='sendValue' className='btn--info' onClick={this.props.resourcesContainer.queryConfirmReservation}>submit</button></td>
                                             </tr>
                                         </tbody>
                                     </table>
