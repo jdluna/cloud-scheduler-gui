@@ -10,6 +10,9 @@ export default class cardDescription extends Component {
                     <article className={style.article}>
                         <span className={style.title}>{this.props.dashBoardContainer.state.cardDetail.data.name}</span>
                         <img className={style.close} width='18' src='img/ic_close.svg' onClick={this.props.dashBoardContainer.onCloseMoreInfo}/>
+                        <span className={style.modifybtn}>
+                            <button className="btn--info" name='modify' onClick={this.props.dashBoardContainer.modifyResourceInfo}>modify</button>
+                        </span>
                     </article>
                     <section className={style.content}>
                         <section className={style.column}>

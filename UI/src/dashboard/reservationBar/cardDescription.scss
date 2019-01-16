@@ -42,7 +42,7 @@
         .article{
             border-radius: 3px 3px 0px 0px;
             background-color: #55596A;
-            height: 28px;
+            height: 32px;
             width: 100%;
             .title{
                 float: left;
@@ -52,12 +52,18 @@
             }
             .close{
                 float: right;
-                margin-top: 4px;
+                margin-top: 7px;
                 margin-right: 10px;
+            }
+            .modifybtn{
+                float: right;
+                margin-right: 10px;
+                margin-left: 4px;
+                width: 15%;
             }
         }
         .content{
-            display: flex;
+            display: inline-flex;
             flex-direction: row;
             padding: 10px;
             .column{

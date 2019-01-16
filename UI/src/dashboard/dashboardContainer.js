@@ -117,6 +117,10 @@ export default class DashboardContainer extends Component {
         })
     }
 
+    modifyResourceInfo(){
+
+    }
+
     onCloseMoreInfo() {
         this.setState({
             cardDetail: {
