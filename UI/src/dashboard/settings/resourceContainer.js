@@ -16,11 +16,12 @@ export default class ResourceContainer extends Component{
 
 
 	
-		this.state = {value:'', _name:'', description:'Virtual machines', contact:'', location:'', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64',network: 'IPOP'};
+		this.state = {value:'', _name:'', description:'Virtual machines', contact:'', location:'', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64',network: 'IPOP', image_type:[]};
 	
 	this.handleChange = this.handleChange.bind(this);
 	this.handleSubmit = this.handleSubmit.bind(this);
 	this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleImageTypeChange = this.handleImageTypeChange.bind(this);
 	
 	this.onSubmit = this.onSubmit.bind(this);
 	this.queryConfirmReservation = this.queryConfirmReservation.bind(this);
@@ -39,6 +40,18 @@ export default class ResourceContainer extends Component{
 
 	    this.setState({[name]: value});
 	}
+    handleImageTypeChange(event){
+        var options = event.target.options;
+        var value = [];
+        for (var i = 0, l = options.length; i < l; i++){
+            if(options[i].selected){
+                value.push(options[i].value);
+            }
+        }
+        this.setState({
+            image_type: value
+        });
+    }
 
 	handleSubmit(event){
 	    alert('Form was submitted, ' + this.state._name);
@@ -51,7 +64,7 @@ export default class ResourceContainer extends Component{
 
 	onSubmit(event){
 		console.log('mysubmit');
-	     let { _name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, latitude, longitude, total_cpu, total_memory, network} = this.state;
+	     let { _name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, latitude, longitude, total_cpu, total_memory, network, image_type} = this.state;
             
 		alert(this.state._name);
 
@@ -73,7 +86,8 @@ export default class ResourceContainer extends Component{
                 longitude: this.state.longitude,
                 total_cpu: this.state.total_cpu,
                 total_memory: this.state.total_memory,
-				network: this.state.network
+				network: this.state.network,
+                image_type: this.state.image_type
 			}
         };
 
@@ -118,7 +132,8 @@ export default class ResourceContainer extends Component{
                 total_cpu: this.state.total_cpu,
                 total_memory: this.state.total_memory,
                 sites_id: sitesId,
-				network: this.state.network
+				network: this.state.network,
+                image_type: this.state.image_type.toString()
             }
         }
 
@@ -138,6 +153,7 @@ export default class ResourceContainer extends Component{
         });
 
     }
+
 
 
 	render(){

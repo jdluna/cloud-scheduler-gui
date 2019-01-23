@@ -21,10 +21,29 @@ const NetworkList = (props) => {
         </td>
     )
 }
+
+const ImageTypeList = (props) => {
+    let images = props.i
+    return(
+        <select name='image_type' className={Style.inputmulti} onChange={props.handle} multiple="multiple">
+        {
+            images.map((data, key)=> {
+                let d = data.name
+                    return (
+                        <option  key={key} value={d}>{d}</option>
+                    )
+            })
+        }
+        </select>
+    )
+}
+
              
 
 export default class Resource extends Component {
     render() {
+        let images = this.props.resourcesContainer.dashboardContainer.state.images
+        let imageTypeList = <ImageTypeList i={images} value={this.props.resourcesContainer.state.image_type} handle={this.props.resourcesContainer.handleImageTypeChange}/>
         let networkList = <NetworkList value={this.props.resourcesContainer.state.network} handle={this.props.resourcesContainer.handleInputChange}/>
         return (
             <section className={Style.wrap}>
@@ -97,9 +116,13 @@ export default class Resource extends Component {
                                                 <td><input className={Style.input} type='number' name='total_memory' value={this.props.resourcesContainer.state.total_memory} onChange={this.props.resourcesContainer.handleInputChange}/></td>
                                             </tr>
                                             <tr>
+                                                <td className={Style.tag}>image_type</td>
+                                                {imageTypeList} 
+                                            </tr>
+                                            <tr>
                                                 <td className={Style.tag}>network</td>
-                                             
-												{networkList}
+                                                {networkList}
+                                               
                                             </tr>
                                             <tr>
                                                 <td></td>

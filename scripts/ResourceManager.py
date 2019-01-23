@@ -9,6 +9,7 @@ Created on Wed Mar 01 23:57:57 2017
 import cgitb
 cgitb.enable()
 
+import cgi
 from SiteManager import SiteManager
 from Site import Site
 from Database import Database
@@ -39,7 +40,7 @@ class ResourceManager:
         self.__total_cpu = None
         self.__total_memory = None
         self.__network = None    # for connection type of resource
-
+        self.__image_type = []
         self.__isComplete = False   # 이걸로 나중에 result를 success로 바꿀지 fail로 바꿀지 결정하는 변수임
         self.__db = None
         self.__check_name_duplication = False
@@ -106,10 +107,37 @@ class ResourceManager:
             self.__db.execute(sql)
             self.__db.commit()
             self.__db.close()
+        
+    def setImageType(self, name, image_type):
+        self.__db = Database()
+        self.__name = name
+        self.__image_type = image_type
+        image_type_id = []
+        site_id = None
+        
+        #convert list type
+        self.__image_type = image_type.split(",")
+
+        if self.__db.connect():
+            sql = 'SELECT `site_id` FROM `site` WHERE `name` = "'+str(self.__name)+'";'
+            self.__db.execute(sql)
+            site_id = self.__db.getCursor().fetchone()[0]
 
 
+            for i in self.__image_type:
+                sql = 'SELECT `image_type_id` FROM `image_type_desc` WHERE `name` = "' + str(i) + '";'
+                self.__db.execute(sql)
+                image_type_id.append(self.__db.getCursor().fetchone()[0])
 
-    def createResource(self, name, description,  contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, deployment_type, site_hostname, latitude, longitude, total_cpu, total_memory, network):
+
+            for image in image_type_id:
+                sql = 'INSERT INTO `image_type`(`site_id`,`image_type_id` ) VALUES ( '+str(site_id) + ' ,'+str(image)+');'
+                self.__db.execute(sql)
+            self.__db.commit()
+            self.__db.close()
+
+
+    def createResource(self, name, description,  contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, deployment_type, site_hostname, latitude, longitude, total_cpu, total_memory, network,image_type):
         self.__db = Database()
         self.__name = name
         self.__descrtiption = description
@@ -127,18 +155,20 @@ class ResourceManager:
         self.__total_cpu = total_cpu
         self.__total_memory = total_memory
         self.__network = network
+        self.__image_type = image_type
 
         # 디비 연결 되면, => 일단 auth 매니저도 제끼고 테스트 ㄱ
         if self.__db.connect():
             #auth = AuthenticationManager()
-            sql = 'INSERT INTO `site`(`name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory` ) VALUES ("'+str(self.__name)+'","'+str(self.__descrtiption)+'","'+str(self.__contact)+'","'+str(self.__location)+'","'+str(self.__pragma_boot_path)+'","'+str(self.__pragma_boot_version)+'","'+str(self.__python_path)+'","'+str(self.__temp_dir)+'","'+str(self.__username)+'","'+str(self.__deployment_type)+'","'+str(self.__site_hostname)+'","'+str(self.__latitude)+'","'+str(self.__longitude)+'","'+str(self.__total_cpu)+'","'+str(self.__total_memory)+'");'
+            sql = 'INSERT INTO `site`(`name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory`,`network` ) VALUES ("'+str(self.__name)+'","'+str(self.__descrtiption)+'","'+str(self.__contact)+'","'+str(self.__location)+'","'+str(self.__pragma_boot_path)+'","'+str(self.__pragma_boot_version)+'","'+str(self.__python_path)+'","'+str(self.__temp_dir)+'","'+str(self.__username)+'","'+str(self.__deployment_type)+'","'+str(self.__site_hostname)+'","'+str(self.__latitude)+'","'+str(self.__longitude)+'","'+str(self.__total_cpu)+'","'+str(self.__total_memory)+'","'+str(self.__image_type)+'");'
             self.__db.execute(sql)
             
             self.__db.commit()
 
             self.__db.close()
 
-            self.setConnectionType(self.__name, self.__network)
+            #self.setConnectionType(self.__name, self.__network)
+            self.setImageType(self.__name, self.__image_type)
 
     def getReservationName(self):
         return self.__name
