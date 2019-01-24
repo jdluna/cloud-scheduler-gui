@@ -51,12 +51,12 @@ Making changes to GUI
 -------------------
 To make changes to the GUI, you will need to make your changes in /opt/scheduler and copy the application over to /var/www/html/cloud-scheduler as follows ::
 
-   # cd /opt/cloud-scheduler/UI
-   # npm run build-linux
+   # cd ~/cloud-scheduler-gui/UI
+   # npm run build-unix
    
 After it completes a new file will be created at src/app/app.js ::
 
-   # cp src/app/app.js /var/www/html/cloud-scheduler/
+   # cp dist/app.js /var/www/html/cloud-scheduler/
      
 You can then view the changes using http://<FQDN>/cloud-scheduler.  To view the admin username and password, type::
 
@@ -68,7 +68,7 @@ http://<FQDN>/cloud-scheduler/scripts/CreateReservation.py?sites_id=UCSD&session
 
 To get session id ::
 
-  # mysql pragma
+  # mysql -u root pragma
   Reading table information for completion of table and column names
   You can turn off this feature to get a quicker startup with -A
   
@@ -98,6 +98,19 @@ To get session id ::
   +---------+------------+---------------------+--------+
   7 rows in set (0.00 sec)
 
+To backup database, use the mysqldump command as below ::
+
+  # mysqldump -u root pragma > pragma.bak.20190110.sql
+  
+If you want to make a copy of the database, you can execute the below mysql commands ::
+
+  mysql> create database pragma_20190110;
+  mysql> use database pragma_20190110;
+  mysql> source pragma.bak.20190110.sql
+ 
+To delete a database, type ::
+
+  mysql> drop database pragma_20190110;
 
 Resources:
 ------------------
