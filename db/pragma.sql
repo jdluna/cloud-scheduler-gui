@@ -242,30 +242,31 @@ CREATE TABLE `site` (
   `pragma_boot_version` int(11) NOT NULL,
   `python_path` varchar(64) NOT NULL,
   `temp_dir` varchar(64) NOT NULL,
-  `username` varchar(16) NOT NULL,
+  `ssh_username` varchar(16) NOT NULL,
   `deployment_type` varchar(16) NOT NULL,
   `site_hostname` varchar(32) NOT NULL,
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `total_cpu` int(11) NOT NULL,
-  `total_memory` int(11) NOT NULL
+  `total_memory` int(11) NOT NULL,
+  `admin` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `site`
 --
 
-INSERT INTO `site` (`site_id`, `name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory`) VALUES
-(1, 'NCHC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 16, 32),
-(2, 'AIST Cloud', 'Cloudstack. Hosting Virtual clusters and virtual machines.', 'jh.haga@aist.go.jp', 'Cloudstack. Hosting Virtual clusters and virtual machines.', '/home/ssmallen/pragma_boot', 2, '/opt/python/bin/python', '/home/ssmallen/pcc', 'ssmallen', 'Rocks KVM', 'pragma.aist.org', 36.060839, 140.137303, 32, 64),
-(3, 'Indiana University cloud', 'Rocks 6.2 KVM. Hosting Virtual clusters and virtual machines.', 'quzhou@umail.iu.edu', 'Indiana University', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma8.cs.indiana.edu', 39.1704, -86.5143, 16, 64),
-(4, 'NAIST cloud', 'Rocks 6.2 KVM. Hosting Virtual clusters and virtual machines.', 'sd-rocks00.naist.jp', 'NAIST', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'sd-rocks00.naist.jp', 34.6853, 135.8328, 92, 192),
-(5, 'TOS cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 30.5621124, -86.1100215, 64, 32),
-(6, 'TP cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.7849113, 90.3579546, 32, 64),
-(7, 'UCSD cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'calit2-119-121.ucsd.edu', 32.8248175, -115.1879546, 64, 128),
-(8, 'TW cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 23.4790323, 120.4142769, 64, 64),
-(9, 'B1 cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 55.1879546, 65.1879546, 32, 32),
-(10, 'CC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 47.1879546, 8.0834012, 128, 64);
+INSERT INTO `site` (`site_id`, `name`, `description`, `contact`, `location`, `pragma_boot_path`, `pragma_boot_version`, `python_path`, `temp_dir`, `ssh_username`, `deployment_type`, `site_hostname`, `latitude`, `longitude`, `total_cpu`, `total_memory`,`admin`) VALUES
+(1, 'NCHC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.81383, 120.967475, 16, 32,'admin'),
+(2, 'AIST Cloud', 'Cloudstack. Hosting Virtual clusters and virtual machines.', 'jh.haga@aist.go.jp', 'Cloudstack. Hosting Virtual clusters and virtual machines.', '/home/ssmallen/pragma_boot', 2, '/opt/python/bin/python', '/home/ssmallen/pcc', 'ssmallen', 'Rocks KVM', 'pragma.aist.org', 36.060839, 140.137303, 32, 64,'admin'),
+(3, 'Indiana University cloud', 'Rocks 6.2 KVM. Hosting Virtual clusters and virtual machines.', 'quzhou@umail.iu.edu', 'Indiana University', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma8.cs.indiana.edu', 39.1704, -86.5143, 16, 64,'admin'),
+(4, 'NAIST cloud', 'Rocks 6.2 KVM. Hosting Virtual clusters and virtual machines.', 'sd-rocks00.naist.jp', 'NAIST', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'sd-rocks00.naist.jp', 34.6853, 135.8328, 92, 192,'admin'),
+(5, 'TOS cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 30.5621124, -86.1100215, 64, 32,'admin'),
+(6, 'TP cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 24.7849113, 90.3579546, 32, 64,'admin'),
+(7, 'UCSD cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'calit2-119-121.ucsd.edu', 32.8248175, -115.1879546, 64, 128,'admin'),
+(8, 'TW cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 23.4790323, 120.4142769, 64, 64,'admin'),
+(9, 'B1 cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 55.1879546, 65.1879546, 32, 32,'admin'),
+(10, 'CC cloud', 'Rocks. Hosting virtual clusters and virtual machines', 'serenapan@nchc.narl.org.tw', 'National Center for High-Performance Computing', '/opt/pragma_boot', 2, '/opt/python/bin/python', '/var/run/pcc', 'root', 'Rocks KVM', 'pragma.nchc.org.tw', 47.1879546, 8.0834012, 128, 64,'admin');
 
 -- --------------------------------------------------------
 

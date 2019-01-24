@@ -71,6 +71,7 @@ export default class ResourceContainer extends Component{
 
 	   let params = {
             params:{
+                session_id: this.appContainer.state.authen.session,
                 _name: this.state._name,
                 description: this.state.description,
                 contact: this.state.contact,
@@ -116,6 +117,7 @@ export default class ResourceContainer extends Component{
 
         let params = {
             params:{
+                session_id: this.appContainer.state.authen.session,
                 _name: this.state._name,
                 description: this.state.description,
                 contact: this.state.contact,

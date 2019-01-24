@@ -16,6 +16,7 @@ list = cgi.FormContentDict()
 #### var from front-end -> resource values #####
 # 사이트 아이디 안해도 될걸?
 #SITE_ID = form.getvalue('site_id')
+SESSION_ID = form.getvalue('session_id')
 NAME = form.getvalue('_name')
 DESCRIPTION = form.getvalue('description')
 CONTACT = form.getvalue('contact')
@@ -43,7 +44,7 @@ print
 from ResourceManager import ResourceManager
 resourceManager = ResourceManager()
 
-resource = resourceManager.canCreateResource(NAME)
+resource = resourceManager.canCreateResource(SESSION_ID,NAME)
 result = 'fail'
 
 if resource :
