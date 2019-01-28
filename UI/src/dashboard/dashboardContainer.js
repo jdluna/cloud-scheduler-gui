@@ -15,6 +15,7 @@ import { GET_ALL_IMAGES_ENDPOINT, CHECK_CONNECTION_TYPE_ENDPOINT } from '../conf
 
 //import ResourceContainer from './settings/resourceContainer'
 import SettingsContainer2 from './settings/settingsContainer2'
+import UserAccessContainer from './settings/userAccessContainer'
 
 export default class DashboardContainer extends Component {
     constructor(props) {
@@ -32,6 +33,9 @@ export default class DashboardContainer extends Component {
             cardDetail: {
                 panel: [],
                 data: {}
+            },
+            cardDescriptionPanel: {
+                modifyBtnNode: {},
             },
             modal: [],
             markerNode: [],
@@ -66,6 +70,7 @@ export default class DashboardContainer extends Component {
         this.setAllImages = this.setAllImages.bind(this)
         this.closeAllCard = this.closeAllCard.bind(this)
         this.queryCheckConnectionType = this.queryCheckConnectionType.bind(this)
+
     }
 
     onSelectMenu(menu) {
@@ -95,10 +100,18 @@ export default class DashboardContainer extends Component {
             }
 
 	    else if (menu == 'Resource' ){
-		this.setState({
-		   modal: <SettingsContainer2 dashBoardContainer={this} app={this.props.app} />,
-		   modalName: 'Resource'
-		})
+            let userStatus = this.props.app.state.authen.data.status
+            if (userStatus == 'user'){
+                this.setState({
+                    modal: <UserAccessContainer dashBoardContainer={this} />,
+                    modalName: 'user Access'
+                })
+            }else{
+        		this.setState({
+         		   modal: <SettingsContainer2 dashBoardContainer={this} app={this.props.app} />,
+         		   modalName: 'Resource'
+        		})
+            }
 	   }
         } else {
             this.setState({
@@ -154,6 +167,7 @@ export default class DashboardContainer extends Component {
     }
 
     onViewMoreInfo(data) {
+
         let panel = []
         panel.push(<CardDescriptionContainer dashBoardContainer={this} key={0} />)
         this.setState({
@@ -162,6 +176,7 @@ export default class DashboardContainer extends Component {
                 data: data
             }
         })
+        this.changeModifyColor()
     }
 
     setMarkerNode(marker) {
@@ -333,7 +348,15 @@ export default class DashboardContainer extends Component {
             })
         }
     }
-
+    changeModifyColor(){
+        //let username = this.props.dashBoardContainer.state.cardDetail.data.username
+        let username = "root"
+        if (true){
+            this.state.cardDescriptionPanel.modifyBtnNode.className = 'btn'
+        }else{
+            this.state.cardDescriptionPanel.modifyBtnNode.className = 'btn--disabled'
+        }
+    }
     setAllImages() {
         axios.get(GET_ALL_IMAGES_ENDPOINT).then(response => {
             let { data, status } = response
