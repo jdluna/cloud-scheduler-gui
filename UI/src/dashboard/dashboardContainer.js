@@ -3,6 +3,8 @@ import Dashboard from './dashboard'
 import CardContainer from './reservationBar/cardContainer'
 import CardDescriptionContainer from './reservationBar/cardDescriptionContainer'
 import SettingsContainer from './settings/settingsContainer'
+import TimezoneContainer from './settings/timezoneContainer'
+import ResourceContainer from './settings/resourceContainer'
 import LoginContainer from './login/loginContainer'
 import SearchContainer from './search/searchContainer'
 import ReservationContainer from './reservation/reservationContainer'
@@ -20,6 +22,7 @@ import UserAccessContainer from './settings/userAccessContainer'
 export default class DashboardContainer extends Component {
     constructor(props) {
         super(props)
+        this.settingContainer = this.props.settingContainer
         this.state = {
             map: {
                 // sites: [],
@@ -55,8 +58,10 @@ export default class DashboardContainer extends Component {
             images: [],
             isSameConnectionType: false,
             dialogAfterLogin: null,
-            dateForCard: null
+            dateForCard: null,
+            settingCard: null
         }
+        this.setSettingCard = this.setSettingCard.bind(this)
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
         this.onViewMoreInfo = this.onViewMoreInfo.bind(this)
@@ -93,10 +98,13 @@ export default class DashboardContainer extends Component {
                     modalName: (menu == 'Past reservations') ? 'history' : menu
                 })
             } else if (menu == 'Settings') {
+               
                 this.setState({
-                    modal: <SettingsContainer dashBoardContainer={this} app={this.props.app} />,
-                    modalName: 'Settings'
+                   modal: <SettingsContainer dashBoardContainer={this} app={this.props.app} />,
+                   modalName: 'Settings',
+                   settingCard: 'TimezoneContainer'
                 })
+               
             }
 
 	    else if (menu == 'Resource' ){
@@ -108,9 +116,10 @@ export default class DashboardContainer extends Component {
                 })
             }else{
         		this.setState({
-         		   modal: <SettingsContainer2 dashBoardContainer={this} app={this.props.app} />,
-         		   modalName: 'Resource'
-        		})
+         		   modal: <SettingsContainer dashBoardContainer={this} app={this.props.app} />,
+         		   modalName: 'Resource',
+                   settingCard: 'ResourceContainer'
+                })
             }
 	   }
         } else {
@@ -122,7 +131,12 @@ export default class DashboardContainer extends Component {
             }, this.props.app.authentication)
         }
     }
-
+    setSettingCard(tab){
+         switch(tab){
+            case 1 : this.setState({settingCard: <TimezoneContainer dashBoardContainer={this} app={this.props.app}/>});break
+            case 2 : this.setState({settingCard: <ResourceContainer settingContainer={this.props.settingContainer} dashBoardContainer={this} app={this.props.app}/>});break
+        }
+    }
     onCloseModal() {
         this.setState({
             modal: [],

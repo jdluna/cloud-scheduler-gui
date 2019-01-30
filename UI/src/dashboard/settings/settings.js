@@ -7,30 +7,27 @@ export default class Settings extends Component {
     render() {
         return (
             <section>
-                    <section className={Style.panel}>
+                <section className={Style.panel} style={this.props.settingContainer.state.style.height}>
                         <header>
-                            <div>Settings</div>
+                            <div>{this.props.settingContainer.state.cardName}</div>
                             <img src='img/ic_close.svg' onClick={()=>this.props.settingContainer.onClose()} />
                         </header>
                         <nav>
                             <div className={Style.menu}>
-                                <div className={Style.subMenu}>
+                                <div className={Style.subMenu} onClick={()=>this.props.settingContainer.onChangeTab(1)}>
                                     <img src='img/ic_access_time_white.svg'/>
-                                    <div className={Style.text}>Timezone</div>
+                                    <div className={Style.text}>Setting</div>
                                 </div>
-				<div className={Style.subMenu}>
+				<div className={Style.subMenu} onClick={()=>this.props.settingContainer.onChangeTab(2)}>
 				    <img src='img/ic_access_time_white.svg'/>
 				    <div className={Style.text}>Resource</div>
 				</div>
                             </div>
                         </nav>
                         <div className={Style.content}>
-                            <TimezoneContainer settingContainer={this.props.settingContainer} dashBoardContainer={this.props.dashBoardContainer} app={this.props.app}/>
+                            {this.props.settingContainer.state.card}
                         </div>
-			<div>
-			    <ResourceContainer settingContainer={this.props.settingContainer} dashBoardContainer={this.props.dashBoardContainer} app={this.props.app}/>
-			</div>
-                    </section>
+                </section>
             </section>
         )
     }
