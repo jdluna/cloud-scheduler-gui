@@ -8,6 +8,7 @@ import ResourceContainer from './resourceContainer'
 export default class SettingsContainer extends Component {
     componentDidMount(){
         if(this.state.settingCard == 'TimezoneContainer'){
+            this.setAdminStatus()
             this.onChangeTab(1)
         }else if(this.state.settingCard == 'ResourceContainer'){
             this.onChangeTab(2)
@@ -21,13 +22,27 @@ export default class SettingsContainer extends Component {
             settingCard: this.props.dashBoardContainer.state.settingCard,
             card: null,
             cardName: null,
+            adminStatus: null,
             style:{
                height:{}
             }
         }
+        this.setAdminStatus = this.setAdminStatus.bind(this)
         this.setSettingCard = this.setSettingCard.bind(this)
         this.setTimezoneThick = this.setTimezoneThick.bind(this)
         this.onChangeTab = this.onChangeTab.bind(this)
+    }
+    setAdminStatus(){
+        if(this.props.app.state.authen.data.status == 'user'){
+            this.setState({
+                adminStatus: true
+            })
+        }else{
+            this.setState({
+                    adminStatus: false
+                })
+       }
+
     }
     setSettingCard(){
         this.setState({

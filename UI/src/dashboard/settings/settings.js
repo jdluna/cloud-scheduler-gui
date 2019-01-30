@@ -18,7 +18,7 @@ export default class Settings extends Component {
                                     <img src='img/ic_access_time_white.svg'/>
                                     <div className={Style.text}>Setting</div>
                                 </div>
-				<div className={Style.subMenu} onClick={()=>this.props.settingContainer.onChangeTab(2)}>
+				<div className={Style.subMenu} onClick={()=>this.props.settingContainer.onChangeTab(2)} hidden={this.props.settingContainer.state.adminStatus}>
 				    <img src='img/ic_access_time_white.svg'/>
 				    <div className={Style.text}>Resource</div>
 				</div>
