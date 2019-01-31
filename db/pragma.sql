@@ -297,7 +297,7 @@ CREATE TABLE `user` (
   `lastname` varchar(32) NOT NULL,
   `email` varchar(64) NOT NULL,
   `phone` varchar(24) DEFAULT NULL,
-  `status` varchar(5) NOT NULL,
+  `status` varchar(16) NOT NULL,
   `organization` varchar(16) NOT NULL,
   `position` varchar(16) NOT NULL,
   `language` varchar(3) NOT NULL,
