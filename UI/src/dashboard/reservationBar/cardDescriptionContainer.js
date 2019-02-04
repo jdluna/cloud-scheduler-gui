@@ -2,10 +2,10 @@ import React,{Component} from 'react'
 import CardDescription from './cardDescription'
 
 export default class cardDescriptionContainer extends Component {
-    render(){
+   render(){
         return(
             <section>
-                <CardDescription dashBoardContainer={this.props.dashBoardContainer}/>
+                <CardDescription cardDescriptionContainer = {this}dashBoardContainer={this.props.dashBoardContainer}app={this.props.app}/>
             </section>
         )
     }

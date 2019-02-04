@@ -183,14 +183,13 @@ export default class DashboardContainer extends Component {
     onViewMoreInfo(data) {
 
         let panel = []
-        panel.push(<CardDescriptionContainer dashBoardContainer={this} key={0} />)
+        panel.push(<CardDescriptionContainer dashBoardContainer={this} key={0} app={this.props.app}/>)
         this.setState({
             cardDetail: {
                 panel: panel,
                 data: data
             }
         })
-        this.changeModifyColor()
     }
 
     setMarkerNode(marker) {
@@ -362,13 +361,13 @@ export default class DashboardContainer extends Component {
             })
         }
     }
-    changeModifyColor(){
-        //let username = this.props.dashBoardContainer.state.cardDetail.data.username
-        let username = "root"
-        if (true){
-            this.state.cardDescriptionPanel.modifyBtnNode.className = 'btn'
+    changeModifyButton(){
+        let admin = this.props.app.state.authen.data
+        if (this.props.app.state.authen.isLogedIn){
+            
+           this.state.cardDescriptionPanel.modifyBtnNode.style = (admin.status == 'admin' || admin.username == this.state.cardDetail.data.admin) ?'display: block;':'display:none;'
         }else{
-            this.state.cardDescriptionPanel.modifyBtnNode.className = 'btn--disabled'
+            this.state.cardDescriptionPanel.modifyBtnNode.style = 'display: none;'
         }
     }
     setAllImages() {
@@ -458,6 +457,7 @@ export default class DashboardContainer extends Component {
     }
 
     componentWillUpdate() {
+        this.changeModifyButton()
         let { dialogAfterLogin } = this.state
         if (this.props.app.state.authen.isLogedIn && dialogAfterLogin != null) {
             this.onSelectMenu(dialogAfterLogin)

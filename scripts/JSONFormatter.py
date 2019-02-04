@@ -27,7 +27,8 @@ class JSONFormatter:
         jsonStr += '"site_hostname" : "'+str(s.getSiteHostname())+'",'
         jsonStr += '"latitude" : "'+str(s.getLatitude())+'",'
         jsonStr += '"longitude" : "'+str(s.getLongitude())+'",'
-        
+        jsonStr += '"admin" : "'+str(s.getAdmin())+'",'
+
         #get site's image type
         jsonStr += '"image_type" : ['
         for img in s.getImageType():
@@ -91,6 +92,7 @@ class JSONFormatter:
         
     def formatUser(self,u):
         jsonStr = '"session_id" : "' + str(u.getSessionToken()) + '"'
+        jsonStr += ', "username" : "' + str(u.getUsername()) + '"'
         jsonStr += ', "firstname" : "' + str(u.getFirstname()) + '"'
         jsonStr += ', "lastname" : "' + str(u.getLastname()) + '"'
         jsonStr += ', "email_address" : "' + str(u.getEmailAddress()) + '"'

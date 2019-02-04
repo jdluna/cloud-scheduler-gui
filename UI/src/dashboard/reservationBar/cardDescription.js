@@ -2,8 +2,16 @@ import React,{Component} from 'react'
 import style from './cardDescription.scss'
 
 export default class cardDescription extends Component {
+    componentDidMount(){
+        this.props.dashBoardContainer.setState({
+            cardDescriptionPanel:{
+                modifyBtnNode: this.refs.modifyBtn
+            }
+        })
+    }
+
     render(){
-        return(
+              return(
             <section>
                 <section className={(this.props.dashBoardContainer.state.modalName=='Search') ? style.halfmodalBg : null}></section>
                 <section className={style.wraper}>
@@ -11,7 +19,7 @@ export default class cardDescription extends Component {
                         <span className={style.title}>{this.props.dashBoardContainer.state.cardDetail.data.name}</span>
                         <img className={style.close} width='18' src='img/ic_close.svg' onClick={this.props.dashBoardContainer.onCloseMoreInfo}/>
                         <span className={style.modifybtn}>
-                            <button className="btn--info" name='modify' onClick={this.props.dashBoardContainer.modifyResourceInfo}>modify</button>
+                            <button ref='modifyBtn' className="btn" name='modify' onClick={this.props.dashBoardContainer.modifyResourceInfo}>modify</button>
                         </span>
                     </article>
                     <section className={style.content}>

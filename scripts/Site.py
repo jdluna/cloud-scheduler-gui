@@ -44,6 +44,7 @@ class Site:
             self.__site_hostname = site[11]
             self.__latitude = site[12]
             self.__longitude = site[13]
+            self.__admin = site[16]
             
             if db ==  None:
                 db = Database()
@@ -193,3 +194,5 @@ class Site:
     def getAdminDescription(self):
         return self.__adminDesc
         
+    def getAdmin(self):
+        return self.__admin
