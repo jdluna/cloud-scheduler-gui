@@ -332,6 +332,7 @@ export default class cardContainer extends Component {
         this.props.dashBoardContainer.onCloseCard(this.props.siteId)
         let { id, name, connection_type } = this.state.site.allData
         this.props.dashBoardContainer.onDeselectCard({ id: id, name: name, connection: connection_type })
+        this.props.dashBoardContainer.onCloseMoreInfo()
     }
 
     onNextDate() {
