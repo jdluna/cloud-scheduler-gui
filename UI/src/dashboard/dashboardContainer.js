@@ -18,6 +18,7 @@ import { GET_ALL_IMAGES_ENDPOINT, CHECK_CONNECTION_TYPE_ENDPOINT } from '../conf
 //import ResourceContainer from './settings/resourceContainer'
 import SettingsContainer2 from './settings/settingsContainer2'
 import UserAccessContainer from './settings/userAccessContainer'
+import ModifyContainer from './reservationBar/modifyContainer'
 
 export default class DashboardContainer extends Component {
     constructor(props) {
@@ -37,6 +38,7 @@ export default class DashboardContainer extends Component {
                 panel: [],
                 data: {}
             },
+            cardModifyInfo: {},
             cardDescriptionPanel: {
                 modifyBtnNode: {},
             },
@@ -61,6 +63,7 @@ export default class DashboardContainer extends Component {
             dateForCard: null,
             settingCard: null
         }
+        this.modifyResourceInfo = this.modifyResourceInfo.bind(this)
         this.setSettingCard = this.setSettingCard.bind(this)
         this.onSelectMarker = this.onSelectMarker.bind(this)
         this.onCloseCard = this.onCloseCard.bind(this)
@@ -145,7 +148,14 @@ export default class DashboardContainer extends Component {
     }
 
     modifyResourceInfo(){
-
+        this.setState({
+            cardModifyInfo:this.state.cardDetail.data
+        })
+        this.onCloseMoreInfo()
+        this.setState({
+            modal: <ModifyContainer dashBoardContainer={this} app={this.props.app} />,
+            modalName: 'Modify'
+        })
     }
 
     onCloseMoreInfo() {

@@ -25,7 +25,9 @@ export default class cardDescriptionContainer extends Component {
                     })
        }
    }
-
+    modifyResourceInfo(){
+        this.props.dashBoardContainer.modifyResourceInfo()
+    }
     render(){
         return(
             <section>

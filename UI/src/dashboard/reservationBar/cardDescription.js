@@ -19,7 +19,7 @@ export default class cardDescription extends Component {
                         <span className={style.title}>{this.props.dashBoardContainer.state.cardDetail.data.name}</span>
                         <img className={style.close} width='18' src='img/ic_close.svg' onClick={this.props.dashBoardContainer.onCloseMoreInfo}/>
                         <span className={style.modifybtn}>
-                            <button ref='modifyBtn' className="btn" name='modify'hidden={this.props.cardDescriptionContainer.state.adminStatus} onClick={this.props.dashBoardContainer.modifyResourceInfo}>modify</button>
+                            <button ref='modifyBtn' className="btn" name='modify'hidden={this.props.cardDescriptionContainer.state.adminStatus} onClick={()=>this.props.cardDescriptionContainer.modifyResourceInfo()}>modify</button>
                         </span>
                     </article>
                     <section className={style.content}>
