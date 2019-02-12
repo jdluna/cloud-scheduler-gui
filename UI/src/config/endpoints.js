@@ -19,4 +19,5 @@ export const FORGET_PASSWORD_ENDPOINT = API_SERVER+'/forgetPassword.py'
 export const SIGNOUT_ENDPOINT = API_SERVER+'/signOut.py'
 export const RESET_PASSWORD_ENDPOINT = API_SERVER+'/confirmForgetPassword.py'
 
+export const MODIFY_RESOURCE_ENDPOINT = API_SERVER+'/modifyResource.py'
 export const CONFIRM_RESOURCE_RESERVATION_ENDPOINT = API_SERVER+'/createResource.py'

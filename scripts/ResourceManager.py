@@ -44,12 +44,15 @@ class ResourceManager:
         self.__admin = None
         self.__userId = None
         self.__sessionId = None
+        self.__siteId = None
 
         self.__isComplete = False   # 이걸로 나중에 result를 success로 바꿀지 fail로 바꿀지 결정하는 변수임
         self.__db = None
         self.__check_name_duplication = False
         # 에러는 list, array의 형태로 관리하기
 
+        self.__check_siteId = False # for check modify resource
+        self.__isModifyComplete = False
 
     # 리소스를 생성할 수 있는지 없는지 결정하는 함수 / 여기서 체크해야할 점은 name이 중복되는지 아닌지 확인하기
     def canCreateResource(self, sessionId, name):
@@ -180,7 +183,79 @@ class ResourceManager:
 
             self.setConnectionType(self.__name, self.__network)
             self.setImageType(self.__name, self.__image_type)
+    
+    def canModifyResource(self, sessionId, siteId, name):
+        self.__db = Database()
+        self.__sessionId = sessionId
+        self.__siteId = siteId
+        self.__name = name
 
+        if self.__db.connect():
+            auth = AuthenticationManager()
+            if auth.isSessionIdCorrect(self.__sessionId):
+                try:
+                    #If the site user are trying to modify is not in the database
+                    sql = 'SELECT `site_id` FROM `site` WHERE `site_id` ="' + str(self.__siteId)+'";'
+                    self.__db.execute(sql)
+                    data = self.__db.getCursor().fetchone()
+                    if data == None:
+                        self.__check_siteId = True
+                        self.__db.unlock()
+                        return False
+                    
+                    #if the renamed name already exists in Database
+                    sql = 'SELECT `name` FROM `site` WHERE `name` ="' +str(self.__name)+'";'
+                    self.__db.execute(sql)
+                    data = self.__db.getCursor().fetchone()
+                    
+                    if data != None:
+                        self.__check_name_duplication = True
+                        self.__db.unlock()
+                        return False
+
+                    self.__isModifyComplete = True
+                    self.__db.unlock()
+
+                except:
+                    self.__db.rollback()
+                    self.__isModifyComplete = False
+                finally:
+                    self.__db.close()
+
+                if self.__isModifyComplete == True:
+                    return True
+                else:
+                    return False
+
+        else:
+            return False
+
+    def modifyResource(self, site_id, name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, deployment_type, site_hostname, latitude, longitude, total_cpu, total_memory, network, image_type):
+        self.__db = Database()
+        self.__siteId = site_id
+        self.__name = name
+        self.__description = description
+        self.__contact = contact
+        self.__location = location
+        self.__pragma_boot_path = pragma_boot_path
+        self.__pragma_boot_version = pragma_boot_version
+        self.__python_path = python_path
+        self.__temp_dir = temp_dir
+        self.__username = username
+        self.__deployment_type = deployment_type
+        self.__site_hostname = site_hostname
+        self.__latitude = latitude
+        self.__longitude = longitude
+        self.__total_cpu = total_cpu
+        self.__total_memory = total_memory
+        self.__network = network
+        self.__image_type = image_type
+
+        if self.__db.connect():
+            sql = 'UPDATE `site` SET `name`="'+str(self.__name)+'", `description`="'+str(self.__description)+'", `contact`="'+str(self.__contact)+'", `location` ="'+str(self.__location)+'", `pragma_boot_path`="'+str(self.__pragma_boot_path)+'", `pragma_boot_version`="'+str(self.__pragma_boot_version)+'", `python_path`="'+str(self.__python_path)+'", `temp_dir`="'+str(self.__temp_dir)+'", `ssh_username`="'+str(self.__username)+'", `deployment_type`="'+str(self.__deployment_type)+'", `site_hostname`="'+str(self.__site_hostname)+'", `latitude`="'+str(self.__latitude)+'", `longitude`="'+str(self.__longitude)+'", `total_cpu`="'+str(self.__total_cpu)+'", `total_memory`="'+str(self.__total_memory)+'" WHERE `site_id`="'+str(self.__siteId)+'";'
+            self.__db.execute(sql)
+            self.__db.commit()
+            self.__db.close()
     def getReservationName(self):
         return self.__name
 
@@ -189,3 +264,18 @@ class ResourceManager:
             return 'success'
         else:
             return 'fail'
+    def getModifyResourceStatus(self):
+        if self.__isModifyComplete:
+            return 'success'
+        else:
+            return 'fail'
+    def test(self, siteId, name):
+        self.__db = Database()
+        self.__name = name
+        self.__siteId = siteId
+
+        if self.__db.connect():
+            sql = 'UPDATE `site`SET `name`="'+str(self.__name)+'" WHERE `site_id`="'+str(self.__siteId)+'";'
+            self.__db.execute(sql)
+            self.__db.commit()
+            self.__db.close()

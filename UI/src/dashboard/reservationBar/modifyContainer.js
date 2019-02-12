@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import axios from 'axios'
 import moment from 'moment'
 import Modify from './modify'
-import {SET_TIMEZONE_ENDPOINT,CONFIRM_RESOURCE_RESERVATION_ENDPOINT} from '../../config/endpoints'
+import {SET_TIMEZONE_ENDPOINT,MODIFY_RESOURCE_ENDPOINT,CONFIRM_RESOURCE_RESERVATION_ENDPOINT} from '../../config/endpoints'
 import { RESOURCES } from '../../config/attributes'
 
 export default class ModifyContainer extends Component{
@@ -14,6 +14,7 @@ export default class ModifyContainer extends Component{
         this.cardData = this.props.dashBoardContainer.state.cardModifyInfo
 	
 		this.state = {
+            site_id:this.cardData.id,
             value:this.cardData.value, 
             _name:this.cardData.name, 
             description:this.cardData.description, 
@@ -74,7 +75,7 @@ export default class ModifyContainer extends Component{
 
 	onSubmit(event){
 		console.log('mysubmit');
-	     let { _name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, latitude, longitude, total_cpu, total_memory, network, image_type} = this.state;
+	     let {site_id,_name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, latitude, longitude, total_cpu, total_memory, network, image_type} = this.state;
             
 		alert(this.state._name);
 
@@ -82,6 +83,7 @@ export default class ModifyContainer extends Component{
 	   let params = {
             params:{
                 session_id: this.appContainer.state.authen.session,
+                site_id: this.state.site_id,
                 _name: this.state._name,
                 description: this.state.description,
                 contact: this.state.contact,
@@ -103,7 +105,7 @@ export default class ModifyContainer extends Component{
         };
 
 
-	axios.get(CONFIRM_RESOURCE_RESERVATION_ENDPOINT,params).then(response=>{
+	axios.get(MODIFY_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result){
                 if(data.result=='success'){
@@ -128,6 +130,7 @@ export default class ModifyContainer extends Component{
         let params = {
             params:{
                 session_id: this.appContainer.state.authen.session,
+                site_id: this.state.site_id,
                 _name: this.state._name,
                 description: this.state.description,
                 contact: this.state.contact,
@@ -143,14 +146,13 @@ export default class ModifyContainer extends Component{
                 longitude: this.state.longitude,
                 total_cpu: this.state.total_cpu,
                 total_memory: this.state.total_memory,
-                sites_id: sitesId,
 				network: this.state.network,
                 image_type: this.state.image_type.toString()
             }
         }
 
 
-        axios.get(CONFIRM_RESOURCE_RESERVATION_ENDPOINT,params).then(response=>{
+        axios.get(MODIFY_RESOURCE_ENDPOINT,params).then(response=>{
             let {data,status} = response
             if(status==200&&data.result){
                 if(data.result=='success'){
