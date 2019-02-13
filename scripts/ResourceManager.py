@@ -100,21 +100,23 @@ class ResourceManager:
         self.__db = Database()
         self.__name = name
         self.__network = network
-        connection_type = None
+        connection_type_id = []
         site_id = None
 
-        if self.__network == "ENT":
-            connection_type = 1
-        if self.__network == "IPOP":
-            connection_type = 2
+        self.__network = network.split(",")
 
         if self.__db.connect():
             sql = 'SELECT `site_id` FROM `site` WHERE `name` = "' + str(self.__name)+'";'
             self.__db.execute(sql)
             site_id = self.__db.getCursor().fetchone()[0]
+            for i in self.__network:
+                sql = 'SELECT `connection_type_id` FROM `connection_type_desc` WHERE `name` = "' + str(i) + '";'
+                self.__db.execute(sql)
+                connection_type_id.append(self.__db.getCursor().fetchone()[0])
 
-            sql = 'INSERT INTO `connection_type`(`site_id`,`connection_type_id` ) VALUES ( '+str(site_id)+' ,'+str(connection_type)+');'
-            self.__db.execute(sql)
+            for con in connection_type_id:
+                sql = 'INSERT INTO `connection_type`(`site_id`,`connection_type_id` ) VALUES ( '+str(site_id)+' ,'+str(con)+');'
+                self.__db.execute(sql)
             self.__db.commit()
             self.__db.close()
         
@@ -180,7 +182,8 @@ class ResourceManager:
             self.__db.commit()
 
             self.__db.close()
-
+            
+            #try & catch add after
             self.setConnectionType(self.__name, self.__network)
             self.setImageType(self.__name, self.__image_type)
     
@@ -269,13 +272,3 @@ class ResourceManager:
             return 'success'
         else:
             return 'fail'
-    def test(self, siteId, name):
-        self.__db = Database()
-        self.__name = name
-        self.__siteId = siteId
-
-        if self.__db.connect():
-            sql = 'UPDATE `site`SET `name`="'+str(self.__name)+'" WHERE `site_id`="'+str(self.__siteId)+'";'
-            self.__db.execute(sql)
-            self.__db.commit()
-            self.__db.close()

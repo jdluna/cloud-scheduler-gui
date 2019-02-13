@@ -16,13 +16,14 @@ export default class ResourceContainer extends Component{
 
 
 	
-		this.state = {value:'', _name:'', description:'Virtual machines', contact:'', location:'', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64',network: 'IPOP', image_type:[]};
+		this.state = {value:'', _name:'', description:'Virtual machines', contact:'', location:'', pragma_boot_path:'/opt/pragma_boot', pragma_boot_version:'1', python_path:'/opt/python/bin/python', temp_dir:'/var/run/pcc', username:'root', deployment_type:'Rocks KVM', site_hostname:'', latitude:'36.060839', longitude:'140.137303', total_cpu:'32', total_memory:'64',network: [], image_type:[]};
 	
 	this.handleChange = this.handleChange.bind(this);
 	this.handleSubmit = this.handleSubmit.bind(this);
 	this.handleInputChange = this.handleInputChange.bind(this);
     this.handleImageTypeChange = this.handleImageTypeChange.bind(this);
-	
+    this.handleNetworkChange = this.handleNetworkChange.bind(this);
+
 	this.onSubmit = this.onSubmit.bind(this);
 	this.queryConfirmReservation = this.queryConfirmReservation.bind(this);
 	this.onCloseSettings = this.onCloseSettings.bind(this)
@@ -52,7 +53,21 @@ export default class ResourceContainer extends Component{
             image_type: value
         });
     }
-
+    handleNetworkChange(event){
+        const target = event.target;
+        const network = this.state.network;
+        if(event.target.type == 'checkbox'){
+            if(event.target.checked){
+                this.setState({
+                    network : network.concat(event.target.value)
+                })
+            }else{
+                this.setState({
+                    network : network.filter(value => value != event.target.value)
+                })
+            }
+        }
+    }
 	handleSubmit(event){
 	    alert('Form was submitted, ' + this.state._name);
 	}
@@ -134,7 +149,7 @@ export default class ResourceContainer extends Component{
                 total_cpu: this.state.total_cpu,
                 total_memory: this.state.total_memory,
                 sites_id: sitesId,
-				network: this.state.network,
+				network: this.state.network.toString(),
                 image_type: this.state.image_type.toString()
             }
         }

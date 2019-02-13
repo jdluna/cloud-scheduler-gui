@@ -11,7 +11,7 @@ const NetworkList = (props) => {
 				return(
 					<span className={Style.block} key={key}>
 						<span className={Style.choose}>
-							<input type='radio' name='network' value={data.name} checked={props.value==data.name} onChange={props.handle}/>
+							<input type='checkbox' name='network' value={data.name} onChange={props.handle}/>
                             <span className={Style.tag}>{data.name}</span>
                         </span>
                     </span>
@@ -44,7 +44,7 @@ export default class Resource extends Component {
     render() {
         let images = this.props.resourcesContainer.dashboardContainer.state.images
         let imageTypeList = <ImageTypeList i={images} value={this.props.resourcesContainer.state.image_type} handle={this.props.resourcesContainer.handleImageTypeChange}/>
-        let networkList = <NetworkList value={this.props.resourcesContainer.state.network} handle={this.props.resourcesContainer.handleInputChange}/>
+        let networkList = <NetworkList value={this.props.resourcesContainer.state.network} handle={this.props.resourcesContainer.handleNetworkChange}/>
         return (
             <section className={Style.wrap}>
                 <section className={Style.content}>
