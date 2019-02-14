@@ -31,15 +31,18 @@ export default class ModifyContainer extends Component{
             longitude:this.cardData.longitude, 
             total_cpu:this.cardData.CPU.total, 
             total_memory:this.cardData.memory.total,
-            network:(this.cardData.connection_type[0] == null) ? '':this.cardData.connection_type[0].name, 
-            image_type:this.cardData.image_type
+            network:this.cardData.connection_type,
+            change_network:this.cardData.connection_type.map((item, i) => {return (item.name)}),
+            image_type:this.cardData.image_type,
+            change_image_type:this.cardData.image_type.map((item, i) => {return (item.name)})
         };
 	
 	this.handleChange = this.handleChange.bind(this);
 	this.handleSubmit = this.handleSubmit.bind(this);
 	this.handleInputChange = this.handleInputChange.bind(this);
     this.handleImageTypeChange = this.handleImageTypeChange.bind(this);
-	
+    this.handleNetworkChange = this.handleNetworkChange.bind(this);
+
 	this.onSubmit = this.onSubmit.bind(this);
 	this.queryConfirmReservation = this.queryConfirmReservation.bind(this);
 	this.onClose = this.onClose.bind(this)
@@ -65,8 +68,23 @@ export default class ModifyContainer extends Component{
             }
         }
         this.setState({
-            image_type: value
+            change_image_type: value
         });
+    }
+    handleNetworkChange(event){
+        const target = event.target;
+        const change_network = this.state.change_network;
+        if(event.target.type == 'checkbox'){
+            if(event.target.checked){
+                this.setState({
+                    change_network: change_network.concat(event.target.value)
+                })
+            }else{
+                this.setState({
+                    change_network : change_network.filter(value => value != event.target.value)
+                })
+            }
+        }
     }
 
 	handleSubmit(event){
@@ -146,8 +164,8 @@ export default class ModifyContainer extends Component{
                 longitude: this.state.longitude,
                 total_cpu: this.state.total_cpu,
                 total_memory: this.state.total_memory,
-				network: this.state.network,
-                image_type: this.state.image_type.toString()
+				network: this.state.change_network.toString(),
+                image_type: this.state.change_image_type.toString()
             }
         }
 

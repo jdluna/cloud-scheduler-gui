@@ -3,6 +3,7 @@ import Style from './modify.scss'
 import {NETWORK_TYPE} from '../../config/attributes'
 
 const NetworkList = (props) => {
+    let check = ''
 	return(
        <td> 
 		{
@@ -10,7 +11,16 @@ const NetworkList = (props) => {
 				return(
 					<span className={Style.block} key={key}>
 						<span className={Style.choose}>
-							<input type='radio' name='network' value={data.name} checked={props.value==data.name} onChange={props.handle}/>
+                        {
+                            Object.keys(props.value).map((item, i) =>{
+                                    let details = props.value[item]
+                                    if(details.name == data.name){
+                                        check = 'checked'
+                                    }
+                            })
+                        }
+							<input type='checkbox' name='network' value={data.name} defaultChecked={check} onChange={props.handle}/>
+                            { check = '' }
                             <span className={Style.tag}>{data.name}</span>
                         </span>
                     </span>
@@ -24,7 +34,7 @@ const NetworkList = (props) => {
 const ImageTypeList = (props) => {
     let images = props.i
     return(
-        <select name='image_type' className={Style.inputmulti} value={props.value.map((item, i) => {return (item.name)})}onChange={props.handle} multiple="multiple">
+        <select name='image_type' className={Style.inputmulti} defaultValue={props.value.map((item, i) => {return (item.name)})}onChange={props.handle} multiple="multiple">
         {
             images.map((data, key)=> {
                 let d = data.name
@@ -41,7 +51,7 @@ export default class modify extends Component {
     render(){
         let images = this.props.modifyContainer.dashboardContainer.state.images
         let imageTypeList = <ImageTypeList i={images} value={this.props.modifyContainer.state.image_type} handle={this.props.modifyContainer.handleImageTypeChange}/>
-        let networkList = <NetworkList value={this.props.modifyContainer.state.network} handle={this.props.modifyContainer.handleInputChange}/>
+        let networkList = <NetworkList value={this.props.modifyContainer.state.network} handle={this.props.modifyContainer.handleNetworkChange}/>
         return (
             <section className='modal'>
             <section>

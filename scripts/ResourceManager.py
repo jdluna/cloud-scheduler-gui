@@ -205,16 +205,22 @@ class ResourceManager:
                         self.__check_siteId = True
                         self.__db.unlock()
                         return False
-                    
-                    #if the renamed name already exists in Database
-                    sql = 'SELECT `name` FROM `site` WHERE `name` ="' +str(self.__name)+'";'
+                   
+                    sql = 'SELECT `name` FROM `site` WHERE `site_id` = "' + str(self.__siteId) + '";'
                     self.__db.execute(sql)
-                    data = self.__db.getCursor().fetchone()
+                    before_name = self.__db.getCursor().fetchone()[0]
+                    if before_name == self.__name:
+                        self.__check_name_duplication = False
+                    else:
+                        #if the renamed name already exists in Database
+                        sql = 'SELECT `name` FROM `site` WHERE `name` ="' +str(self.__name)+'";'
+                        self.__db.execute(sql)
+                        data = self.__db.getCursor().fetchone()
                     
-                    if data != None:
-                        self.__check_name_duplication = True
-                        self.__db.unlock()
-                        return False
+                        if data != None:
+                            self.__check_name_duplication = True
+                            self.__db.unlock()
+                            return False
 
                     self.__isModifyComplete = True
                     self.__db.unlock()
@@ -232,6 +238,62 @@ class ResourceManager:
 
         else:
             return False
+    def modifyConnectionType(self, site_id, network):
+        self.__db = Database()
+        self.__siteId = site_id
+        self.__network = network
+        connection_type_id = []
+
+        self.__network = network.split(",")
+
+        if self.__db.connect():
+            #delete network type
+            sql = 'SET foreign_key_checks = 0;'
+            self.__db.execute(sql)
+            sql = 'DELETE FROM `connection_type` WHERE `site_id`="'+str(self.__siteId)+'";'
+            self.__db.execute(sql)
+            sql = 'SET foreign_key_checks = 1;'
+            self.__db.execute(sql)
+
+            #find network type in the database
+            for i in self.__network:
+                sql = 'SELECT `connection_type_id` FROM `connection_type_desc` WHERE `name` = "' + str(i) + '";'
+                self.__db.execute(sql)
+                connection_type_id.append(self.__db.getCursor().fetchone()[0])
+            #insert network type
+            for con in connection_type_id:
+                sql = 'INSERT INTO `connection_type` (`site_id`,`connection_type_id`) VALUES ( '+str(site_id)+' ,'+str(con)+');'
+                self.__db.execute(sql)
+            self.__db.commit()
+            self.__db.close()
+
+    def modifyImageType(self, site_id, image_type):
+        self.__db = Database()
+        self.__siteId = site_id
+        self.__image_type = image_type
+        image_type_id = []
+
+        self.__image_type = image_type.split(",")
+
+        if self.__db.connect():
+            #delete image type
+            sql = 'SET foreign_key_checks = 0;'
+            self.__db.execute(sql)
+            sql = 'DELETE FROM `image_type` WHERE `site_id`="'+str(self.__siteId)+'";'
+            self.__db.execute(sql)
+            sql = 'SET foreign_key_checks = 1;'
+            self.__db.execute(sql)
+
+            for i in self.__image_type:
+                sql = 'SELECT `image_type_id` FROM `image_type_desc` WHERE `name` = "' + str(i) + '";'
+                self.__db.execute(sql)
+                image_type_id.append(self.__db.getCursor().fetchone()[0])
+
+            for image in image_type_id:
+                sql = 'INSERT INTO `image_type` (`site_id`, `image_type_id` ) VALUES ( '+str(site_id) + ','+str(image)+');'
+                self.__db.execute(sql)
+            self.__db.commit()
+            self.__db.close()
 
     def modifyResource(self, site_id, name, description, contact, location, pragma_boot_path, pragma_boot_version, python_path, temp_dir, username, deployment_type, site_hostname, latitude, longitude, total_cpu, total_memory, network, image_type):
         self.__db = Database()
@@ -259,6 +321,10 @@ class ResourceManager:
             self.__db.execute(sql)
             self.__db.commit()
             self.__db.close()
+            
+            self.modifyConnectionType(self.__siteId, self.__network)
+            self.modifyImageType(self.__siteId, self.__image_type)
+
     def getReservationName(self):
         return self.__name
 
